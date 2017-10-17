@@ -1,0 +1,14 @@
+= Mature Modular Meta-framework (mmm)
+
+image:https://raw.github.com/m-m-m/mmm/master/src/site/resources/images/logo.png[logo]
+
+*Welcome to the wonderful world of http://m-m-m.sourceforge.net/index.html[mmm]*
+
+== mmm-property
+
+image:https://travis-ci.org/m-m-m/property.svg?branch=master["build-status",link="https://travis-ci.org/m-m-m/property"]
+
+The `mmm-property` brings extended property support with build in type reflection and validation support as well as JavaFx compatibility.
+
+* https://m-m-m.github.io/maven/apidocs/net/sf/mmm/property/api/package-summary.html#package.description[Properties API]
+* https://m-m-m.github.io/maven/apidocs/[and much more... ]
