@@ -6,11 +6,10 @@ import net.sf.mmm.property.api.numbers.WritableNumberProperty;
 import net.sf.mmm.value.observable.numbers.bytes.WritableByteValue;
 
 /**
- * {@link WritableNumberProperty} for {@link Byte} {@link #getValue() value}s.
+ * {@link WritableNumberProperty} with {@link Byte} {@link #getValue() value}.
  *
- * @author hohwille
  * @since 1.0.0
  */
-public interface WritableByteProperty extends ReadableByteProperty, WritableNumberProperty<Byte>, WritableByteValue {
+public interface WritableByteProperty extends WritableByteValue, ReadableByteProperty, WritableNumberProperty<Byte> {
 
 }

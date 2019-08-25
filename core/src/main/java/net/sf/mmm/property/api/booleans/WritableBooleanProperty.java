@@ -6,10 +6,8 @@ import net.sf.mmm.property.api.WritableProperty;
 import net.sf.mmm.value.observable.booleans.WritableBooleanValue;
 
 /**
- * This is the interface for a {@link WritableProperty} of the {@link #getValue() value}-{@link #getValueClass() type}
- * {@link Boolean}.
+ * {@link WritableProperty} with {@link Boolean} {@link #getValue() value}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public interface WritableBooleanProperty

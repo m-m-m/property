@@ -6,13 +6,11 @@ import net.sf.mmm.property.api.numbers.WritableNumberProperty;
 import net.sf.mmm.value.observable.numbers.integers.WritableIntegerValue;
 
 /**
- * This is the interface for a {@link WritableNumberProperty} of the {@link #getValue() value}-{@link #getValueClass()
- * type} {@link Integer}.
+ * {@link WritableNumberProperty} with {@link Integer} {@link #getValue() value}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public interface WritableIntegerProperty
-    extends ReadableIntegerProperty, WritableNumberProperty<Integer>, WritableIntegerValue {
+    extends WritableIntegerValue, ReadableIntegerProperty, WritableNumberProperty<Integer> {
 
 }

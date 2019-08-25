@@ -9,9 +9,8 @@ import net.sf.mmm.util.validation.base.AbstractValidator;
 import net.sf.mmm.util.validation.base.number.ValidatorBuilderShort;
 
 /**
- * This is the implementation of {@link WritableShortProperty}.
+ * Implementation of {@link WritableShortProperty}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public class ShortProperty extends NumberProperty<Short> implements WritableShortProperty {

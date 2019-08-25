@@ -6,17 +6,10 @@ import net.sf.mmm.property.api.ReadableProperty;
 import net.sf.mmm.value.observable.strings.StringExpression;
 
 /**
- * This is the interface for a {@link ReadableProperty} of the {@link #getValue() value}-{@link #getValueClass() type}
- * {@link String}.
+ * {@link ReadableProperty} with {@link String} {@link #getValue() value}.
  *
  * @since 1.0.0
  */
 public interface ReadableStringProperty extends ReadableProperty<String>, StringExpression {
-
-  @Override
-  default Class<String> getValueClass() {
-
-    return String.class;
-  }
 
 }

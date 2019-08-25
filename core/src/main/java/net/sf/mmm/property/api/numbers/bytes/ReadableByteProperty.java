@@ -6,11 +6,10 @@ import net.sf.mmm.property.api.numbers.ReadableNumberProperty;
 import net.sf.mmm.value.observable.numbers.bytes.ByteExpression;
 
 /**
- * {@link ReadableNumberProperty} for {@link Byte} {@link #getValue() value}s.
+ * {@link ReadableNumberProperty} with {@link Byte} {@link #getValue() value}.
  *
- * @author hohwille
  * @since 1.0.0
  */
-public interface ReadableByteProperty extends ReadableNumberProperty<Byte>, ByteExpression {
+public interface ReadableByteProperty extends ByteExpression, ReadableNumberProperty<Byte> {
 
 }

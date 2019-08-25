@@ -13,6 +13,6 @@ import net.sf.mmm.value.observable.numbers.bigintegers.BigIntegerExpression;
  *
  * @since 1.0.0
  */
-public interface ReadableBigIntegerProperty extends ReadableNumberProperty<BigInteger>, BigIntegerExpression {
+public interface ReadableBigIntegerProperty extends BigIntegerExpression, ReadableNumberProperty<BigInteger> {
 
 }

@@ -10,7 +10,7 @@ import net.sf.mmm.value.observable.ObservableValue;
 /**
  * This is the interface for a generic property.
  *
- * @param <V> is the generic type of the {@link #getValue() value}.
+ * @param <V> type of the {@link #getValue() value}.
  *
  * @author hohwille
  * @since 1.0.0

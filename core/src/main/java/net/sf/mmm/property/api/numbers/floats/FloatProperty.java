@@ -9,9 +9,8 @@ import net.sf.mmm.util.validation.base.AbstractValidator;
 import net.sf.mmm.util.validation.base.number.ValidatorBuilderFloat;
 
 /**
- * This is the implementation of {@link WritableFloatProperty}.
+ * Implementation of {@link WritableFloatProperty}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public class FloatProperty extends NumberProperty<Float> implements WritableFloatProperty {

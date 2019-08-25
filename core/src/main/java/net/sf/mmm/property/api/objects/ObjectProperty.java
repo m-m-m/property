@@ -16,7 +16,7 @@ import net.sf.mmm.util.validation.base.ValidatorBuilderObject;
  * Generic implementation of {@link WritableProperty} for arbitrary objects that do not have their own custom
  * implementation.
  *
- * @param <V> is the generic type of the {@link #getValue() value}.
+ * @param <V> type of the {@link #getValue() value}.
  * @since 1.0.0
  */
 public class ObjectProperty<V> extends AbstractRegularProperty<V> implements WritableObjectProperty<V> {

@@ -6,7 +6,7 @@ import net.sf.mmm.property.api.numbers.WritableNumberProperty;
 import net.sf.mmm.value.observable.numbers.longs.WritableLongValue;
 
 /**
- * {@link WritableNumberProperty} of the {@link #getValue() value}-{@link #getValueClass() type} {@link Long}.
+ * {@link WritableNumberProperty} with {@link Long} {@link #getValue() value}.
  *
  * @since 1.0.0
  */

@@ -8,9 +8,8 @@ import net.sf.mmm.property.api.numbers.ReadableNumberProperty;
 import net.sf.mmm.value.observable.numbers.bigdecimals.BigDecimalExpression;
 
 /**
- * {@link ReadableNumberProperty} for {@link BigDecimal} {@link #getValue() value}s.
+ * {@link ReadableNumberProperty} with {@link BigDecimal} {@link #getValue() value}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public interface ReadableBigDecimalProperty extends BigDecimalExpression, ReadableNumberProperty<BigDecimal> {

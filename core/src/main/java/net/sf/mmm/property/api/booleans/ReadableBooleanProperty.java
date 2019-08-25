@@ -6,12 +6,10 @@ import net.sf.mmm.property.api.ReadableProperty;
 import net.sf.mmm.value.observable.booleans.BooleanExpression;
 
 /**
- * This is the interface for a {@link ReadableProperty} of the {@link #getValue() value}-{@link #getValueClass() type}
- * {@link Boolean}.
+ * {@link ReadableProperty} with {@link Boolean} {@link #getValue() value}.
  *
- * @author hohwille
  * @since 1.0.0
  */
-public interface ReadableBooleanProperty extends ReadableProperty<Boolean>, BooleanExpression {
+public interface ReadableBooleanProperty extends BooleanExpression, ReadableProperty<Boolean> {
 
 }

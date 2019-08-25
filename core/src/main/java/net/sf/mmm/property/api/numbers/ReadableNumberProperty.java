@@ -6,12 +6,11 @@ import net.sf.mmm.property.api.ReadableProperty;
 import net.sf.mmm.value.observable.numbers.NumberExpression;
 
 /**
- * This is the interface for a {@link ReadableProperty} of the {@link #getValue() value}-{@link #getValueClass() type}
- * {@link Number}.
+ * {@link ReadableProperty} with {@link Number} {@link #getValue() value}.
  *
  * @see WritableNumberProperty
  *
- * @param <N> is the generic type of the internal numeric {@link #getValue() value} representation.
+ * @param <N> type of the internal numeric {@link #getValue() value} representation.
  *
  * @since 1.0.0
  */

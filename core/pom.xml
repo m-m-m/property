@@ -61,5 +61,5 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>mmm-util-validation</artifactId>
     </dependency>
-  </dependencies>
+  </dependencies> 
 </project>

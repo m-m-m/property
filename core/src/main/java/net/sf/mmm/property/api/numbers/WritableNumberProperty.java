@@ -6,12 +6,10 @@ import net.sf.mmm.property.api.WritableProperty;
 import net.sf.mmm.value.observable.numbers.WritableNumberValue;
 
 /**
- * This is the interface for a {@link WritableProperty} of the {@link #getValue() value}-{@link #getValueClass() type}
- * {@link Number}.
+ * {@link WritableProperty} with {@link Number} {@link #getValue() value}.
  *
- * @param <N> is the generic type of the internal numeric {@link #getValue() value} representation.
+ * @param <N> type of the numeric {@link #getValue() value}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public interface WritableNumberProperty<N extends Number & Comparable<? super N>>

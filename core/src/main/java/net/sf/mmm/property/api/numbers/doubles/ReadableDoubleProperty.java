@@ -6,10 +6,10 @@ import net.sf.mmm.property.api.numbers.ReadableNumberProperty;
 import net.sf.mmm.value.observable.numbers.doubles.DoubleExpression;
 
 /**
- * {@link ReadableNumberProperty} for {@link Double} {@link #getValue() value}s.
+ * {@link ReadableNumberProperty} with {@link Double} {@link #getValue() value}.
  *
  * @since 1.0.0
  */
-public interface ReadableDoubleProperty extends ReadableNumberProperty<Double>, DoubleExpression {
+public interface ReadableDoubleProperty extends DoubleExpression, ReadableNumberProperty<Double> {
 
 }

@@ -6,8 +6,7 @@ import net.sf.mmm.property.api.WritableProperty;
 import net.sf.mmm.value.observable.strings.WritableStringValue;
 
 /**
- * This is the interface for a {@link WritableProperty} of the {@link #getValue() value}-{@link #getValueClass() type}
- * {@link String}.
+ * {@link WritableProperty} with {@link String} {@link #getValue() value}.
  *
  * @since 1.0.0
  */

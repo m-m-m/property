@@ -6,10 +6,10 @@ import net.sf.mmm.property.api.numbers.ReadableNumberProperty;
 import net.sf.mmm.value.observable.numbers.floats.FloatExpression;
 
 /**
- * {@link ReadableNumberProperty} for {@link Float} {@link #getValue() value}s.
+ * {@link ReadableNumberProperty} with {@link Float} {@link #getValue() value}.
  *
  * @since 1.0.0
  */
-public interface ReadableFloatProperty extends ReadableNumberProperty<Float>, FloatExpression {
+public interface ReadableFloatProperty extends FloatExpression, ReadableNumberProperty<Float> {
 
 }

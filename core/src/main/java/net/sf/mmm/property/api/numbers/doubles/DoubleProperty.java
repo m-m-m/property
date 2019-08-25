@@ -9,9 +9,8 @@ import net.sf.mmm.util.validation.base.AbstractValidator;
 import net.sf.mmm.util.validation.base.number.ValidatorBuilderDouble;
 
 /**
- * This is the implementation of {@link WritableDoubleProperty}.
+ * Implementation of {@link WritableDoubleProperty}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public class DoubleProperty extends NumberProperty<Double> implements WritableDoubleProperty {

@@ -6,9 +6,8 @@ import net.sf.mmm.property.api.numbers.ReadableNumberProperty;
 import net.sf.mmm.value.observable.numbers.shorts.ShortExpression;
 
 /**
- * {@link ReadableNumberProperty} for {@link Short} {@link #getValue() value}s.
+ * {@link ReadableNumberProperty} with {@link Short} {@link #getValue() value}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public interface ReadableShortProperty extends ReadableNumberProperty<Short>, ShortExpression {

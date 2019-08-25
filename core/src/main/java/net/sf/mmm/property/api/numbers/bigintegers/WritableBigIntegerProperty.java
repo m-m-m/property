@@ -8,12 +8,11 @@ import net.sf.mmm.property.api.numbers.WritableNumberProperty;
 import net.sf.mmm.value.observable.numbers.bigintegers.WritableBigIntegerValue;
 
 /**
- * {@link WritableNumberProperty} for {@link BigInteger} {@link #getValue() value}s.
+ * {@link WritableNumberProperty} with {@link BigInteger} {@link #getValue() value}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public interface WritableBigIntegerProperty
-    extends ReadableBigIntegerProperty, WritableNumberProperty<BigInteger>, WritableBigIntegerValue {
+    extends WritableBigIntegerValue, ReadableBigIntegerProperty, WritableNumberProperty<BigInteger> {
 
 }

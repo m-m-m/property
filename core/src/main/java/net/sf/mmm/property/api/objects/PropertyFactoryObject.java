@@ -13,7 +13,7 @@ import net.sf.mmm.util.validation.base.AbstractValidator;
 /**
  * This is the implementation of {@link PropertyFactory} for {@link ObjectProperty}.
  *
- * @param <V> is the generic type of the {@link ObjectProperty#getValue() value}.
+ * @param <V> type of the {@link ObjectProperty#getValue() value}.
  *
  * @author hohwille
  * @since 1.0.0

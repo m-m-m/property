@@ -6,7 +6,7 @@ import net.sf.mmm.property.api.numbers.ReadableNumberProperty;
 import net.sf.mmm.value.observable.numbers.longs.LongExpression;
 
 /**
- * {@link ReadableNumberProperty} for {@link Long} {@link #getValue() value}s.
+ * {@link ReadableNumberProperty} with {@link Long} {@link #getValue() value}.
  *
  * @since 1.0.0
  */

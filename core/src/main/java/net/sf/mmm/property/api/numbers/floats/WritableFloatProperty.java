@@ -7,13 +7,11 @@ import net.sf.mmm.property.api.numbers.WritableNumberProperty;
 import net.sf.mmm.value.observable.numbers.floats.WritableFloatValue;
 
 /**
- * This is the interface for a {@link WritableProperty} of the {@link #getValue() value}-{@link #getValueClass() type}
- * {@link Float}.
+ * {@link WritableProperty} with {@link Float} {@link #getValue() value}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public interface WritableFloatProperty
-    extends ReadableFloatProperty, WritableNumberProperty<Float>, WritableFloatValue {
+    extends WritableFloatValue, ReadableFloatProperty, WritableNumberProperty<Float> {
 
 }

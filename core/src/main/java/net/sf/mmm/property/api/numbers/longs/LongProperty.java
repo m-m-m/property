@@ -9,9 +9,8 @@ import net.sf.mmm.util.validation.base.AbstractValidator;
 import net.sf.mmm.util.validation.base.number.ValidatorBuilderLong;
 
 /**
- * This is the implementation of {@link WritableLongProperty}.
+ * Implementation of {@link WritableLongProperty}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public class LongProperty extends NumberProperty<Long> implements WritableLongProperty {

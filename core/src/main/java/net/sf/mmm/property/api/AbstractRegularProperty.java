@@ -7,14 +7,14 @@ import java.util.function.Supplier;
 import net.sf.mmm.util.validation.base.AbstractValidator;
 
 /**
- * This is the abstract base implementation of a regular {@link WritableProperty}. Here regular means that the
- * {@link #getValue() value} type is not special such as a {@link java.util.Collection}.
+ * Implementation of a regular {@link WritableProperty}. Here regular means that the {@link #getValue() value} type is
+ * not special such as a {@link java.util.Collection}.
  *
- * @param <V> is the generic type of the {@link #getValue() value}.
+ * @param <V> type of the {@link #getValue() value}.
  *
  * @since 1.0.0
  */
-public abstract class AbstractRegularProperty<V> extends AbstractValueProperty<V> {
+public abstract class AbstractRegularProperty<V> extends AbstractProperty<V> {
 
   /**
    * The constructor.

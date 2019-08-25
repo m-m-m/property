@@ -8,13 +8,11 @@ import net.sf.mmm.property.api.numbers.WritableNumberProperty;
 import net.sf.mmm.value.observable.numbers.bigdecimals.WritableBigDecimalValue;
 
 /**
- * This is the interface for a {@link WritableNumberProperty} of the {@link #getValue() value}-{@link #getValueClass()
- * type} {@link BigDecimal}.
+ * {@link WritableNumberProperty} with {@link BigDecimal} {@link #getValue() value}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public interface WritableBigDecimalProperty
-    extends ReadableBigDecimalProperty, WritableNumberProperty<BigDecimal>, WritableBigDecimalValue {
+    extends WritableBigDecimalValue, ReadableBigDecimalProperty, WritableNumberProperty<BigDecimal> {
 
 }

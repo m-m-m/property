@@ -10,9 +10,8 @@ import net.sf.mmm.util.validation.base.AbstractValidator;
 import net.sf.mmm.util.validation.base.number.ValidatorBuilderBigInteger;
 
 /**
- * This is the implementation of {@link WritableBigIntegerProperty}.
+ * Implementation of {@link WritableBigIntegerProperty}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public class BigIntegerProperty extends NumberProperty<BigInteger> implements WritableBigIntegerProperty {

@@ -11,9 +11,8 @@ import net.sf.mmm.property.api.factory.PropertyFactory;
 import net.sf.mmm.util.validation.base.AbstractValidator;
 
 /**
- * This is the implementation of {@link PropertyFactory} for {@link IntegerProperty}.
+ * Implementation of {@link PropertyFactory} for {@link IntegerProperty}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 @Named

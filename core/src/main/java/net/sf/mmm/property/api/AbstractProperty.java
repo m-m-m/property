@@ -4,30 +4,42 @@ package net.sf.mmm.property.api;
 
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import net.sf.mmm.marshall.StructuredReader;
 import net.sf.mmm.marshall.StructuredWriter;
 import net.sf.mmm.util.lang.api.Builder;
+import net.sf.mmm.util.validation.api.Validatable;
+import net.sf.mmm.util.validation.api.ValidationFailure;
 import net.sf.mmm.util.validation.base.AbstractValidator;
+import net.sf.mmm.util.validation.base.ComposedValidationFailure;
 import net.sf.mmm.util.validation.base.ObjectValidatorBuilder;
+import net.sf.mmm.util.validation.base.ValidationFailureSuccess;
 import net.sf.mmm.util.validation.base.ValidatorNone;
-import net.sf.mmm.value.observable.AbstractObservableValue;
-import net.sf.mmm.value.observable.ObservableValue;
+import net.sf.mmm.value.observable.AbstractWritableObservableValue;
 
 /**
- * This is the implementation of {@link WritableProperty}.
+ * Implementation of {@link WritableProperty}.
  *
- * @param <V> is the generic type of the {@link #getValue() value}.
- * @author hohwille
+ * @param <V> type of the {@link #getValue() value}.
  * @since 1.0.0
  */
-public abstract class AbstractProperty<V> extends AbstractObservableValue<V> implements WritableProperty<V>, Cloneable {
+public abstract class AbstractProperty<V> extends AbstractWritableObservableValue<V>
+    implements WritableProperty<V>, Cloneable {
 
   private String name;
 
   private Object bean;
 
   private AbstractValidator<? super V> validator;
+
+  private ValidationFailure validationResult;
+
+  private boolean readOnly;
+
+  private AbstractProperty<V> readOnlyProperty;
+
+  private Supplier<? extends V> expression;
 
   /**
    * The constructor.
@@ -37,7 +49,7 @@ public abstract class AbstractProperty<V> extends AbstractObservableValue<V> imp
    */
   public AbstractProperty(String name, Object bean) {
 
-    this(name, bean, null);
+    this(name, bean, (AbstractValidator<? super V>) null);
   }
 
   /**
@@ -52,11 +64,30 @@ public abstract class AbstractProperty<V> extends AbstractObservableValue<V> imp
     super();
     this.name = name;
     this.bean = bean;
+    this.readOnly = false;
+    this.expression = null;
     if (validator == null) {
       this.validator = ValidatorNone.getInstance();
     } else {
       this.validator = validator;
     }
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name - see {@link #getName()}.
+   * @param bean - see {@link #getBean()}.
+   * @param expression the {@link Supplier} {@link Supplier#get() providing} the actual {@link #getValue() value}.
+   */
+  public AbstractProperty(String name, Object bean, Supplier<? extends V> expression) {
+
+    super();
+    this.name = name;
+    this.bean = bean;
+    this.readOnly = true;
+    this.expression = expression;
+    this.validator = null;
   }
 
   @Override
@@ -87,7 +118,11 @@ public abstract class AbstractProperty<V> extends AbstractObservableValue<V> imp
    */
   protected AbstractProperty<V> copy() {
 
-    return clone();
+    AbstractProperty<V> copy = clone();
+    copy.bindInternal(null);
+    copy.readOnlyProperty = null;
+    copy.validationResult = null;
+    return copy;
   }
 
   /**
@@ -154,17 +189,6 @@ public abstract class AbstractProperty<V> extends AbstractObservableValue<V> imp
   }
 
   /**
-   * Assigns the {@link #getValue() value} from the {@link ObservableValue} (typically a {@link WritableProperty}) to
-   * this property. Can be overridden to avoid boxing overhead.
-   *
-   * @param observableValue the property to assign the value from.
-   */
-  protected void assignValueFrom(ObservableValue<? extends V> observableValue) {
-
-    setValue(observableValue.getValue());
-  }
-
-  /**
    * @return the {@link AbstractValidator}.
    */
   public final AbstractValidator<? super V> getValidator() {
@@ -195,6 +219,92 @@ public abstract class AbstractProperty<V> extends AbstractObservableValue<V> imp
     return builder;
   }
 
+  @Override
+  public V getValue() {
+
+    if (this.expression != null) {
+      return this.expression.get();
+    }
+    return super.getValue();
+  }
+
+  @Override
+  protected final void requireWritable() throws IllegalStateException {
+
+    super.requireWritable();
+    if (this.expression != null) {
+      throw new IllegalStateException("Property " + getName() + " is computed and cannot be modified.");
+    }
+    if (isReadOnly()) {
+      throw new IllegalStateException("Property " + getName() + " is readonly and cannot be modified.");
+    }
+  }
+
+  @Override
+  public boolean isValid() {
+
+    if (this.validationResult == null) {
+      validate();
+    }
+    return (this.validationResult == ValidationFailureSuccess.INSTANCE);
+  }
+
+  /**
+   * Clears the cached internal {@link #validate() validation} result. Has to be called if the {@link #getValue() value}
+   * has changed (from an external call).
+   */
+  protected void clearValidationResult() {
+
+    this.validationResult = null;
+  }
+
+  @Override
+  public ValidationFailure validate() {
+
+    if (this.validationResult == null) {
+      V v = getValue();
+      String source = getName();
+      ValidationFailure failure = getValidator().validate(v, source);
+      if (v instanceof Validatable) {
+        ValidationFailure failure2 = ((Validatable) v).validate();
+        if (failure == null) {
+          failure = failure2;
+        } else if (failure2 != null) {
+          failure = new ComposedValidationFailure(source, new ValidationFailure[] { failure, failure2 });
+        }
+      }
+      if (failure == null) {
+        failure = ValidationFailureSuccess.INSTANCE;
+      }
+      this.validationResult = failure;
+    }
+    if (this.validationResult == ValidationFailureSuccess.INSTANCE) {
+      return null;
+    }
+    return this.validationResult;
+  }
+
+  @Override
+  public WritableProperty<V> getReadOnly() {
+
+    if (isReadOnly()) {
+      return this;
+    }
+    if (this.readOnlyProperty == null) {
+      AbstractProperty<V> copy = copy();
+      copy.bindInternal(this);
+      copy.readOnly = true;
+      this.readOnlyProperty = copy;
+    }
+    return this.readOnlyProperty;
+  }
+
+  @Override
+  public final boolean isReadOnly() {
+
+    return this.readOnly;
+  }
+
   /**
    * @return a new {@link ObjectValidatorBuilder builder} for the validator of this property with a
    *         {@link ObjectValidatorBuilder#and() parent-builder} to create a {@link #copy(AbstractValidator)} of this
@@ -202,27 +312,17 @@ public abstract class AbstractProperty<V> extends AbstractObservableValue<V> imp
    */
   public abstract ObjectValidatorBuilder<? extends V, ? extends PropertyBuilder<? extends AbstractProperty<? extends V>>, ?> withValdidator();
 
-  @Override
-  public final String toString() {
-
-    StringBuilder sb = new StringBuilder();
-    sb.append(getClass().getSimpleName());
-    sb.append('[');
-    toString(sb);
-    sb.append(']');
-    return sb.toString();
-  }
-
   /**
    * @param sb the {@link StringBuilder} where to append the details of this property for
    *        {@link #toString()}-Representation.
    */
+  @Override
   protected void toString(StringBuilder sb) {
 
     sb.append("name=");
     sb.append(this.name);
-    sb.append(",value=");
-    sb.append(getValue());
+    sb.append(',');
+    super.toString(sb);
   }
 
   @Override
@@ -236,6 +336,33 @@ public abstract class AbstractProperty<V> extends AbstractObservableValue<V> imp
 
     V value = reader.readValue(getValueClass());
     setValue(value);
+  }
+
+  @Override
+  public int hashCode() {
+
+    return Objects.hash(getClass(), this.name);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+
+    if (this == obj) {
+      return true;
+    } else if ((obj == null) || (getClass() != obj.getClass())) {
+      return false;
+    }
+    AbstractProperty<?> other = (AbstractProperty<?>) obj;
+    if (!Objects.equals(this.name, other.name)) {
+      return false;
+    }
+    if (!Objects.equals(getValue(), other.getValue())) {
+      return false;
+    }
+    // if (!Objects.equals(this.validator, other.validator)) {
+    // return false;
+    // }
+    return true;
   }
 
   /**
@@ -299,37 +426,10 @@ public abstract class AbstractProperty<V> extends AbstractObservableValue<V> imp
         copy = copy(this.newBean, newValidator);
       }
       if (this.assignValue) {
-        copy.assignValueFrom(AbstractProperty.this);
+        copy.setValue(getValue());
       }
       return (T) copy;
     }
-  }
-
-  @Override
-  public int hashCode() {
-
-    return Objects.hash(getClass(), this.name, this.validator);
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-
-    if (this == obj) {
-      return true;
-    } else if ((obj == null) || (getClass() != obj.getClass())) {
-      return false;
-    }
-    AbstractProperty<?> other = (AbstractProperty<?>) obj;
-    if (!Objects.equals(this.name, other.name)) {
-      return false;
-    }
-    if (!Objects.equals(this.validator, other.validator)) {
-      return false;
-    }
-    if (!Objects.equals(getValue(), other.getValue())) {
-      return false;
-    }
-    return true;
   }
 
 }

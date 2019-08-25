@@ -8,9 +8,9 @@ import net.sf.mmm.property.api.AbstractRegularProperty;
 import net.sf.mmm.util.validation.base.AbstractValidator;
 
 /**
- * This is the implementation of {@link WritableNumberProperty}.
+ * Implementation of {@link WritableNumberProperty}.
  *
- * @param <N> type of the observable {@link #getValue() value}.
+ * @param <N> type of the numeric {@link #getValue() value}.
  * @since 1.0.0
  */
 public abstract class NumberProperty<N extends Number & Comparable<? super N>> extends AbstractRegularProperty<N>

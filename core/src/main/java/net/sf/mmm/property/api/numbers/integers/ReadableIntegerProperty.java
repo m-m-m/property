@@ -6,11 +6,10 @@ import net.sf.mmm.property.api.numbers.ReadableNumberProperty;
 import net.sf.mmm.value.observable.numbers.integers.IntegerExpression;
 
 /**
- * This is the interface for a {@link ReadableNumberProperty} of the {@link #getValue() value}-{@link #getValueClass()
- * type} {@link Integer}.
+ * {@link ReadableNumberProperty} with {@link Integer} {@link #getValue() value}.
  *
  * @since 1.0.0
  */
-public interface ReadableIntegerProperty extends ReadableNumberProperty<Integer>, IntegerExpression {
+public interface ReadableIntegerProperty extends IntegerExpression, ReadableNumberProperty<Integer> {
 
 }

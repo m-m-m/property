@@ -9,9 +9,8 @@ import net.sf.mmm.util.validation.base.AbstractValidator;
 import net.sf.mmm.util.validation.base.number.ValidatorBuilderByte;
 
 /**
- * This is the implementation of {@link WritableByteProperty}.
+ * Implementation of {@link WritableByteProperty}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public class ByteProperty extends NumberProperty<Byte> implements WritableByteProperty {

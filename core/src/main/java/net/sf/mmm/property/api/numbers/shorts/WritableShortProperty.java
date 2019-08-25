@@ -6,7 +6,7 @@ import net.sf.mmm.property.api.numbers.WritableNumberProperty;
 import net.sf.mmm.value.observable.numbers.shorts.WritableShortValue;
 
 /**
- * {@link WritableNumberProperty} for {@link Short} {@link #getValue() value}s.
+ * {@link WritableNumberProperty} with {@link Short} {@link #getValue() value}.
  *
  * @since 1.0.0
  */

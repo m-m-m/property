@@ -9,9 +9,8 @@ import net.sf.mmm.util.validation.base.AbstractValidator;
 import net.sf.mmm.util.validation.base.text.ValidatorBuilderString;
 
 /**
- * This is the implementation of {@link WritableStringProperty}.
+ * Implementation of {@link WritableStringProperty}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public class StringProperty extends AbstractRegularProperty<String> implements WritableStringProperty {
