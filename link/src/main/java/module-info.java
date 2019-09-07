@@ -1,6 +1,8 @@
 module net.sf.mmm.property.api.links {
 
-  requires transitive net.sf.mmm.property.api;
+  requires javax.inject;
+
+  requires transitive net.sf.mmm.property;
 
   requires transitive mmm.util.data;
 

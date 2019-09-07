@@ -2,8 +2,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package net.sf.mmm.property.impl.spring;
 
-import net.sf.mmm.property.api.factory.PropertyFactoryManager;
-import net.sf.mmm.property.impl.factory.PropertyFactoryManagerImpl;
+import net.sf.mmm.property.factory.PropertyFactoryManager;
+import net.sf.mmm.property.factory.PropertyFactoryManagerImpl;
 
 /**
  * This is the Spring {@link Configuration} for {@link net.sf.mmm.property}.

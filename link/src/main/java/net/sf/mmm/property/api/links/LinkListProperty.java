@@ -2,21 +2,18 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package net.sf.mmm.property.api.links;
 
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.function.Supplier;
 
-import javafx.collections.ObservableList;
-
-import net.sf.mmm.property.api.containers.lists.ListProperty;
-import net.sf.mmm.property.api.lang.GenericProperty;
+import net.sf.mmm.property.container.list.ListProperty;
 import net.sf.mmm.util.data.api.entity.Entity;
 import net.sf.mmm.util.data.api.link.Link;
-import net.sf.mmm.util.reflect.api.GenericType;
 import net.sf.mmm.util.validation.base.AbstractValidator;
 
 /**
- * This class represents a {@link GenericProperty property} containing a {@link List} of {@link Link}s that each
- * {@link Link#getTarget() point to} an {@link Entity}.
+ * {@link ListProperty} with {@link List} of {@link Link}s that each {@link Link#getTarget() point to} an
+ * {@link Entity}.
  *
  * @param <E> the generic type of the {@link Link#getTarget() linked} {@link Entity}.
  *
@@ -28,47 +25,43 @@ public class LinkListProperty<E extends Entity> extends ListProperty<Link<E>> {
   /**
    * The constructor.
    *
-   * @param name - see {@link #getName()}.
-   * @param type - see {@link #getValueType()}.
-   * @param bean - see {@link #getBean()}.
+   * @param name the {@link #getName() name}.
+   * @param componentType the {@link #getComponentType() component type}.
+   * @param bean the {@link #getBean() bean}.
    */
-  public LinkListProperty(String name, GenericType<ObservableList<Link<E>>> type, Object bean) {
-    super(name, type, bean);
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  public LinkListProperty(String name, Type componentType, Object bean) {
+
+    super(name, (Class) Link.class, componentType);
   }
 
   /**
    * The constructor.
    *
-   * @param name - see {@link #getName()}.
-   * @param type - see {@link #getValueType()}.
-   * @param bean - see {@link #getBean()}.
+   * @param name the {@link #getName() name}.
+   * @param componentType the {@link #getComponentType() component type}.
+   * @param bean the {@link #getBean() bean}.
    * @param validator - see {@link #validate()}.
    */
-  public LinkListProperty(String name, GenericType<ObservableList<Link<E>>> type, Object bean, AbstractValidator<? super ObservableList<Link<E>>> validator) {
-    super(name, type, bean, validator);
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  public LinkListProperty(String name, Type componentType, Object bean,
+      AbstractValidator<? super List<Link<E>>> validator) {
+
+    super(name, (Class) Link.class, componentType);
   }
 
   /**
    * The constructor.
    *
-   * @param name - see {@link #getName()}.
-   * @param type - see {@link #getValueType()}.
-   * @param bean - see {@link #getBean()}.
+   * @param name the {@link #getName() name}.
+   * @param componentType the {@link #getComponentType() component type}.
+   * @param bean the {@link #getBean() bean}.
    * @param expression the {@link Supplier} {@link Supplier#get() providing} the actual {@link #getValue() value}.
    */
-  public LinkListProperty(String name, GenericType<? extends ObservableList<Link<E>>> type, Object bean, Supplier<ObservableList<Link<E>>> expression) {
-    super(name, type, bean, expression);
-  }
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  public LinkListProperty(String name, Type componentType, Object bean, Supplier<List<Link<E>>> expression) {
 
-  /**
-   * @param <E> the generic type of the {@link Link#getTarget() linked} {@link Entity}.
-   * @param beanClass the class reflecting the linked {@link Entity}.
-   * @return the {@link GenericType} for an {@link Link} {@link Link#getTarget() pointing to} an {@link Entity} of the
-   *         given {@link Class}.
-   */
-  public static <E extends Entity> GenericType<ObservableList<Link<E>>> createLinkType(Class<E> beanClass) {
-
-    return createListType(LinkProperty.createLinkType(beanClass));
+    super(name, (Class) Link.class, componentType, expression);
   }
 
 }

@@ -15,19 +15,17 @@
   <description>Library providing advanced properties.</description>
 
   <properties>
-    <!-- Internal project versions -->
-    <net.sf.mmm.util.version>8.7.0</net.sf.mmm.util.version>
     <revision>1.0.0</revision>
     <changelist>-SNAPSHOT</changelist>
     <java.version>11</java.version>
     <mmm.repository>property</mmm.repository>
   </properties>
-  
+
   <modules>
     <module>core</module>
     <module>link</module>
   </modules>
-  
+
   <dependencies>
     <!-- Test -->
     <dependency>
@@ -39,31 +37,22 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
+      <version>3.12.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
   <dependencyManagement>
     <dependencies>
-      <!-- BOM of mmm-util -->
-      <dependency>
-        <groupId>${project.groupId}</groupId>
-        <artifactId>mmm-util-bom</artifactId>
-        <version>${net.sf.mmm.util.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <!-- External dependencies -->
-      <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context</artifactId>
-        <version>5.1.8.RELEASE</version>
-      </dependency>
-
       <!-- Internal dependencies -->
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>mmm-property</artifactId>
         <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>2.0.0-alpha0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

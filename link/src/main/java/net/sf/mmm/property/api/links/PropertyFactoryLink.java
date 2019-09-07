@@ -2,15 +2,16 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package net.sf.mmm.property.api.links;
 
+import java.lang.reflect.Type;
+
 import javax.inject.Named;
 
-import net.sf.mmm.property.api.ReadableProperty;
-import net.sf.mmm.property.api.WritableProperty;
-import net.sf.mmm.property.api.factory.AbstractPropertyFactory;
-import net.sf.mmm.property.api.factory.PropertyFactory;
+import net.sf.mmm.property.ReadableProperty;
+import net.sf.mmm.property.WritableProperty;
+import net.sf.mmm.property.factory.AbstractPropertyFactory;
+import net.sf.mmm.property.factory.PropertyFactory;
 import net.sf.mmm.util.data.api.entity.Entity;
 import net.sf.mmm.util.data.api.link.Link;
-import net.sf.mmm.util.reflect.api.GenericType;
 import net.sf.mmm.util.validation.base.AbstractValidator;
 
 /**
@@ -50,9 +51,10 @@ public class PropertyFactoryLink<E extends Entity> extends AbstractPropertyFacto
   }
 
   @Override
-  public LinkProperty<E> create(String name, GenericType<? extends Link<E>> valueType, Object bean, AbstractValidator<? super Link<E>> validator) {
+  public LinkProperty<E> create(String name, Class<? extends Link<E>> valueClass, Type valueType,
+      AbstractValidator<? super Link<E>> validator) {
 
-    return new LinkProperty<>(name, (GenericType) valueType, bean, validator);
+    return new LinkProperty<>(name, validator);
   }
 
 }

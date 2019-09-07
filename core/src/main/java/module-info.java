@@ -1,4 +1,4 @@
-module net.sf.mmm.property.api {
+module net.sf.mmm.property {
 
   requires transitive org.slf4j;
 
@@ -10,54 +10,54 @@ module net.sf.mmm.property.api {
 
   requires static javax.inject;
 
-  requires java.annotation;
+  // requires java.annotation;
 
-  requires mmm.util.lang;
+  requires transitive net.sf.mmm.validation;
 
-  requires transitive mmm.util.validation;
+  exports net.sf.mmm.property;
 
-  exports net.sf.mmm.property.api;
-
-  exports net.sf.mmm.property.api.booleans;
+  exports net.sf.mmm.property.booleans;
 
   // exports net.sf.mmm.property.api.comparables;
 
-  exports net.sf.mmm.property.api.objects;
+  exports net.sf.mmm.property.container;
 
-  exports net.sf.mmm.property.api.strings;
+  exports net.sf.mmm.property.container.list;
 
-  exports net.sf.mmm.property.api.numbers;
+  exports net.sf.mmm.property.container.map;
 
-  exports net.sf.mmm.property.api.numbers.bigdecimals;
+  exports net.sf.mmm.property.container.set;
 
-  exports net.sf.mmm.property.api.numbers.bigintegers;
+  exports net.sf.mmm.property.object;
 
-  exports net.sf.mmm.property.api.numbers.bytes;
+  exports net.sf.mmm.property.string;
 
-  exports net.sf.mmm.property.api.numbers.doubles;
+  exports net.sf.mmm.property.factory;
 
-  exports net.sf.mmm.property.api.numbers.floats;
+  exports net.sf.mmm.property.number;
 
-  exports net.sf.mmm.property.api.numbers.integers;
+  exports net.sf.mmm.property.number.bigdecimal;
 
-  exports net.sf.mmm.property.api.numbers.longs;
+  exports net.sf.mmm.property.number.biginteger;
 
-  exports net.sf.mmm.property.api.numbers.shorts;
+  exports net.sf.mmm.property.number.bytes;
 
-  exports net.sf.mmm.property.api.temporals;
+  exports net.sf.mmm.property.number.doubles;
 
-  exports net.sf.mmm.property.api.temporals.instants;
+  exports net.sf.mmm.property.number.floats;
 
-  exports net.sf.mmm.property.api.temporals.localdates;
+  exports net.sf.mmm.property.number.integers;
 
-  exports net.sf.mmm.property.api.temporals.localdatetimes;
+  exports net.sf.mmm.property.number.longs;
 
-  // exports net.sf.mmm.property.api.containers;
-  //
-  // exports net.sf.mmm.property.api.containers.lists;
-  //
-  // exports net.sf.mmm.property.api.containers.maps;
-  //
-  // exports net.sf.mmm.property.api.containers.sets;
+  exports net.sf.mmm.property.number.shorts;
+
+  exports net.sf.mmm.property.temporal;
+
+  exports net.sf.mmm.property.temporal.instant;
+
+  exports net.sf.mmm.property.temporal.localdate;
+
+  exports net.sf.mmm.property.temporal.localdatetime;
 
 }
