@@ -26,6 +26,14 @@ public interface WritableProperty<V> extends WritableObservableValue<V>, Readabl
   WritableProperty<V> getReadOnly();
 
   /**
+   * @param newName the new {@link #getName() name}. May be {@code null} to keep the current name.
+   * @param newMetadata the new {@link #getMetadata() metadata}. May be {@code null} to keep the current metadata.
+   * @return a new instance of this property with empty {@link #getValue() value} no bindings and the given parameters
+   *         applied.
+   */
+  WritableProperty<V> copy(String newName, PropertyMetadata<V> newMetadata);
+
+  /**
    * @param <P> type of the property.
    * @param property the {@link WritableProperty property} to get as {@link #isReadOnly() read-only} view.
    * @return the {@link #getReadOnly() read-only view} of the given {@link WritableProperty property}.
@@ -37,6 +45,46 @@ public interface WritableProperty<V> extends WritableObservableValue<V>, Readabl
       return property;
     }
     return (P) property.getReadOnly();
+  }
+
+  /**
+   * @param <P> type of the property.
+   * @param property the {@link WritableProperty property} to copy.
+   * @param newName the new {@link #getName() name}. May be {@code null} to keep the current name.
+   * @return a {@link #copy(String, PropertyMetadata) copy} of the given {@code property} with empty value and the given
+   *         parameters applied.
+   */
+  static <P extends WritableProperty<?>> P copy(P property) {
+
+    return copy(property, null);
+  }
+
+  /**
+   * @param <P> type of the property.
+   * @param property the {@link WritableProperty property} to copy.
+   * @param newName the new {@link #getName() name}. May be {@code null} to keep the current name.
+   * @return a {@link #copy(String, PropertyMetadata) copy} of the given {@code property} with empty value and the given
+   *         parameters applied.
+   */
+  @SuppressWarnings("unchecked")
+  static <P extends WritableProperty<?>> P copy(P property, String newName) {
+
+    return (P) property.copy(newName, null);
+  }
+
+  /**
+   * @param <V> type of the {@link #getValue() properties value}.
+   * @param <P> type of the property.
+   * @param property the {@link WritableProperty property} to copy.
+   * @param newName the new {@link #getName() name}. May be {@code null} to keep the current name.
+   * @param newMetadata the new {@link #getMetadata() metadata}. May be {@code null} to keep the current metadata.
+   * @return a {@link #copy(String, PropertyMetadata) copy} of the given {@code property} with empty value and the given
+   *         parameters applied.
+   */
+  @SuppressWarnings("unchecked")
+  static <V, P extends WritableProperty<V>> P copy(P property, String newName, PropertyMetadata<V> newMetadata) {
+
+    return (P) property.copy(newName, newMetadata);
   }
 
 }

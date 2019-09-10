@@ -65,7 +65,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
 
   @SuppressWarnings("unchecked")
   @Override
-  protected Property<V> clone() {
+  protected final Property<V> clone() {
 
     try {
       return (Property<V>) super.clone();
@@ -74,52 +74,19 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
     }
   }
 
-  /**
-   * @return a new empty instance of this property.
-   */
-  protected Property<V> copy() {
+  @Override
+  public final Property<V> copy(String newName, PropertyMetadata<V> newMetadata) {
 
     Property<V> copy = clone();
     copy.bindInternal(null);
     copy.readOnlyProperty = null;
     copy.validationResult = null;
-    return copy;
-  }
-
-  /**
-   * Creates a new empty instance of this property with the given new parameters.
-   *
-   * @param newMetadata the new {@link #getMetadata() metadata}.
-   * @return the new property instance.
-   */
-  public final Property<V> copy(PropertyMetadata<V> newMetadata) {
-
-    return copy(this.name, newMetadata);
-  }
-
-  /**
-   * Creates a new empty instance of this property with the given new parameters.
-   *
-   * @param newName the new {@link #getName() name}.
-   * @return the new property instance.
-   */
-  public final Property<V> copy(String newName) {
-
-    return copy(newName, this.metadata);
-  }
-
-  /**
-   * Creates a new empty instance of this property with the given new parameters.
-   *
-   * @param newName the new {@link #getName() name}.
-   * @param newMetadata the new {@link #getMetadata() metadata}.
-   * @return the new property instance.
-   */
-  public final Property<V> copy(String newName, PropertyMetadata<V> newMetadata) {
-
-    Property<V> copy = clone();
-    copy.name = newName;
-    copy.metadata = newMetadata;
+    if (newName != null) {
+      copy.name = newName;
+    }
+    if (newMetadata != null) {
+      copy.metadata = newMetadata;
+    }
     return copy;
   }
 
@@ -184,7 +151,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   public WritableProperty<V> getReadOnly() {
 
     if (this.readOnlyProperty == null) {
-      Property<V> copy = copy();
+      Property<V> copy = copy(null, null);
       copy.bindInternal(this);
       copy.readOnlyProperty = copy;
       this.readOnlyProperty = copy;
