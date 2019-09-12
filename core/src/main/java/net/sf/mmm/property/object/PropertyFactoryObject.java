@@ -25,7 +25,7 @@ public class PropertyFactoryObject<V> extends AbstractPropertyFactory<V, ObjectP
   @Override
   public Class<? extends V> getValueClass() {
 
-    return null;
+    return (Class) Object.class;
   }
 
   @Override
@@ -50,6 +50,12 @@ public class PropertyFactoryObject<V> extends AbstractPropertyFactory<V, ObjectP
   public ObjectProperty<V> create(String name, Class<? extends V> valueClass, PropertyMetadata<V> metadata) {
 
     return new ObjectProperty(name, valueClass, metadata);
+  }
+
+  @Override
+  public boolean isPolymorphic() {
+
+    return true;
   }
 
 }

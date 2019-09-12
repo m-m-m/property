@@ -31,13 +31,9 @@ public interface PropertyFactoryManager {
    *
    * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
    * @param valueType the {@link Class} reflecting the {@link WritableProperty#getValue() property value}.
-   * @param polymorphic - {@code true} if also {@link Class#isAssignableFrom(Class) sub-types} of
-   *        {@link PropertyFactory#getValueClass() value classes} should be accepted as {@code valueType}, {@code false}
-   *        otherwise (more efficient).
    * @return the according {@link PropertyFactory} or {@code null} if no such factory is registered.
    */
-  <V> PropertyFactory<V, ? extends ReadableProperty<V>> getFactoryForValueType(Class<? extends V> valueType,
-      boolean polymorphic);
+  <V> PropertyFactory<V, ? extends ReadableProperty<V>> getFactoryForValueType(Class<? extends V> valueType);
 
   /**
    * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
@@ -47,12 +43,11 @@ public interface PropertyFactoryManager {
    *        {@link PropertyFactory#getWritableInterface() writable interface}, or the
    *        {@link PropertyFactory#getImplementationClass() implementation}.
    * @param valueType the {@link Class} reflecting the {@link WritableProperty#getValue() property value}.
-   * @param polymorphic - see {@link #getFactoryForValueType(Class, boolean)}.
    * @return the according {@link PropertyFactory} or {@code null} if no such factory is registered.
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
   default <V, P extends ReadableProperty<V>> PropertyFactory<V, ? extends P> getFactory(Class<P> propertyType,
-      Class<? extends V> valueType, boolean polymorphic) {
+      Class<? extends V> valueType) {
 
     PropertyFactory/* <V, ? extends PROPERTY> */ factory = null;
     if (propertyType != null) {
@@ -60,7 +55,7 @@ public interface PropertyFactoryManager {
     }
     if (valueType != null) {
       if ((factory == null) || (factory.getValueClass() == null)) {
-        PropertyFactory<V, ? extends ReadableProperty<V>> valueFactory = getFactoryForValueType(valueType, polymorphic);
+        PropertyFactory<V, ? extends ReadableProperty<V>> valueFactory = getFactoryForValueType(valueType);
         if (valueFactory != null) {
           if ((propertyType == null) || (propertyType.isAssignableFrom(valueFactory.getImplementationClass()))) {
             factory = valueFactory;
@@ -79,15 +74,18 @@ public interface PropertyFactoryManager {
    *        {@link PropertyFactory#getWritableInterface() writable interface}, or the
    *        {@link PropertyFactory#getImplementationClass() implementation}.
    * @param valueType the {@link Class} reflecting the {@link WritableProperty#getValue() property value}.
-   * @param polymorphic - see {@link #getFactoryForValueType(Class, boolean)}.
    * @return the according {@link PropertyFactory} or {@code null} if no such factory is registered.
    */
   default <V, PROPERTY extends ReadableProperty<V>> PropertyFactory<V, ? extends PROPERTY> getRequiredFactory(
-      Class<PROPERTY> propertyType, Class<V> valueType, boolean polymorphic) {
+      Class<PROPERTY> propertyType, Class<V> valueType) {
 
-    PropertyFactory<V, ? extends PROPERTY> factory = getFactory(propertyType, valueType, polymorphic);
+    PropertyFactory<V, ? extends PROPERTY> factory = getFactory(propertyType, valueType);
     if (factory == null) {
-      throw new IllegalArgumentException("No PropertyFactory found for " + propertyType);
+      Class<?> type = propertyType;
+      if (type == null) {
+        type = valueType;
+      }
+      throw new IllegalArgumentException("No PropertyFactory found for " + type);
     }
     return factory;
   }
@@ -100,7 +98,6 @@ public interface PropertyFactoryManager {
    *        {@link PropertyFactory#getWritableInterface() writable interface}, or the
    *        {@link PropertyFactory#getImplementationClass() implementation}.
    * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
-   * @param polymorphic - see {@link #getFactoryForValueType(Class, boolean)}.
    * @param name the {@link ReadableProperty#getName() property name}.
    * @param metadata TODO
    * @return the new instance of the property.
@@ -108,17 +105,17 @@ public interface PropertyFactoryManager {
    *         for {@code propertyType}.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, boolean polymorphic,
-      String name, PropertyMetadata<V> metadata) {
+  default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name,
+      PropertyMetadata<V> metadata) {
 
-    PropertyFactory factory = getRequiredFactory(propertyType, valueClass, polymorphic);
+    PropertyFactory factory = getRequiredFactory(propertyType, valueClass);
     return (P) factory.create(name, valueClass, metadata);
   }
 
   /**
    * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
    * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
-   * @param polymorphic - see {@link #getFactoryForValueType(Class, boolean)}.
+   * @param polymorphic - see {@link #getFactoryForValueType(Class)}.
    * @param name the {@link ReadableProperty#getName() property name}.
    * @return the new instance of the property.
    * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
@@ -126,13 +123,13 @@ public interface PropertyFactoryManager {
    */
   default <V> WritableProperty<V> create(Class<V> valueClass, boolean polymorphic, String name) {
 
-    return create(null, polymorphic, name, PropertyMetadataNone.getInstance());
+    return create(null, valueClass, name, PropertyMetadataNone.getInstance());
   }
 
   /**
    * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
    * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
-   * @param polymorphic - see {@link #getFactoryForValueType(Class, boolean)}.
+   * @param polymorphic - see {@link #getFactoryForValueType(Class)}.
    * @param name the {@link ReadableProperty#getName() property name}.
    * @param metadata the {@link ReadableProperty#getMetadata() metadata}.
    * @return the new instance of the property.
@@ -142,7 +139,7 @@ public interface PropertyFactoryManager {
   default <V> WritableProperty<V> create(Class<V> valueClass, boolean polymorphic, String name,
       PropertyMetadata<V> metadata) {
 
-    return create(null, polymorphic, name, metadata);
+    return create(null, valueClass, name, metadata);
   }
 
 }

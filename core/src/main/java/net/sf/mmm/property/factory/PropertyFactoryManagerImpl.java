@@ -2,15 +2,18 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package net.sf.mmm.property.factory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.ServiceLoader;
 
 import javax.inject.Inject;
 
 import net.sf.mmm.property.PropertyMetadata;
 import net.sf.mmm.property.ReadableProperty;
+import net.sf.mmm.property.WritableProperty;
 import net.sf.mmm.property.booleans.PropertyFactoryBoolean;
 import net.sf.mmm.property.container.list.PropertyFactoryList;
 import net.sf.mmm.property.container.map.PropertyFactoryMap;
@@ -40,6 +43,8 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
 
   private final Map<Class<?>, PropertyFactory<?, ?>> valueType2factoryMap;
 
+  private final List<PropertyFactory<?, ?>> polymorphicFactories;
+
   /**
    * The constructor.
    */
@@ -48,6 +53,7 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
     super();
     this.propertyType2factoryMap = new HashMap<>();
     this.valueType2factoryMap = new HashMap<>();
+    this.polymorphicFactories = new ArrayList<>();
   }
 
   /**
@@ -76,10 +82,43 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
    */
   protected void registerFactory(PropertyFactory<?, ?> factory, boolean allowOverride) {
 
-    registerPropertyType(factory.getReadableInterface(), factory, allowOverride);
-    registerPropertyType(factory.getWritableInterface(), factory, allowOverride);
-    registerPropertyType(factory.getImplementationClass(), factory, allowOverride);
-    registerValueType(factory.getValueClass(), factory, allowOverride);
+    Class<?> readableInterface = factory.getReadableInterface();
+    if ((readableInterface != null) && (readableInterface != ReadableProperty.class)) {
+      registerPropertyType(readableInterface, factory, allowOverride);
+    }
+    Class<?> writableInterface = factory.getWritableInterface();
+    if ((writableInterface != null) && (writableInterface != WritableProperty.class)) {
+      registerPropertyType(writableInterface, factory, allowOverride);
+    }
+    Class<?> implementationClass = factory.getImplementationClass();
+    if (implementationClass == null) {
+      Objects.requireNonNull(implementationClass, factory.getClass().getName() + ".getImplementationClass()");
+    }
+    registerPropertyType(implementationClass, factory, allowOverride);
+    Class<?> valueClass = factory.getValueClass();
+    if (valueClass == null) {
+      Objects.requireNonNull(valueClass, factory.getClass().getName() + ".getValueClass()");
+    }
+    registerValueType(valueClass, factory, allowOverride);
+    if (factory.isPolymorphic()) {
+      registerPolymorphicFactory(factory);
+    }
+  }
+
+  /**
+   * @param factory
+   */
+  private void registerPolymorphicFactory(PropertyFactory<?, ?> factory) {
+
+    int index = 0;
+    Class<?> valueClass = factory.getValueClass();
+    for (int i = 0; i < this.polymorphicFactories.size(); i++) {
+      PropertyFactory<?, ?> existingFactory = this.polymorphicFactories.get(i);
+      if (valueClass.isAssignableFrom(existingFactory.getValueClass())) {
+        index = i + 1;
+      }
+    }
+    this.polymorphicFactories.add(index, factory);
   }
 
   private void registerValueType(Class<?> type, PropertyFactory<?, ?> factory, boolean allowOverride) {
@@ -105,6 +144,9 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
     }
   }
 
+  /**
+   * Initializes this class. Sublcasses using CDI shall override and annotate this method with {@code @PostConstruct}.
+   */
   // @PostConstruct
   protected void initialize() {
 
@@ -146,12 +188,22 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
    *
    * @return the singleton instance.
    */
+  @SuppressWarnings("rawtypes")
   public static PropertyFactoryManager getInstance() {
 
     if (instance == null) {
       synchronized (PropertyFactoryManagerImpl.class) {
         if (instance == null) {
           PropertyFactoryManagerImpl impl = new PropertyFactoryManagerImpl();
+          List<PropertyFactory<?, ?>> factories = new ArrayList<>();
+          ServiceLoader<PropertyFactory> serviceLoader = ServiceLoader.load(PropertyFactory.class);
+          for (PropertyFactory factory : serviceLoader) {
+            factories.add(factory);
+          }
+          if (factories.isEmpty()) {
+            throw new IllegalStateException("No PropertyFactory available!");
+          }
+          impl.setFactories(factories);
           impl.initialize();
         }
       }
@@ -169,14 +221,13 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
-  public <V> PropertyFactory<V, ? extends ReadableProperty<V>> getFactoryForValueType(Class<? extends V> valueType,
-      boolean polymorphic) {
+  public <V> PropertyFactory<V, ? extends ReadableProperty<V>> getFactoryForValueType(Class<? extends V> valueClass) {
 
-    PropertyFactory<?, ?> factory = this.valueType2factoryMap.get(valueType);
-    if ((factory == null) && polymorphic) {
-      for (Entry<Class<?>, PropertyFactory<?, ?>> entry : this.valueType2factoryMap.entrySet()) {
-        if (entry.getKey().isAssignableFrom(valueType)) {
-          factory = entry.getValue();
+    PropertyFactory<?, ?> factory = this.valueType2factoryMap.get(valueClass);
+    if (factory == null) {
+      for (PropertyFactory<?, ?> polymorphicFactory : this.polymorphicFactories) {
+        if (polymorphicFactory.getValueClass().isAssignableFrom(valueClass)) {
+          factory = polymorphicFactory;
           break;
         }
       }
@@ -187,9 +238,9 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
   public <V, PROPERTY extends ReadableProperty<V>> PROPERTY create(Class<PROPERTY> propertyType, Class<V> valueClass,
-      boolean polymorphic, String name, PropertyMetadata<V> metadata) {
+      String name, PropertyMetadata<V> metadata) {
 
-    PropertyFactory factory = getRequiredFactory(propertyType, valueClass, polymorphic);
+    PropertyFactory factory = getRequiredFactory(propertyType, valueClass);
     return (PROPERTY) factory.create(name, valueClass, metadata);
   }
 

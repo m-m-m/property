@@ -28,8 +28,8 @@ public class ObjectProperty<V> extends Property<V> implements WritableObjectProp
   /**
    * The constructor.
    *
-   * @param name - see {@link #getName()}.
-   * @param valueClass - see {@link #getValueClass()}.
+   * @param name the {@link #getName() name}.
+   * @param valueClass the {@link #getValueClass() value class}.
    */
   public ObjectProperty(String name, Class<V> valueClass) {
 
@@ -39,8 +39,8 @@ public class ObjectProperty<V> extends Property<V> implements WritableObjectProp
   /**
    * The constructor.
    *
-   * @param name - see {@link #getName()}.
-   * @param valueClass - see {@link #getValueClass()}.
+   * @param name the {@link #getName() name}.
+   * @param valueClass the {@link #getValueClass() value class}.
    * @param metadata the {@link #getMetadata() metadata}.
    */
   public ObjectProperty(String name, Class<V> valueClass, PropertyMetadata<V> metadata) {

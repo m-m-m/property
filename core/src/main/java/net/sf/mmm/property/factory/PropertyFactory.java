@@ -53,4 +53,14 @@ public interface PropertyFactory<V, P extends WritableProperty<V>> {
    */
   P create(String name, Class<? extends V> valueClass, PropertyMetadata<V> metadata);
 
+  /**
+   * @return {@code true} if {@link #getValueClass() value class} is polymorphic and also sub-types are handled by this
+   *         {@link PropertyFactory} (unless there is a more specific {@link PropertyFactory} available), {@code false}
+   *         otherwise.
+   */
+  default boolean isPolymorphic() {
+
+    return false;
+  }
+
 }
