@@ -8,10 +8,6 @@ module net.sf.mmm.property {
 
   requires transitive net.sf.mmm.value.observable;
 
-  requires static javax.inject;
-
-  // requires java.annotation;
-
   requires transitive net.sf.mmm.validation;
 
   uses net.sf.mmm.property.factory.PropertyFactory;

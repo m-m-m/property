@@ -5,8 +5,6 @@ package net.sf.mmm.property.container.list;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import javax.inject.Named;
-
 import net.sf.mmm.property.PropertyMetadata;
 import net.sf.mmm.property.ReadableProperty;
 import net.sf.mmm.property.WritableProperty;
@@ -18,10 +16,8 @@ import net.sf.mmm.property.factory.PropertyFactory;
  *
  * @param <E> type of the {@link List#contains(Object) contained elements}.
  *
- * @author hohwille
  * @since 1.0.0
  */
-@Named
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class PropertyFactoryList<E> extends AbstractPropertyFactory<List<E>, ListProperty<E>> {
 

@@ -5,8 +5,6 @@ package net.sf.mmm.property.container.map;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import javax.inject.Named;
-
 import net.sf.mmm.property.PropertyMetadata;
 import net.sf.mmm.property.ReadableProperty;
 import net.sf.mmm.property.WritableProperty;
@@ -20,10 +18,8 @@ import net.sf.mmm.property.factory.PropertyFactory;
  * @param <K> the generic type of the {@link java.util.Map.Entry#getKey() keys}.
  * @param <V> the generic type of the {@link java.util.Map.Entry#getValue() values}.
  *
- * @author hohwille
  * @since 1.0.0
  */
-@Named
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class PropertyFactoryMap<K, V> extends AbstractPropertyFactory<Map<K, V>, MapProperty<K, V>> {
 

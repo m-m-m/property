@@ -5,8 +5,6 @@ package net.sf.mmm.property.container.set;
 import java.lang.reflect.Type;
 import java.util.Set;
 
-import javax.inject.Named;
-
 import net.sf.mmm.property.PropertyMetadata;
 import net.sf.mmm.property.ReadableProperty;
 import net.sf.mmm.property.WritableProperty;
@@ -20,7 +18,6 @@ import net.sf.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-@Named
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class PropertyFactorySet<E> extends AbstractPropertyFactory<Set<E>, SetProperty<E>> {
 

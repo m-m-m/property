@@ -4,8 +4,6 @@ package net.sf.mmm.property.number.bigdecimal;
 
 import java.math.BigDecimal;
 
-import javax.inject.Named;
-
 import net.sf.mmm.property.PropertyMetadata;
 import net.sf.mmm.property.ReadableProperty;
 import net.sf.mmm.property.WritableProperty;
@@ -17,7 +15,6 @@ import net.sf.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-@Named
 public class PropertyFactoryBigDecimal extends AbstractPropertyFactory<BigDecimal, BigDecimalProperty> {
 
   @Override

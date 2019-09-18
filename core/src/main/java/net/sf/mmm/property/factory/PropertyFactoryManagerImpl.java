@@ -9,8 +9,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.ServiceLoader;
 
-import javax.inject.Inject;
-
 import net.sf.mmm.property.PropertyMetadata;
 import net.sf.mmm.property.ReadableProperty;
 import net.sf.mmm.property.WritableProperty;
@@ -57,9 +55,9 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
   }
 
   /**
-   * @param factories the {@link List} of {@link PropertyFactory} instances to {@link Inject}.
+   * @param factories the {@link List} of {@link PropertyFactory} instances to inject.
    */
-  @Inject
+  // @Inject
   public void setFactories(List<PropertyFactory<?, ?>> factories) {
 
     for (PropertyFactory<?, ?> factory : factories) {

@@ -2,8 +2,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package net.sf.mmm.property.object;
 
-import javax.inject.Named;
-
 import net.sf.mmm.property.PropertyMetadata;
 import net.sf.mmm.property.ReadableProperty;
 import net.sf.mmm.property.WritableProperty;
@@ -15,10 +13,8 @@ import net.sf.mmm.property.factory.PropertyFactory;
  *
  * @param <V> type of the {@link ObjectProperty#getValue() value}.
  *
- * @author hohwille
  * @since 1.0.0
  */
-@Named
 @SuppressWarnings({ "rawtypes", "unchecked" })
 public class PropertyFactoryObject<V> extends AbstractPropertyFactory<V, ObjectProperty<V>> {
 

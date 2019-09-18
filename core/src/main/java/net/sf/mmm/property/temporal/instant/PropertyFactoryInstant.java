@@ -4,8 +4,6 @@ package net.sf.mmm.property.temporal.instant;
 
 import java.time.Instant;
 
-import javax.inject.Named;
-
 import net.sf.mmm.property.PropertyMetadata;
 import net.sf.mmm.property.ReadableProperty;
 import net.sf.mmm.property.WritableProperty;
@@ -15,10 +13,8 @@ import net.sf.mmm.property.factory.PropertyFactory;
 /**
  * This is the implementation of {@link PropertyFactory} for {@link InstantProperty}.
  *
- * @author hohwille
  * @since 1.0.0
  */
-@Named
 public class PropertyFactoryInstant extends AbstractPropertyFactory<Instant, InstantProperty> {
 
   @Override

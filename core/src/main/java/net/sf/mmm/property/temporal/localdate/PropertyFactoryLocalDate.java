@@ -4,8 +4,6 @@ package net.sf.mmm.property.temporal.localdate;
 
 import java.time.LocalDate;
 
-import javax.inject.Named;
-
 import net.sf.mmm.property.PropertyMetadata;
 import net.sf.mmm.property.ReadableProperty;
 import net.sf.mmm.property.WritableProperty;
@@ -15,10 +13,8 @@ import net.sf.mmm.property.factory.PropertyFactory;
 /**
  * This is the implementation of {@link PropertyFactory} for {@link LocalDateProperty}.
  *
- * @author hohwille
  * @since 1.0.0
  */
-@Named
 public class PropertyFactoryLocalDate extends AbstractPropertyFactory<LocalDate, LocalDateProperty> {
 
   @Override

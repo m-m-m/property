@@ -2,8 +2,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package net.sf.mmm.property.number.integers;
 
-import javax.inject.Named;
-
 import net.sf.mmm.property.PropertyMetadata;
 import net.sf.mmm.property.ReadableProperty;
 import net.sf.mmm.property.WritableProperty;
@@ -15,7 +13,6 @@ import net.sf.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-@Named
 public class PropertyFactoryInteger extends AbstractPropertyFactory<Integer, IntegerProperty> {
 
   @Override
