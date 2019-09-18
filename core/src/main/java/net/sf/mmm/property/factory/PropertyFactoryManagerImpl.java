@@ -240,7 +240,8 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
   public <V, PROPERTY extends ReadableProperty<V>> PROPERTY create(Class<PROPERTY> propertyType, Class<V> valueClass,
       String name, PropertyMetadata<V> metadata) {
 
-    PropertyFactory factory = getRequiredFactory(propertyType, valueClass);
+    // Open/Oracle JDK compiler has so many bugs in handling of generics...
+    PropertyFactory factory = getRequiredFactory((Class) propertyType, (Class) valueClass);
     return (PROPERTY) factory.create(name, valueClass, metadata);
   }
 

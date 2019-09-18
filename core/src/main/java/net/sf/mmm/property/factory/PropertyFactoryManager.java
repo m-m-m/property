@@ -16,15 +16,14 @@ public interface PropertyFactoryManager {
 
   /**
    * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
-   * @param <PROPERTY> the generic type of the {@link WritableProperty property}.
+   * @param <P> the generic type of the {@link WritableProperty property}.
    * @param propertyType the {@link Class} reflecting the property to create. May be the
    *        {@link PropertyFactory#getReadableInterface() readable interface},
    *        {@link PropertyFactory#getWritableInterface() writable interface}, or the
    *        {@link PropertyFactory#getImplementationClass() implementation}.
    * @return the according {@link PropertyFactory} or {@code null} if no such factory is registered.
    */
-  <V, PROPERTY extends ReadableProperty<V>> PropertyFactory<V, ? extends PROPERTY> getFactoryForPropertyType(
-      Class<PROPERTY> propertyType);
+  <V, P extends ReadableProperty<V>> PropertyFactory<V, ? extends P> getFactoryForPropertyType(Class<P> propertyType);
 
   /**
    * @see PropertyFactory#getValueClass()
@@ -49,9 +48,10 @@ public interface PropertyFactoryManager {
   default <V, P extends ReadableProperty<V>> PropertyFactory<V, ? extends P> getFactory(Class<P> propertyType,
       Class<? extends V> valueType) {
 
-    PropertyFactory/* <V, ? extends PROPERTY> */ factory = null;
+    PropertyFactory factory = null;
     if (propertyType != null) {
-      factory = getFactoryForPropertyType(propertyType);
+      // Open/Oracle JDK compiler has so many bugs in handling of generics...
+      factory = getFactoryForPropertyType((Class) propertyType);
     }
     if (valueType != null) {
       if ((factory == null) || (factory.getValueClass() == null)) {
@@ -68,7 +68,7 @@ public interface PropertyFactoryManager {
 
   /**
    * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
-   * @param <PROPERTY> the generic type of the {@link WritableProperty property}.
+   * @param <P> the generic type of the {@link WritableProperty property}.
    * @param propertyType the {@link Class} reflecting the property to create. May be the
    *        {@link PropertyFactory#getReadableInterface() readable interface},
    *        {@link PropertyFactory#getWritableInterface() writable interface}, or the
@@ -76,10 +76,12 @@ public interface PropertyFactoryManager {
    * @param valueType the {@link Class} reflecting the {@link WritableProperty#getValue() property value}.
    * @return the according {@link PropertyFactory} or {@code null} if no such factory is registered.
    */
-  default <V, PROPERTY extends ReadableProperty<V>> PropertyFactory<V, ? extends PROPERTY> getRequiredFactory(
-      Class<PROPERTY> propertyType, Class<V> valueType) {
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  default <V, P extends ReadableProperty<V>> PropertyFactory<V, ? extends P> getRequiredFactory(Class<P> propertyType,
+      Class<V> valueType) {
 
-    PropertyFactory<V, ? extends PROPERTY> factory = getFactory(propertyType, valueType);
+    // Open/Oracle JDK compiler has so many bugs in handling of generics...
+    PropertyFactory<V, ? extends P> factory = getFactory((Class) propertyType, (Class) valueType);
     if (factory == null) {
       Class<?> type = propertyType;
       if (type == null) {
@@ -108,7 +110,8 @@ public interface PropertyFactoryManager {
   default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name,
       PropertyMetadata<V> metadata) {
 
-    PropertyFactory factory = getRequiredFactory(propertyType, valueClass);
+    // Open/Oracle JDK compiler has so many bugs in handling of generics...
+    PropertyFactory factory = getRequiredFactory((Class) propertyType, (Class) valueClass);
     return (P) factory.create(name, valueClass, metadata);
   }
 
