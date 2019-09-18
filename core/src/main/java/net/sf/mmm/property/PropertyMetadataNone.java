@@ -44,13 +44,13 @@ public final class PropertyMetadataNone<V> implements PropertyMetadata<V> {
   }
 
   @Override
-  public <A> A getAnnotation(Class<A> annotationType) {
+  public Object get(String key) {
 
     return null;
   }
 
   @Override
-  public Iterable<?> getAnnotations() {
+  public Iterable<String> getKeys() {
 
     return Collections.emptyList();
   }

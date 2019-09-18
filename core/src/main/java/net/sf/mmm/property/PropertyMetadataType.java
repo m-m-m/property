@@ -27,7 +27,7 @@ public class PropertyMetadataType<V> implements PropertyMetadata<V> {
 
   private final Type valueType;
 
-  private final Map<Class<?>, Object> annotations;
+  private final Map<String, Object> metadata;
 
   /**
    * The constructor.
@@ -54,11 +54,13 @@ public class PropertyMetadataType<V> implements PropertyMetadata<V> {
    *
    * @param validator the {@link #getValidator() validator}.
    * @param expression the {@link #getExpression() expression}.
-   * @param annotations the {@link #getAnnotations() annotations}.
+   * @param metadataValues the {@link #get(String) metadata values}. Should only be specific types such as
+   *        {@link java.lang.annotation.Annotation}s-
    */
-  public PropertyMetadataType(Validator<? super V> validator, Supplier<? extends V> expression, Object[] annotations) {
+  public PropertyMetadataType(Validator<? super V> validator, Supplier<? extends V> expression,
+      Object[] metadataValues) {
 
-    this(validator, expression, null, toMap(annotations));
+    this(validator, expression, null, toMap(metadataValues));
   }
 
   /**
@@ -67,28 +69,28 @@ public class PropertyMetadataType<V> implements PropertyMetadata<V> {
    * @param validator the {@link #getValidator() validator}.
    * @param supplier the {@link #getExpression() expression}.
    * @param valueType the {@link #getValueType() value type}.
-   * @param annotations the {@link #getAnnotations() annotations}.
+   * @param metadata the {@link #get(String) metadata}.
    */
   public PropertyMetadataType(Validator<? super V> validator, Supplier<? extends V> supplier, Type valueType,
-      Map<Class<?>, Object> annotations) {
+      Map<String, Object> metadata) {
 
     super();
     this.validator = validator;
     this.expression = supplier;
     this.valueType = valueType;
-    if (annotations == null) {
-      this.annotations = Collections.emptyMap();
+    if (metadata == null) {
+      this.metadata = Collections.emptyMap();
     } else {
-      this.annotations = Collections.unmodifiableMap(annotations);
+      this.metadata = Collections.unmodifiableMap(metadata);
     }
   }
 
-  private static Map<Class<?>, Object> toMap(Object[] annotations) {
+  private static Map<String, Object> toMap(Object[] annotations) {
 
     if ((annotations == null) || (annotations.length == 0)) {
       return null;
     }
-    Map<Class<?>, Object> map = new HashMap<>(annotations.length);
+    Map<String, Object> map = new HashMap<>(annotations.length);
     for (Object annotation : annotations) {
       Class<?> type;
       if (annotation instanceof Annotation) {
@@ -96,7 +98,7 @@ public class PropertyMetadataType<V> implements PropertyMetadata<V> {
       } else {
         type = annotation.getClass();
       }
-      map.put(type, annotation);
+      map.put(type.getName(), annotation);
     }
     return map;
   }
@@ -119,17 +121,16 @@ public class PropertyMetadataType<V> implements PropertyMetadata<V> {
     return this.valueType;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
-  public <A> A getAnnotation(Class<A> annotationType) {
+  public Object get(String key) {
 
-    return (A) this.annotations.get(annotationType);
+    return this.metadata.get(key);
   }
 
   @Override
-  public Iterable<?> getAnnotations() {
+  public Iterable<String> getKeys() {
 
-    return this.annotations.values();
+    return this.metadata.keySet();
   }
 
 }

@@ -31,17 +31,49 @@ public interface PropertyMetadata<V> {
   Supplier<? extends V> getExpression();
 
   /**
-   * @param <A> type of the annotation.
-   * @param annotationType the {@link Class} reflecting the requested annotation. Here an annotation may be any kind of
-   *        object. It may but does not have to be a {@link java.lang.annotation.Annotation}.
-   * @return the requested annotation or {@code null} if no such annotation is present.
+   * @param key the {@link java.util.Map#containsKey(Object) key} of the requested metadata.
+   * @return the value of the metadata for the given {@code key}. Will be {@code null} if no metadata exists for the
+   *         given {@code key}.
+   * @see #get(String, Class)
    */
-  <A> A getAnnotation(Class<A> annotationType);
+  Object get(String key);
 
   /**
-   * @return the annotations of the property.
+   * @param <T> type of the metadata.
+   * @param key the {@link java.util.Map#containsKey(Object) key} of the requested metadata.
+   * @param type {@link Class} reflecting the type of the requested metadata value.
+   * @return the value of the metadata for the given {@code key}. Will be {@code null} if no metadata exists for the
+   *         given {@code key}.
    */
-  Iterable<?> getAnnotations();
+  @SuppressWarnings("unchecked")
+  default <T> T get(String key, Class<T> type) {
+
+    Object value = get(key);
+    return (T) value;
+  }
+
+  /**
+   * <b>ATTENTION:</b> This is a convenient method for {@link #get(String, Class)} where {@link Class#getName()} is used
+   * as key. Be aware that this can only work for final classes, {@link java.lang.annotation.Annotation}s or if the
+   * producer of this {@link PropertyMetadata} provides the metadata under the {@code type} you are expecting as API.
+   * Also it is discouraged to use this method for generic types such as {@link String} or {@link Long} as values of
+   * such type can be anything and should have a semantic key.
+   *
+   * @param <T> type of the metadata.
+   * @param type {@link Class} reflecting the type of the requested metadata value.
+   * @return the value of the metadata for the given {@code key}. Will be {@code null} if no metadata exists for the
+   *         given {@code key}.
+   * @see #get(String, Class)
+   */
+  default <T> T get(Class<T> type) {
+
+    return get(type.getName(), type);
+  }
+
+  /**
+   * @return the {@link Iterable} of all {@link #get(String) metadata keys}.
+   */
+  Iterable<String> getKeys();
 
   /**
    * @return the optional {@link Type} of the {@link Property#getValue() property value}. May be {@code null}.
