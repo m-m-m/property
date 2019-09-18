@@ -23,7 +23,6 @@
 
   <modules>
     <module>core</module>
-    <module>link</module>
   </modules>
 
   <dependencies>
