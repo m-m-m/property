@@ -35,7 +35,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
    */
   public Property(String name) {
 
-    this(name, PropertyMetadataNone.getInstance());
+    this(name, null);
   }
 
   /**
@@ -48,7 +48,11 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
 
     super();
     this.name = name;
-    this.metadata = metadata;
+    if (metadata == null) {
+      this.metadata = PropertyMetadataNone.getInstance();
+    } else {
+      this.metadata = metadata;
+    }
   }
 
   @Override
