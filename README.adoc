@@ -8,7 +8,33 @@ image:https://raw.github.com/m-m-m/mmm/master/src/site/resources/images/logo.png
 
 image:https://travis-ci.org/m-m-m/property.svg?branch=master["build-status",link="https://travis-ci.org/m-m-m/property"]
 
-The `mmm-property` brings extended property support with build in type reflection and validation support as well as JavaFx compatibility.
+The `mmm-property` brings extended property support based on https://github.com/m-m-m/value[`mmm-value-observable`].
+It was inspired from JavaFx, but as JavaFx properties are bundled with a GUI framework, projects do not want to dependend on it if they are not using JavaFx.
+Furhter some features where lacking in JavaFx properties so we reimplemented the whole thing from scratch.
 
-* https://m-m-m.github.io/maven/apidocs/net/sf/mmm/property/api/package-summary.html#package.description[Properties API]
-* https://m-m-m.github.io/maven/apidocs/[and much more... ]
+== Features
+
+* Property with name, value, type, optional metadata
+* Ability to add listeners or bindings
+* Properties for all common Java datatypes
+* Easily extendable for custom types
+* Type of property can be retrieved even if value is null
+* Build-in validation support
+* Build-in marshalling support for mapping from/to JSON or XML
+
+== Usage
+
+Want to give it a try?
+
+Maven Dependency:
+```xml
+<dependency>
+  <groupId>io.github.m-m-m</groupId>
+  <artifactId>mmm-property</artifactId>
+</dependency>
+```
+
+Module Dependency:
+```java
+  requires transitive io.github.mmm.property;
+```

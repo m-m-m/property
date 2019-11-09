@@ -1,80 +1,81 @@
-module net.sf.mmm.property {
+@SuppressWarnings("all") //
+module io.github.mmm.property {
 
   requires transitive org.slf4j;
 
-  requires transitive net.sf.mmm.marshall;
+  requires transitive io.github.mmm.marshall;
 
-  requires static net.sf.mmm.marshall.jsonp;
+  requires static io.github.mmm.marshall.jsonp;
 
-  requires transitive net.sf.mmm.value.observable;
+  requires transitive io.github.mmm.value.observable;
 
-  requires transitive net.sf.mmm.validation;
+  requires transitive io.github.mmm.validation;
 
-  uses net.sf.mmm.property.factory.PropertyFactory;
+  uses io.github.mmm.property.factory.PropertyFactory;
 
-  provides net.sf.mmm.property.factory.PropertyFactory //
-      with net.sf.mmm.property.booleans.PropertyFactoryBoolean, //
-      net.sf.mmm.property.container.list.PropertyFactoryList, //
-      net.sf.mmm.property.container.map.PropertyFactoryMap, //
-      net.sf.mmm.property.container.set.PropertyFactorySet, //
-      net.sf.mmm.property.number.bigdecimal.PropertyFactoryBigDecimal, //
-      net.sf.mmm.property.number.biginteger.PropertyFactoryBigInteger, //
-      net.sf.mmm.property.number.bytes.PropertyFactoryByte, //
-      net.sf.mmm.property.number.doubles.PropertyFactoryDouble, //
-      net.sf.mmm.property.number.floats.PropertyFactoryFloat, //
-      net.sf.mmm.property.number.integers.PropertyFactoryInteger, //
-      net.sf.mmm.property.number.longs.PropertyFactoryLong, //
-      net.sf.mmm.property.number.shorts.PropertyFactoryShort, //
-      net.sf.mmm.property.object.PropertyFactoryObject, //
-      net.sf.mmm.property.string.PropertyFactoryString, //
-      net.sf.mmm.property.temporal.instant.PropertyFactoryInstant, //
-      net.sf.mmm.property.temporal.localdate.PropertyFactoryLocalDate, //
-      net.sf.mmm.property.temporal.localdatetime.PropertyFactoryLocalDateTime;
+  provides io.github.mmm.property.factory.PropertyFactory //
+      with io.github.mmm.property.booleans.PropertyFactoryBoolean, //
+      io.github.mmm.property.container.list.PropertyFactoryList, //
+      io.github.mmm.property.container.map.PropertyFactoryMap, //
+      io.github.mmm.property.container.set.PropertyFactorySet, //
+      io.github.mmm.property.number.bigdecimal.PropertyFactoryBigDecimal, //
+      io.github.mmm.property.number.biginteger.PropertyFactoryBigInteger, //
+      io.github.mmm.property.number.bytes.PropertyFactoryByte, //
+      io.github.mmm.property.number.doubles.PropertyFactoryDouble, //
+      io.github.mmm.property.number.floats.PropertyFactoryFloat, //
+      io.github.mmm.property.number.integers.PropertyFactoryInteger, //
+      io.github.mmm.property.number.longs.PropertyFactoryLong, //
+      io.github.mmm.property.number.shorts.PropertyFactoryShort, //
+      io.github.mmm.property.object.PropertyFactoryObject, //
+      io.github.mmm.property.string.PropertyFactoryString, //
+      io.github.mmm.property.temporal.instant.PropertyFactoryInstant, //
+      io.github.mmm.property.temporal.localdate.PropertyFactoryLocalDate, //
+      io.github.mmm.property.temporal.localdatetime.PropertyFactoryLocalDateTime;
 
-  exports net.sf.mmm.property;
+  exports io.github.mmm.property;
 
-  exports net.sf.mmm.property.booleans;
+  exports io.github.mmm.property.booleans;
 
   // exports net.sf.mmm.property.api.comparables;
 
-  exports net.sf.mmm.property.container;
+  exports io.github.mmm.property.container;
 
-  exports net.sf.mmm.property.container.list;
+  exports io.github.mmm.property.container.list;
 
-  exports net.sf.mmm.property.container.map;
+  exports io.github.mmm.property.container.map;
 
-  exports net.sf.mmm.property.container.set;
+  exports io.github.mmm.property.container.set;
 
-  exports net.sf.mmm.property.object;
+  exports io.github.mmm.property.object;
 
-  exports net.sf.mmm.property.string;
+  exports io.github.mmm.property.string;
 
-  exports net.sf.mmm.property.factory;
+  exports io.github.mmm.property.factory;
 
-  exports net.sf.mmm.property.number;
+  exports io.github.mmm.property.number;
 
-  exports net.sf.mmm.property.number.bigdecimal;
+  exports io.github.mmm.property.number.bigdecimal;
 
-  exports net.sf.mmm.property.number.biginteger;
+  exports io.github.mmm.property.number.biginteger;
 
-  exports net.sf.mmm.property.number.bytes;
+  exports io.github.mmm.property.number.bytes;
 
-  exports net.sf.mmm.property.number.doubles;
+  exports io.github.mmm.property.number.doubles;
 
-  exports net.sf.mmm.property.number.floats;
+  exports io.github.mmm.property.number.floats;
 
-  exports net.sf.mmm.property.number.integers;
+  exports io.github.mmm.property.number.integers;
 
-  exports net.sf.mmm.property.number.longs;
+  exports io.github.mmm.property.number.longs;
 
-  exports net.sf.mmm.property.number.shorts;
+  exports io.github.mmm.property.number.shorts;
 
-  exports net.sf.mmm.property.temporal;
+  exports io.github.mmm.property.temporal;
 
-  exports net.sf.mmm.property.temporal.instant;
+  exports io.github.mmm.property.temporal.instant;
 
-  exports net.sf.mmm.property.temporal.localdate;
+  exports io.github.mmm.property.temporal.localdate;
 
-  exports net.sf.mmm.property.temporal.localdatetime;
+  exports io.github.mmm.property.temporal.localdatetime;
 
 }
