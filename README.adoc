@@ -1,16 +1,12 @@
-= Mature Modular Meta-framework (mmm)
+image:https://raw.github.com/m-m-m/mmm/master/src/site/resources/images/logo.png[logo,link="https://m-m-m.github.io"]
 
-image:https://raw.github.com/m-m-m/mmm/master/src/site/resources/images/logo.png[logo]
-
-*Welcome to the wonderful world of http://m-m-m.sourceforge.net/index.html[mmm]*
-
-== mmm-property
+= mmm-property
 
 image:https://travis-ci.org/m-m-m/property.svg?branch=master["build-status",link="https://travis-ci.org/m-m-m/property"]
 
-The `mmm-property` brings extended property support based on https://github.com/m-m-m/value[`mmm-value-observable`].
+The module `mmm-property` brings extended property support based on https://github.com/m-m-m/value[`mmm-value-observable`].
 It was inspired from JavaFx, but as JavaFx properties are bundled with a GUI framework, projects do not want to dependend on it if they are not using JavaFx.
-Furhter some features where lacking in JavaFx properties so we reimplemented the whole thing from scratch.
+Further JavaFx properties are lacking some features so we reimplemented the whole thing from scratch.
 
 == Features
 
