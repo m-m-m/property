@@ -11,7 +11,7 @@ import io.github.mmm.validation.Validator;
  * Metadata of a {@link Property}. It is discouraged and may have odd effects if the {@link PropertyMetadata} changes
  * after it has been passed to the constructor of a property.
  *
- * @param <V> type of the {@link Property#getValue() property value}.
+ * @param <V> type of the {@link Property#get() property value}.
  *
  * @since 1.0.0
  */
@@ -23,8 +23,8 @@ public interface PropertyMetadata<V> {
   Validator<? super V> getValidator();
 
   /**
-   * @return the optional {@link Supplier} that calculates the {@link ReadableProperty#getValue() value} dynamically.
-   *         May be {@code null} for a regular property. If it is not {@code null} the property will automatically be
+   * @return the optional {@link Supplier} that calculates the {@link ReadableProperty#get() value} dynamically. May be
+   *         {@code null} for a regular property. If it is not {@code null} the property will automatically be
    *         {@link ReadableProperty#isReadOnly() read-only}. You should not provide an explicit {@link #getValidator()
    *         validator} if you provide an expression.
    */
@@ -76,7 +76,7 @@ public interface PropertyMetadata<V> {
   Iterable<String> getKeys();
 
   /**
-   * @return the optional {@link Type} of the {@link Property#getValue() property value}. May be {@code null}.
+   * @return the optional {@link Type} of the {@link Property#get() property value}. May be {@code null}.
    * @see ReadableProperty#getValueClass()
    */
   Type getValueType();

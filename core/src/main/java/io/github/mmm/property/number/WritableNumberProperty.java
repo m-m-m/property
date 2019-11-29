@@ -6,9 +6,9 @@ import io.github.mmm.property.WritableProperty;
 import io.github.mmm.value.observable.number.WritableNumberValue;
 
 /**
- * {@link WritableProperty} with {@link Number} {@link #getValue() value}.
+ * {@link WritableProperty} with {@link Number} {@link #get() value}.
  *
- * @param <N> type of the numeric {@link #getValue() value}.
+ * @param <N> type of the numeric {@link #get() value}.
  *
  * @since 1.0.0
  */

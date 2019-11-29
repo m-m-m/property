@@ -6,7 +6,7 @@ import io.github.mmm.property.WritableProperty;
 import io.github.mmm.value.observable.string.WritableStringValue;
 
 /**
- * {@link WritableProperty} with {@link String} {@link #getValue() value}.
+ * {@link WritableProperty} with {@link String} {@link #get() value}.
  *
  * @since 1.0.0
  */

@@ -29,7 +29,7 @@ public interface WritableContainerProperty<V, E>
    *         this method. Unless {@link #isChangeAware() initialized}, a container property is lightweight just as other
    *         regular properties. Once this method was called, the {@link ChangeAwareContainer} is initialized and
    *         triggers change events for modifications of the container instance itself. Calls to
-   *         {@link #setValue(Object)} will implicitly change this {@link ChangeAwareContainer} such that in only
+   *         {@link #set(Object)} will implicitly change this {@link ChangeAwareContainer} such that in only
    *         contains what the provided new value contains. The instance of the {@link ChangeAwareContainer} returned by
    *         this method always remains the same.
    */

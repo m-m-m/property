@@ -15,7 +15,7 @@ import io.github.mmm.validation.ValidatorNone;
 /**
  * Implementation of {@link PropertyMetadata} as immutable type.
  *
- * @param <V> type of the {@link Property#getValue() property value}.
+ * @param <V> type of the {@link Property#get() property value}.
  *
  * @since 1.0.0
  */

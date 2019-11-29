@@ -6,11 +6,11 @@ import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.value.observable.number.NumberExpression;
 
 /**
- * {@link ReadableProperty} with {@link Number} {@link #getValue() value}.
+ * {@link ReadableProperty} with {@link Number} {@link #get() value}.
  *
  * @see WritableNumberProperty
  *
- * @param <N> type of the internal numeric {@link #getValue() value} representation.
+ * @param <N> type of the internal numeric {@link #get() value} representation.
  *
  * @since 1.0.0
  */

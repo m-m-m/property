@@ -16,7 +16,6 @@ import io.github.mmm.property.PropertyMetadata;
  * This is an extension of {@link StringProperty} that stores a list of {@link String} values that are enclosed with
  * pipe-symbols.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public class StringListProperty extends StringProperty {
@@ -79,7 +78,7 @@ public class StringListProperty extends StringProperty {
   public boolean remove(String element) {
 
     String wrapped = wrap(element);
-    String value = getValue();
+    String value = get();
     if ((value == null) || (value.isEmpty())) {
       return false;
     }
@@ -93,7 +92,7 @@ public class StringListProperty extends StringProperty {
     } else {
       value = value.substring(0, index) + value.substring(index + length - 1);
     }
-    setValue(value);
+    set(value);
     return true;
   }
 
@@ -102,15 +101,15 @@ public class StringListProperty extends StringProperty {
    *
    * @param element the element to add to the {@link #getValueAsList() value as list}.
    * @param distinct {@code true} if the value should be treated as {@link Set} and this method should not change the
-   *        {@link #getValue() value} if the given {@code element} is already {@link #contains(String) present},
+   *        {@link #get() value} if the given {@code element} is already {@link #contains(String) present},
    *        {@code false} otherwise.
-   * @return {@code true} if the {@link #getValue() value} has changed, {@code false} otherwise (if {@code distinct} was
+   * @return {@code true} if the {@link #get() value} has changed, {@code false} otherwise (if {@code distinct} was
    *         {@code true} and the given {@code element} was already {@link #contains(String) present}).
    */
   public boolean add(String element, boolean distinct) {
 
     String wrapped = wrap(element);
-    String value = getValue();
+    String value = get();
     if ((value == null) || (value.isEmpty())) {
       value = wrapped;
     } else if (distinct && value.contains(wrapped)) {
@@ -118,7 +117,7 @@ public class StringListProperty extends StringProperty {
     } else {
       value = value + element + SEPARATOR;
     }
-    setValue(value);
+    set(value);
     return true;
   }
 
@@ -130,12 +129,12 @@ public class StringListProperty extends StringProperty {
    */
   public boolean contains(String element) {
 
-    return getValue().contains(wrap(element));
+    return getSafe().contains(wrap(element));
   }
 
   private List<String> asList() {
 
-    String value = getValue();
+    String value = get();
     if ((value == null) || (value.isEmpty())) {
       return Collections.emptyList();
     }
@@ -151,7 +150,7 @@ public class StringListProperty extends StringProperty {
   }
 
   /**
-   * @return a {@link List} with the tokenized {@link #getValue() value}.
+   * @return a {@link List} with the tokenized {@link #get() value}.
    */
   public List<String> getValueAsList() {
 
@@ -159,7 +158,7 @@ public class StringListProperty extends StringProperty {
   }
 
   /**
-   * @return a {@link Set} with the tokenized {@link #getValue() value}.
+   * @return a {@link Set} with the tokenized {@link #get() value}.
    */
   public Set<String> getValueAsSet() {
 
@@ -167,7 +166,7 @@ public class StringListProperty extends StringProperty {
   }
 
   /**
-   * @param list the {@link List} of elements to set as separated {@link #setValue(String) string value}.
+   * @param list the {@link List} of elements to set as separated {@link #set(String) string value}.
    */
   public void setValueAsCollection(Collection<String> list) {
 
@@ -181,11 +180,11 @@ public class StringListProperty extends StringProperty {
       buffer.append(element);
       buffer.append(SEPARATOR);
     }
-    setValue(buffer.toString());
+    set(buffer.toString());
   }
 
   /**
-   * @return the {@link #getValue() value} with comma as separator.
+   * @return the {@link #get() value} with comma as separator.
    */
   public String getValueAsCsv() {
 
@@ -194,11 +193,11 @@ public class StringListProperty extends StringProperty {
 
   /**
    * @param separator the character used as separator.
-   * @return the {@link #getValue() value} with elements separated by the given {@code separator}.
+   * @return the {@link #get() value} with elements separated by the given {@code separator}.
    */
   public String getValueAsCsv(String separator) {
 
-    String value = getValue();
+    String value = get();
     if ((value == null) || (value.isEmpty())) {
       return value;
     }
@@ -212,7 +211,7 @@ public class StringListProperty extends StringProperty {
   }
 
   /**
-   * @param csv the new {@link #getValue() value} as comma separated value (e.g. "a,b,c").
+   * @param csv the new {@link #get() value} as comma separated value (e.g. "a,b,c").
    */
   public void setValueAsCsv(String csv) {
 
@@ -220,7 +219,7 @@ public class StringListProperty extends StringProperty {
   }
 
   /**
-   * @param csv the new {@link #getValue() value} with elements separated by the given {@code separator}.
+   * @param csv the new {@link #get() value} with elements separated by the given {@code separator}.
    * @param separator the character used as separator.
    */
   public void setValueAsCsv(String csv, char separator) {
@@ -229,7 +228,7 @@ public class StringListProperty extends StringProperty {
   }
 
   /**
-   * @param csv the new {@link #getValue() value} with elements separated by the given {@code separator}.
+   * @param csv the new {@link #get() value} with elements separated by the given {@code separator}.
    * @param separator the character used as separator.
    * @param trim if the elements from the given {@code csv} should be {@link String#trim() trimmed}.
    */
@@ -243,7 +242,7 @@ public class StringListProperty extends StringProperty {
     } else {
       value = SEPARATOR + csv.replace(separator, SEPARATOR) + SEPARATOR;
     }
-    setValue(value);
+    set(value);
   }
 
 }

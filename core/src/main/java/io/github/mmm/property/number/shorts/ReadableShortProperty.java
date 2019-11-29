@@ -6,7 +6,7 @@ import io.github.mmm.property.number.ReadableNumberProperty;
 import io.github.mmm.value.observable.number.shorts.ShortExpression;
 
 /**
- * {@link ReadableNumberProperty} with {@link Short} {@link #getValue() value}.
+ * {@link ReadableNumberProperty} with {@link Short} {@link #get() value}.
  *
  * @since 1.0.0
  */

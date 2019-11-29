@@ -7,7 +7,7 @@ import io.github.mmm.property.WritableProperty;
 /**
  * The abstract base implementation of {@link PropertyFactory}.
  *
- * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
+ * @param <V> the generic type of the {@link WritableProperty#get() property value}.
  * @param <P> the generic type of the {@link WritableProperty property}.
  *
  * @since 1.0.0

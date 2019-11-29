@@ -6,10 +6,10 @@ import io.github.mmm.property.WritableProperty;
 import io.github.mmm.value.observable.object.WritableObjectValue;
 
 /**
- * This is the interface for a {@link WritableProperty} with a non-primitive the {@link #getValue() value}-
+ * This is the interface for a {@link WritableProperty} with a non-primitive the {@link #get() value}-
  * {@link #getValueClass() type}.
  *
- * @param <V> type of the {@link #getValue() value}.
+ * @param <V> type of the {@link #get() value}.
  *
  * @since 1.0.0
  */

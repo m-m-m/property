@@ -11,7 +11,7 @@ import io.github.mmm.property.WritableProperty;
  * instantiate implementations such as {@link io.github.mmm.property.string.StringProperty}. However for generic support
  * according types have to be registered via an implementation of this interface.
  *
- * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
+ * @param <V> the generic type of the {@link WritableProperty#get() property value}.
  * @param <P> the generic type of the {@link #getImplementationClass() property implementation}.
  *
  * @see PropertyFactoryManager
@@ -21,8 +21,8 @@ import io.github.mmm.property.WritableProperty;
 public interface PropertyFactory<V, P extends WritableProperty<V>> {
 
   /**
-   * @return the {@link Class} of the {@link ReadableProperty#getValue() property value}. May be {@code null} for a
-   *         generic property.
+   * @return the {@link Class} of the {@link ReadableProperty#get() property value}. May be {@code null} for a generic
+   *         property.
    */
   Class<? extends V> getValueClass();
 

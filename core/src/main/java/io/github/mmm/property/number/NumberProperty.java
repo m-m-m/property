@@ -8,7 +8,7 @@ import io.github.mmm.property.PropertyMetadata;
 /**
  * Implementation of {@link WritableNumberProperty}.
  *
- * @param <N> type of the numeric {@link #getValue() value}.
+ * @param <N> type of the numeric {@link #get() value}.
  * @since 1.0.0
  */
 public abstract class NumberProperty<N extends Number & Comparable<? super N>> extends Property<N>

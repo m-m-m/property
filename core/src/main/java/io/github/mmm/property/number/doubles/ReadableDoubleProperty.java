@@ -6,7 +6,7 @@ import io.github.mmm.property.number.ReadableNumberProperty;
 import io.github.mmm.value.observable.number.doubles.DoubleExpression;
 
 /**
- * {@link ReadableNumberProperty} with {@link Double} {@link #getValue() value}.
+ * {@link ReadableNumberProperty} with {@link Double} {@link #get() value}.
  *
  * @since 1.0.0
  */

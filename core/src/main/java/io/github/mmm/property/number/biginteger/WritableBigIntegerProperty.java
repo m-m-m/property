@@ -8,7 +8,7 @@ import io.github.mmm.property.number.WritableNumberProperty;
 import io.github.mmm.value.observable.number.biginteger.WritableBigIntegerValue;
 
 /**
- * {@link WritableNumberProperty} with {@link BigInteger} {@link #getValue() value}.
+ * {@link WritableNumberProperty} with {@link BigInteger} {@link #get() value}.
  *
  * @since 1.0.0
  */

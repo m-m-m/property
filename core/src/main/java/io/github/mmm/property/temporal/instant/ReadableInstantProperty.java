@@ -8,10 +8,9 @@ import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.value.observable.temporal.instant.InstantExpression;
 
 /**
- * This is the interface for a {@link ReadableProperty} of the {@link #getValue() value}-{@link #getValueClass() type}
+ * This is the interface for a {@link ReadableProperty} of the {@link #get() value}-{@link #getValueClass() type}
  * {@link Instant}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public interface ReadableInstantProperty extends ReadableProperty<Instant>, InstantExpression {

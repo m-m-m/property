@@ -6,7 +6,7 @@ import io.github.mmm.property.number.ReadableNumberProperty;
 import io.github.mmm.value.observable.number.floats.FloatExpression;
 
 /**
- * {@link ReadableNumberProperty} with {@link Float} {@link #getValue() value}.
+ * {@link ReadableNumberProperty} with {@link Float} {@link #get() value}.
  *
  * @since 1.0.0
  */

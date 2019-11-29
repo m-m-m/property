@@ -7,8 +7,6 @@ import java.util.Arrays;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.github.mmm.property.string.StringListProperty;
-
 /**
  * This is the test of {@link StringListProperty}.
  *

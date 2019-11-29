@@ -6,7 +6,7 @@ import io.github.mmm.property.number.WritableNumberProperty;
 import io.github.mmm.value.observable.number.longs.WritableLongValue;
 
 /**
- * {@link WritableNumberProperty} with {@link Long} {@link #getValue() value}.
+ * {@link WritableNumberProperty} with {@link Long} {@link #get() value}.
  *
  * @since 1.0.0
  */

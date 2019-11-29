@@ -8,10 +8,9 @@ import io.github.mmm.property.WritableProperty;
 import io.github.mmm.value.observable.temporal.localdate.WritableLocalDateValue;
 
 /**
- * This is the interface for a {@link WritableProperty} of the {@link #getValue() value}-{@link #getValueClass() type}
+ * This is the interface for a {@link WritableProperty} of the {@link #get() value}-{@link #getValueClass() type}
  * {@link LocalDate}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public interface WritableLocalDateProperty

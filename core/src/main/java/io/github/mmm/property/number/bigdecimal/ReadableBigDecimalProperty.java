@@ -8,7 +8,7 @@ import io.github.mmm.property.number.ReadableNumberProperty;
 import io.github.mmm.value.observable.number.bigdecimal.BigDecimalExpression;
 
 /**
- * {@link ReadableNumberProperty} with {@link BigDecimal} {@link #getValue() value}.
+ * {@link ReadableNumberProperty} with {@link BigDecimal} {@link #get() value}.
  *
  * @since 1.0.0
  */

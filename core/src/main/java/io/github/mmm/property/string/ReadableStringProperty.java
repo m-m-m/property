@@ -6,7 +6,7 @@ import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.value.observable.string.StringExpression;
 
 /**
- * {@link ReadableProperty} with {@link String} {@link #getValue() value}.
+ * {@link ReadableProperty} with {@link String} {@link #get() value}.
  *
  * @since 1.0.0
  */

@@ -6,10 +6,10 @@ import io.github.mmm.marshall.UnmarshallableObject;
 import io.github.mmm.value.observable.WritableObservableValue;
 
 /**
- * A {@link ReadableProperty property} with write access (e.g. {@link #setValue(Object)}). However, it can still be
+ * A {@link ReadableProperty property} with write access (e.g. {@link #set(Object)}). However, it can still be
  * {@link #isReadOnly() read-only} preventing modifications.
  *
- * @param <V> type of the {@link #getValue() value}.
+ * @param <V> type of the {@link #get() value}.
  *
  * @since 1.0.0
  */
@@ -28,7 +28,7 @@ public interface WritableProperty<V> extends WritableObservableValue<V>, Readabl
   /**
    * @param newName the new {@link #getName() name}. May be {@code null} to keep the current name.
    * @param newMetadata the new {@link #getMetadata() metadata}. May be {@code null} to keep the current metadata.
-   * @return a new instance of this property with empty {@link #getValue() value} no bindings and the given parameters
+   * @return a new instance of this property with empty {@link #get() value} no bindings and the given parameters
    *         applied.
    */
   WritableProperty<V> copy(String newName, PropertyMetadata<V> newMetadata);
@@ -73,7 +73,7 @@ public interface WritableProperty<V> extends WritableObservableValue<V>, Readabl
   }
 
   /**
-   * @param <V> type of the {@link #getValue() properties value}.
+   * @param <V> type of the {@link #get() properties value}.
    * @param <P> type of the property.
    * @param property the {@link WritableProperty property} to copy.
    * @param newName the new {@link #getName() name}. May be {@code null} to keep the current name.

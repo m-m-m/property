@@ -11,7 +11,7 @@ import io.github.mmm.value.observable.ObservableValue;
 /**
  * This is the interface for a generic property.
  *
- * @param <V> type of the {@link #getValue() value}.
+ * @param <V> type of the {@link #get() value}.
  *
  * @since 1.0.0
  */
@@ -33,7 +33,7 @@ public interface ReadableProperty<V>
   boolean isValid();
 
   /**
-   * @return {@code true} if this property is immutable (read-only) and {@link WritableProperty#setValue(Object)
+   * @return {@code true} if this property is immutable (read-only) and {@link WritableProperty#set(Object)
    *         modifications} will fail with an exception, {@code false} otherwise.
    * @see WritableProperty#getReadOnly()
    */

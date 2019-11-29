@@ -9,7 +9,7 @@ import io.github.mmm.property.number.ReadableNumberProperty;
 import io.github.mmm.value.observable.number.biginteger.BigIntegerExpression;
 
 /**
- * {@link ReadableNumberProperty} for {@link BigDecimal} {@link #getValue() value}s.
+ * {@link ReadableNumberProperty} for {@link BigDecimal} {@link #get() value}s.
  *
  * @since 1.0.0
  */

@@ -6,7 +6,7 @@ import io.github.mmm.property.number.ReadableNumberProperty;
 import io.github.mmm.value.observable.number.longs.LongExpression;
 
 /**
- * {@link ReadableNumberProperty} with {@link Long} {@link #getValue() value}.
+ * {@link ReadableNumberProperty} with {@link Long} {@link #get() value}.
  *
  * @since 1.0.0
  */

@@ -9,17 +9,17 @@ import io.github.mmm.value.observable.Expression;
 import io.github.mmm.value.observable.object.ObservableObjectValue;
 
 /**
- * {@link ReadableProperty} with generic {@link Object} {@link #getValue() value}.
+ * {@link ReadableProperty} with generic {@link Object} {@link #get() value}.
  *
- * @param <V> type of the {@link #getValue() value}.
+ * @param <V> type of the {@link #get() value}.
  *
  * @since 1.0.0
  */
 public interface ReadableObjectProperty<V> extends ReadableProperty<V>, ObservableObjectValue<V>, Expression<V> {
 
   /**
-   * @return the {@link Type} reflecting the {@link #getValue() value}. May be the same as {@link #getValueClass()} or
-   *         may contain additional generic type information.
+   * @return the {@link Type} reflecting the {@link #get() value}. May be the same as {@link #getValueClass()} or may
+   *         contain additional generic type information.
    * @see #getValueClass()
    */
   default Type getValueType() {

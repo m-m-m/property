@@ -7,7 +7,7 @@ import io.github.mmm.property.number.WritableNumberProperty;
 import io.github.mmm.value.observable.number.floats.WritableFloatValue;
 
 /**
- * {@link WritableProperty} with {@link Float} {@link #getValue() value}.
+ * {@link WritableProperty} with {@link Float} {@link #get() value}.
  *
  * @since 1.0.0
  */

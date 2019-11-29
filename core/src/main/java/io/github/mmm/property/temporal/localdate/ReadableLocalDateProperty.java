@@ -8,10 +8,9 @@ import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.value.observable.temporal.localdate.LocalDateExpression;
 
 /**
- * This is the interface for a {@link ReadableProperty} of the {@link #getValue() value}-{@link #getValueClass() type}
+ * This is the interface for a {@link ReadableProperty} of the {@link #get() value}-{@link #getValueClass() type}
  * {@link LocalDate}.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public interface ReadableLocalDateProperty extends ReadableProperty<LocalDate>, LocalDateExpression {

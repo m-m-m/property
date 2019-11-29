@@ -6,7 +6,7 @@ import io.github.mmm.property.number.ReadableNumberProperty;
 import io.github.mmm.value.observable.number.integers.IntegerExpression;
 
 /**
- * {@link ReadableNumberProperty} with {@link Integer} {@link #getValue() value}.
+ * {@link ReadableNumberProperty} with {@link Integer} {@link #get() value}.
  *
  * @since 1.0.0
  */

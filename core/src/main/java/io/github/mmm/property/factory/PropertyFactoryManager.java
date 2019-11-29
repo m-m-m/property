@@ -15,7 +15,7 @@ import io.github.mmm.property.WritableProperty;
 public interface PropertyFactoryManager {
 
   /**
-   * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
+   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
    * @param <P> the generic type of the {@link WritableProperty property}.
    * @param propertyType the {@link Class} reflecting the property to create. May be the
    *        {@link PropertyFactory#getReadableInterface() readable interface},
@@ -28,20 +28,20 @@ public interface PropertyFactoryManager {
   /**
    * @see PropertyFactory#getValueClass()
    *
-   * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
-   * @param valueType the {@link Class} reflecting the {@link WritableProperty#getValue() property value}.
+   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
+   * @param valueType the {@link Class} reflecting the {@link WritableProperty#get() property value}.
    * @return the according {@link PropertyFactory} or {@code null} if no such factory is registered.
    */
   <V> PropertyFactory<V, ? extends ReadableProperty<V>> getFactoryForValueType(Class<? extends V> valueType);
 
   /**
-   * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
+   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
    * @param <P> the generic type of the {@link WritableProperty property}.
    * @param propertyType the {@link Class} reflecting the property to create. May be the
    *        {@link PropertyFactory#getReadableInterface() readable interface},
    *        {@link PropertyFactory#getWritableInterface() writable interface}, or the
    *        {@link PropertyFactory#getImplementationClass() implementation}.
-   * @param valueType the {@link Class} reflecting the {@link WritableProperty#getValue() property value}.
+   * @param valueType the {@link Class} reflecting the {@link WritableProperty#get() property value}.
    * @return the according {@link PropertyFactory} or {@code null} if no such factory is registered.
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -67,13 +67,13 @@ public interface PropertyFactoryManager {
   }
 
   /**
-   * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
+   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
    * @param <P> the generic type of the {@link WritableProperty property}.
    * @param propertyType the {@link Class} reflecting the property to create. May be the
    *        {@link PropertyFactory#getReadableInterface() readable interface},
    *        {@link PropertyFactory#getWritableInterface() writable interface}, or the
    *        {@link PropertyFactory#getImplementationClass() implementation}.
-   * @param valueType the {@link Class} reflecting the {@link WritableProperty#getValue() property value}.
+   * @param valueType the {@link Class} reflecting the {@link WritableProperty#get() property value}.
    * @return the according {@link PropertyFactory} or {@code null} if no such factory is registered.
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -93,7 +93,7 @@ public interface PropertyFactoryManager {
   }
 
   /**
-   * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
+   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
    * @param <P> the generic type of the {@link WritableProperty property} to create.
    * @param propertyType the {@link Class} reflecting the property to create. May be the
    *        {@link PropertyFactory#getReadableInterface() readable interface},
@@ -116,7 +116,7 @@ public interface PropertyFactoryManager {
   }
 
   /**
-   * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
+   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
    * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
    * @param polymorphic - see {@link #getFactoryForValueType(Class)}.
    * @param name the {@link ReadableProperty#getName() property name}.
@@ -130,7 +130,7 @@ public interface PropertyFactoryManager {
   }
 
   /**
-   * @param <V> the generic type of the {@link WritableProperty#getValue() property value}.
+   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
    * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
    * @param polymorphic - see {@link #getFactoryForValueType(Class)}.
    * @param name the {@link ReadableProperty#getName() property name}.

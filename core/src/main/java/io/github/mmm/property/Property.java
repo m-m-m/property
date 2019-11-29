@@ -15,7 +15,7 @@ import io.github.mmm.value.observable.AbstractWritableObservableValue;
 /**
  * Implementation of {@link WritableProperty}.
  *
- * @param <V> type of the {@link #getValue() value}.
+ * @param <V> type of the {@link #get() value}.
  * @since 1.0.0
  */
 public abstract class Property<V> extends AbstractWritableObservableValue<V> implements WritableProperty<V>, Cloneable {
@@ -95,13 +95,13 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   }
 
   @Override
-  public V getValue() {
+  public V get() {
 
     Supplier<? extends V> expression = this.metadata.getExpression();
     if (expression != null) {
       return expression.get();
     }
-    return super.getValue();
+    return super.get();
   }
 
   @Override
@@ -123,8 +123,8 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   }
 
   /**
-   * Clears the cached internal {@link #validate() validation} result. Has to be called if the {@link #getValue() value}
-   * has changed (from an external call).
+   * Clears the cached internal {@link #validate() validation} result. Has to be called if the {@link #get() value} has
+   * changed (from an external call).
    */
   protected void clearValidationResult() {
 
@@ -135,7 +135,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   public ValidationResult validate() {
 
     if (this.validationResult == null) {
-      V v = getValue();
+      V v = get();
       String source = getName();
       ValidationResult result = this.metadata.getValidator().validate(v, source);
       if (v instanceof Validatable) {
@@ -186,14 +186,14 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   @Override
   public void write(StructuredWriter writer) {
 
-    writer.writeValue(getValue());
+    writer.writeValue(get());
   }
 
   @Override
   public void read(StructuredReader reader) {
 
     V value = reader.readValue(getValueClass());
-    setValue(value);
+    set(value);
   }
 
   @Override
@@ -214,7 +214,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
     if (!Objects.equals(this.name, other.name)) {
       return false;
     }
-    if (!Objects.equals(getValue(), other.getValue())) {
+    if (!Objects.equals(get(), other.get())) {
       return false;
     }
     return true;
@@ -266,9 +266,9 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   // }
   //
   // /**
-  // * Also assign the {@link #getValue() value} from the original property. <br/>
+  // * Also assign the {@link #get() value} from the original property. <br/>
   // * <b>ATTENTION:</b><br/>
-  // * A {@link WritableProperty} may hold any kind of {@link #getValue() value} so the value may be mutable. If you are
+  // * A {@link WritableProperty} may hold any kind of {@link #get() value} so the value may be mutable. If you are
   // * using this builder to create a copy of the property this might have undesired effects.
   // *
   // * @return this build instance for fluent API calls.
@@ -290,7 +290,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   // }
   // AbstractProperty<V> copy = copy(newValidator);
   // if (this.assignValue) {
-  // copy.setValue(getValue());
+  // copy.setValue(get());
   // }
   // return (T) copy;
   // }

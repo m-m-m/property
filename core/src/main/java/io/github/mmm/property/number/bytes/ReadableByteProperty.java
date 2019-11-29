@@ -6,7 +6,7 @@ import io.github.mmm.property.number.ReadableNumberProperty;
 import io.github.mmm.value.observable.number.bytes.ByteExpression;
 
 /**
- * {@link ReadableNumberProperty} with {@link Byte} {@link #getValue() value}.
+ * {@link ReadableNumberProperty} with {@link Byte} {@link #get() value}.
  *
  * @since 1.0.0
  */

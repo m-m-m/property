@@ -12,7 +12,7 @@ import io.github.mmm.validation.ValidatorNone;
 /**
  * Implementation of {@link PropertyMetadata} that is entirely empty.
  *
- * @param <V> type of the {@link Property#getValue() property value}.
+ * @param <V> type of the {@link Property#get() property value}.
  *
  * @since 1.0.0
  */
@@ -56,7 +56,7 @@ public final class PropertyMetadataNone<V> implements PropertyMetadata<V> {
   }
 
   /**
-   * @param <V> type of the {@link Property#getValue() property value}.
+   * @param <V> type of the {@link Property#get() property value}.
    * @return the singleton instance of this class.
    */
   @SuppressWarnings("unchecked")

@@ -38,11 +38,11 @@ public class DurationInSecondsProperty extends LongProperty {
   }
 
   /**
-   * @return the {@link #getValue() value} as {@link Duration}.
+   * @return the {@link #get() value} as {@link Duration}.
    */
   public Duration getValueAsDuration() {
 
-    Number value = getValue();
+    Number value = get();
     if (value == null) {
       return null;
     }
@@ -50,14 +50,14 @@ public class DurationInSecondsProperty extends LongProperty {
   }
 
   /**
-   * @param duration the new {@link #getValue() value} as {@link Duration}.
+   * @param duration the new {@link #get() value} as {@link Duration}.
    */
   public void setValueAsDuration(Duration duration) {
 
     if (duration == null) {
-      setValue(null);
+      set(null);
     } else {
-      setValue(Long.valueOf(duration.get(ChronoUnit.SECONDS)));
+      set(Long.valueOf(duration.get(ChronoUnit.SECONDS)));
     }
   }
 
