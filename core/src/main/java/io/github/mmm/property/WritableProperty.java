@@ -50,7 +50,6 @@ public interface WritableProperty<V> extends WritableObservableValue<V>, Readabl
   /**
    * @param <P> type of the property.
    * @param property the {@link WritableProperty property} to copy.
-   * @param newName the new {@link #getName() name}. May be {@code null} to keep the current name.
    * @return a {@link #copy(String, PropertyMetadata) copy} of the given {@code property} with empty value and the given
    *         parameters applied.
    */
