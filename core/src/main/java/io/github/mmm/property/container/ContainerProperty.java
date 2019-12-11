@@ -2,8 +2,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.container;
 
-import java.lang.reflect.Type;
-
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.PropertyMetadataNone;
@@ -17,15 +15,14 @@ import io.github.mmm.property.number.integers.ReadableIntegerProperty;
  * Implementation of {@link WritableContainerProperty}.
  *
  * @param <V> type of the {@link #getValue() value}.
- * @param <E> type of {@link #getComponentClass() elements} contained in the {@link #getValue() value}.
+ * @param <E> type of {@link #getValueProperty() elements} contained in the {@link #getValue() value}.
  *
  * @since 1.0.0
  */
 public abstract class ContainerProperty<V, E> extends Property<V> implements WritableContainerProperty<V, E> {
 
-  private Class<E> componentClass;
-
-  private Type componentType;
+  /** @see #getValueProperty() */
+  protected final Property<E> valueProperty;
 
   private IntegerProperty sizeProperty;
 
@@ -35,39 +32,40 @@ public abstract class ContainerProperty<V, E> extends Property<V> implements Wri
    * The constructor.
    *
    * @param name the {@link #getName() name}.
-   * @param componentClass the {@link #getComponentClass() component class}.
-   * @param componentType the {@link #getComponentType() component type}.
+   * @param valueProperty the {@link #getValueProperty() value property}.
    */
-  public ContainerProperty(String name, Class<E> componentClass, Type componentType) {
+  public ContainerProperty(String name, Property<E> valueProperty) {
 
-    this(name, componentClass, componentType, PropertyMetadataNone.getInstance());
+    this(name, valueProperty, PropertyMetadataNone.getInstance());
   }
 
   /**
    * The constructor.
    *
    * @param name the {@link #getName() name}.
-   * @param componentClass the {@link #getComponentClass() component class}.
-   * @param componentType the {@link #getComponentType() component type}.
+   * @param valueProperty the {@link #getValueProperty() value property}.
    * @param metadata the {@link #getMetadata() metadata}.
    */
-  public ContainerProperty(String name, Class<E> componentClass, Type componentType, PropertyMetadata<V> metadata) {
+  @SuppressWarnings("unchecked")
+  public ContainerProperty(String name, Property<E> valueProperty, PropertyMetadata<V> metadata) {
 
     super(name, metadata);
-    this.componentClass = componentClass;
-    this.componentType = componentType;
+    if (valueProperty == null) {
+      valueProperty = (Property<E>) metadata.get(METADATA_KEY_COMPONENT_PROPERTY);
+    }
+    this.valueProperty = valueProperty;
   }
 
   @Override
-  public Class<E> getComponentClass() {
+  public boolean isValueMutable() {
 
-    return this.componentClass;
+    return true;
   }
 
   @Override
-  public Type getComponentType() {
+  public Property<E> getValueProperty() {
 
-    return this.componentType;
+    return this.valueProperty;
   }
 
   @Override

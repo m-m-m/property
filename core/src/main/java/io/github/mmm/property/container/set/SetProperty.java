@@ -2,9 +2,9 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.container.set;
 
-import java.lang.reflect.Type;
 import java.util.Set;
 
+import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.container.collection.CollectionProperty;
 import io.github.mmm.value.observable.container.set.ChangeAwareSet;
@@ -33,35 +33,33 @@ public class SetProperty<E> extends CollectionProperty<Set<E>, E> implements Wri
    * The constructor.
    *
    * @param name the {@link #getName() name}.
-   * @param componentClass the {@link #getComponentClass() component class}.
-   * @param componentType the {@link #getComponentType() component type}.
+   * @param valueProperty the {@link #getValueProperty() value property}.
    */
-  public SetProperty(String name, Class<E> componentClass, Type componentType) {
+  public SetProperty(String name, Property<E> valueProperty) {
 
-    super(name, componentClass, componentType);
+    super(name, valueProperty);
   }
 
   /**
    * The constructor.
    *
    * @param name the {@link #getName() name}.
-   * @param componentClass the {@link #getComponentClass() component class}.
-   * @param componentType the {@link #getComponentType() component type}.
+   * @param valueProperty the {@link #getValueProperty() value property}.
    * @param metadata the {@link #getMetadata() metadata}.
    */
-  public SetProperty(String name, Class<E> componentClass, Type componentType, PropertyMetadata<Set<E>> metadata) {
+  public SetProperty(String name, Property<E> valueProperty, PropertyMetadata<Set<E>> metadata) {
 
-    super(name, componentClass, componentType, metadata);
+    super(name, valueProperty, metadata);
   }
 
   @Override
-  protected Set<E> doGetValue() {
+  protected Set<E> doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(Set<E> newValue) {
+  protected void doSet(Set<E> newValue) {
 
     this.value = newValue;
   }
@@ -76,26 +74,10 @@ public class SetProperty<E> extends CollectionProperty<Set<E>, E> implements Wri
   public ChangeAwareSet<E> getChangeAwareValue() {
 
     if (this.changeAwareSet == null) {
-      this.changeAwareSet = ChangeAwareSets.of(getOrCreateValue());
+      this.changeAwareSet = ChangeAwareSets.of(getOrCreate());
       this.changeAwareSet.addListener(this.setChangeListener);
     }
     return this.changeAwareSet;
   }
-
-  // @SuppressWarnings({ "unchecked", "rawtypes" })
-  // @Override
-  // public AbstractCollectionValidatorBuilder<E, Set<E>, PropertyBuilder<SetProperty<E>>, ?> withValdidator() {
-  //
-  // Function factory = new Function<PropertyBuilder<SetProperty<E>>, ValidatorBuilderCollection<E,
-  // PropertyBuilder<SetProperty<E>>>>() {
-  //
-  // @Override
-  // public ValidatorBuilderCollection<E, PropertyBuilder<SetProperty<E>>> apply(PropertyBuilder<SetProperty<E>> t) {
-  //
-  // return new ValidatorBuilderCollection<>(t);
-  // }
-  // };
-  // return (ValidatorBuilderCollection) withValdidator(factory);
-  // }
 
 }

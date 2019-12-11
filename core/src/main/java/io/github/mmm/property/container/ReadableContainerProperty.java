@@ -2,8 +2,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.container;
 
-import java.lang.reflect.Type;
-
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.booleans.ReadableBooleanProperty;
 import io.github.mmm.property.number.integers.ReadableIntegerProperty;
@@ -14,27 +12,20 @@ import io.github.mmm.value.observable.container.ReadableContainerValue;
  * {@link java.util.Collection} or {@link java.util.Map}.
  *
  * @param <V> type of the {@link #getValue() value}.
- * @param <E> type of {@link #getComponentClass() elements} contained in the {@link #getValue() value}.
+ * @param <E> type of {@link #getValueProperty() elements} contained in the {@link #getValue() value}.
  *
  * @since 1.0.0
  */
 public interface ReadableContainerProperty<V, E> extends ReadableProperty<V>, ReadableContainerValue<V, E> {
 
-  /**
-   * @return the {@link Class} reflecting the type of the objects contained in the property {@link #getValue() value}.
-   * @see #getComponentType()
-   */
-  Class<E> getComponentClass();
+  /** {@link io.github.mmm.property.PropertyMetadata#get(String) Metadata key} for {@link #getValueProperty()}. */
+  String METADATA_KEY_COMPONENT_PROPERTY = "componentProperty";
 
   /**
-   * @return the {@link Type} reflecting the type of the objects contained in the property {@link #getValue() value}.
-   *         May be the same as {@link #getComponentClass()} but can also be a generic type revealing more details.
-   * @see #getComponentClass()
+   * @return the {@link ReadableProperty} representing the type of the values (e.g. map values or collection elements)
+   *         contained in the property container {@link #getValue() value}.
    */
-  default Type getComponentType() {
-
-    return getComponentClass();
-  }
+  ReadableProperty<E> getValueProperty();
 
   /**
    * @return an {@link ReadableIntegerProperty} that represents the {@link java.util.Collection#size()} property of the

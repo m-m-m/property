@@ -2,13 +2,15 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.container.collection;
 
-import java.lang.reflect.Type;
 import java.util.Collection;
 
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
+import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.container.ContainerProperty;
+import io.github.mmm.validation.ValidationResult;
+import io.github.mmm.validation.ValidationResultBuilder;
 
 /**
  * Implementation of {@link WritableCollectionProperty}.
@@ -25,25 +27,41 @@ public abstract class CollectionProperty<V extends Collection<E>, E> extends Con
    * The constructor.
    *
    * @param name the {@link #getName() name}.
-   * @param componentClass the {@link #getComponentClass() component class}.
-   * @param componentType the {@link #getComponentType() component type}.
+   * @param valueProperty the {@link #getValueProperty() value property}.
    */
-  public CollectionProperty(String name, Class<E> componentClass, Type componentType) {
+  public CollectionProperty(String name, Property<E> valueProperty) {
 
-    super(name, componentClass, componentType);
+    super(name, valueProperty);
   }
 
   /**
    * The constructor.
    *
    * @param name the {@link #getName() name}.
-   * @param componentClass the {@link #getComponentClass() component class}.
-   * @param componentType the {@link #getComponentType() component type}.
+   * @param valueProperty the {@link #getValueProperty() value property}.
    * @param metadata the {@link #getMetadata() metadata}.
    */
-  public CollectionProperty(String name, Class<E> componentClass, Type componentType, PropertyMetadata<V> metadata) {
+  public CollectionProperty(String name, Property<E> valueProperty, PropertyMetadata<V> metadata) {
 
-    super(name, componentClass, componentType, metadata);
+    super(name, valueProperty, metadata);
+  }
+
+  @Override
+  protected ValidationResult doValidate(V collection, String source) {
+
+    ValidationResult result = super.doValidate(collection, source);
+    if (this.valueProperty != null) {
+      if ((collection != null) && !collection.isEmpty()) {
+        ValidationResultBuilder builder = new ValidationResultBuilder();
+        builder.add(result);
+        for (E element : collection) {
+          this.valueProperty.set(element);
+          builder.add(this.valueProperty.validate());
+        }
+        result = builder.build(source);
+      }
+    }
+    return result;
   }
 
   @Override
@@ -60,47 +78,27 @@ public abstract class CollectionProperty<V extends Collection<E>, E> extends Con
     if (isChangeAware()) {
       collection = getChangeAwareValue();
     } else {
-      collection = getOrCreateValue();
+      collection = getOrCreate();
     }
     do {
-      E element = readElement(reader);
+      this.valueProperty.read(reader);
+      E element = this.valueProperty.get();
       collection.add(element);
     } while (!reader.readEnd());
-  }
-
-  /**
-   * Implementation of {@link #read(StructuredReader)} for a single {@link Collection} element.
-   *
-   * @param reader the {@link StructuredReader} pointing to a value inside an array.
-   * @return the unmarshalled element.
-   */
-  protected E readElement(StructuredReader reader) {
-
-    return reader.readValue(getComponentClass());
   }
 
   @Override
   public void write(StructuredWriter writer) {
 
-    Collection<E> list = getValue();
-    if ((list != null) && !list.isEmpty()) {
+    Collection<E> collection = get();
+    if ((collection != null) && !collection.isEmpty()) {
       writer.writeStartArray();
-      for (E element : list) {
-        writeElement(writer, element);
+      for (E element : collection) {
+        this.valueProperty.set(element);
+        this.valueProperty.write(writer);
       }
       writer.writeEnd();
     }
-  }
-
-  /**
-   * Implementation of {@link #write(StructuredWriter)} for a single {@link Collection} element.
-   *
-   * @param writer the {@link StructuredWriter}.
-   * @param element the {@link Collection} element to marshall.
-   */
-  protected void writeElement(StructuredWriter writer, E element) {
-
-    writer.writeValue(element);
   }
 
 }

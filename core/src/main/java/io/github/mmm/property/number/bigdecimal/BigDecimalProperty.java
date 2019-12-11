@@ -38,21 +38,15 @@ public class BigDecimalProperty extends NumberProperty<BigDecimal> implements Wr
   }
 
   @Override
-  protected BigDecimal doGetValue() {
+  protected BigDecimal doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(BigDecimal newValue) {
+  protected void doSet(BigDecimal newValue) {
 
     this.value = newValue;
   }
-
-  // @Override
-  // public ValidatorBuilderBigDecimal<PropertyBuilder<BigDecimalProperty>> withValdidator() {
-  //
-  // return withValdidator(x -> new ValidatorBuilderBigDecimal<>(x));
-  // }
 
 }

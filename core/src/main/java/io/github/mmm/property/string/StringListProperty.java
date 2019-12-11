@@ -50,7 +50,7 @@ public class StringListProperty extends StringProperty {
   }
 
   @Override
-  protected void doSetValue(String newValue) {
+  protected void doSet(String newValue) {
 
     if (newValue != null) {
       int length = newValue.length();
@@ -60,7 +60,7 @@ public class StringListProperty extends StringProperty {
         }
       }
     }
-    super.doSetValue(newValue);
+    super.doSet(newValue);
   }
 
   private String wrap(String value) {

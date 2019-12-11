@@ -5,7 +5,6 @@ package io.github.mmm.property.object;
 import java.lang.reflect.Type;
 import java.util.Objects;
 
-import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.PropertyMetadataNone;
 import io.github.mmm.property.WritableProperty;
@@ -14,10 +13,10 @@ import io.github.mmm.property.WritableProperty;
  * Generic implementation of {@link WritableProperty} for arbitrary objects that do not have their own custom
  * implementation.
  *
- * @param <V> type of the {@link #getValue() value}.
+ * @param <V> type of the {@link #get() value}.
  * @since 1.0.0
  */
-public class ObjectProperty<V> extends Property<V> implements WritableObjectProperty<V> {
+public class ObjectProperty<V> extends SimpleProperty<V> implements WritableObjectProperty<V> {
 
   private final Class<V> valueClass;
 
@@ -68,29 +67,22 @@ public class ObjectProperty<V> extends Property<V> implements WritableObjectProp
   }
 
   @Override
-  protected V doGetValue() {
+  protected V doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(V newValue) {
+  protected void doSet(V newValue) {
 
     assert (this.valueClass.isInstance(newValue));
     this.value = newValue;
   }
 
-  // /**
-  // * @return a new {@link ObjectValidatorBuilder builder} for the validator of this property with a
-  // * {@link ObjectValidatorBuilder#and() parent-builder} to create a {@link #copy(AbstractValidator)} of this
-  // * property with the configured validator.
-  // */
-  // @SuppressWarnings({ "unchecked", "rawtypes" })
-  // @Override
-  // public ObjectValidatorBuilder<? extends V, ? extends PropertyBuilder<? extends ObjectProperty<? extends V>>, ?>
-  // withValdidator() {
-  //
-  // return withValdidator(x -> new ValidatorBuilderObject(x));
-  // }
+  @Override
+  public V parse(String valueAsString) {
+
+    throw new UnsupportedOperationException();
+  }
 
 }

@@ -7,7 +7,6 @@ import java.util.function.Supplier;
 
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
-import io.github.mmm.validation.ComposedValidationFailure;
 import io.github.mmm.validation.Validatable;
 import io.github.mmm.validation.ValidationResult;
 import io.github.mmm.value.observable.AbstractWritableObservableValue;
@@ -105,6 +104,13 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   }
 
   @Override
+  protected void setWithChange(V oldValue, V value) {
+
+    super.setWithChange(oldValue, value);
+    clearValidationResult();
+  }
+
+  @Override
   protected final void requireWritable() throws IllegalStateException {
 
     super.requireWritable();
@@ -124,7 +130,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
 
   /**
    * Clears the cached internal {@link #validate() validation} result. Has to be called if the {@link #get() value} has
-   * changed (from an external call).
+   * changed (from an external call) and is not {@link #isValueMutable() mutable}.
    */
   protected void clearValidationResult() {
 
@@ -132,23 +138,38 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   }
 
   @Override
-  public ValidationResult validate() {
+  public final ValidationResult validate() {
 
-    if (this.validationResult == null) {
-      V v = get();
-      String source = getName();
-      ValidationResult result = this.metadata.getValidator().validate(v, source);
-      if (v instanceof Validatable) {
-        ValidationResult result2 = ((Validatable) v).validate();
-        if (result.isValid()) {
-          result = result2;
-        } else if (!result2.isValid()) {
-          result = new ComposedValidationFailure(source, new ValidationResult[] { result, result2 });
-        }
-      }
-      this.validationResult = result;
+    if ((this.validationResult == null) || isValueMutable()) {
+      this.validationResult = doValidate(get(), getName());
     }
     return this.validationResult;
+  }
+
+  /**
+   * Called from {@link #validate()} in case re-validation is required.
+   *
+   * @param v the {@link #get() value} to validate.
+   * @param source the {@link ValidationResult#getSource() validation source}.
+   * @return the {@link ValidationResult result of the validation}.
+   */
+  protected ValidationResult doValidate(V v, String source) {
+
+    ValidationResult result = this.metadata.getValidator().validate(v, source);
+    if (v instanceof Validatable) {
+      result = result.add(((Validatable) v).validate());
+    }
+    return result;
+  }
+
+  /**
+   * @return {@code true} if the {@link #getValueClass() value type} of this property is mutable (e.g.
+   *         {@link java.util.Collection} or {@link java.util.Map}), {@code false} otherwise (immutable datatype such as
+   *         {@link String}, {@link Boolean}, {@link Number}, {@link java.time.temporal.Temporal}, etc.).
+   */
+  public boolean isValueMutable() {
+
+    return false;
   }
 
   @Override

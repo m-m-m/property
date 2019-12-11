@@ -36,13 +36,13 @@ public class IntegerProperty extends NumberProperty<Integer> implements Writable
   }
 
   @Override
-  protected Integer doGetValue() {
+  protected Integer doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(Integer newValue) {
+  protected void doSet(Integer newValue) {
 
     this.value = newValue;
   }

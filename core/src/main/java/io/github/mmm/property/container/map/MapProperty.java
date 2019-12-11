@@ -2,15 +2,19 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.container.map;
 
-import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
+import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.PropertyMetadataNone;
 import io.github.mmm.property.container.ContainerProperty;
+import io.github.mmm.property.object.SimpleProperty;
+import io.github.mmm.validation.ValidationResult;
+import io.github.mmm.validation.ValidationResultBuilder;
 import io.github.mmm.value.observable.container.map.ChangeAwareMap;
 
 /**
@@ -23,6 +27,8 @@ import io.github.mmm.value.observable.container.map.ChangeAwareMap;
  */
 public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implements WritableMapProperty<K, V> {
 
+  private final SimpleProperty<K> keyProperty;
+
   private Map<K, V> value;
 
   private ChangeAwareMap<K, V> changeAwareMap;
@@ -31,37 +37,73 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implement
    * The constructor.
    *
    * @param name the {@link #getName() name}.
-   * @param componentClass the {@link #getComponentClass() component class}.
-   * @param componentType the {@link #getComponentType() component type}.
+   * @param keyProperty the {@link #getKeyProperty() key property}.
+   * @param valueProperty the {@link #getValueProperty() value property}.
    */
-  public MapProperty(String name, Class<V> componentClass, Type componentType) {
+  public MapProperty(String name, SimpleProperty<K> keyProperty, Property<V> valueProperty) {
 
-    super(name, componentClass, componentType);
+    this(name, keyProperty, valueProperty, PropertyMetadataNone.getInstance());
   }
 
   /**
    * The constructor.
    *
    * @param name the {@link #getName() name}.
-   * @param componentClass the {@link #getComponentClass() component class}.
-   * @param componentType the {@link #getComponentType() component type}.
+   * @param keyProperty the {@link #getKeyProperty() key property}.
+   * @param valueProperty the {@link #getValueProperty() value property}.
    * @param metadata the {@link #getMetadata() metadata}.
    */
-  public MapProperty(String name, Class<V> componentClass, Type componentType, PropertyMetadata<Map<K, V>> metadata) {
+  @SuppressWarnings("unchecked")
+  public MapProperty(String name, SimpleProperty<K> keyProperty, Property<V> valueProperty,
+      PropertyMetadata<Map<K, V>> metadata) {
 
-    super(name, componentClass, componentType, metadata);
+    super(name, valueProperty, metadata);
+    if (keyProperty == null) {
+      keyProperty = (SimpleProperty<K>) metadata.get(METADATA_KEY_KEY_PROPERTY);
+    }
+    this.keyProperty = keyProperty;
   }
 
   @Override
-  protected Map<K, V> doGetValue() {
+  public SimpleProperty<K> getKeyProperty() {
+
+    return this.keyProperty;
+  }
+
+  @Override
+  protected Map<K, V> doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(Map<K, V> newValue) {
+  protected void doSet(Map<K, V> newValue) {
 
     this.value = newValue;
+  }
+
+  @Override
+  protected ValidationResult doValidate(Map<K, V> map, String source) {
+
+    ValidationResult result = super.doValidate(map, source);
+    if ((this.valueProperty != null) || (this.keyProperty != null)) {
+      if ((map != null) && !map.isEmpty()) {
+        ValidationResultBuilder builder = new ValidationResultBuilder();
+        builder.add(result);
+        for (Entry<K, V> entry : map.entrySet()) {
+          if (this.valueProperty != null) {
+            this.valueProperty.set(entry.getValue());
+            builder.add(this.valueProperty.validate());
+          }
+          if (this.keyProperty != null) {
+            this.keyProperty.set(entry.getKey());
+            builder.add(this.keyProperty.validate());
+          }
+        }
+        result = builder.build(source);
+      }
+    }
+    return result;
   }
 
   @Override
@@ -76,6 +118,7 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implement
     return this.changeAwareMap;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public void read(StructuredReader reader) {
 
@@ -90,37 +133,19 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implement
     if (isChangeAware()) {
       map = getChangeAwareValue();
     } else {
-      map = getOrCreateValue();
+      map = getOrCreate();
     }
     do {
-      K key = readKey(reader);
-      V mapValue = readValue(reader);
+      K key;
+      if (this.keyProperty == null) {
+        key = (K) reader.readName();
+      } else {
+        key = this.keyProperty.parse(reader.readName());
+      }
+      this.valueProperty.read(reader);
+      V mapValue = this.valueProperty.get();
       map.put(key, mapValue);
     } while (!reader.readEnd());
-  }
-
-  /**
-   * Implementation of {@link #read(StructuredReader)} for a {@link Map#containsKey(Object) map key}.
-   *
-   * @param reader the {@link StructuredReader}.
-   * @return the unmarshalled key.
-   */
-  @SuppressWarnings("unchecked")
-  protected K readKey(StructuredReader reader) {
-
-    // TODO
-    return (K) reader.readName();
-  }
-
-  /**
-   * Implementation of {@link #read(StructuredReader)} for a {@link Map#containsValue(Object) map value}.
-   *
-   * @param reader the {@link StructuredReader}.
-   * @return the unmarshalled value.
-   */
-  protected V readValue(StructuredReader reader) {
-
-    return reader.readValue(getComponentClass());
   }
 
   @Override

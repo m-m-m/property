@@ -3,6 +3,7 @@
 package io.github.mmm.property.number;
 
 import io.github.mmm.property.ReadableProperty;
+import io.github.mmm.property.object.ReadableSimpleProperty;
 import io.github.mmm.value.observable.number.NumberExpression;
 
 /**
@@ -15,6 +16,6 @@ import io.github.mmm.value.observable.number.NumberExpression;
  * @since 1.0.0
  */
 public interface ReadableNumberProperty<N extends Number & Comparable<? super N>>
-    extends ReadableProperty<N>, NumberExpression<N> {
+    extends ReadableSimpleProperty<N>, NumberExpression<N> {
 
 }

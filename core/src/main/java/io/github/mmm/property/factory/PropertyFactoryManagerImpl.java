@@ -12,21 +12,6 @@ import java.util.ServiceLoader;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.booleans.PropertyFactoryBoolean;
-import io.github.mmm.property.container.list.PropertyFactoryList;
-import io.github.mmm.property.container.map.PropertyFactoryMap;
-import io.github.mmm.property.container.set.PropertyFactorySet;
-import io.github.mmm.property.number.bytes.PropertyFactoryByte;
-import io.github.mmm.property.number.doubles.PropertyFactoryDouble;
-import io.github.mmm.property.number.floats.PropertyFactoryFloat;
-import io.github.mmm.property.number.integers.PropertyFactoryInteger;
-import io.github.mmm.property.number.longs.PropertyFactoryLong;
-import io.github.mmm.property.number.shorts.PropertyFactoryShort;
-import io.github.mmm.property.object.PropertyFactoryObject;
-import io.github.mmm.property.string.PropertyFactoryString;
-import io.github.mmm.property.temporal.instant.PropertyFactoryInstant;
-import io.github.mmm.property.temporal.localdate.PropertyFactoryLocalDate;
-import io.github.mmm.property.temporal.localdatetime.PropertyFactoryLocalDateTime;
 
 /**
  * This is the implementation of {@link PropertyFactoryManager}.
@@ -46,7 +31,7 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
   /**
    * The constructor.
    */
-  public PropertyFactoryManagerImpl() {
+  protected PropertyFactoryManagerImpl() {
 
     super();
     this.propertyType2factoryMap = new HashMap<>();
@@ -57,7 +42,6 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
   /**
    * @param factories the {@link List} of {@link PropertyFactory} instances to inject.
    */
-  // @Inject
   public void setFactories(List<PropertyFactory<?, ?>> factories) {
 
     for (PropertyFactory<?, ?> factory : factories) {
@@ -145,40 +129,11 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
   /**
    * Initializes this class. Sublcasses using CDI shall override and annotate this method with {@code @PostConstruct}.
    */
-  // @PostConstruct
   protected void initialize() {
 
-    if (this.propertyType2factoryMap.isEmpty()) {
-      registerDefaults();
-    }
     if (instance == null) {
       instance = this;
     }
-  }
-
-  /**
-   * {@link #registerFactory(PropertyFactory) Registers} the {@link PropertyFactory factories} for the common default
-   * types.
-   */
-  @SuppressWarnings("rawtypes")
-  protected void registerDefaults() {
-
-    registerFactory(new PropertyFactoryString());
-    registerFactory(new PropertyFactoryObject());
-    registerFactory(new PropertyFactoryBoolean());
-    registerFactory(new PropertyFactoryDouble());
-    registerFactory(new PropertyFactoryFloat());
-    registerFactory(new PropertyFactoryInteger());
-    registerFactory(new PropertyFactoryShort());
-    registerFactory(new PropertyFactoryByte());
-    registerFactory(new PropertyFactoryLong());
-    registerFactory(new PropertyFactoryLocalDate());
-    registerFactory(new PropertyFactoryLocalDateTime());
-    registerFactory(new PropertyFactoryInstant());
-    registerFactory(new PropertyFactoryList());
-    registerFactory(new PropertyFactorySet());
-    registerFactory(new PropertyFactoryMap());
-    // registerFactory(new PropertyFactoryLink());
   }
 
   /**

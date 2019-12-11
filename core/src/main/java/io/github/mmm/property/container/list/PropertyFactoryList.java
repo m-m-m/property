@@ -2,7 +2,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.container.list;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 import io.github.mmm.property.PropertyMetadata;
@@ -48,15 +47,7 @@ public class PropertyFactoryList<E> extends AbstractPropertyFactory<List<E>, Lis
   @Override
   public ListProperty<E> create(String name, Class<? extends List<E>> valueClass, PropertyMetadata<List<E>> metadata) {
 
-    Class<?> componentClass = Object.class;
-    Type componentType = null;
-    // if (metadata.getValueType != null) {
-    //
-    // }
-    if (componentType == null) {
-      componentType = componentClass;
-    }
-    return new ListProperty(name, componentClass, componentType, metadata);
+    return new ListProperty(name, null, metadata);
   }
 
 }

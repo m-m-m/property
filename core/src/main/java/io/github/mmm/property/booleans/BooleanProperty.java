@@ -2,15 +2,17 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.booleans;
 
-import io.github.mmm.property.Property;
+import io.github.mmm.marshall.StructuredReader;
+import io.github.mmm.marshall.StructuredWriter;
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.object.SimpleProperty;
 
 /**
  * Implementation of {@link WritableBooleanProperty}.
  *
  * @since 1.0.0
  */
-public class BooleanProperty extends Property<Boolean> implements WritableBooleanProperty {
+public class BooleanProperty extends SimpleProperty<Boolean> implements WritableBooleanProperty {
 
   private Boolean value;
 
@@ -36,21 +38,27 @@ public class BooleanProperty extends Property<Boolean> implements WritableBoolea
   }
 
   @Override
-  protected Boolean doGetValue() {
+  protected Boolean doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(Boolean newValue) {
+  protected void doSet(Boolean newValue) {
 
     this.value = newValue;
   }
 
-  // @Override
-  // public ValidatorBuilderBoolean<PropertyBuilder<BooleanProperty>> withValdidator() {
-  //
-  // return withValdidator(x -> new ValidatorBuilderBoolean<>(x));
-  // }
+  @Override
+  public void read(StructuredReader reader) {
+
+    set(reader.readValueAsBoolean());
+  }
+
+  @Override
+  public void write(StructuredWriter writer) {
+
+    writer.writeValueAsBoolean(get());
+  }
 
 }

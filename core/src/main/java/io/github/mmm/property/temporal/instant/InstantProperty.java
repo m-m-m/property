@@ -4,16 +4,15 @@ package io.github.mmm.property.temporal.instant;
 
 import java.time.Instant;
 
-import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.temporal.TemporalProperty;
 
 /**
- * This is the implementation of {@link WritableInstantProperty}.
+ * Implementation of {@link WritableInstantProperty}.
  *
- * @author hohwille
  * @since 1.0.0
  */
-public class InstantProperty extends Property<Instant> implements WritableInstantProperty {
+public class InstantProperty extends TemporalProperty<Instant> implements WritableInstantProperty {
 
   private Instant value;
 
@@ -39,21 +38,15 @@ public class InstantProperty extends Property<Instant> implements WritableInstan
   }
 
   @Override
-  protected Instant doGetValue() {
+  protected Instant doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(Instant newValue) {
+  protected void doSet(Instant newValue) {
 
     this.value = newValue;
   }
-
-  // @Override
-  // public ValidatorBuilderInstant<PropertyBuilder<InstantProperty>> withValdidator() {
-  //
-  // return withValdidator(x -> new ValidatorBuilderInstant<>(x));
-  // }
 
 }

@@ -38,13 +38,13 @@ public class BigIntegerProperty extends NumberProperty<BigInteger> implements Wr
   }
 
   @Override
-  protected BigInteger doGetValue() {
+  protected BigInteger doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(BigInteger newValue) {
+  protected void doSet(BigInteger newValue) {
 
     this.value = newValue;
   }

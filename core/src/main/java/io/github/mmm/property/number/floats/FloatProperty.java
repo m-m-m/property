@@ -36,13 +36,13 @@ public class FloatProperty extends NumberProperty<Float> implements WritableFloa
   }
 
   @Override
-  protected Float doGetValue() {
+  protected Float doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(Float newValue) {
+  protected void doSet(Float newValue) {
 
     this.value = newValue;
   }

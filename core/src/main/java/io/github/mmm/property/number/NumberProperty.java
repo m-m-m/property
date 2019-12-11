@@ -2,8 +2,10 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.number;
 
-import io.github.mmm.property.Property;
+import io.github.mmm.marshall.StructuredReader;
+import io.github.mmm.marshall.StructuredWriter;
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.object.SimpleProperty;
 
 /**
  * Implementation of {@link WritableNumberProperty}.
@@ -11,7 +13,7 @@ import io.github.mmm.property.PropertyMetadata;
  * @param <N> type of the numeric {@link #get() value}.
  * @since 1.0.0
  */
-public abstract class NumberProperty<N extends Number & Comparable<? super N>> extends Property<N>
+public abstract class NumberProperty<N extends Number & Comparable<? super N>> extends SimpleProperty<N>
     implements WritableNumberProperty<N> {
 
   /**
@@ -33,6 +35,19 @@ public abstract class NumberProperty<N extends Number & Comparable<? super N>> e
   public NumberProperty(String name, PropertyMetadata<N> metadata) {
 
     super(name, metadata);
+  }
+
+  @Override
+  public void read(StructuredReader reader) {
+
+    N value = reader.readValue(getValueClass());
+    set(value);
+  }
+
+  @Override
+  public void write(StructuredWriter writer) {
+
+    writer.writeValue(get());
   }
 
 }

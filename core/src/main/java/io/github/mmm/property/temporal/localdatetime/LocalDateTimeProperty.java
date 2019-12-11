@@ -4,16 +4,15 @@ package io.github.mmm.property.temporal.localdatetime;
 
 import java.time.LocalDateTime;
 
-import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.temporal.TemporalProperty;
 
 /**
  * This is the implementation of {@link WritableLocalDateTimeProperty}.
  *
- * @author hohwille
  * @since 1.0.0
  */
-public class LocalDateTimeProperty extends Property<LocalDateTime> implements WritableLocalDateTimeProperty {
+public class LocalDateTimeProperty extends TemporalProperty<LocalDateTime> implements WritableLocalDateTimeProperty {
 
   private LocalDateTime value;
 
@@ -39,21 +38,15 @@ public class LocalDateTimeProperty extends Property<LocalDateTime> implements Wr
   }
 
   @Override
-  protected LocalDateTime doGetValue() {
+  protected LocalDateTime doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(LocalDateTime newValue) {
+  protected void doSet(LocalDateTime newValue) {
 
     this.value = newValue;
   }
-
-  // @Override
-  // public ValidatorBuilderLocalDateTime<PropertyBuilder<LocalDateTimeProperty>> withValdidator() {
-  //
-  // return withValdidator(x -> new ValidatorBuilderLocalDateTime<>(x));
-  // }
 
 }

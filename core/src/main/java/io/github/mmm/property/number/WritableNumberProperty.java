@@ -3,6 +3,7 @@
 package io.github.mmm.property.number;
 
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.object.WritableSimpleProperty;
 import io.github.mmm.value.observable.number.WritableNumberValue;
 
 /**
@@ -13,6 +14,6 @@ import io.github.mmm.value.observable.number.WritableNumberValue;
  * @since 1.0.0
  */
 public interface WritableNumberProperty<N extends Number & Comparable<? super N>>
-    extends ReadableNumberProperty<N>, WritableProperty<N>, WritableNumberValue<N> {
+    extends ReadableNumberProperty<N>, WritableSimpleProperty<N>, WritableNumberValue<N> {
 
 }

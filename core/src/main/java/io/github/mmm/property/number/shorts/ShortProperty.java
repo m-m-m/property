@@ -36,13 +36,13 @@ public class ShortProperty extends NumberProperty<Short> implements WritableShor
   }
 
   @Override
-  protected Short doGetValue() {
+  protected Short doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(Short newValue) {
+  protected void doSet(Short newValue) {
 
     this.value = newValue;
   }

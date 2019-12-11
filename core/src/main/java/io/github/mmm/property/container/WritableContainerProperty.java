@@ -10,7 +10,7 @@ import io.github.mmm.value.observable.container.WritableContainerValue;
  * {@link WritableProperty} with container {@link #getValue() value}.
  *
  * @param <V> type of the {@link #getValue() value}.
- * @param <E> type of {@link #getComponentClass() elements} contained in the {@link #getValue() value}.
+ * @param <E> type of {@link #getValueProperty() elements} contained in the {@link #getValue() value}.
  *
  * @since 1.0.0
  * @see ReadableContainerProperty
@@ -28,11 +28,14 @@ public interface WritableContainerProperty<V, E>
    * @return the {@link #getValue() value} as {@link ChangeAwareContainer}. Will be initialized on the first call of
    *         this method. Unless {@link #isChangeAware() initialized}, a container property is lightweight just as other
    *         regular properties. Once this method was called, the {@link ChangeAwareContainer} is initialized and
-   *         triggers change events for modifications of the container instance itself. Calls to
-   *         {@link #set(Object)} will implicitly change this {@link ChangeAwareContainer} such that in only
-   *         contains what the provided new value contains. The instance of the {@link ChangeAwareContainer} returned by
-   *         this method always remains the same.
+   *         triggers change events for modifications of the container instance itself. Calls to {@link #set(Object)}
+   *         will implicitly change this {@link ChangeAwareContainer} such that in only contains what the provided new
+   *         value contains. The instance of the {@link ChangeAwareContainer} returned by this method always remains the
+   *         same.
    */
   ChangeAwareContainer<E, ?, ?> getChangeAwareValue();
+
+  @Override
+  WritableProperty<E> getValueProperty();
 
 }

@@ -13,6 +13,7 @@ import io.github.mmm.value.observable.object.WritableObjectValue;
  *
  * @since 1.0.0
  */
-public interface WritableObjectProperty<V> extends ReadableObjectProperty<V>, WritableObjectValue<V> {
+public interface WritableObjectProperty<V>
+    extends ReadableObjectProperty<V>, WritableObjectValue<V>, WritableProperty<V> {
 
 }

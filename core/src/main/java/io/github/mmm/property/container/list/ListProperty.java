@@ -2,9 +2,9 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.container.list;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
+import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.container.collection.CollectionProperty;
 import io.github.mmm.value.observable.container.list.ChangeAwareList;
@@ -33,40 +33,43 @@ public class ListProperty<E> extends CollectionProperty<List<E>, E> implements W
    * The constructor.
    *
    * @param name the {@link #getName() name}.
-   * @param componentClass the {@link #getComponentClass() component class}.
-   * @param componentType the {@link #getComponentType() component type}.
+   * @param valueProperty the {@link #getValueProperty() value property}.
    */
-  public ListProperty(String name, Class<E> componentClass, Type componentType) {
+  public ListProperty(String name, Property<E> valueProperty) {
 
-    super(name, componentClass, componentType);
+    super(name, valueProperty);
   }
 
   /**
    * The constructor.
    *
    * @param name the {@link #getName() name}.
-   * @param componentClass the {@link #getComponentClass() component class}.
-   * @param componentType the {@link #getComponentType() component type}.
+   * @param valueProperty the {@link #getValueProperty() value property}.
    * @param metadata the {@link #getMetadata() metadata}.
    */
-  public ListProperty(String name, Class<E> componentClass, Type componentType, PropertyMetadata<List<E>> metadata) {
+  public ListProperty(String name, Property<E> valueProperty, PropertyMetadata<List<E>> metadata) {
 
-    super(name, componentClass, componentType, metadata);
+    super(name, valueProperty, metadata);
   }
 
   @Override
-  protected List<E> doGetValue() {
+  protected List<E> doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(List<E> newValue) {
+  protected void doSet(List<E> newValue) {
 
     this.value = newValue;
-    // TODO events actually in wrong order, create doAfterSetValue method?
+  }
+
+  @Override
+  protected void setWithChange(List<E> oldValue, List<E> value) {
+
+    super.setWithChange(oldValue, value);
     if (this.changeAwareList != null) {
-      this.changeAwareList.setAll(newValue);
+      this.changeAwareList.setAll(value);
     }
   }
 

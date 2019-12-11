@@ -37,7 +37,12 @@ module io.github.mmm.property {
       io.github.mmm.property.string.PropertyFactoryString, //
       io.github.mmm.property.temporal.instant.PropertyFactoryInstant, //
       io.github.mmm.property.temporal.localdate.PropertyFactoryLocalDate, //
-      io.github.mmm.property.temporal.localdatetime.PropertyFactoryLocalDateTime;
+      io.github.mmm.property.temporal.localdatetime.PropertyFactoryLocalDateTime, //
+      io.github.mmm.property.temporal.localtime.PropertyFactoryLocalTime, //
+      io.github.mmm.property.temporal.offsetdatetime.PropertyFactoryOffsetDateTime, //
+      io.github.mmm.property.temporal.offsettime.PropertyFactoryOffsetTime, //
+      io.github.mmm.property.temporal.zoneddatetime.PropertyFactoryZonedDateTime //
+  ;
 
   exports io.github.mmm.property;
 
@@ -84,5 +89,13 @@ module io.github.mmm.property {
   exports io.github.mmm.property.temporal.localdate;
 
   exports io.github.mmm.property.temporal.localdatetime;
+
+  exports io.github.mmm.property.temporal.localtime;
+
+  exports io.github.mmm.property.temporal.offsetdatetime;
+
+  exports io.github.mmm.property.temporal.offsettime;
+
+  exports io.github.mmm.property.temporal.zoneddatetime;
 
 }

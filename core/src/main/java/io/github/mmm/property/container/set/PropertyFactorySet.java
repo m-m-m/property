@@ -2,7 +2,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.container.set;
 
-import java.lang.reflect.Type;
 import java.util.Set;
 
 import io.github.mmm.property.PropertyMetadata;
@@ -48,9 +47,7 @@ public class PropertyFactorySet<E> extends AbstractPropertyFactory<Set<E>, SetPr
   @Override
   public SetProperty<E> create(String name, Class<? extends Set<E>> valueClass, PropertyMetadata<Set<E>> metadata) {
 
-    Class<E> componentClass = null;
-    Type componentType = null;
-    return new SetProperty<>(name, componentClass, componentType, metadata);
+    return new SetProperty<>(name, null, metadata);
   }
 
 }

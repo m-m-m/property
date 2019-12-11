@@ -36,13 +36,13 @@ public class ByteProperty extends NumberProperty<Byte> implements WritableBytePr
   }
 
   @Override
-  protected Byte doGetValue() {
+  protected Byte doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(Byte newValue) {
+  protected void doSet(Byte newValue) {
 
     this.value = newValue;
   }

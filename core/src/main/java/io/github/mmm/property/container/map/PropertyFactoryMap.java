@@ -2,7 +2,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.container.map;
 
-import java.lang.reflect.Type;
 import java.util.Map;
 
 import io.github.mmm.property.PropertyMetadata;
@@ -51,9 +50,7 @@ public class PropertyFactoryMap<K, V> extends AbstractPropertyFactory<Map<K, V>,
   public MapProperty<K, V> create(String name, Class<? extends Map<K, V>> valueClass,
       PropertyMetadata<Map<K, V>> metadata) {
 
-    Class<V> componentClass = null;
-    Type componentType = null;
-    return new MapProperty<>(name, componentClass, componentType, metadata);
+    return new MapProperty<>(name, null, null, metadata);
   }
 
 }

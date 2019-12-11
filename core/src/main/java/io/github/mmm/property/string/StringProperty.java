@@ -2,15 +2,15 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.string;
 
-import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.object.SimpleProperty;
 
 /**
  * Implementation of {@link WritableStringProperty}.
  *
  * @since 1.0.0
  */
-public class StringProperty extends Property<String> implements WritableStringProperty {
+public class StringProperty extends SimpleProperty<String> implements WritableStringProperty {
 
   private String value;
 
@@ -36,21 +36,15 @@ public class StringProperty extends Property<String> implements WritableStringPr
   }
 
   @Override
-  protected String doGetValue() {
+  protected String doGet() {
 
     return this.value;
   }
 
   @Override
-  protected void doSetValue(String newValue) {
+  protected void doSet(String newValue) {
 
     this.value = newValue;
   }
-
-  // @Override
-  // public ValidatorBuilderString<PropertyBuilder<StringProperty>> withValdidator() {
-  //
-  // return withValdidator(x -> new ValidatorBuilderString<>(x));
-  // }
 
 }
