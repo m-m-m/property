@@ -2,7 +2,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.object;
 
-import java.lang.reflect.Type;
 import java.util.Objects;
 
 import io.github.mmm.property.PropertyMetadata;
@@ -19,8 +18,6 @@ import io.github.mmm.property.WritableProperty;
 public class ObjectProperty<V> extends SimpleProperty<V> implements WritableObjectProperty<V> {
 
   private final Class<V> valueClass;
-
-  private final Type valueType;
 
   private V value;
 
@@ -47,23 +44,12 @@ public class ObjectProperty<V> extends SimpleProperty<V> implements WritableObje
     super(name, metadata);
     Objects.requireNonNull(valueClass);
     this.valueClass = valueClass;
-    Type type = metadata.getValueType();
-    if (type == null) {
-      type = valueClass;
-    }
-    this.valueType = type;
   }
 
   @Override
   public Class<V> getValueClass() {
 
     return this.valueClass;
-  }
-
-  @Override
-  public Type getValueType() {
-
-    return this.valueType;
   }
 
   @Override

@@ -14,6 +14,8 @@ module io.github.mmm.property.builder {
 
   exports io.github.mmm.property.builder;
 
+  exports io.github.mmm.property.builder.container;
+
   exports io.github.mmm.property.builder.lang;
 
   exports io.github.mmm.property.builder.number;

@@ -2,9 +2,10 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.builder;
 
-import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import io.github.mmm.property.Property;
@@ -38,6 +39,10 @@ import io.github.mmm.validation.main.ObjectValidatorBuilder;
  */
 public abstract class PropertyBuilder<V, P extends Property<V>, B extends ObjectValidatorBuilder<V, ? extends PropertyBuilder<V, P, B, SELF>, ?>, SELF extends PropertyBuilder<V, P, B, SELF>> {
 
+  private Consumer<? super P> registry;
+
+  private Function<String, P> factory;
+
   private B validatorBuilder;
 
   /** @see #valueExpression(Supplier) */
@@ -45,9 +50,6 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
 
   /** @see #value(Object) */
   protected V value;
-
-  /** @see PropertyMetadata#getValueType() */
-  protected Type valueType;
 
   /** @see #metadata(String, Object) */
   protected Map<String, Object> metadataMap;
@@ -67,6 +69,36 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
   protected SELF self() {
 
     return (SELF) this;
+  }
+
+  /**
+   * @param consumer the {@link Consumer} {@link Consumer#accept(Object) receiving} the {@link Property} when
+   *        {@link #build(String) build}.
+   * @return this builder itself ({@code this}) for fluent API calls.
+   */
+  public SELF registry(Consumer<? super P> consumer) {
+
+    if (this.registry != null) {
+      throw new IllegalStateException("Registry consumer already set!");
+    }
+    this.registry = consumer;
+    return self();
+  }
+
+  /**
+   * @param function the {@link Function} optionally {@link Function#apply(Object) providing} the {@link Property} to
+   *        {@link #build(String) build}. If it returns a result other than {@code null} this will be used instead and
+   *        the actual building is entirely replaced. This is a very specific feature provided for internal usage (to
+   *        receive read-only view of already existing property).
+   * @return this builder itself ({@code this}) for fluent API calls.
+   */
+  public SELF factory(Function<String, P> function) {
+
+    if (this.factory != null) {
+      throw new IllegalStateException("Factory function already set!");
+    }
+    this.factory = function;
+    return self();
   }
 
   /**
@@ -126,21 +158,41 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    * @param name the {@link Property#getName() property name} of the {@link Property} to build.
    * @return the {@link Property} to build.
    */
-  public P build(String name) {
+  public final P build(String name) {
 
-    Validator<? super V> validator = null;
-    if (this.validatorBuilder != null) {
-      validator = this.validatorBuilder.build();
+    return build(name, false);
+  }
+
+  /**
+   * @param name the {@link Property#getName() property name} of the {@link Property} to build.
+   * @param ignoreExtensions - {@code true} to ignore a potential {@link #registry(Consumer)} and
+   *        {@link #factory(Function)}, {@code false} otherwise.
+   * @return the {@link Property} to build.
+   */
+  protected final P build(String name, boolean ignoreExtensions) {
+
+    P property = null;
+    if ((this.factory != null) && !ignoreExtensions) {
+      property = this.factory.apply(name);
     }
-    PropertyMetadata<V> metadata;
-    if ((validator == null) && (this.expression == null) && (this.valueType == null) && (this.metadataMap == null)) {
-      metadata = PropertyMetadataNone.getInstance();
-    } else {
-      metadata = new PropertyMetadataType<>(validator, this.expression, this.valueType, this.metadataMap);
+    if (property == null) {
+      Validator<? super V> validator = null;
+      if (this.validatorBuilder != null) {
+        validator = this.validatorBuilder.build();
+      }
+      PropertyMetadata<V> metadata;
+      if ((validator == null) && (this.expression == null) && (this.metadataMap == null)) {
+        metadata = PropertyMetadataNone.getInstance();
+      } else {
+        metadata = new PropertyMetadataType<>(validator, this.expression, null, this.metadataMap);
+      }
+      property = build(name, metadata);
+      if (this.value != null) {
+        property.set(this.value);
+      }
     }
-    P property = build(name, metadata);
-    if (this.value != null) {
-      property.set(this.value);
+    if ((this.registry != null) && !ignoreExtensions) {
+      this.registry.accept(property);
     }
     return property;
   }
@@ -157,7 +209,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public ListPropertyBuilder<V> asList() {
 
-    return new ListPropertyBuilder<>(build("Value"));
+    return builder(new ListPropertyBuilder<>(build("Value", true)));
   }
 
   /**
@@ -165,7 +217,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public SetPropertyBuilder<V> asSet() {
 
-    return new SetPropertyBuilder<>(build("Value"));
+    return builder(new SetPropertyBuilder<>(build("Value", true)));
   }
 
   /**
@@ -174,7 +226,19 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public MapPropertyBuilder<String, V> asMap() {
 
-    return new MapPropertyBuilder<>(build("Value"));
+    return builder(new MapPropertyBuilder<>(build("Value", true)));
+  }
+
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  private <T extends PropertyBuilder<?, ?, ?, ?>> T builder(T builder) {
+
+    if (this.registry != null) {
+      builder.registry((Consumer) this.registry);
+    }
+    if (this.factory != null) {
+      builder.factory((Function) this.factory);
+    }
+    return builder;
   }
 
   /**
