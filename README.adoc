@@ -1,10 +1,11 @@
-image:https://raw.github.com/m-m-m/mmm/master/src/site/resources/images/logo.png[logo,link="https://m-m-m.github.io"]
+image:https://m-m-m.github.io/logo.svg[logo,width="150",link="https://m-m-m.github.io"]
+
+image:https://img.shields.io/github/license/m-m-m/property.svg?label=License["Apache License, Version 2.0",link=https://github.com/m-m-m/property/blob/master/LICENSE]
+image:https://travis-ci.org/m-m-m/property.svg?branch=master["build-status",link="https://travis-ci.org/m-m-m/property"]
 
 = mmm-property
 
-image:https://img.shields.io/github/license/m-m-m/property.svg?label=License["Apache License, Version 2.0",link=https://github.com/m-m-m/property/blob/master/LICENSE]
 image:https://img.shields.io/maven-central/v/io.github.m-m-m/mmm-property.svg?label=Maven%20Central["Maven Central",link=https://search.maven.org/search?q=g:io.github.m-m-m]
-image:https://travis-ci.org/m-m-m/property.svg?branch=master["build-status",link="https://travis-ci.org/m-m-m/property"]
 image:https://m-m-m.github.io/javadoc.svg?status=online["apidoc",link="https://m-m-m.github.io/docs/api/io.github.mmm.property/module-summary.html"]
 
 The module `io.github.mmm.property` (artifactId `mmm-property`) brings extended property support based on https://github.com/m-m-m/value[`mmm-value-observable`].
@@ -28,6 +29,7 @@ Maven Dependency:
 <dependency>
   <groupId>io.github.m-m-m</groupId>
   <artifactId>mmm-property</artifactId>
+  <version>${mmm.property.version}</version>
 </dependency>
 ```
 
@@ -38,6 +40,7 @@ Module Dependency:
 
 = mmm-property-builder
 
+image:https://img.shields.io/maven-central/v/io.github.m-m-m/mmm-property-builder.svg?label=Maven%20Central["Maven Central",link=https://search.maven.org/search?q=g:io.github.m-m-m]
 image:https://m-m-m.github.io/javadoc.svg?status=online["apidoc",link="https://m-m-m.github.io/docs/api/io.github.mmm.property.builder/module-summary.html"]
 
 The module `io.github.mmm.property.builder` (artifactId `mmm-property-builder`) brings comfortable builders to build properties from `mmm-property` with https://github.com/m-m-m/validation[validation] and https://github.com/m-m-m/nls[nls].
@@ -54,6 +57,7 @@ Maven Dependency:
 <dependency>
   <groupId>io.github.m-m-m</groupId>
   <artifactId>mmm-property-builder</artifactId>
+  <version>${mmm.property.version}</version>
 </dependency>
 ```
 
