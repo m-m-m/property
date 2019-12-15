@@ -6,6 +6,7 @@ import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.PropertyMetadataNone;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.impl.PropertyFactoryManagerImpl;
 
 /**
  * This is the interface for the manager where all {@link PropertyFactory} variants are registered.
@@ -101,7 +102,25 @@ public interface PropertyFactoryManager {
    *        {@link PropertyFactory#getImplementationClass() implementation}.
    * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
    * @param name the {@link ReadableProperty#getName() property name}.
-   * @param metadata TODO
+   * @return the new instance of the property.
+   * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
+   *         for {@code propertyType}.
+   */
+  default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name) {
+
+    return create(propertyType, valueClass, name, PropertyMetadataNone.getInstance());
+  }
+
+  /**
+   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
+   * @param <P> the generic type of the {@link WritableProperty property} to create.
+   * @param propertyType the {@link Class} reflecting the property to create. May be the
+   *        {@link PropertyFactory#getReadableInterface() readable interface},
+   *        {@link PropertyFactory#getWritableInterface() writable interface}, or the
+   *        {@link PropertyFactory#getImplementationClass() implementation}.
+   * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
+   * @param name the {@link ReadableProperty#getName() property name}.
+   * @param metadata the {@link PropertyMetadata}.
    * @return the new instance of the property.
    * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
    *         for {@code propertyType}.
@@ -118,13 +137,12 @@ public interface PropertyFactoryManager {
   /**
    * @param <V> the generic type of the {@link WritableProperty#get() property value}.
    * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
-   * @param polymorphic - see {@link #getFactoryForValueType(Class)}.
    * @param name the {@link ReadableProperty#getName() property name}.
    * @return the new instance of the property.
    * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
    *         for {@code propertyType}.
    */
-  default <V> WritableProperty<V> create(Class<V> valueClass, boolean polymorphic, String name) {
+  default <V> WritableProperty<V> create(Class<V> valueClass, String name) {
 
     return create(null, valueClass, name, PropertyMetadataNone.getInstance());
   }
@@ -132,17 +150,23 @@ public interface PropertyFactoryManager {
   /**
    * @param <V> the generic type of the {@link WritableProperty#get() property value}.
    * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
-   * @param polymorphic - see {@link #getFactoryForValueType(Class)}.
    * @param name the {@link ReadableProperty#getName() property name}.
    * @param metadata the {@link ReadableProperty#getMetadata() metadata}.
    * @return the new instance of the property.
    * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
    *         for {@code propertyType}.
    */
-  default <V> WritableProperty<V> create(Class<V> valueClass, boolean polymorphic, String name,
-      PropertyMetadata<V> metadata) {
+  default <V> WritableProperty<V> create(Class<V> valueClass, String name, PropertyMetadata<V> metadata) {
 
     return create(null, valueClass, name, metadata);
+  }
+
+  /**
+   * @return the {@link PropertyFactoryManager} instance.
+   */
+  static PropertyFactoryManager get() {
+
+    return PropertyFactoryManagerImpl.INSTANCE;
   }
 
 }

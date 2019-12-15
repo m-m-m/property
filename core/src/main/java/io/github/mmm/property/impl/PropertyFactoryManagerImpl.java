@@ -1,6 +1,6 @@
 /* Copyright (c) The m-m-m Team, Licensed under the Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0 */
-package io.github.mmm.property.factory;
+package io.github.mmm.property.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +12,8 @@ import java.util.ServiceLoader;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.factory.PropertyFactory;
+import io.github.mmm.property.factory.PropertyFactoryManager;
 
 /**
  * This is the implementation of {@link PropertyFactoryManager}.
@@ -20,7 +22,8 @@ import io.github.mmm.property.WritableProperty;
  */
 public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
 
-  private static PropertyFactoryManagerImpl instance;
+  /** The singleton instance. */
+  public static final PropertyFactoryManagerImpl INSTANCE = new PropertyFactoryManagerImpl();
 
   private final Map<Class<?>, PropertyFactory<?, ?>> propertyType2factoryMap;
 
@@ -31,21 +34,19 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
   /**
    * The constructor.
    */
+  @SuppressWarnings("rawtypes")
   protected PropertyFactoryManagerImpl() {
 
     super();
     this.propertyType2factoryMap = new HashMap<>();
     this.valueType2factoryMap = new HashMap<>();
     this.polymorphicFactories = new ArrayList<>();
-  }
-
-  /**
-   * @param factories the {@link List} of {@link PropertyFactory} instances to inject.
-   */
-  public void setFactories(List<PropertyFactory<?, ?>> factories) {
-
-    for (PropertyFactory<?, ?> factory : factories) {
+    ServiceLoader<PropertyFactory> serviceLoader = ServiceLoader.load(PropertyFactory.class);
+    for (PropertyFactory<?, ?> factory : serviceLoader) {
       registerFactory(factory);
+    }
+    if (this.valueType2factoryMap.isEmpty()) {
+      throw new IllegalStateException("No PropertyFactory available!");
     }
   }
 
@@ -124,44 +125,6 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
       throw new IllegalArgumentException(
           "Duplicate PojoFactory " + factory + " for " + type + " already having " + old);
     }
-  }
-
-  /**
-   * Initializes this class. Sublcasses using CDI shall override and annotate this method with {@code @PostConstruct}.
-   */
-  protected void initialize() {
-
-    if (instance == null) {
-      instance = this;
-    }
-  }
-
-  /**
-   * This method gets the singleton instance of this {@link PropertyFactoryManager}. <br>
-   *
-   * @return the singleton instance.
-   */
-  @SuppressWarnings("rawtypes")
-  public static PropertyFactoryManager getInstance() {
-
-    if (instance == null) {
-      synchronized (PropertyFactoryManagerImpl.class) {
-        if (instance == null) {
-          PropertyFactoryManagerImpl impl = new PropertyFactoryManagerImpl();
-          List<PropertyFactory<?, ?>> factories = new ArrayList<>();
-          ServiceLoader<PropertyFactory> serviceLoader = ServiceLoader.load(PropertyFactory.class);
-          for (PropertyFactory factory : serviceLoader) {
-            factories.add(factory);
-          }
-          if (factories.isEmpty()) {
-            throw new IllegalStateException("No PropertyFactory available!");
-          }
-          impl.setFactories(factories);
-          impl.initialize();
-        }
-      }
-    }
-    return instance;
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
