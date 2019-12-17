@@ -2,9 +2,9 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.builder;
 
-import static io.github.mmm.property.builder.impl.RegistryHelper.accept;
-import static io.github.mmm.property.builder.impl.RegistryHelper.builder;
-import static io.github.mmm.property.builder.impl.RegistryHelper.get;
+import static io.github.mmm.property.builder.PropertyBuildersHelper.accept;
+import static io.github.mmm.property.builder.PropertyBuildersHelper.builder;
+import static io.github.mmm.property.builder.PropertyBuildersHelper.get;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

@@ -1,20 +1,18 @@
 /* Copyright (c) The m-m-m Team, Licensed under the Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0 */
-package io.github.mmm.property.builder.impl;
+package io.github.mmm.property.builder;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import io.github.mmm.property.builder.PropertyBuilder;
-
 /**
- * Internal helper class for e.g. {@link io.github.mmm.property.builder.DefaultPropertyBuilders}.
+ * Internal helper class for {@link io.github.mmm.property.builder.DefaultPropertyBuilders}.
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public final class RegistryHelper {
+public final class PropertyBuildersHelper {
 
-  private RegistryHelper() {
+  private PropertyBuildersHelper() {
 
   }
 

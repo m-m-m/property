@@ -8,8 +8,9 @@ import java.util.function.Supplier;
 import io.github.mmm.validation.Validator;
 
 /**
- * Metadata of a {@link Property}. It is discouraged and may have odd effects if the {@link PropertyMetadata} changes
- * after it has been passed to the constructor of a property.
+ * Metadata of a {@link Property}. Implementations of {@link PropertyMetadata} are supposed to be immutable. It is
+ * discouraged and may have odd effects if the {@link PropertyMetadata} changes after it has been passed to the
+ * constructor of a property.
  *
  * @param <V> type of the {@link Property#get() property value}.
  *
