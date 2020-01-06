@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import io.github.mmm.validation.Validator;
-import io.github.mmm.validation.ValidatorNone;
 
 /**
  * Implementation of {@link PropertyMetadata} as immutable type.
@@ -46,7 +45,7 @@ public class PropertyMetadataType<V> implements PropertyMetadata<V> {
    */
   public PropertyMetadataType(Supplier<? extends V> supplier) {
 
-    this(ValidatorNone.getInstance(), supplier, null, Collections.emptyMap());
+    this(Validator.none(), supplier, null, Collections.emptyMap());
   }
 
   /**

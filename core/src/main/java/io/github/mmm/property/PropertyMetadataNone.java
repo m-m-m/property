@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.function.Supplier;
 
 import io.github.mmm.validation.Validator;
-import io.github.mmm.validation.ValidatorNone;
 
 /**
  * Implementation of {@link PropertyMetadata} that is entirely empty.
@@ -28,7 +27,7 @@ public final class PropertyMetadataNone<V> implements PropertyMetadata<V> {
   @Override
   public Validator<? super V> getValidator() {
 
-    return ValidatorNone.getInstance();
+    return Validator.none();
   }
 
   @Override
