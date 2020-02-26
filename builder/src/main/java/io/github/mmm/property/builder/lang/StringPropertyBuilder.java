@@ -9,9 +9,11 @@ import io.github.mmm.validation.string.ValidatorBuilderString;
 
 /**
  * {@link PropertyBuilder} for {@link StringProperty}.
+ *
+ * @since 1.0.0
  */
 public final class StringPropertyBuilder extends
-    PropertyBuilder<String, StringProperty, ValidatorBuilderString<StringPropertyBuilder>, StringPropertyBuilder> {
+    ComparablePropertyBuilder<String, StringProperty, ValidatorBuilderString<StringPropertyBuilder>, StringPropertyBuilder> {
 
   /**
    * The constructor.

@@ -12,6 +12,8 @@ import io.github.mmm.validation.ValidationResult;
 
 /**
  * Test of {@link StringPropertyBuilder}.
+ * 
+ * @since 1.0.0
  */
 public class StringPropertyBuilderTest extends PropertyBuilderTest<String> {
 

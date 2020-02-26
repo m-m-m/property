@@ -6,14 +6,17 @@ import java.math.BigDecimal;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
+import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.number.bigdecimal.BigDecimalProperty;
 import io.github.mmm.validation.number.ValidatorBuilderBigDecimal;
 
 /**
  * {@link PropertyBuilder} for {@link BigDecimalProperty}.
+ *
+ * @since 1.0.0
  */
 public final class BigDecimalPropertyBuilder extends
-    PropertyBuilder<BigDecimal, BigDecimalProperty, ValidatorBuilderBigDecimal<BigDecimalPropertyBuilder>, BigDecimalPropertyBuilder> {
+    ComparablePropertyBuilder<BigDecimal, BigDecimalProperty, ValidatorBuilderBigDecimal<BigDecimalPropertyBuilder>, BigDecimalPropertyBuilder> {
 
   /**
    * The constructor.

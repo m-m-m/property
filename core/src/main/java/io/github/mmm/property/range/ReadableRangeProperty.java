@@ -8,7 +8,7 @@ import io.github.mmm.property.ReadableProperty;
 /**
  * {@link ReadableProperty} with {@link Range} {@link #get() value}.
  *
- * @param <V> type of the {@link Range} value.
+ * @param <V> type of the {@link Range} bounds.
  * @since 1.0.0
  */
 public interface ReadableRangeProperty<V> extends ReadableProperty<Range<V>> {

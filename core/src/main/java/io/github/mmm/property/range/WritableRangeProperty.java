@@ -8,7 +8,7 @@ import io.github.mmm.property.WritableProperty;
 /**
  * {@link WritableProperty} with {@link Range} {@link #get() value}.
  *
- * @param <V> type of the {@link Range} value.
+ * @param <V> type of the {@link Range} bounds.
  * @since 1.0.0
  */
 public interface WritableRangeProperty<V> extends ReadableRangeProperty<V>, WritableProperty<Range<V>> {

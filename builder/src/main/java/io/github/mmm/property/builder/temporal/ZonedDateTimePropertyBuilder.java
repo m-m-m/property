@@ -6,14 +6,17 @@ import java.time.ZonedDateTime;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
+import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.temporal.zoneddatetime.ZonedDateTimeProperty;
 import io.github.mmm.validation.temporal.zoneddatetime.ValidatorBuilderZonedDateTime;
 
 /**
  * {@link PropertyBuilder} for {@link ZonedDateTimeProperty}.
+ *
+ * @since 1.0.0
  */
 public final class ZonedDateTimePropertyBuilder extends
-    PropertyBuilder<ZonedDateTime, ZonedDateTimeProperty, ValidatorBuilderZonedDateTime<ZonedDateTimePropertyBuilder>, ZonedDateTimePropertyBuilder> {
+    ComparablePropertyBuilder<ZonedDateTime, ZonedDateTimeProperty, ValidatorBuilderZonedDateTime<ZonedDateTimePropertyBuilder>, ZonedDateTimePropertyBuilder> {
 
   /**
    * The constructor.

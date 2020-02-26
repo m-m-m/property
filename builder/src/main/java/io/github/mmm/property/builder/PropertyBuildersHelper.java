@@ -8,6 +8,8 @@ import java.util.function.Supplier;
 
 /**
  * Internal helper class for {@link io.github.mmm.property.builder.DefaultPropertyBuilders}.
+ * 
+ * @since 1.0.0
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public final class PropertyBuildersHelper {

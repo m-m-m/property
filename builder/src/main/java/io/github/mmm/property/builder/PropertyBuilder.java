@@ -229,8 +229,13 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
     return builder(new MapPropertyBuilder<>(build("Value", true)));
   }
 
+  /**
+   * @param <T> type of the {@link PropertyBuilder}.
+   * @param builder the {@link PropertyBuilder}.
+   * @return the configured {@code builder}.
+   */
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  private <T extends PropertyBuilder<?, ?, ?, ?>> T builder(T builder) {
+  protected <T extends PropertyBuilder<?, ?, ?, ?>> T builder(T builder) {
 
     if (this.registry != null) {
       builder.registry((Consumer) this.registry);

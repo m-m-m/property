@@ -4,14 +4,17 @@ package io.github.mmm.property.builder.number;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
+import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.number.doubles.DoubleProperty;
 import io.github.mmm.validation.number.ValidatorBuilderDouble;
 
 /**
  * {@link PropertyBuilder} for {@link DoubleProperty}.
+ *
+ * @since 1.0.0
  */
 public final class DoublePropertyBuilder extends
-    PropertyBuilder<Double, DoubleProperty, ValidatorBuilderDouble<DoublePropertyBuilder>, DoublePropertyBuilder> {
+    ComparablePropertyBuilder<Double, DoubleProperty, ValidatorBuilderDouble<DoublePropertyBuilder>, DoublePropertyBuilder> {
 
   /**
    * The constructor.

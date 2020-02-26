@@ -6,14 +6,17 @@ import java.time.LocalDate;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
+import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.temporal.localdate.LocalDateProperty;
 import io.github.mmm.validation.temporal.localdate.ValidatorBuilderLocalDate;
 
 /**
  * {@link PropertyBuilder} for {@link LocalDateProperty}.
+ *
+ * @since 1.0.0
  */
 public final class LocalDatePropertyBuilder extends
-    PropertyBuilder<LocalDate, LocalDateProperty, ValidatorBuilderLocalDate<LocalDatePropertyBuilder>, LocalDatePropertyBuilder> {
+    ComparablePropertyBuilder<LocalDate, LocalDateProperty, ValidatorBuilderLocalDate<LocalDatePropertyBuilder>, LocalDatePropertyBuilder> {
 
   /**
    * The constructor.

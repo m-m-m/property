@@ -6,14 +6,17 @@ import java.math.BigInteger;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
+import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.number.biginteger.BigIntegerProperty;
 import io.github.mmm.validation.number.ValidatorBuilderBigInteger;
 
 /**
  * {@link PropertyBuilder} for {@link BigIntegerProperty}.
+ *
+ * @since 1.0.0
  */
 public final class BigIntegerPropertyBuilder extends
-    PropertyBuilder<BigInteger, BigIntegerProperty, ValidatorBuilderBigInteger<BigIntegerPropertyBuilder>, BigIntegerPropertyBuilder> {
+    ComparablePropertyBuilder<BigInteger, BigIntegerProperty, ValidatorBuilderBigInteger<BigIntegerPropertyBuilder>, BigIntegerPropertyBuilder> {
 
   /**
    * The constructor.

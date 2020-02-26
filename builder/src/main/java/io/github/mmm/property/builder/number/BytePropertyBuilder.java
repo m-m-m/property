@@ -4,14 +4,17 @@ package io.github.mmm.property.builder.number;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
+import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.number.bytes.ByteProperty;
 import io.github.mmm.validation.number.ValidatorBuilderByte;
 
 /**
  * {@link PropertyBuilder} for {@link ByteProperty}.
+ *
+ * @since 1.0.0
  */
-public final class BytePropertyBuilder
-    extends PropertyBuilder<Byte, ByteProperty, ValidatorBuilderByte<BytePropertyBuilder>, BytePropertyBuilder> {
+public final class BytePropertyBuilder extends
+    ComparablePropertyBuilder<Byte, ByteProperty, ValidatorBuilderByte<BytePropertyBuilder>, BytePropertyBuilder> {
 
   /**
    * The constructor.

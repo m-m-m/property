@@ -6,14 +6,17 @@ import java.time.Instant;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
+import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.temporal.instant.InstantProperty;
 import io.github.mmm.validation.temporal.instant.ValidatorBuilderInstant;
 
 /**
  * {@link PropertyBuilder} for {@link InstantProperty}.
+ *
+ * @since 1.0.0
  */
 public final class InstantPropertyBuilder extends
-    PropertyBuilder<Instant, InstantProperty, ValidatorBuilderInstant<InstantPropertyBuilder>, InstantPropertyBuilder> {
+    ComparablePropertyBuilder<Instant, InstantProperty, ValidatorBuilderInstant<InstantPropertyBuilder>, InstantPropertyBuilder> {
 
   /**
    * The constructor.

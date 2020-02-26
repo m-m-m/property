@@ -13,7 +13,7 @@ import io.github.mmm.property.object.SimpleProperty;
 /**
  * Implementation of {@link WritableRangeProperty}.
  *
- * @param <V> type of the {@link Range} value.
+ * @param <V> type of the {@link Range} bounds.
  * @since 1.0.0
  */
 public class RangeProperty<V> extends SimpleProperty<Range<V>> implements WritableRangeProperty<V> {

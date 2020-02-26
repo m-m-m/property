@@ -9,6 +9,8 @@ import io.github.mmm.validation.main.ValidatorBuilderBoolean;
 
 /**
  * {@link PropertyBuilder} for {@link BooleanProperty}.
+ * 
+ * @since 1.0.0
  */
 public final class BooleanPropertyBuilder extends
     PropertyBuilder<Boolean, BooleanProperty, ValidatorBuilderBoolean<BooleanPropertyBuilder>, BooleanPropertyBuilder> {

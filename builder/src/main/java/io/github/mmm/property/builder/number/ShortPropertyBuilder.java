@@ -4,14 +4,17 @@ package io.github.mmm.property.builder.number;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
+import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.number.shorts.ShortProperty;
 import io.github.mmm.validation.number.ValidatorBuilderShort;
 
 /**
  * {@link PropertyBuilder} for {@link ShortProperty}.
+ *
+ * @since 1.0.0
  */
-public final class ShortPropertyBuilder
-    extends PropertyBuilder<Short, ShortProperty, ValidatorBuilderShort<ShortPropertyBuilder>, ShortPropertyBuilder> {
+public final class ShortPropertyBuilder extends
+    ComparablePropertyBuilder<Short, ShortProperty, ValidatorBuilderShort<ShortPropertyBuilder>, ShortPropertyBuilder> {
 
   /**
    * The constructor.

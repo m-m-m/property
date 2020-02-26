@@ -10,6 +10,8 @@ import io.github.mmm.validation.ValidationResult;
 
 /**
  * Test of {@link BooleanPropertyBuilder}.
+ * 
+ * @since 1.0.0
  */
 public class BooleanPropertyBuilderTest extends PropertyBuilderTest<Boolean> {
 

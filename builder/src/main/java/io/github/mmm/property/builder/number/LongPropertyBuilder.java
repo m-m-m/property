@@ -4,14 +4,17 @@ package io.github.mmm.property.builder.number;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
+import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.number.longs.LongProperty;
 import io.github.mmm.validation.number.ValidatorBuilderLong;
 
 /**
  * {@link PropertyBuilder} for {@link LongProperty}.
+ *
+ * @since 1.0.0
  */
-public final class LongPropertyBuilder
-    extends PropertyBuilder<Long, LongProperty, ValidatorBuilderLong<LongPropertyBuilder>, LongPropertyBuilder> {
+public final class LongPropertyBuilder extends
+    ComparablePropertyBuilder<Long, LongProperty, ValidatorBuilderLong<LongPropertyBuilder>, LongPropertyBuilder> {
 
   /**
    * The constructor.

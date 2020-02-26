@@ -6,14 +6,17 @@ import java.time.OffsetDateTime;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
+import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.temporal.offsetdatetime.OffsetDateTimeProperty;
 import io.github.mmm.validation.temporal.offsetdatetime.ValidatorBuilderOffsetDateTime;
 
 /**
  * {@link PropertyBuilder} for {@link OffsetDateTimeProperty}.
+ *
+ * @since 1.0.0
  */
 public final class OffsetDateTimePropertyBuilder extends
-    PropertyBuilder<OffsetDateTime, OffsetDateTimeProperty, ValidatorBuilderOffsetDateTime<OffsetDateTimePropertyBuilder>, OffsetDateTimePropertyBuilder> {
+    ComparablePropertyBuilder<OffsetDateTime, OffsetDateTimeProperty, ValidatorBuilderOffsetDateTime<OffsetDateTimePropertyBuilder>, OffsetDateTimePropertyBuilder> {
 
   /**
    * The constructor.
