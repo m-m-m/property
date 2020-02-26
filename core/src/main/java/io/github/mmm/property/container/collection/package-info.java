@@ -1,5 +1,6 @@
+/* Copyright (c) The m-m-m Team, Licensed under the Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0 */
 /**
- * @author hohwille
- *
+ * Contains property infrastructure for {@link java.util.Collection}.
  */
 package io.github.mmm.property.container.collection;
