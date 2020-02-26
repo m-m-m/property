@@ -61,6 +61,8 @@ module io.github.mmm.property {
 
   exports io.github.mmm.property.object;
 
+  exports io.github.mmm.property.range;
+
   exports io.github.mmm.property.string;
 
   exports io.github.mmm.property.factory;
