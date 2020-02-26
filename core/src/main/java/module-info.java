@@ -34,6 +34,7 @@ module io.github.mmm.property {
       io.github.mmm.property.number.longs.PropertyFactoryLong, //
       io.github.mmm.property.number.shorts.PropertyFactoryShort, //
       io.github.mmm.property.object.PropertyFactoryObject, //
+      io.github.mmm.property.range.PropertyFactoryRange, //
       io.github.mmm.property.string.PropertyFactoryString, //
       io.github.mmm.property.temporal.instant.PropertyFactoryInstant, //
       io.github.mmm.property.temporal.localdate.PropertyFactoryLocalDate, //
