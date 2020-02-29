@@ -77,15 +77,6 @@ public class RangeProperty<V> extends SimpleProperty<Range<V>> implements Writab
     return GenericRange.parse(valueAsString, boundParser);
   }
 
-  /**
-   * @return the {@link Property} representing the type of the values contained in the {@link Range} {@link #get()
-   *         value}.
-   */
-  public Property<V> getValueProperty() {
-
-    return this.valueProperty;
-  }
-
   @Override
   public void read(StructuredReader reader) {
 
@@ -133,6 +124,15 @@ public class RangeProperty<V> extends SimpleProperty<Range<V>> implements Writab
       this.valueProperty.set(bound);
       this.valueProperty.write(writer);
     }
+  }
+
+  /**
+   * @return the {@link Property} representing the type of the values contained in the {@link Range} {@link #get()
+   *         value}.
+   */
+  public Property<V> getValueProperty() {
+
+    return this.valueProperty;
   }
 
 }
