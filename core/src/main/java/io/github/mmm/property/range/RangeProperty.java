@@ -6,6 +6,8 @@ import java.util.function.Function;
 
 import io.github.mmm.base.range.GenericRange;
 import io.github.mmm.base.range.Range;
+import io.github.mmm.marshall.StructuredReader;
+import io.github.mmm.marshall.StructuredWriter;
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.object.SimpleProperty;
@@ -83,4 +85,54 @@ public class RangeProperty<V> extends SimpleProperty<Range<V>> implements Writab
 
     return this.valueProperty;
   }
+
+  @Override
+  public void read(StructuredReader reader) {
+
+    Range<V> range = Range.unbounded();
+    if (reader.readStartObject()) {
+      V min = null;
+      V max = null;
+      while (!reader.readEnd()) {
+        String name = reader.readName();
+        if (name.equals(Range.PROPERTY_MIN)) {
+          min = readBound(reader);
+        } else if (name.equals(Range.PROPERTY_MIN)) {
+          max = readBound(reader);
+        }
+      }
+      range = new GenericRange<>(min, max);
+      set(range);
+    }
+  }
+
+  private V readBound(StructuredReader reader) {
+
+    this.valueProperty.read(reader);
+    return this.valueProperty.get();
+  }
+
+  @Override
+  public void write(StructuredWriter writer) {
+
+    Range<V> range = get();
+    if (range != null) {
+      writer.writeStartObject();
+      writeBound(writer, Range.PROPERTY_MIN, range.getMin());
+      writeBound(writer, Range.PROPERTY_MAX, range.getMax());
+      writer.writeEnd();
+    }
+  }
+
+  private void writeBound(StructuredWriter writer, String name, V bound) {
+
+    writer.writeName("min");
+    if (bound == null) {
+      writer.writeValueAsNull();
+    } else {
+      this.valueProperty.set(bound);
+      this.valueProperty.write(writer);
+    }
+  }
+
 }
