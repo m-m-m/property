@@ -4,7 +4,7 @@ package io.github.mmm.property.range;
 
 import java.util.function.Function;
 
-import io.github.mmm.base.range.GenericRange;
+import io.github.mmm.base.range.RangeType;
 import io.github.mmm.base.range.Range;
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
@@ -74,7 +74,7 @@ public class RangeProperty<V> extends SimpleProperty<Range<V>> implements Writab
     } else {
       boundParser = (s) -> this.valueProperty.parse(s);
     }
-    return GenericRange.parse(valueAsString, boundParser);
+    return RangeType.parse(valueAsString, boundParser);
   }
 
   @Override
@@ -92,7 +92,7 @@ public class RangeProperty<V> extends SimpleProperty<Range<V>> implements Writab
           max = readBound(reader);
         }
       }
-      range = new GenericRange<>(min, max);
+      range = new RangeType<>(min, max);
       set(range);
     }
   }
