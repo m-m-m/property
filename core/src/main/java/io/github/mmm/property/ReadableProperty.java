@@ -40,6 +40,14 @@ public interface ReadableProperty<V>
   boolean isReadOnly();
 
   /**
+   * @return {@code true} if transient (e.g. computed and therefore not to be marshalled), {@code false} otherwise.
+   */
+  default boolean isTransient() {
+
+    return getMetadata().isTransient();
+  }
+
+  /**
    * @return the {@link PropertyMetadata metadata} of this property.
    */
   PropertyMetadata<V> getMetadata();

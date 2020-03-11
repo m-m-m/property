@@ -93,4 +93,13 @@ public interface PropertyMetadata<V> {
     return null;
   }
 
+  /**
+   * @return {@code true} if transient (e.g. computed and therefore not to be marshalled), {@code false} otherwise.
+   * @see ReadableProperty#isTransient()
+   */
+  default boolean isTransient() {
+
+    return (getExpression() != null);
+  }
+
 }
