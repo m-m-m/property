@@ -4,8 +4,8 @@ package io.github.mmm.property.range;
 
 import java.util.function.Function;
 
-import io.github.mmm.base.range.RangeType;
 import io.github.mmm.base.range.Range;
+import io.github.mmm.base.range.RangeType;
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
 import io.github.mmm.property.Property;

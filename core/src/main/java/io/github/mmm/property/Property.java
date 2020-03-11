@@ -5,6 +5,7 @@ package io.github.mmm.property;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import io.github.mmm.marshall.Marshalling;
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
 import io.github.mmm.validation.Validatable;
@@ -205,9 +206,36 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   }
 
   @Override
+  public final void writeObject(StructuredWriter writer, Object object) {
+
+    if (object != this) {
+      throw new IllegalStateException();
+    }
+    Marshalling<V> marshalling = this.metadata.getMarshalling();
+    if (marshalling == null) {
+      write(writer);
+    } else {
+      marshalling.writeObject(writer, get());
+    }
+  }
+
+  @Override
   public void write(StructuredWriter writer) {
 
     writer.writeValue(get());
+  }
+
+  @Override
+  public final Property<V> readObject(StructuredReader reader) {
+
+    Marshalling<V> marshalling = this.metadata.getMarshalling();
+    if (marshalling == null) {
+      read(reader);
+    } else {
+      V value = marshalling.readObject(reader);
+      set(value);
+    }
+    return this;
   }
 
   @Override
@@ -240,81 +268,5 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
     }
     return true;
   }
-
-  // /**
-  // * @param <PROPERTY> the generic type of the {@link AbstractProperty}.
-  // * @param <BUILDER> the generic type of the {@link ObjectValidatorBuilder} for {@literal <VALUE>}.
-  // * @param factory the {@link Function} to use as factory for the builder.
-  // * @return a new {@link ObjectValidatorBuilder builder} for the validator of this property with a
-  // * {@link ObjectValidatorBuilder#and() parent-builder} to create a {@link #copy(AbstractValidator)} of this
-  // * property with the configured validator.
-  // */
-  // protected <PROPERTY extends AbstractProperty<? extends V>, BUILDER extends ObjectValidatorBuilder<? extends V,
-  // PropertyBuilder<PROPERTY>, ?>> BUILDER withValdidator(
-  // Function<PropertyBuilder<PROPERTY>, BUILDER> factory) {
-  //
-  // PropertyBuilder<PROPERTY> parentBuilder = new PropertyBuilder<>();
-  // BUILDER builder = factory.apply(parentBuilder);
-  // parentBuilder.builder = builder;
-  // return builder;
-  // }
-
-  // /**
-  // * @return a new {@link ObjectValidatorBuilder builder} for the validator of this property with a
-  // * {@link ObjectValidatorBuilder#and() parent-builder} to create a {@link #copy(AbstractValidator)} of this
-  // * property with the configured validator.
-  // */
-  // public abstract ObjectValidatorBuilder<? extends V, ? extends PropertyBuilder<? extends AbstractProperty<? extends
-  // V>>, ?> withValdidator();
-
-  // /**
-  // * Implementation of {@link Builder} to {@link #build() build} a copy of the {@link AbstractProperty property}.
-  // *
-  // * @param <T> the generic type of the {@link AbstractProperty property}.
-  // */
-  // public class PropertyBuilder<T extends AbstractProperty<? extends V>> implements Builder<T> {
-  //
-  // private ObjectValidatorBuilder<?, ? extends PropertyBuilder<? extends T>, ?> builder;
-  //
-  // private boolean assignValue;
-  //
-  // /**
-  // * The constructor.
-  // */
-  // public PropertyBuilder() {
-  //
-  // super();
-  // }
-  //
-  // /**
-  // * Also assign the {@link #get() value} from the original property. <br/>
-  // * <b>ATTENTION:</b><br/>
-  // * A {@link WritableProperty} may hold any kind of {@link #get() value} so the value may be mutable. If you are
-  // * using this builder to create a copy of the property this might have undesired effects.
-  // *
-  // * @return this build instance for fluent API calls.
-  // */
-  // public PropertyBuilder<T> withValue() {
-  //
-  // this.assignValue = true;
-  // return this;
-  // }
-  //
-  // @Override
-  // @SuppressWarnings({ "unchecked", "rawtypes" })
-  // public T build() {
-  //
-  // AbstractValidator<? super V> newValidator = (AbstractValidator) this.builder.build();
-  // newValidator = AbstractProperty.this.validator.append((AbstractValidator) newValidator);
-  // if (AbstractProperty.this.validator == newValidator) {
-  // return (T) AbstractProperty.this;
-  // }
-  // AbstractProperty<V> copy = copy(newValidator);
-  // if (this.assignValue) {
-  // copy.setValue(get());
-  // }
-  // return (T) copy;
-  // }
-  // }
 
 }

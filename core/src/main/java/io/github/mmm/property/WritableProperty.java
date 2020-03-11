@@ -2,7 +2,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property;
 
-import io.github.mmm.marshall.UnmarshallableObject;
+import io.github.mmm.marshall.MarshallingObject;
 import io.github.mmm.value.observable.WritableObservableValue;
 
 /**
@@ -13,7 +13,7 @@ import io.github.mmm.value.observable.WritableObservableValue;
  *
  * @since 1.0.0
  */
-public interface WritableProperty<V> extends WritableObservableValue<V>, ReadableProperty<V>, UnmarshallableObject {
+public interface WritableProperty<V> extends WritableObservableValue<V>, ReadableProperty<V>, MarshallingObject {
 
   /** Empty array instance. */
   WritableProperty<?>[] NO_PROPERTIES = new WritableProperty<?>[0];

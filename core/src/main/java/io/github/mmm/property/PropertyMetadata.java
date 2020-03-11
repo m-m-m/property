@@ -5,6 +5,7 @@ package io.github.mmm.property;
 import java.lang.reflect.Type;
 import java.util.function.Supplier;
 
+import io.github.mmm.marshall.Marshalling;
 import io.github.mmm.validation.Validator;
 
 /**
@@ -81,5 +82,15 @@ public interface PropertyMetadata<V> {
    * @see ReadableProperty#getValueClass()
    */
   Type getValueType();
+
+  /**
+   * @return the optional custom {@link Marshalling}. If {@code null} the default marshalling of the {@link Property} is
+   *         used. Overriding also allows to extend or replace the property value with more complex data from this
+   *         metadata - e.g. to reuse a {@code Bean} to represent a query to find instances of that {@code Bean}.
+   */
+  default Marshalling<V> getMarshalling() {
+
+    return null;
+  }
 
 }
