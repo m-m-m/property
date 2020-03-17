@@ -51,8 +51,9 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
   /** @see #value(Object) */
   protected V value;
 
-  /** @see #metadata(String, Object) */
-  protected Map<String, Object> metadataMap;
+  private PropertyMetadata<V> metadata;
+
+  private Map<String, Object> metadataMap;
 
   /**
    * The constructor.
@@ -123,6 +124,16 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
   }
 
   /**
+   * @param newMetadata the {@link PropertyMetadata}.
+   * @return this builder itself ({@code this}) for fluent API calls.
+   */
+  public SELF metadata(PropertyMetadata<V> newMetadata) {
+
+    this.metadata = newMetadata;
+    return self();
+  }
+
+  /**
    * @param metadataKey the {@link PropertyMetadata#get(String) metadata key}.
    * @param metadataValue the {@link PropertyMetadata#get(String) metadata value}.
    * @return this builder itself ({@code this}) for fluent API calls.
@@ -180,13 +191,17 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
       if (this.validatorBuilder != null) {
         validator = this.validatorBuilder.build();
       }
-      PropertyMetadata<V> metadata;
-      if ((validator == null) && (this.expression == null) && (this.metadataMap == null)) {
-        metadata = PropertyMetadataNone.getInstance();
+      PropertyMetadata<V> metaData = this.metadata;
+      if (metaData == null) {
+        if ((validator == null) && (this.expression == null) && (this.metadataMap == null)) {
+          metaData = PropertyMetadataNone.getInstance();
+        } else {
+          metaData = new PropertyMetadataType<>(validator, this.expression, null, this.metadataMap);
+        }
       } else {
-        metadata = new PropertyMetadataType<>(validator, this.expression, null, this.metadataMap);
+        metaData = this.metadata.withValidator(validator);
       }
-      property = build(name, metadata);
+      property = build(name, metaData);
       if (this.value != null) {
         property.set(this.value);
       }
@@ -199,10 +214,10 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
 
   /**
    * @param name the {@link Property#getName() property name} of the {@link Property} to build.
-   * @param metadata the {@link PropertyMetadata}.
+   * @param newMetadata the {@link PropertyMetadata}.
    * @return the {@link Property} to {@link #build(String) build}.
    */
-  protected abstract P build(String name, PropertyMetadata<V> metadata);
+  protected abstract P build(String name, PropertyMetadata<V> newMetadata);
 
   /**
    * @return a {@link ListPropertyBuilder} using {@link #build(String) this property configuration} for its elements.

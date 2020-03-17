@@ -2,6 +2,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.factory;
 
+import io.github.mmm.base.exception.ObjectNotFoundException;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.PropertyMetadataNone;
 import io.github.mmm.property.ReadableProperty;
@@ -76,6 +77,7 @@ public interface PropertyFactoryManager {
    *        {@link PropertyFactory#getImplementationClass() implementation}.
    * @param valueType the {@link Class} reflecting the {@link WritableProperty#get() property value}.
    * @return the according {@link PropertyFactory} or {@code null} if no such factory is registered.
+   * @throws ObjectNotFoundException if no such {@link PropertyFactory} could be found.
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
   default <V, P extends ReadableProperty<V>> PropertyFactory<V, ? extends P> getRequiredFactory(Class<P> propertyType,
@@ -88,7 +90,7 @@ public interface PropertyFactoryManager {
       if (type == null) {
         type = valueType;
       }
-      throw new IllegalArgumentException("No PropertyFactory found for " + type);
+      throw new ObjectNotFoundException("PropertyFactory", type);
     }
     return factory;
   }

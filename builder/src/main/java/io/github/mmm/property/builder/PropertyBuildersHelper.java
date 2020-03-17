@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 
 /**
  * Internal helper class for {@link io.github.mmm.property.builder.DefaultPropertyBuilders}.
- * 
+ *
  * @since 1.0.0
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -29,7 +29,6 @@ public final class PropertyBuildersHelper {
 
     T result = null;
     if (inputFunction instanceof Function) {
-
       result = (T) ((Function) inputFunction).apply(input);
     }
     if (result == null) {
@@ -48,7 +47,6 @@ public final class PropertyBuildersHelper {
   public static <T> T accept(T object, Object consumer) {
 
     if (consumer instanceof Consumer) {
-
       ((Consumer) consumer).accept(object);
     }
     return object;

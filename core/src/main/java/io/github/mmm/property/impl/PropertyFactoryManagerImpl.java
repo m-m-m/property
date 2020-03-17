@@ -88,9 +88,6 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
     }
   }
 
-  /**
-   * @param factory
-   */
   private void registerPolymorphicFactory(PropertyFactory<?, ?> factory) {
 
     int index = 0;

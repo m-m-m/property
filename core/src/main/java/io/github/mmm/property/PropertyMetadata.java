@@ -102,4 +102,11 @@ public interface PropertyMetadata<V> {
     return (getExpression() != null);
   }
 
+  /**
+   * @param validator the new {@link Validator}.
+   * @return a new instance of {@link PropertyMetadata} with the given {@link Validator} used for
+   *         {@link #getValidator()}.
+   */
+  PropertyMetadata<V> withValidator(Validator<? super V> validator);
+
 }

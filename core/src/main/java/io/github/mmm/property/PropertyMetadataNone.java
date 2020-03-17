@@ -54,6 +54,15 @@ public final class PropertyMetadataNone<V> implements PropertyMetadata<V> {
     return Collections.emptyList();
   }
 
+  @Override
+  public PropertyMetadata<V> withValidator(Validator<? super V> validator) {
+
+    if ((validator == null) || (validator == Validator.none())) {
+      return this;
+    }
+    return new PropertyMetadataType<>(validator);
+  }
+
   /**
    * @param <V> type of the {@link Property#get() property value}.
    * @return the singleton instance of this class.

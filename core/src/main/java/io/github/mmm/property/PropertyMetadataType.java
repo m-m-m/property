@@ -74,7 +74,11 @@ public class PropertyMetadataType<V> implements PropertyMetadata<V> {
       Map<String, Object> metadata) {
 
     super();
-    this.validator = validator;
+    if (validator == null) {
+      this.validator = Validator.none();
+    } else {
+      this.validator = validator;
+    }
     this.expression = supplier;
     this.valueType = valueType;
     if (metadata == null) {
@@ -130,6 +134,12 @@ public class PropertyMetadataType<V> implements PropertyMetadata<V> {
   public Iterable<String> getKeys() {
 
     return this.metadata.keySet();
+  }
+
+  @Override
+  public PropertyMetadata<V> withValidator(Validator<? super V> newValidator) {
+
+    return new PropertyMetadataType<>(newValidator, this.expression, this.valueType, this.metadata);
   }
 
 }
