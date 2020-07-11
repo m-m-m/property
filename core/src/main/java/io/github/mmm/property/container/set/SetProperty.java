@@ -9,7 +9,6 @@ import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.container.collection.CollectionProperty;
 import io.github.mmm.value.observable.container.set.ChangeAwareSet;
 import io.github.mmm.value.observable.container.set.ChangeAwareSets;
-import io.github.mmm.value.observable.container.set.SetChangeListener;
 
 /**
  * Implementation of {@link WritableSetProperty}.
@@ -19,11 +18,6 @@ import io.github.mmm.value.observable.container.set.SetChangeListener;
  * @since 1.0.0
  */
 public class SetProperty<E> extends CollectionProperty<Set<E>, E> implements WritableSetProperty<E> {
-
-  private final SetChangeListener<E> setChangeListener = change -> {
-    invalidateProperties();
-    fireChange(change);
-  };
 
   private Set<E> value;
 
@@ -55,13 +49,24 @@ public class SetProperty<E> extends CollectionProperty<Set<E>, E> implements Wri
   @Override
   protected Set<E> doGet() {
 
+    if (this.changeAwareSet != null) {
+      return this.changeAwareSet;
+    }
     return this.value;
   }
 
   @Override
   protected void doSet(Set<E> newValue) {
 
-    this.value = newValue;
+    if (this.changeAwareSet != null) {
+      if (newValue == null) {
+        this.changeAwareSet.clear();
+      } else {
+        this.changeAwareSet.setAll(newValue);
+      }
+    } else {
+      this.value = newValue;
+    }
   }
 
   @Override
@@ -75,7 +80,10 @@ public class SetProperty<E> extends CollectionProperty<Set<E>, E> implements Wri
 
     if (this.changeAwareSet == null) {
       this.changeAwareSet = ChangeAwareSets.of(getOrCreate());
-      this.changeAwareSet.addListener(this.setChangeListener);
+      this.changeAwareSet.addListener(change -> {
+        invalidateProperties();
+        fireChange(change);
+      });
     }
     return this.changeAwareSet;
   }

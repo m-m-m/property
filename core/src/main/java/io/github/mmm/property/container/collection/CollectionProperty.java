@@ -75,11 +75,7 @@ public abstract class CollectionProperty<V extends Collection<E>, E> extends Con
       }
       return;
     }
-    if (isChangeAware()) {
-      collection = getChangeAwareValue();
-    } else {
-      collection = getOrCreate();
-    }
+    collection = getOrCreate();
     do {
       this.valueProperty.read(reader);
       E element = this.valueProperty.get();
@@ -91,14 +87,16 @@ public abstract class CollectionProperty<V extends Collection<E>, E> extends Con
   public void write(StructuredWriter writer) {
 
     Collection<E> collection = get();
-    if ((collection != null) && !collection.isEmpty()) {
-      writer.writeStartArray();
-      for (E element : collection) {
-        this.valueProperty.set(element);
-        this.valueProperty.write(writer);
-      }
-      writer.writeEnd();
+    if (collection == null) {
+      writer.writeValueAsNull();
+      return;
     }
+    writer.writeStartArray();
+    for (E element : collection) {
+      this.valueProperty.set(element);
+      this.valueProperty.write(writer);
+    }
+    writer.writeEnd();
   }
 
 }

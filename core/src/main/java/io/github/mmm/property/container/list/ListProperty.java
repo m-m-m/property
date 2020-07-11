@@ -9,7 +9,6 @@ import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.container.collection.CollectionProperty;
 import io.github.mmm.value.observable.container.list.ChangeAwareList;
 import io.github.mmm.value.observable.container.list.ChangeAwareLists;
-import io.github.mmm.value.observable.container.list.ListChangeListener;
 
 /**
  * Implementation of {@link WritableListProperty}.
@@ -19,11 +18,6 @@ import io.github.mmm.value.observable.container.list.ListChangeListener;
  * @since 1.0.0
  */
 public class ListProperty<E> extends CollectionProperty<List<E>, E> implements WritableListProperty<E> {
-
-  private final ListChangeListener<E> listChangeListener = change -> {
-    invalidateProperties();
-    fireChange(change);
-  };
 
   private List<E> value;
 
@@ -55,21 +49,23 @@ public class ListProperty<E> extends CollectionProperty<List<E>, E> implements W
   @Override
   protected List<E> doGet() {
 
+    if (this.changeAwareList != null) {
+      return this.changeAwareList;
+    }
     return this.value;
   }
 
   @Override
   protected void doSet(List<E> newValue) {
 
-    this.value = newValue;
-  }
-
-  @Override
-  protected void setWithChange(List<E> oldValue, List<E> value) {
-
-    super.setWithChange(oldValue, value);
     if (this.changeAwareList != null) {
-      this.changeAwareList.setAll(value);
+      if (newValue == null) {
+        this.changeAwareList.clear();
+      } else {
+        this.changeAwareList.setAll(newValue);
+      }
+    } else {
+      this.value = newValue;
     }
   }
 
@@ -84,25 +80,12 @@ public class ListProperty<E> extends CollectionProperty<List<E>, E> implements W
 
     if (this.changeAwareList == null) {
       this.changeAwareList = ChangeAwareLists.of(this.value);
-      this.changeAwareList.addListener(this.listChangeListener);
+      this.changeAwareList.addListener(change -> {
+        invalidateProperties();
+        fireChange(change);
+      });
     }
     return this.changeAwareList;
   }
-
-  // @SuppressWarnings({ "unchecked", "rawtypes" })
-  // @Override
-  // public AbstractCollectionValidatorBuilder<E, List<E>, PropertyBuilder<ListProperty<E>>, ?> withValdidator() {
-  //
-  // Function factory = new Function<PropertyBuilder<ListProperty<E>>, ValidatorBuilderCollection<E,
-  // PropertyBuilder<ListProperty<E>>>>() {
-  //
-  // @Override
-  // public ValidatorBuilderCollection<E, PropertyBuilder<ListProperty<E>>> apply(PropertyBuilder<ListProperty<E>> t) {
-  //
-  // return new ValidatorBuilderCollection<>(t);
-  // }
-  // };
-  // return (ValidatorBuilderCollection) withValdidator(factory);
-  // }
 
 }

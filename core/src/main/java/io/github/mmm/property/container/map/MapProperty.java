@@ -16,6 +16,7 @@ import io.github.mmm.property.object.SimpleProperty;
 import io.github.mmm.validation.ValidationResult;
 import io.github.mmm.validation.ValidationResultBuilder;
 import io.github.mmm.value.observable.container.map.ChangeAwareMap;
+import io.github.mmm.value.observable.container.map.ChangeAwareMaps;
 
 /**
  * Implementation of {@link WritableMapProperty}.
@@ -73,13 +74,24 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implement
   @Override
   protected Map<K, V> doGet() {
 
+    if (this.changeAwareMap != null) {
+      return this.changeAwareMap;
+    }
     return this.value;
   }
 
   @Override
   protected void doSet(Map<K, V> newValue) {
 
-    this.value = newValue;
+    if (this.changeAwareMap != null) {
+      if (newValue == null) {
+        this.changeAwareMap.clear();
+      } else {
+        this.changeAwareMap.putAll(newValue);
+      }
+    } else {
+      this.value = newValue;
+    }
   }
 
   @Override
@@ -115,6 +127,13 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implement
   @Override
   public ChangeAwareMap<K, V> getChangeAwareValue() {
 
+    if (this.changeAwareMap == null) {
+      this.changeAwareMap = ChangeAwareMaps.of(this.value);
+      this.changeAwareMap.addListener(change -> {
+        invalidateProperties();
+        fireChange(change);
+      });
+    }
     return this.changeAwareMap;
   }
 
@@ -130,11 +149,7 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implement
       }
       return;
     }
-    if (isChangeAware()) {
-      map = getChangeAwareValue();
-    } else {
-      map = getOrCreate();
-    }
+    map = getOrCreate();
     do {
       K key;
       if (this.keyProperty == null) {
@@ -153,6 +168,7 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implement
 
     Map<K, V> map = getValue();
     if (map == null) {
+      writer.writeValueAsNull();
       return;
     }
     writer.writeStartObject();
