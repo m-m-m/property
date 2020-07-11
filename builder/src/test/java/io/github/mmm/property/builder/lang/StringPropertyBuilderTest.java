@@ -12,7 +12,7 @@ import io.github.mmm.validation.ValidationResult;
 
 /**
  * Test of {@link StringPropertyBuilder}.
- * 
+ *
  * @since 1.0.0
  */
 public class StringPropertyBuilderTest extends PropertyBuilderTest<String> {
@@ -51,7 +51,7 @@ public class StringPropertyBuilderTest extends PropertyBuilderTest<String> {
     // then
     assertThat(result.isValid()).isFalse();
     assertThat(result.getMessage()).isEqualTo(
-        "The value needs to be in the range from 10 to 20.\nThe value has to match the format '[a-zA-Z0-9]*'.");
+        "The length needs to be in the range from 10 to 20.\nThe value has to match the format '[a-zA-Z0-9]*'.");
     assertThat(result.getSource()).isEqualTo(name);
     // or when
     property.set(null);

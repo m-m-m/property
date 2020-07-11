@@ -96,7 +96,7 @@ public abstract class PropertyBuilderTest<V> extends Assertions {
     assertThat(property.get()).isNotNull().isSameAs(value);
     ValidationResult result = property.validate();
     assertThat(result.isValid()).isFalse();
-    assertThat(result.getMessage()).isEqualTo("The value needs to be in the range from 1 to 2.");
+    assertThat(result.getMessage()).isEqualTo("The length needs to be in the range from 1 to 2.");
     value.add(getExampleValue());
     result = property.validate();
     assertThat(result.isValid()).as(result.toString()).isTrue();
