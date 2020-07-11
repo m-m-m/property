@@ -5,7 +5,7 @@ package io.github.mmm.property;
 import io.github.mmm.marshall.MarshallableObject;
 import io.github.mmm.validation.Validatable;
 import io.github.mmm.value.PropertyPath;
-import io.github.mmm.value.ReadableTypedValue;
+import io.github.mmm.value.TypedPropertyPath;
 import io.github.mmm.value.observable.ObservableValue;
 
 /**
@@ -15,8 +15,7 @@ import io.github.mmm.value.observable.ObservableValue;
  *
  * @since 1.0.0
  */
-public interface ReadableProperty<V>
-    extends ObservableValue<V>, ReadableTypedValue<V>, PropertyPath<V>, MarshallableObject, Validatable {
+public interface ReadableProperty<V> extends ObservableValue<V>, TypedPropertyPath<V>, MarshallableObject, Validatable {
 
   /**
    * @return the name of the property. By convention it should start with a {@link Character#isUpperCase(char) capital}
