@@ -59,7 +59,7 @@ public abstract class PropertyBuilderTest<V> extends Assertions {
     assertThat(property.getName()).isEqualTo(name);
     assertThat(property.get()).isNull();
     assertThat(property.getMetadata()).isInstanceOf(PropertyMetadataType.class);
-    assertThat(property.getMetadata().getValidator()).isSameAs(ValidatorMandatory.getInstance());
+    assertThat(property.getMetadata().getValidator()).isSameAs(ValidatorMandatory.get());
     ValidationResult result = property.validate();
     assertThat(result.isValid()).isFalse();
     assertThat(result.getMessage()).isEqualTo(ERR_MANDATORY);
@@ -72,7 +72,7 @@ public abstract class PropertyBuilderTest<V> extends Assertions {
     assertThat(property.getName()).isEqualTo(name);
     assertThat(property.get()).isNull();
     assertThat(property.getMetadata()).isInstanceOf(PropertyMetadataType.class);
-    assertThat(property.getMetadata().getValidator()).isSameAs(ValidatorMandatory.getInstance());
+    assertThat(property.getMetadata().getValidator()).isSameAs(ValidatorMandatory.get());
     assertThat(property.getMetadata().get("key")).isEqualTo("value");
   }
 
