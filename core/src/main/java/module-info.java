@@ -12,7 +12,7 @@ module io.github.mmm.property {
 
   requires transitive io.github.mmm.marshall;
 
-  requires static io.github.mmm.marshall.jsonp;
+  requires static io.github.mmm.marshall.json;
 
   requires transitive io.github.mmm.value.observable;
 
