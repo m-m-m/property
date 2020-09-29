@@ -102,15 +102,18 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implement
       if ((map != null) && !map.isEmpty()) {
         ValidationResultBuilder builder = new ValidationResultBuilder();
         builder.add(result);
+        int index = 0;
         for (Entry<K, V> entry : map.entrySet()) {
+          String indexSource = "#" + index;
           if (this.valueProperty != null) {
             this.valueProperty.set(entry.getValue());
-            builder.add(this.valueProperty.validate());
+            builder.add(this.valueProperty.doValidate(indexSource));
           }
           if (this.keyProperty != null) {
             this.keyProperty.set(entry.getKey());
-            builder.add(this.keyProperty.validate());
+            builder.add(this.keyProperty.doValidate(indexSource));
           }
+          index++;
         }
         result = builder.build(source);
       }
@@ -200,21 +203,5 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implement
 
     writer.writeValue(mapValue);
   }
-
-  // @SuppressWarnings({ "unchecked", "rawtypes" })
-  // @Override
-  // public AbstractMapValidatorBuilder<K, V, Map<K, V>, PropertyBuilder<MapProperty<K, V>>, ?> withValdidator() {
-  //
-  // Function factory = new Function<PropertyBuilder<MapProperty<K, V>>, ValidatorBuilderMap<K, V,
-  // PropertyBuilder<MapProperty<K, V>>>>() {
-  //
-  // @Override
-  // public ValidatorBuilderMap<K, V, PropertyBuilder<MapProperty<K, V>>> apply(PropertyBuilder<MapProperty<K, V>> t) {
-  //
-  // return new ValidatorBuilderMap<>(t);
-  // }
-  // };
-  // return (ValidatorBuilderMap) withValdidator(factory);
-  // }
 
 }

@@ -224,7 +224,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public ListPropertyBuilder<V> asList() {
 
-    return builder(new ListPropertyBuilder<>(build("Value", true)));
+    return builder(new ListPropertyBuilder<>(build("ListItem", true)));
   }
 
   /**
@@ -232,7 +232,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public SetPropertyBuilder<V> asSet() {
 
-    return builder(new SetPropertyBuilder<>(build("Value", true)));
+    return builder(new SetPropertyBuilder<>(build("SetItem", true)));
   }
 
   /**
@@ -241,7 +241,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public MapPropertyBuilder<String, V> asMap() {
 
-    return builder(new MapPropertyBuilder<>(build("Value", true)));
+    return builder(new MapPropertyBuilder<>(build("MapItem", true)));
   }
 
   /**

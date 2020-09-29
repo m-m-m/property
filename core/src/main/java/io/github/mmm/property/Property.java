@@ -148,6 +148,16 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   }
 
   /**
+   * @see #validate()
+   * @param source the {@link ValidationResult#getSource() validation source}.
+   * @return the {@link ValidationResult result of the validation}.
+   */
+  public ValidationResult doValidate(String source) {
+
+    return doValidate(get(), source);
+  }
+
+  /**
    * Called from {@link #validate()} in case re-validation is required.
    *
    * @param v the {@link #get() value} to validate.
