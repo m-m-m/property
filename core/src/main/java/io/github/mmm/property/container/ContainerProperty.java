@@ -63,6 +63,12 @@ public abstract class ContainerProperty<V, E> extends Property<V> implements Wri
   }
 
   @Override
+  protected boolean isValueEqual(V newValue, V oldValue) {
+
+    return (newValue == oldValue);
+  }
+
+  @Override
   public Property<E> getValueProperty() {
 
     return this.valueProperty;
