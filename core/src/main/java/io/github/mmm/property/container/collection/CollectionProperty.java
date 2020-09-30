@@ -52,7 +52,7 @@ public abstract class CollectionProperty<V extends Collection<E>, E> extends Con
     ValidationResult result = super.doValidate(collection, source);
     if (this.valueProperty != null) {
       if ((collection != null) && !collection.isEmpty()) {
-        ValidationResultBuilder builder = new ValidationResultBuilder();
+        ValidationResultBuilder builder = new ValidationResultBuilder(false);
         builder.add(result);
         int index = 0;
         for (E element : collection) {

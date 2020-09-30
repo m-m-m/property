@@ -100,7 +100,7 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implement
     ValidationResult result = super.doValidate(map, source);
     if ((this.valueProperty != null) || (this.keyProperty != null)) {
       if ((map != null) && !map.isEmpty()) {
-        ValidationResultBuilder builder = new ValidationResultBuilder();
+        ValidationResultBuilder builder = new ValidationResultBuilder(false);
         builder.add(result);
         int index = 0;
         for (Entry<K, V> entry : map.entrySet()) {
