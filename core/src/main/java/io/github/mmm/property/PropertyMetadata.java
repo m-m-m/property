@@ -3,6 +3,7 @@
 package io.github.mmm.property;
 
 import java.lang.reflect.Type;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import io.github.mmm.marshall.Marshalling;
@@ -14,7 +15,6 @@ import io.github.mmm.validation.Validator;
  * constructor of a property.
  *
  * @param <V> type of the {@link Property#get() property value}.
- *
  * @since 1.0.0
  */
 public interface PropertyMetadata<V> {
@@ -76,6 +76,25 @@ public interface PropertyMetadata<V> {
    * @return the {@link Iterable} of all {@link #get(String) metadata keys}.
    */
   Iterable<String> getKeys();
+
+  /**
+   * @return the {@link Map#size() size} of the {@link #getKeys() key}/ {@link #get(Class) value} pairs in this map.
+   */
+  int getKeyCount();
+
+  /**
+   * @return {@code true} if this metadata has at least one {@link #getKeys() key}/{@link #get(String) value} pair,
+   *         {@code false} otherwise (if empty and {@link #getKeyCount() key count} is {@code 0}).
+   */
+  default boolean hasKeys() {
+
+    return getKeyCount() > 0;
+  }
+
+  /**
+   * @return a new or immutable {@link Map} with this metadata {@link #getKeys() key}/{@link #get(Class) value} pairs.
+   */
+  Map<String, Object> asMap();
 
   /**
    * @return the optional {@link Type} of the {@link Property#get() property value}. May be {@code null}.

@@ -18,11 +18,12 @@ import io.github.mmm.validation.Validator;
  *
  * @since 1.0.0
  */
-public class PropertyMetadataType<V> implements PropertyMetadata<V> {
+public class PropertyMetadataType<V> extends AbstractPropertyMetadata<V> {
 
   private final Validator<? super V> validator;
 
-  private final Supplier<? extends V> expression;
+  /** @see #getExpression() */
+  protected Supplier<? extends V> expression;
 
   private final Type valueType;
 
@@ -41,11 +42,11 @@ public class PropertyMetadataType<V> implements PropertyMetadata<V> {
   /**
    * The constructor.
    *
-   * @param supplier the {@link #getExpression() supplier}.
+   * @param expression the {@link #getExpression() expression}.
    */
-  public PropertyMetadataType(Supplier<? extends V> supplier) {
+  public PropertyMetadataType(Supplier<? extends V> expression) {
 
-    this(Validator.none(), supplier, null, Collections.emptyMap());
+    this(Validator.none(), expression, null, Collections.emptyMap());
   }
 
   /**
@@ -66,11 +67,11 @@ public class PropertyMetadataType<V> implements PropertyMetadata<V> {
    * The constructor.
    *
    * @param validator the {@link #getValidator() validator}.
-   * @param supplier the {@link #getExpression() expression}.
+   * @param expression the {@link #getExpression() expression}.
    * @param valueType the {@link #getValueType() value type}.
    * @param metadata the {@link #get(String) metadata}.
    */
-  public PropertyMetadataType(Validator<? super V> validator, Supplier<? extends V> supplier, Type valueType,
+  public PropertyMetadataType(Validator<? super V> validator, Supplier<? extends V> expression, Type valueType,
       Map<String, Object> metadata) {
 
     super();
@@ -79,7 +80,7 @@ public class PropertyMetadataType<V> implements PropertyMetadata<V> {
     } else {
       this.validator = validator;
     }
-    this.expression = supplier;
+    this.expression = expression;
     this.valueType = valueType;
     if (metadata == null) {
       this.metadata = Collections.emptyMap();
@@ -125,15 +126,9 @@ public class PropertyMetadataType<V> implements PropertyMetadata<V> {
   }
 
   @Override
-  public Object get(String key) {
+  public Map<String, Object> asMap() {
 
-    return this.metadata.get(key);
-  }
-
-  @Override
-  public Iterable<String> getKeys() {
-
-    return this.metadata.keySet();
+    return this.metadata;
   }
 
   @Override

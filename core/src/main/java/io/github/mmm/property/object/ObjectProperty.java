@@ -29,7 +29,7 @@ public class ObjectProperty<V> extends SimpleProperty<V> implements WritableObje
    */
   public ObjectProperty(String name, Class<V> valueClass) {
 
-    this(name, valueClass, PropertyMetadataNone.getInstance());
+    this(name, valueClass, PropertyMetadataNone.get());
   }
 
   /**

@@ -10,8 +10,7 @@ import java.util.function.Supplier;
 
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.PropertyMetadataNone;
-import io.github.mmm.property.PropertyMetadataType;
+import io.github.mmm.property.PropertyMetadataFactory;
 import io.github.mmm.property.builder.container.ListPropertyBuilder;
 import io.github.mmm.property.builder.container.MapPropertyBuilder;
 import io.github.mmm.property.builder.container.SetPropertyBuilder;
@@ -43,6 +42,8 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
 
   private Function<String, P> factory;
 
+  private PropertyMetadataFactory metadataFactory;
+
   private B validatorBuilder;
 
   /** @see #valueExpression(Supplier) */
@@ -50,8 +51,6 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
 
   /** @see #value(Object) */
   protected V value;
-
-  private PropertyMetadata<V> metadata;
 
   private Map<String, Object> metadataMap;
 
@@ -103,6 +102,21 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
   }
 
   /**
+   * @param propertyMetadataFactory the {@link PropertyMetadataFactory} used to
+   *        {@link PropertyMetadataFactory#create(Validator, Supplier, java.lang.reflect.Type, Map) create} instances of
+   *        {@link PropertyMetadata}.
+   * @return this builder itself ({@code this}) for fluent API calls.
+   */
+  public SELF metadataFactory(PropertyMetadataFactory propertyMetadataFactory) {
+
+    if (this.metadataFactory != null) {
+      throw new IllegalStateException("PropertyMetadataFactory already set!");
+    }
+    this.metadataFactory = propertyMetadataFactory;
+    return self();
+  }
+
+  /**
    * @param propertyValueExpression the {@link io.github.mmm.property.PropertyMetadata#getExpression() property value
    *        expression}.
    * @return this builder itself ({@code this}) for fluent API calls.
@@ -120,16 +134,6 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
   public SELF value(V initialValue) {
 
     this.value = initialValue;
-    return self();
-  }
-
-  /**
-   * @param newMetadata the {@link PropertyMetadata}.
-   * @return this builder itself ({@code this}) for fluent API calls.
-   */
-  public SELF metadata(PropertyMetadata<V> newMetadata) {
-
-    this.metadata = newMetadata;
     return self();
   }
 
@@ -187,21 +191,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
       property = this.factory.apply(name);
     }
     if (property == null) {
-      Validator<? super V> validator = null;
-      if (this.validatorBuilder != null) {
-        validator = this.validatorBuilder.build();
-      }
-      PropertyMetadata<V> metaData = this.metadata;
-      if (metaData == null) {
-        if ((validator == null) && (this.expression == null) && (this.metadataMap == null)) {
-          metaData = PropertyMetadataNone.getInstance();
-        } else {
-          metaData = new PropertyMetadataType<>(validator, this.expression, null, this.metadataMap);
-        }
-      } else {
-        metaData = this.metadata.withValidator(validator);
-      }
-      property = build(name, metaData);
+      property = build(name, newMetadata());
       if (this.value != null) {
         property.set(this.value);
       }
@@ -210,6 +200,15 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
       this.registry.accept(property);
     }
     return property;
+  }
+
+  private PropertyMetadata<V> newMetadata() {
+
+    Validator<? super V> validator = null;
+    if (this.validatorBuilder != null) {
+      validator = this.validatorBuilder.build();
+    }
+    return PropertyMetadataFactory.get(this.metadataFactory).create(validator, null, null, this.metadataMap);
   }
 
   /**
@@ -257,6 +256,9 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
     }
     if (this.factory != null) {
       builder.factory((Function) this.factory);
+    }
+    if (this.metadataFactory != null) {
+      builder.metadataFactory(this.metadataFactory);
     }
     return builder;
   }

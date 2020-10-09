@@ -56,6 +56,7 @@ import io.github.mmm.property.temporal.zoneddatetime.ZonedDateTimeProperty;
  *
  * @since 1.0.0
  */
+@SuppressWarnings("unchecked")
 public interface DefaultPropertyBuilders {
 
   /**
@@ -64,7 +65,7 @@ public interface DefaultPropertyBuilders {
    */
   default StringProperty newString(String name) {
 
-    return get(name, this, () -> accept(new StringProperty(name), this));
+    return get(name, this, metadata -> accept(new StringProperty(name, metadata), this));
   }
 
   /**
@@ -81,7 +82,7 @@ public interface DefaultPropertyBuilders {
    */
   default BooleanProperty newBoolean(String name) {
 
-    return get(name, this, () -> accept(new BooleanProperty(name), this));
+    return get(name, this, metadata -> accept(new BooleanProperty(name, metadata), this));
   }
 
   /**
@@ -98,7 +99,7 @@ public interface DefaultPropertyBuilders {
    */
   default LongProperty newLong(String name) {
 
-    return get(name, this, () -> accept(new LongProperty(name), this));
+    return get(name, this, metadata -> accept(new LongProperty(name, metadata), this));
   }
 
   /**
@@ -107,7 +108,7 @@ public interface DefaultPropertyBuilders {
    */
   default BigDecimalProperty newBigDecimal(String name) {
 
-    return get(name, this, () -> accept(new BigDecimalProperty(name), this));
+    return get(name, this, metadata -> accept(new BigDecimalProperty(name, metadata), this));
   }
 
   /**
@@ -124,7 +125,7 @@ public interface DefaultPropertyBuilders {
    */
   default BigIntegerProperty newBigInteger(String name) {
 
-    return get(name, this, () -> accept(new BigIntegerProperty(name), this));
+    return get(name, this, metadata -> accept(new BigIntegerProperty(name, metadata), this));
   }
 
   /**
@@ -149,7 +150,7 @@ public interface DefaultPropertyBuilders {
    */
   default IntegerProperty newInteger(String name) {
 
-    return get(name, this, () -> accept(new IntegerProperty(name), this));
+    return get(name, this, metadata -> accept(new IntegerProperty(name, metadata), this));
   }
 
   /**
@@ -166,7 +167,7 @@ public interface DefaultPropertyBuilders {
    */
   default DoubleProperty newDouble(String name) {
 
-    return get(name, this, () -> accept(new DoubleProperty(name), this));
+    return get(name, this, metadata -> accept(new DoubleProperty(name, metadata), this));
   }
 
   /**
@@ -183,7 +184,7 @@ public interface DefaultPropertyBuilders {
    */
   default FloatProperty newFloat(String name) {
 
-    return get(name, this, () -> accept(new FloatProperty(name), this));
+    return get(name, this, metadata -> accept(new FloatProperty(name, metadata), this));
   }
 
   /**
@@ -200,7 +201,7 @@ public interface DefaultPropertyBuilders {
    */
   default ShortProperty newShort(String name) {
 
-    return get(name, this, () -> accept(new ShortProperty(name), this));
+    return get(name, this, metadata -> accept(new ShortProperty(name, metadata), this));
   }
 
   /**
@@ -217,7 +218,7 @@ public interface DefaultPropertyBuilders {
    */
   default ByteProperty newByte(String name) {
 
-    return get(name, this, () -> accept(new ByteProperty(name), this));
+    return get(name, this, metadata -> accept(new ByteProperty(name, metadata), this));
   }
 
   /**
@@ -234,7 +235,7 @@ public interface DefaultPropertyBuilders {
    */
   default InstantProperty newInstant(String name) {
 
-    return get(name, this, () -> accept(new InstantProperty(name), this));
+    return get(name, this, metadata -> accept(new InstantProperty(name, metadata), this));
   }
 
   /**
@@ -251,7 +252,7 @@ public interface DefaultPropertyBuilders {
    */
   default LocalDateTimeProperty newLocalDateTime(String name) {
 
-    return get(name, this, () -> accept(new LocalDateTimeProperty(name), this));
+    return get(name, this, metadata -> accept(new LocalDateTimeProperty(name, metadata), this));
   }
 
   /**
@@ -268,7 +269,7 @@ public interface DefaultPropertyBuilders {
    */
   default LocalDateProperty newLocalDate(String name) {
 
-    return get(name, this, () -> accept(new LocalDateProperty(name), this));
+    return get(name, this, metadata -> accept(new LocalDateProperty(name, metadata), this));
   }
 
   /**
@@ -285,7 +286,7 @@ public interface DefaultPropertyBuilders {
    */
   default LocalTimeProperty newLocalTime(String name) {
 
-    return get(name, this, () -> accept(new LocalTimeProperty(name), this));
+    return get(name, this, metadata -> accept(new LocalTimeProperty(name, metadata), this));
   }
 
   /**
@@ -302,7 +303,7 @@ public interface DefaultPropertyBuilders {
    */
   default OffsetDateTimeProperty newOffsetDateTime(String name) {
 
-    return get(name, this, () -> accept(new OffsetDateTimeProperty(name), this));
+    return get(name, this, metadata -> accept(new OffsetDateTimeProperty(name, metadata), this));
   }
 
   /**
@@ -319,7 +320,7 @@ public interface DefaultPropertyBuilders {
    */
   default OffsetTimeProperty newOffsetTime(String name) {
 
-    return get(name, this, () -> accept(new OffsetTimeProperty(name), this));
+    return get(name, this, metadata -> accept(new OffsetTimeProperty(name, metadata), this));
   }
 
   /**
@@ -336,7 +337,7 @@ public interface DefaultPropertyBuilders {
    */
   default ZonedDateTimeProperty newZonedDateTime(String name) {
 
-    return get(name, this, () -> accept(new ZonedDateTimeProperty(name), this));
+    return get(name, this, metadata -> accept(new ZonedDateTimeProperty(name, metadata), this));
   }
 
   /**

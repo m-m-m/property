@@ -49,7 +49,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
     super();
     this.name = name;
     if (metadata == null) {
-      this.metadata = PropertyMetadataNone.getInstance();
+      this.metadata = PropertyMetadataNone.get();
     } else {
       this.metadata = metadata;
     }
@@ -187,10 +187,14 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   public WritableProperty<V> getReadOnly() {
 
     if (this.readOnlyProperty == null) {
-      Property<V> copy = copy(null, null);
-      copy.bindInternal(this);
-      copy.readOnlyProperty = copy;
-      this.readOnlyProperty = copy;
+      if (this.metadata.getExpression() != null) {
+        this.readOnlyProperty = this;
+      } else {
+        Property<V> copy = copy(null, null);
+        copy.bindInternal(this);
+        copy.readOnlyProperty = copy;
+        this.readOnlyProperty = copy;
+      }
     }
     return this.readOnlyProperty;
   }

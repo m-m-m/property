@@ -2,10 +2,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property;
 
-import java.lang.reflect.Type;
-import java.util.Collections;
-import java.util.function.Supplier;
-
 import io.github.mmm.validation.Validator;
 
 /**
@@ -15,7 +11,7 @@ import io.github.mmm.validation.Validator;
  *
  * @since 1.0.0
  */
-public final class PropertyMetadataNone<V> implements PropertyMetadata<V> {
+public final class PropertyMetadataNone<V> extends AbstractPropertyMetadata<V> {
 
   private static final PropertyMetadataNone<Object> INSTANCE = new PropertyMetadataNone<>();
 
@@ -25,42 +21,12 @@ public final class PropertyMetadataNone<V> implements PropertyMetadata<V> {
   }
 
   @Override
-  public Validator<? super V> getValidator() {
-
-    return Validator.none();
-  }
-
-  @Override
-  public Supplier<? extends V> getExpression() {
-
-    return null;
-  }
-
-  @Override
-  public Type getValueType() {
-
-    return null;
-  }
-
-  @Override
-  public Object get(String key) {
-
-    return null;
-  }
-
-  @Override
-  public Iterable<String> getKeys() {
-
-    return Collections.emptyList();
-  }
-
-  @Override
   public PropertyMetadata<V> withValidator(Validator<? super V> validator) {
 
-    if ((validator == null) || (validator == Validator.none())) {
-      return this;
+    if (Validator.isValidating(validator)) {
+      return new PropertyMetadataType<>(validator);
     }
-    return new PropertyMetadataType<>(validator);
+    return this;
   }
 
   /**
@@ -68,7 +34,7 @@ public final class PropertyMetadataNone<V> implements PropertyMetadata<V> {
    * @return the singleton instance of this class.
    */
   @SuppressWarnings("unchecked")
-  public static <V> PropertyMetadataNone<V> getInstance() {
+  public static <V> PropertyMetadataNone<V> get() {
 
     return (PropertyMetadataNone<V>) INSTANCE;
   }

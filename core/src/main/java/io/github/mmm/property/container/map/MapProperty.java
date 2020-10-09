@@ -43,7 +43,7 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implement
    */
   public MapProperty(String name, SimpleProperty<K> keyProperty, Property<V> valueProperty) {
 
-    this(name, keyProperty, valueProperty, PropertyMetadataNone.getInstance());
+    this(name, keyProperty, valueProperty, PropertyMetadataNone.get());
   }
 
   /**

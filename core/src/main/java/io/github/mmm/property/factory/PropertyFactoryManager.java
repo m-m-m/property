@@ -110,7 +110,7 @@ public interface PropertyFactoryManager {
    */
   default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name) {
 
-    return create(propertyType, valueClass, name, PropertyMetadataNone.getInstance());
+    return create(propertyType, valueClass, name, PropertyMetadataNone.get());
   }
 
   /**
@@ -146,7 +146,7 @@ public interface PropertyFactoryManager {
    */
   default <V> WritableProperty<V> create(Class<V> valueClass, String name) {
 
-    return create(null, valueClass, name, PropertyMetadataNone.getInstance());
+    return create(null, valueClass, name, PropertyMetadataNone.get());
   }
 
   /**

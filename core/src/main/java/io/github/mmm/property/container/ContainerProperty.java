@@ -36,7 +36,7 @@ public abstract class ContainerProperty<V, E> extends Property<V> implements Wri
    */
   public ContainerProperty(String name, Property<E> valueProperty) {
 
-    this(name, valueProperty, PropertyMetadataNone.getInstance());
+    this(name, valueProperty, PropertyMetadataNone.get());
   }
 
   /**

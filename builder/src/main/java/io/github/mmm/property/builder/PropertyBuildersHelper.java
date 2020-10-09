@@ -6,6 +6,10 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.PropertyMetadataFactory;
+import io.github.mmm.property.PropertyMetadataNone;
+
 /**
  * Internal helper class for {@link io.github.mmm.property.builder.DefaultPropertyBuilders}.
  *
@@ -21,18 +25,24 @@ public final class PropertyBuildersHelper {
   /**
    * @param <T> type of result.
    * @param input the input value.
-   * @param inputFunction the potential {@link Function} to get the result from the given {@code input}.
+   * @param registry the potential {@link Function} to get the result from the given {@code input}.
    * @param factory the {@link Supplier} factory to create the result if not provided by {@code inputFunction}.
    * @return the result.
    */
-  public static <T> T get(Object input, Object inputFunction, Supplier<T> factory) {
+  public static <T> T get(Object input, Object registry, Function<PropertyMetadata, T> factory) {
 
     T result = null;
-    if (inputFunction instanceof Function) {
-      result = (T) ((Function) inputFunction).apply(input);
+    if (registry instanceof Function) {
+      result = (T) ((Function) registry).apply(input);
+    }
+    PropertyMetadata<?> metadata;
+    if (registry instanceof PropertyMetadataFactory) {
+      metadata = ((PropertyMetadataFactory) registry).create(null, null, null, null);
+    } else {
+      metadata = PropertyMetadataNone.get();
     }
     if (result == null) {
-      result = factory.get();
+      result = factory.apply(metadata);
     }
     return result;
   }
@@ -65,6 +75,9 @@ public final class PropertyBuildersHelper {
     }
     if (registry instanceof Function) {
       builder.factory((Function) registry);
+    }
+    if (registry instanceof PropertyMetadataFactory) {
+      builder.metadataFactory((PropertyMetadataFactory) registry);
     }
     return builder;
   }
