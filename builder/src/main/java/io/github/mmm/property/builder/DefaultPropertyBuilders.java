@@ -12,6 +12,7 @@ import java.util.function.Function;
 import io.github.mmm.property.Property;
 import io.github.mmm.property.booleans.BooleanProperty;
 import io.github.mmm.property.builder.lang.BooleanPropertyBuilder;
+import io.github.mmm.property.builder.lang.PatternPropertyBuilder;
 import io.github.mmm.property.builder.lang.StringPropertyBuilder;
 import io.github.mmm.property.builder.number.BigDecimalPropertyBuilder;
 import io.github.mmm.property.builder.number.BigIntegerPropertyBuilder;
@@ -36,6 +37,7 @@ import io.github.mmm.property.number.floats.FloatProperty;
 import io.github.mmm.property.number.integers.IntegerProperty;
 import io.github.mmm.property.number.longs.LongProperty;
 import io.github.mmm.property.number.shorts.ShortProperty;
+import io.github.mmm.property.pattern.PatternProperty;
 import io.github.mmm.property.string.StringProperty;
 import io.github.mmm.property.temporal.instant.InstantProperty;
 import io.github.mmm.property.temporal.localdate.LocalDateProperty;
@@ -74,6 +76,23 @@ public interface DefaultPropertyBuilders {
   default StringPropertyBuilder newString() {
 
     return builder(new StringPropertyBuilder(), this);
+  }
+
+  /**
+   * @param name the {@link Property#getName() property name}.
+   * @return a new {@link PatternProperty}.
+   */
+  default PatternProperty newPattern(String name) {
+
+    return get(name, this, metadata -> accept(new PatternProperty(name, metadata), this));
+  }
+
+  /**
+   * @return a new {@link StringPropertyBuilder}.
+   */
+  default PatternPropertyBuilder newPattern() {
+
+    return builder(new PatternPropertyBuilder(), this);
   }
 
   /**

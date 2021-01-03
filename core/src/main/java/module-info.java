@@ -34,6 +34,7 @@ module io.github.mmm.property {
       io.github.mmm.property.number.longs.PropertyFactoryLong, //
       io.github.mmm.property.number.shorts.PropertyFactoryShort, //
       io.github.mmm.property.object.PropertyFactoryObject, //
+      io.github.mmm.property.pattern.PropertyFactoryPattern, //
       io.github.mmm.property.range.PropertyFactoryRange, //
       io.github.mmm.property.string.PropertyFactoryString, //
       io.github.mmm.property.temporal.instant.PropertyFactoryInstant, //
@@ -50,7 +51,6 @@ module io.github.mmm.property {
   exports io.github.mmm.property.booleans;
 
   // exports net.sf.mmm.property.api.comparables;
-
   exports io.github.mmm.property.container;
 
   exports io.github.mmm.property.container.list;
@@ -60,6 +60,8 @@ module io.github.mmm.property {
   exports io.github.mmm.property.container.set;
 
   exports io.github.mmm.property.object;
+
+  exports io.github.mmm.property.pattern;
 
   exports io.github.mmm.property.range;
 
@@ -100,5 +102,4 @@ module io.github.mmm.property {
   exports io.github.mmm.property.temporal.offsettime;
 
   exports io.github.mmm.property.temporal.zoneddatetime;
-
 }
