@@ -3,6 +3,7 @@
 package io.github.mmm.property.builder.number;
 
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.number.shorts.ShortProperty;
@@ -18,10 +19,12 @@ public final class ShortPropertyBuilder extends
 
   /**
    * The constructor.
+   *
+   * @param parent the {@link PropertyBuilders}.
    */
-  public ShortPropertyBuilder() {
+  public ShortPropertyBuilder(PropertyBuilders parent) {
 
-    super();
+    super(parent);
   }
 
   @Override

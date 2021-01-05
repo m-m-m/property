@@ -5,9 +5,11 @@ package io.github.mmm.property;
 import java.util.Objects;
 import java.util.function.Supplier;
 
+import io.github.mmm.base.exception.ReadOnlyException;
 import io.github.mmm.marshall.Marshalling;
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
+import io.github.mmm.property.impl.metadata.PropertyMetadataNone;
 import io.github.mmm.validation.Validatable;
 import io.github.mmm.validation.ValidationResult;
 import io.github.mmm.value.observable.AbstractWritableObservableValue;
@@ -116,7 +118,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
 
     super.requireWritable();
     if (isReadOnly()) {
-      throw new IllegalStateException("Property " + getName() + " is readonly and cannot be modified.");
+      throw new ReadOnlyException("Property " + getName() + " is readonly and cannot be modified.");
     }
   }
 
@@ -207,7 +209,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
     } else if (this.metadata.getExpression() != null) {
       return true;
     }
-    return false;
+    return this.metadata.getLock().isReadOnly();
   }
 
   @Override

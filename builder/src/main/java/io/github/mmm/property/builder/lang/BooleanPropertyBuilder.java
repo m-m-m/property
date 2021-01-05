@@ -4,12 +4,13 @@ package io.github.mmm.property.builder.lang;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.booleans.BooleanProperty;
+import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.validation.main.ValidatorBuilderBoolean;
 
 /**
  * {@link PropertyBuilder} for {@link BooleanProperty}.
- * 
+ *
  * @since 1.0.0
  */
 public final class BooleanPropertyBuilder extends
@@ -17,10 +18,12 @@ public final class BooleanPropertyBuilder extends
 
   /**
    * The constructor.
+   *
+   * @param parent the {@link PropertyBuilders}.
    */
-  public BooleanPropertyBuilder() {
+  public BooleanPropertyBuilder(PropertyBuilders parent) {
 
-    super();
+    super(parent);
   }
 
   @Override

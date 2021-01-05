@@ -7,6 +7,13 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import io.github.mmm.marshall.Marshalling;
+import io.github.mmm.property.impl.metadata.PropertyMetadataExpression;
+import io.github.mmm.property.impl.metadata.PropertyMetadataLock;
+import io.github.mmm.property.impl.metadata.PropertyMetadataMap;
+import io.github.mmm.property.impl.metadata.PropertyMetadataNone;
+import io.github.mmm.property.impl.metadata.PropertyMetadataValidator;
+import io.github.mmm.property.impl.metadata.PropertyMetadataValueType;
+import io.github.mmm.property.impl.readonly.AttributeNeverReadOnly;
 import io.github.mmm.validation.Validator;
 
 /**
@@ -122,10 +129,127 @@ public interface PropertyMetadata<V> {
   }
 
   /**
-   * @param validator the new {@link Validator}.
+   * @param newLock the new {@link #getLock() lock}.
+   * @return a new instance of {@link PropertyMetadata} with the given {@link AttributeReadOnly} used for
+   *         {@link #getLock()}.
+   */
+  PropertyMetadata<V> withLock(AttributeReadOnly newLock);
+
+  /**
+   * @param newValidator the new {@link Validator}.
    * @return a new instance of {@link PropertyMetadata} with the given {@link Validator} used for
    *         {@link #getValidator()}.
    */
-  PropertyMetadata<V> withValidator(Validator<? super V> validator);
+  PropertyMetadata<V> withValidator(Validator<? super V> newValidator);
+
+  /**
+   * @param newExpression the new {@link #getExpression() expression}.
+   * @return a new instance of {@link PropertyMetadata} with the given {@link Supplier} used for
+   *         {@link #getExpression()}.
+   */
+  PropertyMetadata<V> withExpression(Supplier<? extends V> newExpression);
+
+  /**
+   * @return the lock object that can make the owning {@link Property} {@link AttributeReadOnly#isReadOnly() read-only}.
+   *         Typically this is the owning bean.
+   */
+  default AttributeReadOnly getLock() {
+
+    return AttributeNeverReadOnly.INSTANCE;
+  }
+
+  /**
+   * @param <V> type of the {@link Property#get() property value}.
+   * @param lock the {@link PropertyMetadata#getLock() lock} (owning bean).
+   * @param validator the {@link PropertyMetadata#getValidator() validator}.
+   * @param expression the {@link PropertyMetadata#getExpression() expression}.
+   * @param valueType the {@link PropertyMetadata#getValueType() value type}.
+   * @param map the {@link PropertyMetadata#get(String) metadata} {@link Map}.
+   * @return the new {@link PropertyMetadata}.
+   */
+  static <V> PropertyMetadata<V> of(AttributeReadOnly lock, Validator<? super V> validator,
+      Supplier<? extends V> expression, Type valueType, Map<String, Object> map) {
+
+    if (isNotEmpty(map)) {
+      return new PropertyMetadataMap<>(lock, validator, expression, valueType, map);
+    } else if (valueType != null) {
+      return new PropertyMetadataValueType<>(lock, validator, expression, valueType);
+    } else if (expression != null) {
+      return new PropertyMetadataExpression<>(lock, validator, expression);
+    } else if (Validator.isValidating(validator)) {
+      return new PropertyMetadataValidator<>(lock, validator);
+    } else if (lock != null) {
+      return new PropertyMetadataLock<>(lock);
+    }
+    return PropertyMetadataNone.get();
+  }
+
+  private static boolean isNotEmpty(Map<?, ?> map) {
+
+    if (map == null) {
+      return false;
+    }
+    return !map.isEmpty();
+  }
+
+  /**
+   * @param <V> type of the {@link Property#get() property value}.
+   * @param lock the {@link PropertyMetadata#getLock() lock} (owning bean).
+   * @return the new {@link PropertyMetadata}.
+   */
+  static <V> PropertyMetadata<V> of(AttributeReadOnly lock) {
+
+    return of(lock, null, null, null, null);
+  }
+
+  /**
+   * @param <V> type of the {@link Property#get() property value}.
+   * @param lock the {@link PropertyMetadata#getLock() lock} (owning bean).
+   * @param validator the {@link PropertyMetadata#getValidator() validator}.
+   * @return the new {@link PropertyMetadata}.
+   */
+  static <V> PropertyMetadata<V> of(AttributeReadOnly lock, Validator<? super V> validator) {
+
+    return of(lock, validator, null, null, null);
+  }
+
+  /**
+   * @param <V> type of the {@link Property#get() property value}.
+   * @param lock the {@link PropertyMetadata#getLock() lock} (owning bean).
+   * @param validator the {@link PropertyMetadata#getValidator() validator}.
+   * @param expression the {@link PropertyMetadata#getExpression() expression}.
+   * @return the new {@link PropertyMetadata}.
+   */
+  static <V> PropertyMetadata<V> of(AttributeReadOnly lock, Validator<? super V> validator,
+      Supplier<? extends V> expression) {
+
+    return of(lock, validator, expression, null, null);
+  }
+
+  /**
+   * @param <V> type of the {@link Property#get() property value}.
+   * @param lock the {@link PropertyMetadata#getLock() lock} (owning bean).
+   * @param validator the {@link PropertyMetadata#getValidator() validator}.
+   * @param expression the {@link PropertyMetadata#getExpression() expression}.
+   * @param valueType the {@link PropertyMetadata#getValueType() value type}.
+   * @return the new {@link PropertyMetadata}.
+   */
+  static <V> PropertyMetadata<V> of(AttributeReadOnly lock, Validator<? super V> validator,
+      Supplier<? extends V> expression, Type valueType) {
+
+    return of(lock, validator, expression, valueType, null);
+  }
+
+  /**
+   * @param <V> type of the {@link Property#get() property value}.
+   * @param lock the {@link PropertyMetadata#getLock() lock} (owning bean).
+   * @param validator the {@link PropertyMetadata#getValidator() validator}.
+   * @param expression the {@link PropertyMetadata#getExpression() expression}.
+   * @return the new {@link PropertyMetadata}.
+   */
+  static <V> PropertyMetadata<V> ofExpression(Supplier<? extends V> expression) {
+
+    return of(null, null, expression, null, null);
+  }
 
 }

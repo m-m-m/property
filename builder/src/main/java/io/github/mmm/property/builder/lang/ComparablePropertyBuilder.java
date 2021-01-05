@@ -3,6 +3,7 @@
 package io.github.mmm.property.builder.lang;
 
 import io.github.mmm.property.Property;
+import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.number.integers.IntegerProperty;
 import io.github.mmm.property.object.SimpleProperty;
@@ -23,10 +24,12 @@ public abstract class ComparablePropertyBuilder<V extends Comparable, P extends 
 
   /**
    * The constructor.
+   *
+   * @param parent the {@link PropertyBuilders}.
    */
-  public ComparablePropertyBuilder() {
+  public ComparablePropertyBuilder(PropertyBuilders parent) {
 
-    super();
+    super(parent);
   }
 
   /**
@@ -36,7 +39,7 @@ public abstract class ComparablePropertyBuilder<V extends Comparable, P extends 
   @SuppressWarnings("unchecked")
   public RangePropertyBuilder<V> asRange() {
 
-    return builder(new RangePropertyBuilder<>((SimpleProperty<V>) build("Value", true)));
+    return builder(new RangePropertyBuilder<>(this.parent, (SimpleProperty<V>) build("Value", true)));
   }
 
 }

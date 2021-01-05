@@ -5,6 +5,7 @@ package io.github.mmm.property.builder.temporal;
 import java.time.LocalDateTime;
 
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.temporal.localdatetime.LocalDateTimeProperty;
@@ -20,10 +21,12 @@ public final class LocalDateTimePropertyBuilder extends
 
   /**
    * The constructor.
+   *
+   * @param parent the {@link PropertyBuilders}.
    */
-  public LocalDateTimePropertyBuilder() {
+  public LocalDateTimePropertyBuilder(PropertyBuilders parent) {
 
-    super();
+    super(parent);
   }
 
   @Override

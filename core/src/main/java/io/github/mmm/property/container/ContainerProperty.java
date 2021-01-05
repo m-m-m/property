@@ -4,10 +4,10 @@ package io.github.mmm.property.container;
 
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.PropertyMetadataNone;
-import io.github.mmm.property.PropertyMetadataType;
 import io.github.mmm.property.booleans.BooleanProperty;
 import io.github.mmm.property.booleans.ReadableBooleanProperty;
+import io.github.mmm.property.impl.metadata.PropertyMetadataExpression;
+import io.github.mmm.property.impl.metadata.PropertyMetadataNone;
 import io.github.mmm.property.number.integers.IntegerProperty;
 import io.github.mmm.property.number.integers.ReadableIntegerProperty;
 
@@ -80,7 +80,7 @@ public abstract class ContainerProperty<V, E> extends Property<V> implements Wri
     if (this.sizeProperty == null) {
       getChangeAwareValue();
       this.sizeProperty = new IntegerProperty(getName() + ".size",
-          new PropertyMetadataType<>(() -> Integer.valueOf(size())));
+          new PropertyMetadataExpression<>(() -> Integer.valueOf(size())));
     }
     return this.sizeProperty;
   }
@@ -91,7 +91,7 @@ public abstract class ContainerProperty<V, E> extends Property<V> implements Wri
     if (this.emptyProperty == null) {
       getChangeAwareValue();
       this.emptyProperty = new BooleanProperty(getName() + ".empty",
-          new PropertyMetadataType<>(() -> Boolean.valueOf(isEmpty())));
+          new PropertyMetadataExpression<>(() -> Boolean.valueOf(isEmpty())));
     }
     return this.emptyProperty;
   }

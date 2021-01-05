@@ -6,6 +6,7 @@ import java.util.List;
 
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.container.list.ListProperty;
 import io.github.mmm.validation.collection.ValidatorBuilderList;
@@ -24,20 +25,23 @@ public class ListPropertyBuilder<E> extends
 
   /**
    * The constructor.
+   *
+   * @param parent the {@link PropertyBuilders}.
    */
-  public ListPropertyBuilder() {
+  public ListPropertyBuilder(PropertyBuilders parent) {
 
-    super();
+    this(parent, null);
   }
 
   /**
    * The constructor.
    *
+   * @param parent the {@link PropertyBuilders}.
    * @param valueProperty the {@link ListProperty#getValueProperty() value property}.
    */
-  public ListPropertyBuilder(Property<E> valueProperty) {
+  public ListPropertyBuilder(PropertyBuilders parent, Property<E> valueProperty) {
 
-    super();
+    super(parent);
     this.valueProperty = valueProperty;
   }
 

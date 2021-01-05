@@ -4,6 +4,7 @@ package io.github.mmm.property.builder.lang;
 
 import io.github.mmm.base.range.Range;
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.object.SimpleProperty;
 import io.github.mmm.property.range.RangeProperty;
@@ -23,20 +24,23 @@ public final class RangePropertyBuilder<V> extends
 
   /**
    * The constructor.
+   *
+   * @param parent the {@link PropertyBuilders}.
    */
-  public RangePropertyBuilder() {
+  public RangePropertyBuilder(PropertyBuilders parent) {
 
-    super();
+    this(parent, null);
   }
 
   /**
    * The constructor.
    *
+   * @param parent the {@link PropertyBuilders}.
    * @param valueProperty the {@link RangeProperty#getValueProperty() value property}.
    */
-  public RangePropertyBuilder(SimpleProperty<V> valueProperty) {
+  public RangePropertyBuilder(PropertyBuilders parent, SimpleProperty<V> valueProperty) {
 
-    super();
+    super(parent);
     this.valueProperty = valueProperty;
   }
 

@@ -8,9 +8,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.PropertyMetadataFactory;
 import io.github.mmm.property.builder.container.ListPropertyBuilder;
 import io.github.mmm.property.builder.container.MapPropertyBuilder;
 import io.github.mmm.property.builder.container.SetPropertyBuilder;
@@ -38,11 +38,12 @@ import io.github.mmm.validation.main.ObjectValidatorBuilder;
  */
 public abstract class PropertyBuilder<V, P extends Property<V>, B extends ObjectValidatorBuilder<V, ? extends PropertyBuilder<V, P, B, SELF>, ?>, SELF extends PropertyBuilder<V, P, B, SELF>> {
 
+  /** @see #getParent() */
+  protected final PropertyBuilders parent;
+
   private Consumer<? super P> registry;
 
   private Function<String, P> factory;
-
-  private PropertyMetadataFactory metadataFactory;
 
   private B validatorBuilder;
 
@@ -56,10 +57,13 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
 
   /**
    * The constructor.
+   *
+   * @param parent the {@link PropertyBuilders}.
    */
-  public PropertyBuilder() {
+  public PropertyBuilder(PropertyBuilders parent) {
 
     super();
+    this.parent = parent;
   }
 
   /**
@@ -69,6 +73,14 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
   protected SELF self() {
 
     return (SELF) this;
+  }
+
+  /**
+   * @return the parent {@link PropertyBuilders} that created this property builder.
+   */
+  public PropertyBuilders getParent() {
+
+    return this.parent;
   }
 
   /**
@@ -98,21 +110,6 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
       throw new IllegalStateException("Factory function already set!");
     }
     this.factory = function;
-    return self();
-  }
-
-  /**
-   * @param propertyMetadataFactory the {@link PropertyMetadataFactory} used to
-   *        {@link PropertyMetadataFactory#create(Validator, Supplier, java.lang.reflect.Type, Map) create} instances of
-   *        {@link PropertyMetadata}.
-   * @return this builder itself ({@code this}) for fluent API calls.
-   */
-  public SELF metadataFactory(PropertyMetadataFactory propertyMetadataFactory) {
-
-    if (this.metadataFactory != null) {
-      throw new IllegalStateException("PropertyMetadataFactory already set!");
-    }
-    this.metadataFactory = propertyMetadataFactory;
     return self();
   }
 
@@ -208,7 +205,11 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
     if (this.validatorBuilder != null) {
       validator = this.validatorBuilder.build();
     }
-    return PropertyMetadataFactory.get(this.metadataFactory).create(validator, null, null, this.metadataMap);
+    AttributeReadOnly lock = null;
+    if (this.parent != null) {
+      lock = this.parent.getLock();
+    }
+    return PropertyMetadata.of(lock, validator, null, null, this.metadataMap);
   }
 
   /**
@@ -223,7 +224,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public ListPropertyBuilder<V> asList() {
 
-    return builder(new ListPropertyBuilder<>(build("ListItem", true)));
+    return builder(new ListPropertyBuilder<>(this.parent, build("ListItem", true)));
   }
 
   /**
@@ -231,7 +232,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public SetPropertyBuilder<V> asSet() {
 
-    return builder(new SetPropertyBuilder<>(build("SetItem", true)));
+    return builder(new SetPropertyBuilder<>(this.parent, build("SetItem", true)));
   }
 
   /**
@@ -240,7 +241,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public MapPropertyBuilder<String, V> asMap() {
 
-    return builder(new MapPropertyBuilder<>(build("MapItem", true)));
+    return builder(new MapPropertyBuilder<>(this.parent, build("MapItem", true)));
   }
 
   /**
@@ -257,9 +258,6 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
     if (this.factory != null) {
       builder.factory((Function) this.factory);
     }
-    if (this.metadataFactory != null) {
-      builder.metadataFactory(this.metadataFactory);
-    }
     return builder;
   }
 
@@ -271,7 +269,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public <K> MapPropertyBuilder<K, V> asMap(SimpleProperty<K> keyProperty) {
 
-    return new MapPropertyBuilder<>(keyProperty, build("Value"));
+    return new MapPropertyBuilder<>(this.parent, keyProperty, build("Value"));
   }
 
 }

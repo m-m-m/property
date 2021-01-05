@@ -3,6 +3,7 @@
 package io.github.mmm.property.builder.lang;
 
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.string.StringProperty;
 import io.github.mmm.validation.string.ValidatorBuilderString;
@@ -17,10 +18,12 @@ public final class StringPropertyBuilder extends
 
   /**
    * The constructor.
+   *
+   * @param parent the {@link PropertyBuilders}.
    */
-  public StringPropertyBuilder() {
+  public StringPropertyBuilder(PropertyBuilders parent) {
 
-    super();
+    super(parent);
   }
 
   @Override

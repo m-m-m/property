@@ -15,7 +15,8 @@ import io.github.mmm.value.observable.ObservableValue;
  *
  * @since 1.0.0
  */
-public interface ReadableProperty<V> extends ObservableValue<V>, TypedPropertyPath<V>, MarshallableObject, Validatable {
+public interface ReadableProperty<V>
+    extends ObservableValue<V>, TypedPropertyPath<V>, MarshallableObject, Validatable, AttributeReadOnly {
 
   /**
    * @return the name of the property. By convention it should start with a {@link Character#isUpperCase(char) capital}
@@ -30,13 +31,6 @@ public interface ReadableProperty<V> extends ObservableValue<V>, TypedPropertyPa
    * @see #validate()
    */
   boolean isValid();
-
-  /**
-   * @return {@code true} if this property is immutable (read-only) and {@link WritableProperty#set(Object)
-   *         modifications} will fail with an exception, {@code false} otherwise.
-   * @see WritableProperty#getReadOnly()
-   */
-  boolean isReadOnly();
 
   /**
    * @return {@code true} if transient (e.g. computed and therefore not to be marshalled), {@code false} otherwise.

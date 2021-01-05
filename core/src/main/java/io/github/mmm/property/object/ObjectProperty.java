@@ -5,8 +5,8 @@ package io.github.mmm.property.object;
 import java.util.Objects;
 
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.PropertyMetadataNone;
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.impl.metadata.PropertyMetadataNone;
 
 /**
  * Generic implementation of {@link WritableProperty} for arbitrary objects that do not have their own custom

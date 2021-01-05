@@ -9,7 +9,9 @@ import static io.github.mmm.property.builder.PropertyBuildersHelper.get;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
+import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.booleans.BooleanProperty;
 import io.github.mmm.property.builder.lang.BooleanPropertyBuilder;
 import io.github.mmm.property.builder.lang.PatternPropertyBuilder;
@@ -59,7 +61,20 @@ import io.github.mmm.property.temporal.zoneddatetime.ZonedDateTimeProperty;
  * @since 1.0.0
  */
 @SuppressWarnings("unchecked")
-public interface DefaultPropertyBuilders {
+public interface PropertyBuilders {
+
+  /**
+   * @return the {@link PropertyMetadata#getLock() lock}.
+   */
+  AttributeReadOnly getLock();
+
+  /**
+   * @return a new {@link StringPropertyBuilder}.
+   */
+  default StringPropertyBuilder newString() {
+
+    return builder(new StringPropertyBuilder(this), this);
+  }
 
   /**
    * @param name the {@link Property#getName() property name}.
@@ -73,9 +88,9 @@ public interface DefaultPropertyBuilders {
   /**
    * @return a new {@link StringPropertyBuilder}.
    */
-  default StringPropertyBuilder newString() {
+  default PatternPropertyBuilder newPattern() {
 
-    return builder(new StringPropertyBuilder(), this);
+    return builder(new PatternPropertyBuilder(this), this);
   }
 
   /**
@@ -88,11 +103,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link StringPropertyBuilder}.
+   * @return a new {@link BooleanPropertyBuilder}.
    */
-  default PatternPropertyBuilder newPattern() {
+  default BooleanPropertyBuilder newBoolean() {
 
-    return builder(new PatternPropertyBuilder(), this);
+    return builder(new BooleanPropertyBuilder(this), this);
   }
 
   /**
@@ -105,11 +120,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link BooleanPropertyBuilder}.
+   * @return a new {@link LongPropertyBuilder}.
    */
-  default BooleanPropertyBuilder newBoolean() {
+  default LongPropertyBuilder newLong() {
 
-    return builder(new BooleanPropertyBuilder(), this);
+    return builder(new LongPropertyBuilder(this), this);
   }
 
   /**
@@ -122,6 +137,14 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
+   * @return a new {@link BigDecimalPropertyBuilder}.
+   */
+  default BigDecimalPropertyBuilder newBigDecimal() {
+
+    return builder(new BigDecimalPropertyBuilder(this), this);
+  }
+
+  /**
    * @param name the {@link Property#getName() property name}.
    * @return a new {@link BigDecimalProperty}.
    */
@@ -131,11 +154,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link BigDecimalPropertyBuilder}.
+   * @return a new {@link BigIntegerPropertyBuilder}.
    */
-  default BigDecimalPropertyBuilder newBigDecimal() {
+  default BigIntegerPropertyBuilder newBigInteger() {
 
-    return builder(new BigDecimalPropertyBuilder(), this);
+    return builder(new BigIntegerPropertyBuilder(this), this);
   }
 
   /**
@@ -148,19 +171,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link BigIntegerPropertyBuilder}.
+   * @return a new {@link IntegerPropertyBuilder}.
    */
-  default BigIntegerPropertyBuilder newBigInteger() {
+  default IntegerPropertyBuilder newInteger() {
 
-    return builder(new BigIntegerPropertyBuilder(), this);
-  }
-
-  /**
-   * @return a new {@link LongPropertyBuilder}.
-   */
-  default LongPropertyBuilder newLong() {
-
-    return builder(new LongPropertyBuilder(), this);
+    return builder(new IntegerPropertyBuilder(this), this);
   }
 
   /**
@@ -173,11 +188,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link IntegerPropertyBuilder}.
+   * @return a new {@link DoublePropertyBuilder}.
    */
-  default IntegerPropertyBuilder newInteger() {
+  default DoublePropertyBuilder newDouble() {
 
-    return builder(new IntegerPropertyBuilder(), this);
+    return builder(new DoublePropertyBuilder(this), this);
   }
 
   /**
@@ -190,11 +205,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link DoublePropertyBuilder}.
+   * @return a new {@link FloatPropertyBuilder}.
    */
-  default DoublePropertyBuilder newDouble() {
+  default FloatPropertyBuilder newFloat() {
 
-    return builder(new DoublePropertyBuilder(), this);
+    return builder(new FloatPropertyBuilder(this), this);
   }
 
   /**
@@ -207,11 +222,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link FloatPropertyBuilder}.
+   * @return a new {@link ShortPropertyBuilder}.
    */
-  default FloatPropertyBuilder newFloat() {
+  default ShortPropertyBuilder newShort() {
 
-    return builder(new FloatPropertyBuilder(), this);
+    return builder(new ShortPropertyBuilder(this), this);
   }
 
   /**
@@ -224,11 +239,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link ShortPropertyBuilder}.
+   * @return a new {@link BytePropertyBuilder}.
    */
-  default ShortPropertyBuilder newShort() {
+  default BytePropertyBuilder newByte() {
 
-    return builder(new ShortPropertyBuilder(), this);
+    return builder(new BytePropertyBuilder(this), this);
   }
 
   /**
@@ -241,11 +256,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link BytePropertyBuilder}.
+   * @return a new {@link InstantPropertyBuilder}.
    */
-  default BytePropertyBuilder newByte() {
+  default InstantPropertyBuilder newInstant() {
 
-    return builder(new BytePropertyBuilder(), this);
+    return builder(new InstantPropertyBuilder(this), this);
   }
 
   /**
@@ -258,11 +273,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link InstantPropertyBuilder}.
+   * @return a new {@link LocalDateTimePropertyBuilder}.
    */
-  default InstantPropertyBuilder newInstant() {
+  default LocalDateTimePropertyBuilder newLocalDateTime() {
 
-    return builder(new InstantPropertyBuilder(), this);
+    return builder(new LocalDateTimePropertyBuilder(this), this);
   }
 
   /**
@@ -275,11 +290,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link LocalDateTimePropertyBuilder}.
+   * @return a new {@link LocalDatePropertyBuilder}.
    */
-  default LocalDateTimePropertyBuilder newLocalDateTime() {
+  default LocalDatePropertyBuilder newLocalDate() {
 
-    return builder(new LocalDateTimePropertyBuilder(), this);
+    return builder(new LocalDatePropertyBuilder(this), this);
   }
 
   /**
@@ -292,11 +307,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link LocalDatePropertyBuilder}.
+   * @return a new {@link LocalTimePropertyBuilder}.
    */
-  default LocalDatePropertyBuilder newLocalDate() {
+  default LocalTimePropertyBuilder newLocalTime() {
 
-    return builder(new LocalDatePropertyBuilder(), this);
+    return builder(new LocalTimePropertyBuilder(this), this);
   }
 
   /**
@@ -309,11 +324,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link LocalTimePropertyBuilder}.
+   * @return a new {@link OffsetDateTimePropertyBuilder}.
    */
-  default LocalTimePropertyBuilder newLocalTime() {
+  default OffsetDateTimePropertyBuilder newOffsetDateTime() {
 
-    return builder(new LocalTimePropertyBuilder(), this);
+    return builder(new OffsetDateTimePropertyBuilder(this), this);
   }
 
   /**
@@ -326,11 +341,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link OffsetDateTimePropertyBuilder}.
+   * @return a new {@link OffsetTimePropertyBuilder}.
    */
-  default OffsetDateTimePropertyBuilder newOffsetDateTime() {
+  default OffsetTimePropertyBuilder newOffsetTime() {
 
-    return builder(new OffsetDateTimePropertyBuilder(), this);
+    return builder(new OffsetTimePropertyBuilder(this), this);
   }
 
   /**
@@ -343,11 +358,11 @@ public interface DefaultPropertyBuilders {
   }
 
   /**
-   * @return a new {@link OffsetTimePropertyBuilder}.
+   * @return a new {@link ZonedDateTimePropertyBuilder}.
    */
-  default OffsetTimePropertyBuilder newOffsetTime() {
+  default ZonedDateTimePropertyBuilder newZonedDateTime() {
 
-    return builder(new OffsetTimePropertyBuilder(), this);
+    return builder(new ZonedDateTimePropertyBuilder(this), this);
   }
 
   /**
@@ -357,14 +372,6 @@ public interface DefaultPropertyBuilders {
   default ZonedDateTimeProperty newZonedDateTime(String name) {
 
     return get(name, this, metadata -> accept(new ZonedDateTimeProperty(name, metadata), this));
-  }
-
-  /**
-   * @return a new {@link ZonedDateTimePropertyBuilder}.
-   */
-  default ZonedDateTimePropertyBuilder newZonedDateTime() {
-
-    return builder(new ZonedDateTimePropertyBuilder(), this);
   }
 
 }

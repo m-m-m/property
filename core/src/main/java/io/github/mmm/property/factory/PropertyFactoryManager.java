@@ -4,10 +4,10 @@ package io.github.mmm.property.factory;
 
 import io.github.mmm.base.exception.ObjectNotFoundException;
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.PropertyMetadataNone;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
 import io.github.mmm.property.impl.PropertyFactoryManagerImpl;
+import io.github.mmm.property.impl.metadata.PropertyMetadataNone;
 
 /**
  * This is the interface for the manager where all {@link PropertyFactory} variants are registered.

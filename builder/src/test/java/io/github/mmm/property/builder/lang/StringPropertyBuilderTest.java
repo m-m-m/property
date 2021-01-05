@@ -20,7 +20,7 @@ public class StringPropertyBuilderTest extends PropertyBuilderTest<String> {
   @Override
   protected StringPropertyBuilder createBuilder() {
 
-    return new StringPropertyBuilder();
+    return new StringPropertyBuilder(null);
   }
 
   @Override

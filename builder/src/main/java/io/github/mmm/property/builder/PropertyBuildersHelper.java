@@ -7,11 +7,9 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.PropertyMetadataFactory;
-import io.github.mmm.property.PropertyMetadataNone;
 
 /**
- * Internal helper class for {@link io.github.mmm.property.builder.DefaultPropertyBuilders}.
+ * Internal helper class for {@link io.github.mmm.property.builder.PropertyBuilders}.
  *
  * @since 1.0.0
  */
@@ -29,19 +27,14 @@ public final class PropertyBuildersHelper {
    * @param factory the {@link Supplier} factory to create the result if not provided by {@code inputFunction}.
    * @return the result.
    */
-  public static <T> T get(Object input, Object registry, Function<PropertyMetadata, T> factory) {
+  public static <T> T get(Object input, PropertyBuilders registry, Function<PropertyMetadata, T> factory) {
 
     T result = null;
     if (registry instanceof Function) {
       result = (T) ((Function) registry).apply(input);
     }
-    PropertyMetadata<?> metadata;
-    if (registry instanceof PropertyMetadataFactory) {
-      metadata = ((PropertyMetadataFactory) registry).create(null, null, null, null);
-    } else {
-      metadata = PropertyMetadataNone.get();
-    }
     if (result == null) {
+      PropertyMetadata<?> metadata = PropertyMetadata.of(registry.getLock());
       result = factory.apply(metadata);
     }
     return result;
@@ -65,7 +58,7 @@ public final class PropertyBuildersHelper {
   /**
    * @param <B> type of the {@link PropertyBuilder}.
    * @param builder the {@link PropertyBuilder} to configure.
-   * @param registry the {@link io.github.mmm.property.builder.DefaultPropertyBuilders builder factory}.
+   * @param registry the {@link io.github.mmm.property.builder.PropertyBuilders builder factory}.
    * @return the given {@link PropertyBuilder}.
    */
   public static <B extends PropertyBuilder<?, ?, ?, ?>> B builder(B builder, Object registry) {
@@ -75,9 +68,6 @@ public final class PropertyBuildersHelper {
     }
     if (registry instanceof Function) {
       builder.factory((Function) registry);
-    }
-    if (registry instanceof PropertyMetadataFactory) {
-      builder.metadataFactory((PropertyMetadataFactory) registry);
     }
     return builder;
   }

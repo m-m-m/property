@@ -6,6 +6,7 @@ import java.util.Map;
 
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.container.map.MapProperty;
 import io.github.mmm.property.object.SimpleProperty;
@@ -28,32 +29,35 @@ public class MapPropertyBuilder<K, V> extends
 
   /**
    * The constructor.
+   *
+   * @param parent the {@link PropertyBuilders}.
    */
-  public MapPropertyBuilder() {
+  public MapPropertyBuilder(PropertyBuilders parent) {
 
-    super();
+    this(parent, null, null);
   }
 
   /**
    * The constructor.
    *
+   * @param parent the {@link PropertyBuilders}.
    * @param valueProperty the {@link MapProperty#getValueProperty() value property}.
    */
-  public MapPropertyBuilder(Property<V> valueProperty) {
+  public MapPropertyBuilder(PropertyBuilders parent, Property<V> valueProperty) {
 
-    super();
-    this.valueProperty = valueProperty;
+    this(parent, null, valueProperty);
   }
 
   /**
    * The constructor.
    *
+   * @param parent the {@link PropertyBuilders}.
    * @param keyProperty the {@link MapProperty#getKeyProperty() key property}.
    * @param valueProperty the {@link MapProperty#getValueProperty() value property}.
    */
-  public MapPropertyBuilder(SimpleProperty<K> keyProperty, Property<V> valueProperty) {
+  public MapPropertyBuilder(PropertyBuilders parent, SimpleProperty<K> keyProperty, Property<V> valueProperty) {
 
-    super();
+    super(parent);
     this.keyProperty = keyProperty;
     this.valueProperty = valueProperty;
   }

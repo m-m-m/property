@@ -8,8 +8,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import io.github.mmm.property.Property;
-import io.github.mmm.property.PropertyMetadataNone;
-import io.github.mmm.property.PropertyMetadataType;
 import io.github.mmm.property.container.list.ListProperty;
 import io.github.mmm.validation.ValidationResult;
 import io.github.mmm.validation.main.ValidatorMandatory;
@@ -49,7 +47,8 @@ public abstract class PropertyBuilderTest<V> extends Assertions {
     assertThat(property).isNotNull();
     assertThat(property.getName()).isEqualTo(name);
     assertThat(property.get()).isNull();
-    assertThat(property.getMetadata()).isInstanceOf(PropertyMetadataNone.class);
+    // class is not hidden outside module
+    assertThat(property.getMetadata().getClass().getSimpleName()).isEqualTo("PropertyMetadataNone");
     assertThat(property.validate().isValid()).isTrue();
 
     // and when
@@ -58,7 +57,6 @@ public abstract class PropertyBuilderTest<V> extends Assertions {
     assertThat(property).isNotNull();
     assertThat(property.getName()).isEqualTo(name);
     assertThat(property.get()).isNull();
-    assertThat(property.getMetadata()).isInstanceOf(PropertyMetadataType.class);
     assertThat(property.getMetadata().getValidator()).isSameAs(ValidatorMandatory.get());
     ValidationResult result = property.validate();
     assertThat(result.isValid()).isFalse();
@@ -71,7 +69,6 @@ public abstract class PropertyBuilderTest<V> extends Assertions {
     assertThat(property).isNotNull();
     assertThat(property.getName()).isEqualTo(name);
     assertThat(property.get()).isNull();
-    assertThat(property.getMetadata()).isInstanceOf(PropertyMetadataType.class);
     assertThat(property.getMetadata().getValidator()).isSameAs(ValidatorMandatory.get());
     assertThat(property.getMetadata().get("key")).isEqualTo("value");
   }

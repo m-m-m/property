@@ -5,6 +5,7 @@ package io.github.mmm.property.builder.temporal;
 import java.time.Instant;
 
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.temporal.instant.InstantProperty;
@@ -20,10 +21,12 @@ public final class InstantPropertyBuilder extends
 
   /**
    * The constructor.
+   *
+   * @param parent the {@link PropertyBuilders}.
    */
-  public InstantPropertyBuilder() {
+  public InstantPropertyBuilder(PropertyBuilders parent) {
 
-    super();
+    super(parent);
   }
 
   @Override

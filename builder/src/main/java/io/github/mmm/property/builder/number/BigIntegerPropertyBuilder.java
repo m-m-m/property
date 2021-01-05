@@ -5,6 +5,7 @@ package io.github.mmm.property.builder.number;
 import java.math.BigInteger;
 
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.number.biginteger.BigIntegerProperty;
@@ -20,10 +21,12 @@ public final class BigIntegerPropertyBuilder extends
 
   /**
    * The constructor.
+   *
+   * @param parent the {@link PropertyBuilders}.
    */
-  public BigIntegerPropertyBuilder() {
+  public BigIntegerPropertyBuilder(PropertyBuilders parent) {
 
-    super();
+    super(parent);
   }
 
   @Override
