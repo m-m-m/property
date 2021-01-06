@@ -73,7 +73,7 @@ public interface PropertyBuilders {
    */
   default StringPropertyBuilder newString() {
 
-    return builder(new StringPropertyBuilder(this), this);
+    return builder(new StringPropertyBuilder(getLock()), this);
   }
 
   /**
@@ -90,7 +90,7 @@ public interface PropertyBuilders {
    */
   default PatternPropertyBuilder newPattern() {
 
-    return builder(new PatternPropertyBuilder(this), this);
+    return builder(new PatternPropertyBuilder(getLock()), this);
   }
 
   /**
@@ -107,7 +107,7 @@ public interface PropertyBuilders {
    */
   default BooleanPropertyBuilder newBoolean() {
 
-    return builder(new BooleanPropertyBuilder(this), this);
+    return builder(new BooleanPropertyBuilder(getLock()), this);
   }
 
   /**
@@ -124,7 +124,7 @@ public interface PropertyBuilders {
    */
   default LongPropertyBuilder newLong() {
 
-    return builder(new LongPropertyBuilder(this), this);
+    return builder(new LongPropertyBuilder(getLock()), this);
   }
 
   /**
@@ -141,7 +141,7 @@ public interface PropertyBuilders {
    */
   default BigDecimalPropertyBuilder newBigDecimal() {
 
-    return builder(new BigDecimalPropertyBuilder(this), this);
+    return builder(new BigDecimalPropertyBuilder(getLock()), this);
   }
 
   /**
@@ -158,7 +158,7 @@ public interface PropertyBuilders {
    */
   default BigIntegerPropertyBuilder newBigInteger() {
 
-    return builder(new BigIntegerPropertyBuilder(this), this);
+    return builder(new BigIntegerPropertyBuilder(getLock()), this);
   }
 
   /**
@@ -175,7 +175,7 @@ public interface PropertyBuilders {
    */
   default IntegerPropertyBuilder newInteger() {
 
-    return builder(new IntegerPropertyBuilder(this), this);
+    return builder(new IntegerPropertyBuilder(getLock()), this);
   }
 
   /**
@@ -192,7 +192,7 @@ public interface PropertyBuilders {
    */
   default DoublePropertyBuilder newDouble() {
 
-    return builder(new DoublePropertyBuilder(this), this);
+    return builder(new DoublePropertyBuilder(getLock()), this);
   }
 
   /**
@@ -209,7 +209,7 @@ public interface PropertyBuilders {
    */
   default FloatPropertyBuilder newFloat() {
 
-    return builder(new FloatPropertyBuilder(this), this);
+    return builder(new FloatPropertyBuilder(getLock()), this);
   }
 
   /**
@@ -226,7 +226,7 @@ public interface PropertyBuilders {
    */
   default ShortPropertyBuilder newShort() {
 
-    return builder(new ShortPropertyBuilder(this), this);
+    return builder(new ShortPropertyBuilder(getLock()), this);
   }
 
   /**
@@ -243,7 +243,7 @@ public interface PropertyBuilders {
    */
   default BytePropertyBuilder newByte() {
 
-    return builder(new BytePropertyBuilder(this), this);
+    return builder(new BytePropertyBuilder(getLock()), this);
   }
 
   /**
@@ -260,7 +260,7 @@ public interface PropertyBuilders {
    */
   default InstantPropertyBuilder newInstant() {
 
-    return builder(new InstantPropertyBuilder(this), this);
+    return builder(new InstantPropertyBuilder(getLock()), this);
   }
 
   /**
@@ -277,7 +277,7 @@ public interface PropertyBuilders {
    */
   default LocalDateTimePropertyBuilder newLocalDateTime() {
 
-    return builder(new LocalDateTimePropertyBuilder(this), this);
+    return builder(new LocalDateTimePropertyBuilder(getLock()), this);
   }
 
   /**
@@ -294,7 +294,7 @@ public interface PropertyBuilders {
    */
   default LocalDatePropertyBuilder newLocalDate() {
 
-    return builder(new LocalDatePropertyBuilder(this), this);
+    return builder(new LocalDatePropertyBuilder(getLock()), this);
   }
 
   /**
@@ -311,7 +311,7 @@ public interface PropertyBuilders {
    */
   default LocalTimePropertyBuilder newLocalTime() {
 
-    return builder(new LocalTimePropertyBuilder(this), this);
+    return builder(new LocalTimePropertyBuilder(getLock()), this);
   }
 
   /**
@@ -328,7 +328,7 @@ public interface PropertyBuilders {
    */
   default OffsetDateTimePropertyBuilder newOffsetDateTime() {
 
-    return builder(new OffsetDateTimePropertyBuilder(this), this);
+    return builder(new OffsetDateTimePropertyBuilder(getLock()), this);
   }
 
   /**
@@ -345,7 +345,7 @@ public interface PropertyBuilders {
    */
   default OffsetTimePropertyBuilder newOffsetTime() {
 
-    return builder(new OffsetTimePropertyBuilder(this), this);
+    return builder(new OffsetTimePropertyBuilder(getLock()), this);
   }
 
   /**
@@ -362,7 +362,7 @@ public interface PropertyBuilders {
    */
   default ZonedDateTimePropertyBuilder newZonedDateTime() {
 
-    return builder(new ZonedDateTimePropertyBuilder(this), this);
+    return builder(new ZonedDateTimePropertyBuilder(getLock()), this);
   }
 
   /**

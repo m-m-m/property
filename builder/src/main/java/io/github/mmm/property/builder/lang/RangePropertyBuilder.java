@@ -3,8 +3,8 @@
 package io.github.mmm.property.builder.lang;
 
 import io.github.mmm.base.range.Range;
+import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.object.SimpleProperty;
 import io.github.mmm.property.range.RangeProperty;
@@ -25,22 +25,22 @@ public final class RangePropertyBuilder<V> extends
   /**
    * The constructor.
    *
-   * @param parent the {@link PropertyBuilders}.
+   * @param lock the {@link #getLock() lock}.
    */
-  public RangePropertyBuilder(PropertyBuilders parent) {
+  public RangePropertyBuilder(AttributeReadOnly lock) {
 
-    this(parent, null);
+    this(lock, null);
   }
 
   /**
    * The constructor.
    *
-   * @param parent the {@link PropertyBuilders}.
+   * @param lock the {@link PropertyMetadata#getLock() lock}.
    * @param valueProperty the {@link RangeProperty#getValueProperty() value property}.
    */
-  public RangePropertyBuilder(PropertyBuilders parent, SimpleProperty<V> valueProperty) {
+  public RangePropertyBuilder(AttributeReadOnly lock, SimpleProperty<V> valueProperty) {
 
-    super(parent);
+    super(lock);
     this.valueProperty = valueProperty;
   }
 

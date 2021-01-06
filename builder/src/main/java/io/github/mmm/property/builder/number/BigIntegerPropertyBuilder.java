@@ -4,8 +4,8 @@ package io.github.mmm.property.builder.number;
 
 import java.math.BigInteger;
 
+import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.number.biginteger.BigIntegerProperty;
@@ -22,11 +22,11 @@ public final class BigIntegerPropertyBuilder extends
   /**
    * The constructor.
    *
-   * @param parent the {@link PropertyBuilders}.
+   * @param lock the {@link #getLock() lock}.
    */
-  public BigIntegerPropertyBuilder(PropertyBuilders parent) {
+  public BigIntegerPropertyBuilder(AttributeReadOnly lock) {
 
-    super(parent);
+    super(lock);
   }
 
   @Override

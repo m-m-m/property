@@ -4,8 +4,8 @@ package io.github.mmm.property.builder.temporal;
 
 import java.time.LocalDate;
 
+import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.temporal.localdate.LocalDateProperty;
@@ -22,11 +22,11 @@ public final class LocalDatePropertyBuilder extends
   /**
    * The constructor.
    *
-   * @param parent the {@link PropertyBuilders}.
+   * @param lock the {@link #getLock() lock}.
    */
-  public LocalDatePropertyBuilder(PropertyBuilders parent) {
+  public LocalDatePropertyBuilder(AttributeReadOnly lock) {
 
-    super(parent);
+    super(lock);
   }
 
   @Override

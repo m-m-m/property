@@ -2,8 +2,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.builder.lang;
 
+import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
-import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.number.integers.IntegerProperty;
 import io.github.mmm.property.object.SimpleProperty;
@@ -25,11 +25,11 @@ public abstract class ComparablePropertyBuilder<V extends Comparable, P extends 
   /**
    * The constructor.
    *
-   * @param parent the {@link PropertyBuilders}.
+   * @param lock the {@link #getLock() lock}.
    */
-  public ComparablePropertyBuilder(PropertyBuilders parent) {
+  public ComparablePropertyBuilder(AttributeReadOnly lock) {
 
-    super(parent);
+    super(lock);
   }
 
   /**
@@ -39,7 +39,7 @@ public abstract class ComparablePropertyBuilder<V extends Comparable, P extends 
   @SuppressWarnings("unchecked")
   public RangePropertyBuilder<V> asRange() {
 
-    return builder(new RangePropertyBuilder<>(this.parent, (SimpleProperty<V>) build("Value", true)));
+    return builder(new RangePropertyBuilder<>(this.lock, (SimpleProperty<V>) build("Value", true)));
   }
 
 }

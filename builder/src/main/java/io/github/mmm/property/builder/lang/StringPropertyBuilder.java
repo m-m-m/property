@@ -2,8 +2,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.builder.lang;
 
+import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.string.StringProperty;
 import io.github.mmm.validation.string.ValidatorBuilderString;
@@ -19,11 +19,11 @@ public final class StringPropertyBuilder extends
   /**
    * The constructor.
    *
-   * @param parent the {@link PropertyBuilders}.
+   * @param lock the {@link #getLock() lock}.
    */
-  public StringPropertyBuilder(PropertyBuilders parent) {
+  public StringPropertyBuilder(AttributeReadOnly lock) {
 
-    super(parent);
+    super(lock);
   }
 
   @Override

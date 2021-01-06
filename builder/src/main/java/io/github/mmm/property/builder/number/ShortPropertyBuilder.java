@@ -2,8 +2,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.builder.number;
 
+import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
 import io.github.mmm.property.number.shorts.ShortProperty;
@@ -20,11 +20,11 @@ public final class ShortPropertyBuilder extends
   /**
    * The constructor.
    *
-   * @param parent the {@link PropertyBuilders}.
+   * @param lock the {@link #getLock() lock}.
    */
-  public ShortPropertyBuilder(PropertyBuilders parent) {
+  public ShortPropertyBuilder(AttributeReadOnly lock) {
 
-    super(parent);
+    super(lock);
   }
 
   @Override

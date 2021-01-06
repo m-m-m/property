@@ -38,8 +38,8 @@ import io.github.mmm.validation.main.ObjectValidatorBuilder;
  */
 public abstract class PropertyBuilder<V, P extends Property<V>, B extends ObjectValidatorBuilder<V, ? extends PropertyBuilder<V, P, B, SELF>, ?>, SELF extends PropertyBuilder<V, P, B, SELF>> {
 
-  /** @see #getParent() */
-  protected final PropertyBuilders parent;
+  /** @see #getLock() */
+  protected final AttributeReadOnly lock;
 
   private Consumer<? super P> registry;
 
@@ -58,12 +58,12 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
   /**
    * The constructor.
    *
-   * @param parent the {@link PropertyBuilders}.
+   * @param lock the {@link #getLock() lock}.
    */
-  public PropertyBuilder(PropertyBuilders parent) {
+  public PropertyBuilder(AttributeReadOnly lock) {
 
     super();
-    this.parent = parent;
+    this.lock = lock;
   }
 
   /**
@@ -76,11 +76,11 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
   }
 
   /**
-   * @return the parent {@link PropertyBuilders} that created this property builder.
+   * @return the {@link PropertyMetadata#getLock() lock}.
    */
-  public PropertyBuilders getParent() {
+  public AttributeReadOnly getLock() {
 
-    return this.parent;
+    return this.lock;
   }
 
   /**
@@ -205,11 +205,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
     if (this.validatorBuilder != null) {
       validator = this.validatorBuilder.build();
     }
-    AttributeReadOnly lock = null;
-    if (this.parent != null) {
-      lock = this.parent.getLock();
-    }
-    return PropertyMetadata.of(lock, validator, null, null, this.metadataMap);
+    return PropertyMetadata.of(this.lock, validator, null, null, this.metadataMap);
   }
 
   /**
@@ -224,7 +220,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public ListPropertyBuilder<V> asList() {
 
-    return builder(new ListPropertyBuilder<>(this.parent, build("ListItem", true)));
+    return builder(new ListPropertyBuilder<>(this.lock, build("ListItem", true)));
   }
 
   /**
@@ -232,7 +228,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public SetPropertyBuilder<V> asSet() {
 
-    return builder(new SetPropertyBuilder<>(this.parent, build("SetItem", true)));
+    return builder(new SetPropertyBuilder<>(this.lock, build("SetItem", true)));
   }
 
   /**
@@ -241,7 +237,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public MapPropertyBuilder<String, V> asMap() {
 
-    return builder(new MapPropertyBuilder<>(this.parent, build("MapItem", true)));
+    return builder(new MapPropertyBuilder<>(this.lock, build("MapItem", true)));
   }
 
   /**
@@ -269,7 +265,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    */
   public <K> MapPropertyBuilder<K, V> asMap(SimpleProperty<K> keyProperty) {
 
-    return new MapPropertyBuilder<>(this.parent, keyProperty, build("Value"));
+    return new MapPropertyBuilder<>(this.lock, keyProperty, build("Value"));
   }
 
 }

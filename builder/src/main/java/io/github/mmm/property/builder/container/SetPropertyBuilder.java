@@ -5,9 +5,9 @@ package io.github.mmm.property.builder.container;
 import java.util.List;
 import java.util.Set;
 
+import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.container.list.ListProperty;
 import io.github.mmm.property.container.set.SetProperty;
@@ -28,22 +28,22 @@ public class SetPropertyBuilder<E> extends
   /**
    * The constructor.
    *
-   * @param parent the {@link PropertyBuilders}.
+   * @param lock the {@link #getLock() lock}.
    */
-  public SetPropertyBuilder(PropertyBuilders parent) {
+  public SetPropertyBuilder(AttributeReadOnly lock) {
 
-    this(parent, null);
+    this(lock, null);
   }
 
   /**
    * The constructor.
    *
-   * @param parent the {@link PropertyBuilders}.
+   * @param lock the {@link #getLock() lock}.
    * @param componentProperty the {@link ListProperty#getValueProperty() value property}.
    */
-  public SetPropertyBuilder(PropertyBuilders parent, Property<E> componentProperty) {
+  public SetPropertyBuilder(AttributeReadOnly lock, Property<E> componentProperty) {
 
-    super(parent);
+    super(lock);
     this.valueProperty = componentProperty;
   }
 

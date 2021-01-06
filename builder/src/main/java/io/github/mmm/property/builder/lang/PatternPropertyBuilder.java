@@ -4,8 +4,8 @@ package io.github.mmm.property.builder.lang;
 
 import java.util.regex.Pattern;
 
+import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.builder.PropertyBuilders;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.pattern.PatternProperty;
 import io.github.mmm.property.string.StringProperty;
@@ -22,11 +22,11 @@ public final class PatternPropertyBuilder extends
   /**
    * The constructor.
    *
-   * @param parent the {@link PropertyBuilders}.
+   * @param lock the {@link #getLock() lock}.
    */
-  public PatternPropertyBuilder(PropertyBuilders parent) {
+  public PatternPropertyBuilder(AttributeReadOnly lock) {
 
-    super(parent);
+    super(lock);
   }
 
   @Override
