@@ -25,6 +25,16 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
   /** The singleton instance. */
   public static final PropertyFactoryManagerImpl INSTANCE = new PropertyFactoryManagerImpl();
 
+  private static final Map<Class<?>, Class<?>> PRIMITIVE2WRAPPER_MAP = Map.of( //
+      boolean.class, Boolean.class, //
+      int.class, Integer.class, //
+      long.class, Long.class, //
+      double.class, Double.class, //
+      float.class, Float.class, //
+      short.class, Short.class, //
+      byte.class, Byte.class, //
+      char.class, Character.class);
+
   private final Map<Class<?>, PropertyFactory<?, ?>> propertyType2factoryMap;
 
   private final Map<Class<?>, PropertyFactory<?, ?>> valueType2factoryMap;
@@ -136,6 +146,9 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
   @Override
   public <V> PropertyFactory<V, ? extends ReadableProperty<V>> getFactoryForValueType(Class<? extends V> valueClass) {
 
+    if (valueClass.isPrimitive()) {
+      valueClass = (Class) PRIMITIVE2WRAPPER_MAP.get(valueClass);
+    }
     PropertyFactory<?, ?> factory = this.valueType2factoryMap.get(valueClass);
     if (factory == null) {
       for (PropertyFactory<?, ?> polymorphicFactory : this.polymorphicFactories) {
