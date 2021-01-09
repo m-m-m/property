@@ -215,10 +215,9 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   @Override
   public void toString(StringBuilder sb) {
 
-    sb.append("name=");
     sb.append(this.name);
-    sb.append(',');
-    super.toString(sb);
+    sb.append('=');
+    sb.append(get());
   }
 
   @Override
