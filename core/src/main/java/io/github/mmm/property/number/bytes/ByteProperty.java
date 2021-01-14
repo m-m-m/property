@@ -47,10 +47,4 @@ public class ByteProperty extends NumberProperty<Byte> implements WritableBytePr
     this.value = newValue;
   }
 
-  // @Override
-  // public ValidatorBuilderByte<PropertyBuilder<ByteProperty>> withValdidator() {
-  //
-  // return withValdidator(x -> new ValidatorBuilderByte<>(x));
-  // }
-
 }

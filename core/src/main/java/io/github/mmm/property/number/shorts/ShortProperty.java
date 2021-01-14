@@ -47,10 +47,4 @@ public class ShortProperty extends NumberProperty<Short> implements WritableShor
     this.value = newValue;
   }
 
-  // @Override
-  // public ValidatorBuilderShort<PropertyBuilder<ShortProperty>> withValdidator() {
-  //
-  // return withValdidator(x -> new ValidatorBuilderShort<>(x));
-  // }
-
 }

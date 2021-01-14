@@ -47,10 +47,4 @@ public class LongProperty extends NumberProperty<Long> implements WritableLongPr
     this.value = newValue;
   }
 
-  // @Override
-  // public ValidatorBuilderLong<PropertyBuilder<LongProperty>> withValdidator() {
-  //
-  // return withValdidator(x -> new ValidatorBuilderLong<>(x));
-  // }
-
 }

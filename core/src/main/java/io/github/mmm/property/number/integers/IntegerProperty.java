@@ -47,10 +47,4 @@ public class IntegerProperty extends NumberProperty<Integer> implements Writable
     this.value = newValue;
   }
 
-  // @Override
-  // public ValidatorBuilderInteger<PropertyBuilder<IntegerProperty>> withValdidator() {
-  //
-  // return withValdidator(x -> new ValidatorBuilderInteger<>(x));
-  // }
-
 }

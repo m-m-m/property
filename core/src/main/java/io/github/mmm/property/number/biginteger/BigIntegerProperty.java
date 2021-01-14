@@ -49,10 +49,4 @@ public class BigIntegerProperty extends NumberProperty<BigInteger> implements Wr
     this.value = newValue;
   }
 
-  // @Override
-  // public ValidatorBuilderBigInteger<PropertyBuilder<BigIntegerProperty>> withValdidator() {
-  //
-  // return withValdidator(x -> new ValidatorBuilderBigInteger<>(x));
-  // }
-
 }

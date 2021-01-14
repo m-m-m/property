@@ -59,6 +59,8 @@ module io.github.mmm.property {
 
   exports io.github.mmm.property.container.set;
 
+  exports io.github.mmm.property.criteria;
+
   exports io.github.mmm.property.object;
 
   exports io.github.mmm.property.pattern;

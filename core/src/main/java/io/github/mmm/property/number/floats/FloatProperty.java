@@ -47,10 +47,4 @@ public class FloatProperty extends NumberProperty<Float> implements WritableFloa
     this.value = newValue;
   }
 
-  // @Override
-  // public ValidatorBuilderFloat<PropertyBuilder<FloatProperty>> withValdidator() {
-  //
-  // return withValdidator(x -> new ValidatorBuilderFloat<>(x));
-  // }
-
 }

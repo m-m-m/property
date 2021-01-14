@@ -47,10 +47,4 @@ public class DoubleProperty extends NumberProperty<Double> implements WritableDo
     this.value = newValue;
   }
 
-  // @Override
-  // public ValidatorBuilderDouble<PropertyBuilder<DoubleProperty>> withValdidator() {
-  //
-  // return withValdidator(x -> new ValidatorBuilderDouble<>(x));
-  // }
-
 }

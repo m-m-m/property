@@ -3,6 +3,8 @@
 package io.github.mmm.property;
 
 import io.github.mmm.marshall.MarshallableObject;
+import io.github.mmm.property.criteria.CriteriaPredicate;
+import io.github.mmm.property.criteria.PredicateOperator;
 import io.github.mmm.validation.Validatable;
 import io.github.mmm.value.PropertyPath;
 import io.github.mmm.value.TypedPropertyPath;
@@ -44,5 +46,15 @@ public interface ReadableProperty<V>
    * @return the {@link PropertyMetadata metadata} of this property.
    */
   PropertyMetadata<V> getMetadata();
+
+  default CriteriaPredicate eq(V other) {
+
+    return CriteriaPredicate.of(this, PredicateOperator.EQ, other);
+  }
+
+  default CriteriaPredicate neq(V other) {
+
+    return CriteriaPredicate.of(this, PredicateOperator.NEQ, other);
+  }
 
 }
