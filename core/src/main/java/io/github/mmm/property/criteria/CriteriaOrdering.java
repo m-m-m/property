@@ -46,7 +46,7 @@ public class CriteriaOrdering {
   @Override
   public String toString() {
 
-    return this.property.getName() + " " + this.order.getValue();
+    return this.property.path() + " " + this.order;
   }
 
 }

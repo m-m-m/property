@@ -29,6 +29,7 @@ public class SimplePredicate extends AbstractPredicate {
     super(operator);
     this.arg1 = arg1;
     this.arg2 = arg2;
+    assert ((arg2 == null) == (operator == PredicateOperator.NOT));
   }
 
   @Override

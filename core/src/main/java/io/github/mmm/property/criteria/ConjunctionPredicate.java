@@ -2,6 +2,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.criteria;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ public class ConjunctionPredicate extends AbstractPredicate {
    */
   public ConjunctionPredicate(PredicateOperator operator, CriteriaPredicate... args) {
 
-    this(operator, List.of(args));
+    this(List.of(args), operator);
   }
 
   /**
@@ -31,12 +32,24 @@ public class ConjunctionPredicate extends AbstractPredicate {
    * @param operator the {@link #getOperator() operation}.
    * @param args the {@link #getArgs() arguments}.
    */
-  private ConjunctionPredicate(PredicateOperator operator, List<CriteriaPredicate> args) {
+  public ConjunctionPredicate(PredicateOperator operator, List<CriteriaPredicate> args) {
+
+    this(Collections.unmodifiableList(args), operator);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param args the {@link #getArgs() arguments}.
+   * @param operator the {@link #getOperator() operation}.
+   */
+  private ConjunctionPredicate(List<CriteriaPredicate> args, PredicateOperator operator) {
 
     super(operator);
     if (!operator.isConjunction()) {
       throw new IllegalArgumentException("" + operator);
     }
+    assert (!args.isEmpty());
     this.args = args;
   }
 
@@ -53,7 +66,7 @@ public class ConjunctionPredicate extends AbstractPredicate {
   public CriteriaPredicate getArg2() {
 
     if (this.args.size() > 1) {
-      return this.args.get(0);
+      return this.args.get(1);
     }
     return null;
   }

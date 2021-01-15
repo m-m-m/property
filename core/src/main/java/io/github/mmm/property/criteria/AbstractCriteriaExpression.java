@@ -21,7 +21,9 @@ public abstract class AbstractCriteriaExpression<R> implements CriteriaExpressio
   @Override
   public String toString() {
 
-    return toString(null);
+    Appendable buffer = new StringBuilder(64);
+    new CriteriaSqlFormatter(buffer).onExpression(this);
+    return buffer.toString();
   }
 
 }

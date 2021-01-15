@@ -7,6 +7,7 @@ import io.github.mmm.property.criteria.CriteriaPredicate;
 import io.github.mmm.property.criteria.PredicateOperator;
 import io.github.mmm.validation.Validatable;
 import io.github.mmm.value.PropertyPath;
+import io.github.mmm.value.ReadablePath;
 import io.github.mmm.value.TypedPropertyPath;
 import io.github.mmm.value.observable.ObservableValue;
 
@@ -27,6 +28,20 @@ public interface ReadableProperty<V>
    */
   @Override
   String getName();
+
+  @Override
+  default String path() {
+
+    String path = getName();
+    AttributeReadOnly lock = getMetadata().getLock();
+    if (lock instanceof ReadablePath) {
+      String prefix = ((ReadablePath) lock).path();
+      if (prefix != null) {
+        path = prefix + path;
+      }
+    }
+    return path;
+  }
 
   /**
    * @return {@code true} if valid, {@code false} otherwise.

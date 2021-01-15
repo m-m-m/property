@@ -11,7 +11,7 @@ import io.github.mmm.value.PropertyPath;
  *
  * @since 1.0.0
  */
-public class Path implements PropertyPath<Object> {
+public final class SimplePath implements PropertyPath<Object> {
 
   private final String path;
 
@@ -20,7 +20,7 @@ public class Path implements PropertyPath<Object> {
    *
    * @param path the {@link #getName() path/name}.
    */
-  public Path(String path) {
+  public SimplePath(String path) {
 
     super();
     this.path = path;

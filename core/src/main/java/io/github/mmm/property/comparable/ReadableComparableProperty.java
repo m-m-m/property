@@ -40,12 +40,12 @@ public interface ReadableComparableProperty<V extends Comparable<? super V>>
 
   default CriteriaOrdering asc() {
 
-    return new CriteriaOrdering(this, SortOrder.ASCENDING);
+    return new CriteriaOrdering(this, SortOrder.ASC);
   }
 
   default CriteriaOrdering desc() {
 
-    return new CriteriaOrdering(this, SortOrder.DESCENDING);
+    return new CriteriaOrdering(this, SortOrder.DESC);
   }
 
 }

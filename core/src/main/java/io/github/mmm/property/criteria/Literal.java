@@ -23,6 +23,7 @@ public class Literal<V> implements Supplier<V> {
   public Literal(V value) {
 
     super();
+    Objects.requireNonNull(value);
     this.value = value;
   }
 
@@ -35,6 +36,9 @@ public class Literal<V> implements Supplier<V> {
   @Override
   public String toString() {
 
+    if (this.value instanceof String) {
+      return "'" + this.value + "'";
+    }
     return Objects.toString(this.value);
   }
 

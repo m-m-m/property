@@ -3,7 +3,9 @@
 package io.github.mmm.property.criteria;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * Operator for {@link CriteriaExpression} to compute the result from the {@link CriteriaExpression#getArgs()
@@ -100,6 +102,21 @@ public abstract class Operator {
 
     return this.syntax;
   }
+
+  /**
+   * @return {@code true} if this operator should be placed as infix between the arguments (e.g. "1+2+3" or "age>=18"),
+   *         {@code false} if used as prefix (e.g. "NOT flag").
+   */
+  public boolean isInfix() {
+
+    return true;
+  }
+
+  /**
+   * @param args the {@link CriteriaExpression#getArgs() arguments}.
+   * @return the {@link CriteriaExpression}.
+   */
+  public abstract CriteriaExpression<?> criteria(List<Supplier<?>> args);
 
   @Override
   public String toString() {

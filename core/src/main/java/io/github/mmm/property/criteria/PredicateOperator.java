@@ -2,6 +2,11 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.criteria;
 
+import java.util.List;
+import java.util.function.Supplier;
+
+import io.github.mmm.base.exception.ObjectNotFoundException;
+
 /**
  * {@link Operator} for a {@link CriteriaPredicate} that always evaluates to a {@link Boolean} value.
  *
@@ -151,6 +156,15 @@ public class PredicateOperator extends Operator {
     return (PredicateOperator) super.not();
   }
 
+  @Override
+  public boolean isInfix() {
+
+    if (this == NOT) {
+      return false;
+    }
+    return true;
+  }
+
   /**
    * @return {@code true} if one of the conjunctions {@link #AND}, {@link #OR}, {@link #NAND}, or {@link #NOR} and
    *         {@code false} otherwise.
@@ -167,6 +181,40 @@ public class PredicateOperator extends Operator {
       return true;
     }
     return false;
+  }
+
+  @Override
+  public CriteriaPredicate criteria(List<Supplier<?>> args) {
+
+    if ((args == null) || args.isEmpty()) {
+      throw new ObjectNotFoundException("Arguments");
+    }
+    if (isConjunction()) {
+      CriteriaPredicate[] predicates = new CriteriaPredicate[args.size()];
+      int i = 0;
+      try {
+        for (Supplier<?> arg : args) {
+          predicates[i] = (CriteriaPredicate) arg;
+          i++;
+        }
+      } catch (ClassCastException e) {
+        throw new IllegalArgumentException("Argument at index " + i + " is not a predicate", e);
+      }
+      return new ConjunctionPredicate(this, predicates);
+    } else {
+      int argCount = args.size();
+      if (argCount <= 2) {
+        Supplier<?> arg1 = args.get(0);
+        Supplier<?> arg2 = null;
+        if (argCount > 1) {
+          arg2 = args.get(1);
+        }
+        if ((this == NOT) == (argCount == 1)) {
+          return new SimplePredicate(arg1, this, arg2);
+        }
+      }
+      throw new IllegalArgumentException("Operator '" + this + "' does not accept " + argCount + " arguments");
+    }
   }
 
   /**
