@@ -170,7 +170,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
    */
   public Literal<?> readLiteral(StructuredReader reader) {
 
-    return new Literal<>(reader.readValue());
+    return Literal.of(reader.readValue());
   }
 
   /**

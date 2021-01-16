@@ -1,12 +1,14 @@
 /* Copyright (c) The m-m-m Team, Licensed under the Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0 */
-package io.github.mmm.property.criteria;
+package io.github.mmm.property.criteria.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.github.mmm.property.criteria.impl.AbstractPredicate;
+import io.github.mmm.property.criteria.BooleanSupplier;
+import io.github.mmm.property.criteria.CriteriaPredicate;
+import io.github.mmm.property.criteria.PredicateOperator;
 
 /**
  * {@link CriteriaPredicate} that aggregates a {@link #getArgs() collection of other predicates} using a
@@ -16,7 +18,7 @@ import io.github.mmm.property.criteria.impl.AbstractPredicate;
  */
 public class ConjunctionPredicate extends AbstractPredicate {
 
-  private final List<CriteriaPredicate> args;
+  private final List<BooleanSupplier> args;
 
   /**
    * The constructor.
@@ -24,7 +26,7 @@ public class ConjunctionPredicate extends AbstractPredicate {
    * @param operator the {@link #getOperator() operation}.
    * @param args the {@link #getArgs() arguments}.
    */
-  public ConjunctionPredicate(PredicateOperator operator, CriteriaPredicate... args) {
+  public ConjunctionPredicate(PredicateOperator operator, BooleanSupplier... args) {
 
     this(List.of(args), operator);
   }
@@ -35,7 +37,7 @@ public class ConjunctionPredicate extends AbstractPredicate {
    * @param operator the {@link #getOperator() operation}.
    * @param args the {@link #getArgs() arguments}.
    */
-  public ConjunctionPredicate(PredicateOperator operator, List<CriteriaPredicate> args) {
+  public ConjunctionPredicate(PredicateOperator operator, List<BooleanSupplier> args) {
 
     this(Collections.unmodifiableList(args), operator);
   }
@@ -46,7 +48,7 @@ public class ConjunctionPredicate extends AbstractPredicate {
    * @param args the {@link #getArgs() arguments}.
    * @param operator the {@link #getOperator() operation}.
    */
-  private ConjunctionPredicate(List<CriteriaPredicate> args, PredicateOperator operator) {
+  private ConjunctionPredicate(List<BooleanSupplier> args, PredicateOperator operator) {
 
     super(operator);
     if (!operator.isConjunction()) {
@@ -57,7 +59,7 @@ public class ConjunctionPredicate extends AbstractPredicate {
   }
 
   @Override
-  public CriteriaPredicate getArg1() {
+  public BooleanSupplier getFirstArg() {
 
     if (this.args.size() > 0) {
       return this.args.get(0);
@@ -66,7 +68,7 @@ public class ConjunctionPredicate extends AbstractPredicate {
   }
 
   @Override
-  public CriteriaPredicate getArg2() {
+  public BooleanSupplier getSecondArg() {
 
     if (this.args.size() > 1) {
       return this.args.get(1);
@@ -75,7 +77,7 @@ public class ConjunctionPredicate extends AbstractPredicate {
   }
 
   @Override
-  public List<CriteriaPredicate> getArgs() {
+  public List<BooleanSupplier> getArgs() {
 
     return this.args;
   }
@@ -89,11 +91,11 @@ public class ConjunctionPredicate extends AbstractPredicate {
   @Override
   public CriteriaPredicate simplify() {
 
-    List<CriteriaPredicate> newArgs = null;
+    List<BooleanSupplier> newArgs = null;
     int size = this.args.size();
     for (int i = 0; i < size; i++) {
-      CriteriaPredicate arg = this.args.get(i);
-      CriteriaPredicate simplified = arg.simplify();
+      BooleanSupplier arg = this.args.get(i);
+      BooleanSupplier simplified = arg.simplify();
       if ((simplified instanceof ConjunctionPredicate)
           && (this.operator == ((ConjunctionPredicate) simplified).operator)) {
         newArgs = copyArgs(newArgs, i);
@@ -109,7 +111,7 @@ public class ConjunctionPredicate extends AbstractPredicate {
     return new ConjunctionPredicate(this.operator, newArgs);
   }
 
-  private List<CriteriaPredicate> copyArgs(List<CriteriaPredicate> newArgs, int limit) {
+  private List<BooleanSupplier> copyArgs(List<BooleanSupplier> newArgs, int limit) {
 
     if (newArgs == null) {
       newArgs = new ArrayList<>(this.args.size() + 2);
@@ -118,24 +120,6 @@ public class ConjunctionPredicate extends AbstractPredicate {
       }
     }
     return newArgs;
-  }
-
-  /**
-   * @param predicates the {@link ConjunctionPredicate}s to join using {@link PredicateOperator#AND logical AND}.
-   * @return the resulting {@link ConjunctionPredicate}.
-   */
-  public static ConjunctionPredicate ofAnd(CriteriaPredicate... predicates) {
-
-    return new ConjunctionPredicate(PredicateOperator.AND, predicates);
-  }
-
-  /**
-   * @param predicates the {@link ConjunctionPredicate}s to join using {@link PredicateOperator#OR logical OR}.
-   * @return the resulting {@link ConjunctionPredicate}.
-   */
-  public static ConjunctionPredicate ofOr(CriteriaPredicate... predicates) {
-
-    return new ConjunctionPredicate(PredicateOperator.OR, predicates);
   }
 
 }

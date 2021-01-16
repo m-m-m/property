@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
- * Interface for a search criteria. Use {@link CriteriaSqlFormatter} and its sub-classes to convert to SQL and
- * {@link CriteriaMarshalling} to (un)marshall to JSON, XML, etc.
+ * Interface for a search criteria. Can be e.g. used to build dynamic queries (see {@code mmm-entity-bean}). Use
+ * {@link CriteriaSqlFormatter} and its sub-classes to convert to SQL and {@link CriteriaMarshalling} to (un)marshall to
+ * JSON, XML, etc.
  *
  * @param <R> type of the result value this expression evaluates to.
  * @since 1.0.0
@@ -24,14 +25,14 @@ public interface CriteriaExpression<R> extends Supplier<R> {
    * @return the first argument of the {@link #getArgs() arguments}.
    * @see #getArgs()
    */
-  Supplier<?> getArg1();
+  Supplier<?> getFirstArg();
 
   /**
    * @return the second argument of the {@link #getArgs() arguments} or {@code null} if not present (e.g. in case of
    *         unary {@link CriteriaExpression} like {@code NOT(expression)}).
    * @see #getArgs()
    */
-  Supplier<?> getArg2();
+  Supplier<?> getSecondArg();
 
   /**
    * @return the {@link Collection} of arguments. Use {@link #getArgCount()} to check if only 1 or 2 arguments are

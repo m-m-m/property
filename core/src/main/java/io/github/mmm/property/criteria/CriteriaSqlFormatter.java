@@ -3,7 +3,7 @@
 package io.github.mmm.property.criteria;
 
 import java.io.IOException;
-import java.util.Collection;
+import java.util.List;
 import java.util.function.Supplier;
 
 import io.github.mmm.base.exception.RuntimeIoException;
@@ -51,44 +51,93 @@ public class CriteriaSqlFormatter implements CriteriaVisitor {
   }
 
   @Override
-  public CriteriaSqlFormatter onExpression(CriteriaExpression<?> expression) {
+  public CriteriaSqlFormatter onExpression(CriteriaExpression<?> expression, CriteriaExpression<?> parent) {
 
     Operator op = expression.getOperator();
+    boolean useBrackets = false;
+    if (op.isConjunction()) {
+      if (op.isInverse()) {
+        useBrackets = true;
+        write("NOT(");
+        op = op.not();
+      } else {
+        useBrackets = isUseBrackets(expression, parent);
+        if (useBrackets) {
+          write("(");
+        }
+      }
+    }
     int argCount = expression.getArgCount();
     if (argCount <= 2) {
       if (op.isInfix()) {
-        onArg(expression.getArg1());
+        onArg(expression, 0, expression.getFirstArg());
         write(" ");
         onOperator(op);
       } else {
         onOperator(op);
         write(" ");
-        onArg(expression.getArg1());
+        onArg(expression, 0, expression.getFirstArg());
       }
       if (argCount == 2) {
         write(" ");
-        onArg(expression.getArg2());
+        onArg(expression, 1, expression.getSecondArg());
       }
     } else {
-      Collection<? extends Supplier<?>> args = expression.getArgs();
+      List<? extends Supplier<?>> args = expression.getArgs();
+      assert (args.size() == argCount);
       String separator = ",";
       if (op.isInfix()) {
         separator = " " + op.toString() + " ";
       } else {
+        // actually a prefix operator should always be unary and therefore we could never get here...
+        assert (!op.isUnary());
         onOperator(op);
+        useBrackets = true;
         write("(");
       }
       String s = "";
-      for (Supplier<?> arg : args) {
+      for (int i = 0; i < argCount; i++) {
         write(s);
-        onArg(arg);
+        onArg(expression, i, args.get(i));
         s = separator;
       }
-      if (!op.isInfix()) {
-        write(")");
-      }
+    }
+    if (useBrackets) {
+      write(")");
     }
     return this;
+  }
+
+  /**
+   * @param expression the {@link CriteriaExpression} to consider enclosing in brackets.
+   * @param parent the parent {@link CriteriaExpression} using {@code expression} as {@link CriteriaExpression#getArgs()
+   *        argument}.
+   * @return {@code true} if {@code expression} needs to be enclosed in brackets, {@code false} otherwise.
+   */
+  public static boolean isUseBrackets(CriteriaExpression<?> expression, CriteriaExpression<?> parent) {
+
+    // (a AND (b AND c)) = a AND b AND c
+    // (a AND (b OR c)) = a AND (b OR c)
+    // (a OR (b AND c)) = a OR b AND c
+    // (a NAND (b NOR c)) = NOT(a AND NOT(b OR c))
+    Operator op = expression.getOperator();
+    if (parent == null) {
+      return false;
+    }
+    if (op.isInverse()) {
+      return true; // e.g. NOT(a AND b)
+    }
+    Operator parentOp = parent.getOperator();
+    if (op == parentOp) {
+      return false;
+    }
+    if (!parentOp.isConjunction()) {
+      return false;
+    }
+    if (parentOp == PredicateOperator.OR) {
+      return false;
+    }
+    return true;
   }
 
   @Override
@@ -108,14 +157,7 @@ public class CriteriaSqlFormatter implements CriteriaVisitor {
   @Override
   public void onLiteral(Literal<?> literal) {
 
-    Object value = literal.get();
-    if (value instanceof String) {
-      write("'");
-      write(((String) value).replace("'", "\\'"));
-      write("'");
-    } else {
-      write(value.toString());
-    }
+    write(literal.toString());
     CriteriaVisitor.super.onLiteral(literal);
   }
 

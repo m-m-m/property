@@ -13,36 +13,99 @@ import io.github.mmm.value.observable.comparable.ComparableExpression;
 /**
  * {@link ReadableProperty} with {@link Comparable} {@link #get() value}.
  *
+ * @param <V> type of the {@link #get() value}.
  * @since 1.0.0
  */
 public interface ReadableComparableProperty<V extends Comparable<? super V>>
     extends ReadableSimpleProperty<V>, ComparableExpression<V> {
 
+  /**
+   * @param other the literal value to compare with using {@link PredicateOperator#LT < (less-than)}.
+   * @return the resulting {@link CriteriaPredicate}.
+   */
   default CriteriaPredicate lt(V other) {
 
     return CriteriaPredicate.of(this, PredicateOperator.LT, other);
   }
 
+  /**
+   * @param other the other {@link ReadableComparableProperty property} of the same {@link #getValueClass() value type}
+   *        to compare with using {@link PredicateOperator#LT < (less-than)}.
+   * @return the resulting {@link CriteriaPredicate}.
+   */
+  default CriteriaPredicate lt(ReadableComparableProperty<V> other) {
+
+    return CriteriaPredicate.of(this, PredicateOperator.LT, other);
+  }
+
+  /**
+   * @param other the literal value to compare with using {@link PredicateOperator#LE <= (less-or-equal)}.
+   * @return the resulting {@link CriteriaPredicate}.
+   */
   default CriteriaPredicate le(V other) {
 
     return CriteriaPredicate.of(this, PredicateOperator.LE, other);
   }
 
+  /**
+   * @param other the other {@link ReadableComparableProperty property} of the same {@link #getValueClass() value type}
+   *        to compare with using {@link PredicateOperator#LE <= (less-or-equal)}.
+   * @return the resulting {@link CriteriaPredicate}.
+   */
+  default CriteriaPredicate le(ReadableComparableProperty<V> other) {
+
+    return CriteriaPredicate.of(this, PredicateOperator.LE, other);
+  }
+
+  /**
+   * @param other the literal value to compare with using {@link PredicateOperator#GT >= (greater-than)}.
+   * @return the resulting {@link CriteriaPredicate}.
+   */
   default CriteriaPredicate gt(V other) {
 
     return CriteriaPredicate.of(this, PredicateOperator.GT, other);
   }
 
+  /**
+   * @param other the other {@link ReadableComparableProperty property} of the same {@link #getValueClass() value type}
+   *        to compare with using {@link PredicateOperator#GT >= (greater-than)}.
+   * @return the resulting {@link CriteriaPredicate}.
+   */
+  default CriteriaPredicate gt(ReadableComparableProperty<V> other) {
+
+    return CriteriaPredicate.of(this, PredicateOperator.GT, other);
+  }
+
+  /**
+   * @param other the literal value to compare with using {@link PredicateOperator#GE >= (greater-or-equal)}.
+   * @return the resulting {@link CriteriaPredicate}.
+   */
   default CriteriaPredicate ge(V other) {
 
     return CriteriaPredicate.of(this, PredicateOperator.GE, other);
   }
 
+  /**
+   * @param other the other {@link ReadableComparableProperty property} of the same {@link #getValueClass() value type}
+   *        to compare with using {@link PredicateOperator#GE >= (greater-or-equal)}.
+   * @return the resulting {@link CriteriaPredicate}.
+   */
+  default CriteriaPredicate ge(ReadableComparableProperty<V> other) {
+
+    return CriteriaPredicate.of(this, PredicateOperator.GE, other);
+  }
+
+  /**
+   * @return the {@link CriteriaOrdering} to sort by this property {@link SortOrder#ASC ascending}.
+   */
   default CriteriaOrdering asc() {
 
     return new CriteriaOrdering(this, SortOrder.ASC);
   }
 
+  /**
+   * @return the {@link CriteriaOrdering} to sort by this property {@link SortOrder#DESC descending}.
+   */
   default CriteriaOrdering desc() {
 
     return new CriteriaOrdering(this, SortOrder.DESC);

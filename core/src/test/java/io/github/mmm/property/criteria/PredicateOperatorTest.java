@@ -14,38 +14,51 @@ public class PredicateOperatorTest extends Assertions {
   @Test
   public void testAll() {
 
+    // given
+    boolean unary = true;
+    boolean notUnary = false;
+    boolean inverse = true;
+    boolean notInverse = false;
+    // when + then
     check(PredicateOperator.EQ, "=", PredicateOperator.NEQ, "<>");
-    check(PredicateOperator.IS_NULL, "IS NULL", PredicateOperator.IS_NOT_NULL, "IS NOT NULL");
+    check(PredicateOperator.IS_NULL, "IS NULL", PredicateOperator.IS_NOT_NULL, "IS NOT NULL", unary);
     check(PredicateOperator.LIKE, "LIKE", PredicateOperator.NOT_LIKE, "NOT LIKE");
     check(PredicateOperator.AND, "AND", PredicateOperator.NAND, "NAND");
     check(PredicateOperator.OR, "OR", PredicateOperator.NOR, "NOR");
     check(PredicateOperator.IN, "IN", PredicateOperator.NOT_IN, "NOT IN");
     check(PredicateOperator.CONTAINS, "CONTAINS", PredicateOperator.NOT_CONTAINS, "NOT CONTAINS");
-    check(PredicateOperator.GT, ">", PredicateOperator.LE, "<=", false);
-    check(PredicateOperator.GE, ">=", PredicateOperator.LT, "<", false);
-    check(PredicateOperator.NOT, "NOT", true);
+    check(PredicateOperator.GT, ">", PredicateOperator.LE, "<=", notUnary, notInverse);
+    check(PredicateOperator.GE, ">=", PredicateOperator.LT, "<", notUnary, notInverse);
+    check(PredicateOperator.NOT, "NOT", inverse, inverse);
     assertThat(PredicateOperator.NOT.not()).isNull();
   }
 
   private void check(PredicateOperator normal, String syntax, PredicateOperator negated, String notSyntax) {
 
-    check(normal, syntax, negated, notSyntax, true);
+    check(normal, syntax, negated, notSyntax, false, true);
   }
 
   private void check(PredicateOperator normal, String syntax, PredicateOperator negated, String notSyntax,
-      boolean inverse) {
+      boolean unary) {
 
-    check(normal, syntax, false);
-    check(negated, notSyntax, inverse);
+    check(normal, syntax, negated, notSyntax, unary, true);
+  }
+
+  private void check(PredicateOperator normal, String syntax, PredicateOperator negated, String notSyntax,
+      boolean unary, boolean inverse) {
+
+    check(normal, syntax, unary, false);
+    check(negated, notSyntax, unary, inverse);
     assertThat(normal.not()).isSameAs(negated);
     assertThat(negated.not()).isSameAs(normal);
   }
 
-  private void check(PredicateOperator op, String syntax, boolean inverse) {
+  private void check(PredicateOperator op, String syntax, boolean unary, boolean inverse) {
 
     assertThat(op).isNotNull();
     assertThat(op.getSyntax()).isSameAs(op.toString()).isEqualTo(syntax);
     assertThat(op.isInverse()).isEqualTo(inverse);
+    assertThat(op.isUnary()).isEqualTo(unary);
     assertThat(PredicateOperator.of(syntax)).isSameAs(op);
   }
 
@@ -67,12 +80,7 @@ public class PredicateOperatorTest extends Assertions {
 
     static final AdvancedPredicateOperator IS_NOT_COOL = new AdvancedPredicateOperator("IS NOT COOL", IS_COOL);
 
-    AdvancedPredicateOperator(String syntax, Operator not, boolean inverse) {
-
-      super(syntax, not, inverse);
-    }
-
-    AdvancedPredicateOperator(String syntax, Operator not) {
+    AdvancedPredicateOperator(String syntax, PredicateOperator not) {
 
       super(syntax, not);
     }

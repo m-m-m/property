@@ -29,6 +29,11 @@ public abstract class Operator {
 
   private Operator not;
 
+  static {
+
+    PredicateOperator.load();
+  }
+
   /**
    * The constructor.
    *
@@ -83,6 +88,22 @@ public abstract class Operator {
   public boolean isInverse() {
 
     return this.inverse;
+  }
+
+  /**
+   * @return {@code true} if this is a unary {@link Operator} that can take only a
+   *         {@link CriteriaExpression#getFirstArg() single argument}, {@code false} otherwise.
+   */
+  public abstract boolean isUnary();
+
+  /**
+   * @return {@code true} if one of the conjunctions {@link PredicateOperator#AND AND}, {@link PredicateOperator#OR OR},
+   *         {@link PredicateOperator#NAND NAND}, or {@link PredicateOperator#NOR NOR}. Otherwise {@code false} is
+   *         returned.
+   */
+  public boolean isConjunction() {
+
+    return false;
   }
 
   /**

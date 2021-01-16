@@ -2,8 +2,13 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.criteria;
 
-import java.util.Objects;
+import java.time.temporal.Temporal;
 import java.util.function.Supplier;
+
+import io.github.mmm.property.criteria.impl.GenericLiteral;
+import io.github.mmm.property.criteria.impl.NumberLiteral;
+import io.github.mmm.property.criteria.impl.StringLiteral;
+import io.github.mmm.property.criteria.impl.TemporalLiteral;
 
 /**
  * {@link Supplier} for a literal {@link #get() value}.
@@ -11,35 +16,88 @@ import java.util.function.Supplier;
  * @param <V> type of the {@link #get() value}.
  * @since 1.0.0
  */
-public class Literal<V> implements Supplier<V> {
-
-  private final V value;
+public interface Literal<V> extends Supplier<V> {
 
   /**
-   * The constructor.
-   *
-   * @param value the literal value to {@link #get()}.
+   * @param value the {@link #get() value}.
+   * @return the {@link Literal}.
    */
-  public Literal(V value) {
+  static BooleanLiteral of(boolean value) {
 
-    super();
-    Objects.requireNonNull(value);
-    this.value = value;
-  }
-
-  @Override
-  public V get() {
-
-    return this.value;
-  }
-
-  @Override
-  public String toString() {
-
-    if (this.value instanceof String) {
-      return "'" + this.value + "'";
+    if (value) {
+      return BooleanLiteral.TRUE;
     }
-    return Objects.toString(this.value);
+    return BooleanLiteral.FALSE;
+  }
+
+  /**
+   * @param value the {@link #get() value}.
+   * @return the {@link Literal} or {@code null} if {@code value} is {@code null}.
+   */
+  public static BooleanLiteral of(Boolean value) {
+
+    if (value == null) {
+      return null;
+    }
+    return of(value.booleanValue());
+  }
+
+  /**
+   * @param value the {@link #get() value}.
+   * @return the {@link Literal}.
+   */
+  static Literal<String> of(String value) {
+
+    if (value == null) {
+      return null;
+    }
+    return new StringLiteral(value);
+  }
+
+  /**
+   * @param <N> the {@link Number} type.
+   * @param value the {@link #get() value}.
+   * @return the {@link Literal}.
+   */
+  static <N extends Number> Literal<N> of(N value) {
+
+    if (value == null) {
+      return null;
+    }
+    return new NumberLiteral<>(value);
+  }
+
+  /**
+   * @param <T> the {@link Temporal} type.
+   * @param value the {@link #get() value}.
+   * @return the {@link Literal}.
+   */
+  static <T extends Temporal> Literal<T> of(T value) {
+
+    if (value == null) {
+      return null;
+    }
+    return new TemporalLiteral<>(value);
+  }
+
+  /**
+   * @param value the {@link #get() value}.
+   * @return the {@link Literal}.
+   */
+  static Literal<?> of(Object value) {
+
+    if (value == null) {
+      return null;
+    } else if (value instanceof String) {
+      return of((String) value);
+    } else if (value instanceof Boolean) {
+      return of((Boolean) value);
+    } else if (value instanceof Number) {
+      return of((Number) value);
+    } else if (value instanceof Temporal) {
+      return of((Temporal) value);
+    }
+    return new GenericLiteral<>(value);
   }
 
 }

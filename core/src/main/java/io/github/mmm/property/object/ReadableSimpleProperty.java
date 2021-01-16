@@ -13,7 +13,6 @@ import io.github.mmm.value.observable.object.ObservableSimpleValue;
  * {@link io.github.mmm.property.container.ReadableContainerProperty container property}).
  *
  * @param <V> type of the {@link #get() value}.
- *
  * @since 1.0.0
  */
 public interface ReadableSimpleProperty<V> extends ReadableProperty<V>, ObservableSimpleValue<V>, Expression<V> {

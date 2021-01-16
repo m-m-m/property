@@ -22,26 +22,26 @@ public class SimplePredicate extends AbstractPredicate {
   /**
    * The constructor.
    *
-   * @param arg1 the {@link #getArg1() first argument}.
+   * @param arg1 the {@link #getFirstArg() first argument}.
    * @param operator the {@link #getOperator() operator}.
-   * @param arg2 the {@link #getArg1() second argument}.
+   * @param arg2 the {@link #getFirstArg() second argument}.
    */
   public SimplePredicate(Supplier<?> arg1, PredicateOperator operator, Supplier<?> arg2) {
 
     super(operator);
     this.arg1 = arg1;
     this.arg2 = arg2;
-    assert ((arg2 == null) == (operator == PredicateOperator.NOT));
+    assert ((arg2 == null) == operator.isUnary());
   }
 
   @Override
-  public Supplier<?> getArg1() {
+  public Supplier<?> getFirstArg() {
 
     return this.arg1;
   }
 
   @Override
-  public Supplier<?> getArg2() {
+  public Supplier<?> getSecondArg() {
 
     return this.arg2;
   }

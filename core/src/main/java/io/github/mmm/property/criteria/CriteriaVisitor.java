@@ -2,7 +2,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.criteria;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.function.Supplier;
 
 import io.github.mmm.value.PropertyPath;
@@ -19,19 +19,31 @@ public interface CriteriaVisitor {
    */
   default CriteriaVisitor onExpression(CriteriaExpression<?> expression) {
 
+    return onExpression(expression, null);
+  }
+
+  /**
+   * @param expression the {@link CriteriaExpression} to visit.
+   * @param parent the parent {@link CriteriaExpression} or {@code null} if {@code expression} is the root
+   *        {@link CriteriaExpression}.
+   * @return this visitor itself for fluent API calls.
+   */
+  default CriteriaVisitor onExpression(CriteriaExpression<?> expression, CriteriaExpression<?> parent) {
+
     onOperator(expression.getOperator());
     int argCount = expression.getArgCount();
     if (argCount <= 2) {
       if (argCount > 0) {
-        onArg(expression.getArg1());
+        onArg(expression, 0, expression.getFirstArg());
         if (argCount == 2) {
-          onArg(expression.getArg2());
+          onArg(expression, 1, expression.getSecondArg());
         }
       }
     } else {
-      Collection<? extends Supplier<?>> args = expression.getArgs();
-      for (Supplier<?> arg : args) {
-        onArg(arg);
+      List<? extends Supplier<?>> args = expression.getArgs();
+      assert (argCount == args.size());
+      for (int i = 0; i < argCount; i++) {
+        onArg(expression, i, args.get(i));
       }
     }
     return this;
@@ -45,16 +57,18 @@ public interface CriteriaVisitor {
   }
 
   /**
+   * @param expression the {@link CriteriaExpression} to owning the given {@code arg}.
+   * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
    * @param arg the {@link Supplier} {@link CriteriaExpression#getArgs() argument} to visit.
    */
-  default void onArg(Supplier<?> arg) {
+  default void onArg(CriteriaExpression<?> expression, int i, Supplier<?> arg) {
 
     if (arg instanceof Literal) {
       onLiteral((Literal<?>) arg);
     } else if (arg instanceof PropertyPath) {
       onPropertyPath((PropertyPath<?>) arg);
     } else if (arg instanceof CriteriaExpression) {
-      onExpression((CriteriaExpression<?>) arg);
+      onExpression((CriteriaExpression<?>) arg, expression);
     } else {
       onUndefinedArg(arg);
     }
@@ -62,7 +76,7 @@ public interface CriteriaVisitor {
 
   /**
    * @param arg the undefined arg (if no {@link Literal}, {@link PropertyPath} or {@link CriteriaExpression}).
-   * @see #onArg(Supplier)
+   * @see #onArg(CriteriaExpression, int, Supplier)
    */
   default void onUndefinedArg(Supplier<?> arg) {
 
@@ -70,7 +84,7 @@ public interface CriteriaVisitor {
 
   /**
    * @param property the {@link PropertyPath} to visit.
-   * @see #onArg(Supplier)
+   * @see #onArg(CriteriaExpression, int, Supplier)
    */
   default void onPropertyPath(PropertyPath<?> property) {
 
@@ -78,7 +92,7 @@ public interface CriteriaVisitor {
 
   /**
    * @param literal the {@link Literal} to visit.
-   * @see #onArg(Supplier)
+   * @see #onArg(CriteriaExpression, int, Supplier)
    */
   default void onLiteral(Literal<?> literal) {
 

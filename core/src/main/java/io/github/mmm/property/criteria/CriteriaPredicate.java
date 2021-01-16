@@ -5,14 +5,16 @@ package io.github.mmm.property.criteria;
 import java.util.Objects;
 
 import io.github.mmm.property.ReadableProperty;
+import io.github.mmm.property.criteria.impl.ConjunctionPredicate;
 import io.github.mmm.property.criteria.impl.SimplePredicate;
 
 /**
- * {@link CriteriaExpression} that is a predicate {@link #get() evaluating} to a {@link Boolean}.
+ * {@link CriteriaExpression} that is a predicate {@link #get() evaluating} to a {@link Boolean}. Can be e.g. used in
+ * WHERE or HAVING clauses of queries (see {@code mmm-entity-bean}).
  *
  * @since 1.0.0
  */
-public interface CriteriaPredicate extends CriteriaExpression<Boolean> {
+public interface CriteriaPredicate extends CriteriaExpression<Boolean>, BooleanSupplier {
 
   @Override
   PredicateOperator getOperator();
@@ -97,7 +99,22 @@ public interface CriteriaPredicate extends CriteriaExpression<Boolean> {
       }
     }
     assert (!op.isConjunction());
-    return new SimplePredicate(property, op, new Literal<>(value));
+    return new SimplePredicate(property, op, Literal.of(value));
+  }
+
+  /**
+   * @param <V> type of the {@code value}.
+   * @param property the {@link ReadableProperty} to compare.
+   * @param op the {@link PredicateOperator} for comparison.
+   * @param property2 the second {@link ReadableProperty} to compare with.
+   * @return the resulting {@link CriteriaPredicate}.
+   */
+  static <V> CriteriaPredicate of(ReadableProperty<V> property, PredicateOperator op, ReadableProperty<V> property2) {
+
+    Objects.requireNonNull(property);
+    Objects.requireNonNull(property2);
+    assert (!op.isConjunction());
+    return new SimplePredicate(property, op, property2);
   }
 
   /**
@@ -112,7 +129,7 @@ public interface CriteriaPredicate extends CriteriaExpression<Boolean> {
     Objects.requireNonNull(value);
     assert (op == PredicateOperator.LIKE) || (op == PredicateOperator.NOT_LIKE);
     Objects.requireNonNull(property);
-    return new SimplePredicate(new Literal<>(value), op, property);
+    return new SimplePredicate(Literal.of(value), op, property);
   }
 
 }
