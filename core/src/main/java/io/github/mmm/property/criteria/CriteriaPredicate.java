@@ -7,6 +7,7 @@ import java.util.Objects;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.criteria.impl.ConjunctionPredicate;
 import io.github.mmm.property.criteria.impl.SimplePredicate;
+import io.github.mmm.value.PropertyPath;
 
 /**
  * {@link CriteriaExpression} that is a predicate {@link #get() evaluating} to a {@link Boolean}. Can be e.g. used in
@@ -22,6 +23,7 @@ public interface CriteriaPredicate extends CriteriaExpression<Boolean>, BooleanS
   /**
    * @return the negation of this {@link CriteriaPredicate}.
    */
+  @Override
   CriteriaPredicate not();
 
   /**
@@ -106,10 +108,10 @@ public interface CriteriaPredicate extends CriteriaExpression<Boolean>, BooleanS
    * @param <V> type of the {@code value}.
    * @param property the {@link ReadableProperty} to compare.
    * @param op the {@link PredicateOperator} for comparison.
-   * @param property2 the second {@link ReadableProperty} to compare with.
+   * @param property2 the second {@link PropertyPath property} to compare with.
    * @return the resulting {@link CriteriaPredicate}.
    */
-  static <V> CriteriaPredicate of(ReadableProperty<V> property, PredicateOperator op, ReadableProperty<V> property2) {
+  static <V> CriteriaPredicate of(ReadableProperty<V> property, PredicateOperator op, PropertyPath<V> property2) {
 
     Objects.requireNonNull(property);
     Objects.requireNonNull(property2);

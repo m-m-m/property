@@ -35,11 +35,4 @@ public abstract class AbstractPredicate extends AbstractCriteriaExpression<Boole
     return this.operator;
   }
 
-  @Override
-  public Boolean get() {
-
-    // TODO Auto-generated method stub
-    return null;
-  }
-
 }

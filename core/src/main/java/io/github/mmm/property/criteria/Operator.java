@@ -30,8 +30,8 @@ public abstract class Operator {
   private Operator not;
 
   static {
-
     PredicateOperator.load();
+    AggregationOperator.load();
   }
 
   /**
@@ -125,12 +125,12 @@ public abstract class Operator {
   }
 
   /**
-   * @return {@code true} if this operator should be placed as infix between the arguments (e.g. "1+2+3" or "age>=18"),
-   *         {@code false} if used as prefix (e.g. "NOT flag").
+   * @return {@code true} if this operator should be placed as infix between the arguments (e.g. {@code 1+2+3} or
+   *         {@code age>=18}), {@code false} if used as prefix (e.g. {@code NOT flag} or {@code SUM(e.Price)}).
    */
   public boolean isInfix() {
 
-    return true;
+    return !isUnary();
   }
 
   /**

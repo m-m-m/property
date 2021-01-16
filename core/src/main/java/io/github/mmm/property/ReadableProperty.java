@@ -3,6 +3,7 @@
 package io.github.mmm.property;
 
 import io.github.mmm.marshall.MarshallableObject;
+import io.github.mmm.property.criteria.CriteriaAggregation;
 import io.github.mmm.property.criteria.CriteriaPredicate;
 import io.github.mmm.property.criteria.PredicateOperator;
 import io.github.mmm.validation.Validatable;
@@ -62,14 +63,50 @@ public interface ReadableProperty<V>
    */
   PropertyMetadata<V> getMetadata();
 
+  /**
+   * @param other the literal value to compare with using {@link PredicateOperator#EQ = (equal)}.
+   * @return the resulting {@link CriteriaPredicate}.
+   */
   default CriteriaPredicate eq(V other) {
 
     return CriteriaPredicate.of(this, PredicateOperator.EQ, other);
   }
 
+  /**
+   * @param other the other {@link PropertyPath property} of the same {@link #getValueClass() value type} to compare
+   *        with using {@link PredicateOperator#EQ = (equal)}.
+   * @return the resulting {@link CriteriaPredicate}.
+   */
+  default CriteriaPredicate eq(PropertyPath<V> other) {
+
+    return CriteriaPredicate.of(this, PredicateOperator.EQ, other);
+  }
+
+  /**
+   * @param other the literal value to compare with using {@link PredicateOperator#NEQ != (not-equal)}.
+   * @return the resulting {@link CriteriaPredicate}.
+   */
   default CriteriaPredicate neq(V other) {
 
     return CriteriaPredicate.of(this, PredicateOperator.NEQ, other);
+  }
+
+  /**
+   * @param other the other {@link PropertyPath property} of the same {@link #getValueClass() value type} to compare
+   *        with using {@link PredicateOperator#NEQ = (not-equal)}.
+   * @return the resulting {@link CriteriaPredicate}.
+   */
+  default CriteriaPredicate neq(PropertyPath<V> other) {
+
+    return CriteriaPredicate.of(this, PredicateOperator.NEQ, other);
+  }
+
+  /**
+   * @return the {@link CriteriaAggregation} counting all values of this property that are not {@code null}.
+   */
+  default CriteriaAggregation<Integer> count() {
+
+    return CriteriaAggregation.count(this);
   }
 
 }

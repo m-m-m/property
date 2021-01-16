@@ -4,6 +4,8 @@ package io.github.mmm.property.number;
 
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.comparable.ReadableComparableProperty;
+import io.github.mmm.property.criteria.AggregationOperator;
+import io.github.mmm.property.criteria.CriteriaAggregation;
 import io.github.mmm.value.observable.number.NumberExpression;
 
 /**
@@ -17,5 +19,41 @@ import io.github.mmm.value.observable.number.NumberExpression;
  */
 public interface ReadableNumberProperty<N extends Number & Comparable<? super N>>
     extends ReadableComparableProperty<N>, NumberExpression<N> {
+
+  /**
+   * @return the {@link CriteriaAggregation} aggregating all values of this property using
+   *         {@link AggregationOperator#SUM SUM}.
+   */
+  default CriteriaAggregation<N> sum() {
+
+    return AggregationOperator.SUM.criteria(this);
+  }
+
+  /**
+   * @return the {@link CriteriaAggregation} aggregating all values of this property using
+   *         {@link AggregationOperator#AVG AVG}.
+   */
+  default CriteriaAggregation<N> avg() {
+
+    return AggregationOperator.AVG.criteria(this);
+  }
+
+  /**
+   * @return the {@link CriteriaAggregation} aggregating all values of this property using
+   *         {@link AggregationOperator#MIN MIN}.
+   */
+  default CriteriaAggregation<N> min() {
+
+    return AggregationOperator.MIN.criteria(this);
+  }
+
+  /**
+   * @return the {@link CriteriaAggregation} aggregating all values of this property using
+   *         {@link AggregationOperator#MAX MAX}.
+   */
+  default CriteriaAggregation<N> max() {
+
+    return AggregationOperator.MAX.criteria(this);
+  }
 
 }

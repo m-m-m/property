@@ -198,15 +198,6 @@ public class PredicateOperator extends Operator {
   }
 
   @Override
-  public boolean isInfix() {
-
-    if (this == NOT) {
-      return false;
-    }
-    return true;
-  }
-
-  @Override
   public boolean isConjunction() {
 
     if (this == AND) {
