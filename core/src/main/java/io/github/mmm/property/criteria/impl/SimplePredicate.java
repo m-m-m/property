@@ -1,10 +1,12 @@
 /* Copyright (c) The m-m-m Team, Licensed under the Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0 */
-package io.github.mmm.property.criteria;
+package io.github.mmm.property.criteria.impl;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
+
+import io.github.mmm.property.criteria.CriteriaPredicate;
+import io.github.mmm.property.criteria.PredicateOperator;
 
 /**
  * Implementation of {@link CriteriaPredicate}
@@ -24,7 +26,7 @@ public class SimplePredicate extends AbstractPredicate {
    * @param operator the {@link #getOperator() operator}.
    * @param arg2 the {@link #getArg1() second argument}.
    */
-  SimplePredicate(Supplier<?> arg1, PredicateOperator operator, Supplier<?> arg2) {
+  public SimplePredicate(Supplier<?> arg1, PredicateOperator operator, Supplier<?> arg2) {
 
     super(operator);
     this.arg1 = arg1;
@@ -45,7 +47,7 @@ public class SimplePredicate extends AbstractPredicate {
   }
 
   @Override
-  public Collection<? extends Supplier<?>> getArgs() {
+  public List<? extends Supplier<?>> getArgs() {
 
     if (this.arg2 == null) {
       return List.of(this.arg1);
@@ -76,6 +78,18 @@ public class SimplePredicate extends AbstractPredicate {
     } else {
       return new SimplePredicate(this.arg1, inverseOperator, this.arg2);
     }
+  }
+
+  @Override
+  public CriteriaPredicate simplify() {
+
+    if (this.operator == PredicateOperator.NOT) {
+      assert (this.arg2 == null);
+      if (this.arg1 instanceof CriteriaPredicate) {
+        return ((CriteriaPredicate) this.arg1).not();
+      }
+    }
+    return this;
   }
 
 }

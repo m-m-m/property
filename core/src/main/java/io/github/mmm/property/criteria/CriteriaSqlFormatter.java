@@ -21,6 +21,14 @@ public class CriteriaSqlFormatter implements CriteriaVisitor {
 
   /**
    * The constructor.
+   */
+  public CriteriaSqlFormatter() {
+
+    this(new StringBuilder(64));
+  }
+
+  /**
+   * The constructor.
    *
    * @param out the {@link Appendable} to {@link #write(String) write} to.
    */
@@ -43,7 +51,7 @@ public class CriteriaSqlFormatter implements CriteriaVisitor {
   }
 
   @Override
-  public void onExpression(CriteriaExpression<?> expression) {
+  public CriteriaSqlFormatter onExpression(CriteriaExpression<?> expression) {
 
     Operator op = expression.getOperator();
     int argCount = expression.getArgCount();
@@ -80,6 +88,7 @@ public class CriteriaSqlFormatter implements CriteriaVisitor {
         write(")");
       }
     }
+    return this;
   }
 
   @Override
@@ -115,6 +124,12 @@ public class CriteriaSqlFormatter implements CriteriaVisitor {
 
     write(arg.toString());
     CriteriaVisitor.super.onUndefinedArg(arg);
+  }
+
+  @Override
+  public String toString() {
+
+    return this.out.toString();
   }
 
 }

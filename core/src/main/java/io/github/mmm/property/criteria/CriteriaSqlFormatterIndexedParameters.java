@@ -15,6 +15,14 @@ public class CriteriaSqlFormatterIndexedParameters extends CriteriaSqlFormatter 
 
   /**
    * The constructor.
+   */
+  public CriteriaSqlFormatterIndexedParameters() {
+
+    super();
+  }
+
+  /**
+   * The constructor.
    *
    * @param out the {@link Appendable} to {@link #write(String) write} to.
    */

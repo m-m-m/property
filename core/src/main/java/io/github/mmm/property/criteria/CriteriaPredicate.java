@@ -5,6 +5,7 @@ package io.github.mmm.property.criteria;
 import java.util.Objects;
 
 import io.github.mmm.property.ReadableProperty;
+import io.github.mmm.property.criteria.impl.SimplePredicate;
 
 /**
  * {@link CriteriaExpression} that is a predicate {@link #get() evaluating} to a {@link Boolean}.
@@ -74,6 +75,9 @@ public interface CriteriaPredicate extends CriteriaExpression<Boolean> {
     System.arraycopy(predicates, 0, args, 1, length);
     return new ConjunctionPredicate(PredicateOperator.OR, args);
   }
+
+  @Override
+  CriteriaPredicate simplify();
 
   /**
    * @param <V> type of the {@code value}.

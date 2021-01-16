@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import io.github.mmm.base.exception.ObjectNotFoundException;
+import io.github.mmm.property.criteria.impl.SimplePredicate;
 
 /**
  * {@link Operator} for a {@link CriteriaPredicate} that always evaluates to a {@link Boolean} value.

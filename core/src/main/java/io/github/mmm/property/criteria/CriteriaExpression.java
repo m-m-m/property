@@ -3,6 +3,7 @@
 package io.github.mmm.property.criteria;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -36,7 +37,7 @@ public interface CriteriaExpression<R> extends Supplier<R> {
    * @return the {@link Collection} of arguments. Use {@link #getArgCount()} to check if only 1 or 2 arguments are
    *         present to avoid creation of {@link Collection}.
    */
-  Collection<? extends Supplier<?>> getArgs();
+  List<? extends Supplier<?>> getArgs();
 
   /**
    * @return the {@link Collection#size() number} of {@link #getArgs() arguments}.
@@ -45,5 +46,36 @@ public interface CriteriaExpression<R> extends Supplier<R> {
 
     return getArgs().size();
   }
+
+  /**
+   * Simplifies this expression. The following table shows some examples:
+   * <table border="1">
+   * <tr>
+   * <th>{@code exp}</th>
+   * <th>{@code exp.simplify()}</th>
+   * </tr>
+   * <tr>
+   * <td>NOT(NOT(e1))</td>
+   * <td>e1</td>
+   * </tr>
+   * <tr>
+   * <td>NOT(IS NOT NULL(e.Name))</td>
+   * <td>IS NULL(e.Name)</td>
+   * </tr>
+   * <tr>
+   * <td>e1 AND (e2 AND e3)</td>
+   * <td>e1 AND e2 AND e3</td>
+   * </tr>
+   * <tr>
+   * <td>e1 AND (e2 OR e3)</td>
+   * <td>e1 AND (e2 OR e3)</td>
+   * </tr>
+   * </table>
+   * Here we assume that {@code e1}, {@code e2}, and {@code e3} are simplified expressions. The last example shows an
+   * expression that can not be simplified anymore.
+   *
+   * @return a simplified form of this expression or this instance itself if already simplified.
+   */
+  CriteriaExpression<R> simplify();
 
 }

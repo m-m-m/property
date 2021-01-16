@@ -2,8 +2,11 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.criteria;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import io.github.mmm.property.criteria.impl.AbstractPredicate;
 
 /**
  * {@link CriteriaPredicate} that aggregates a {@link #getArgs() collection of other predicates} using a
@@ -81,6 +84,40 @@ public class ConjunctionPredicate extends AbstractPredicate {
   public CriteriaPredicate not() {
 
     return new ConjunctionPredicate(this.operator.not(), this.args);
+  }
+
+  @Override
+  public CriteriaPredicate simplify() {
+
+    List<CriteriaPredicate> newArgs = null;
+    int size = this.args.size();
+    for (int i = 0; i < size; i++) {
+      CriteriaPredicate arg = this.args.get(i);
+      CriteriaPredicate simplified = arg.simplify();
+      if ((simplified instanceof ConjunctionPredicate)
+          && (this.operator == ((ConjunctionPredicate) simplified).operator)) {
+        newArgs = copyArgs(newArgs, i);
+        newArgs.addAll(((ConjunctionPredicate) simplified).getArgs());
+      } else if (simplified != arg) {
+        newArgs = copyArgs(newArgs, i);
+        newArgs.add(simplified);
+      }
+    }
+    if (newArgs == null) {
+      return this;
+    }
+    return new ConjunctionPredicate(this.operator, newArgs);
+  }
+
+  private List<CriteriaPredicate> copyArgs(List<CriteriaPredicate> newArgs, int limit) {
+
+    if (newArgs == null) {
+      newArgs = new ArrayList<>(this.args.size() + 2);
+      for (int i = 0; i < limit; i++) {
+        newArgs.add(this.args.get(i));
+      }
+    }
+    return newArgs;
   }
 
   /**

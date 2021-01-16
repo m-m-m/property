@@ -15,8 +15,9 @@ public interface CriteriaVisitor {
 
   /**
    * @param expression the {@link CriteriaExpression} to visit.
+   * @return this visitor itself for fluent API calls.
    */
-  default void onExpression(CriteriaExpression<?> expression) {
+  default CriteriaVisitor onExpression(CriteriaExpression<?> expression) {
 
     onOperator(expression.getOperator());
     int argCount = expression.getArgCount();
@@ -33,6 +34,7 @@ public interface CriteriaVisitor {
         onArg(arg);
       }
     }
+    return this;
   }
 
   /**
