@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import io.github.mmm.base.exception.ObjectNotFoundException;
+import io.github.mmm.base.sort.SortOrder;
 import io.github.mmm.marshall.Marshalling;
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredReader.State;
@@ -23,18 +24,23 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   private static final String OPERATOR = "Operator";
 
   /** The property name for the {@link Operator}. */
-  public static final String NAME_OPERATOR = "o";
+  public static final String NAME_OPERATOR = "op";
 
   /** The property name for the {@link CriteriaExpression#getArgs() arguments}. */
-  public static final String NAME_ARGUMENTS = "a";
+  public static final String NAME_ARGUMENTS = "args";
 
   /** The property name for a {@link PropertyPath}. */
-  public static final String NAME_PROPERTY_PATH = "p";
+  public static final String NAME_PROPERTY_PATH = "path";
+
+  /** The property name for a {@link PropertyPath}. */
+  public static final String NAME_SORT_ORDER = "order";
+
+  private static final CriteriaMarshalling INSTANCE = new CriteriaMarshalling();
 
   /**
    * The constructor.
    */
-  public CriteriaMarshalling() {
+  protected CriteriaMarshalling() {
 
     super();
   }
@@ -55,18 +61,45 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
     writer.writeEnd(); // end object
   }
 
-  private void writeArg(StructuredWriter writer, Supplier<?> arg) {
+  /**
+   * @param writer the {@link StructuredWriter}.
+   * @param arg the {@link CriteriaExpression#getArgs() argument}.
+   */
+  public void writeArg(StructuredWriter writer, Supplier<?> arg) {
 
     if (arg instanceof CriteriaExpression) {
       writeObject(writer, (CriteriaExpression<?>) arg);
     } else if (arg instanceof PropertyPath) {
-      writer.writeStartObject();
-      writer.writeName(NAME_PROPERTY_PATH);
-      writer.writeValueAsString(((PropertyPath<?>) arg).path());
-      writer.writeEnd();
+      writePropertyPath(writer, (PropertyPath<?>) arg);
     } else {
       writer.writeValue(arg.get());
     }
+  }
+
+  /**
+   * @param writer the {@link StructuredWriter}.
+   * @param propertyPath the {@link PropertyPath}.
+   */
+  public void writePropertyPath(StructuredWriter writer, PropertyPath<?> propertyPath) {
+
+    writer.writeStartObject();
+    writer.writeName(NAME_PROPERTY_PATH);
+    writer.writeValueAsString(propertyPath.path());
+    writer.writeEnd();
+  }
+
+  /**
+   * @param writer the {@link StructuredWriter}.
+   * @param ordering the {@link CriteriaOrdering}.
+   */
+  public void writeOrdering(StructuredWriter writer, CriteriaOrdering ordering) {
+
+    writer.writeStartObject();
+    writer.writeName(NAME_PROPERTY_PATH);
+    writer.writeValueAsString(ordering.getPath().path());
+    writer.writeName(NAME_SORT_ORDER);
+    writer.writeValueAsString(ordering.getOrder().name());
+    writer.writeEnd();
   }
 
   @Override
@@ -76,7 +109,11 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
     return readExpression(reader);
   }
 
-  private CriteriaExpression<?> readExpression(StructuredReader reader) {
+  /**
+   * @param reader the {@link StructuredReader}.
+   * @return the parsed {@link CriteriaExpression}.
+   */
+  public CriteriaExpression<?> readExpression(StructuredReader reader) {
 
     Operator op = null;
     List<Supplier<?>> args = null;
@@ -108,7 +145,11 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
     return op.criteria(args);
   }
 
-  private Supplier<?> readArg(StructuredReader reader) {
+  /**
+   * @param reader the {@link StructuredReader}.
+   * @return the parsed {@link CriteriaExpression#getArgs() argument}.
+   */
+  public Supplier<?> readArg(StructuredReader reader) {
 
     if (reader.getState() == State.START_OBJECT) {
       reader.next();
@@ -123,15 +164,62 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
     }
   }
 
-  private Literal<?> readLiteral(StructuredReader reader) {
+  /**
+   * @param reader the {@link StructuredReader}.
+   * @return the parsed {@link Literal}.
+   */
+  public Literal<?> readLiteral(StructuredReader reader) {
 
     return new Literal<>(reader.readValue());
   }
 
-  private PropertyPath<?> readPropertyPath(StructuredReader reader) {
+  /**
+   * @param reader the {@link StructuredReader}.
+   * @return the parsed {@link PropertyPath}.
+   */
+  public PropertyPath<?> readPropertyPath(StructuredReader reader) {
 
     String path = reader.readValueAsString();
+    reader.require(State.END_OBJECT);
     return new SimplePath(path);
+  }
+
+  /**
+   * @param reader the {@link StructuredReader}.
+   * @return the parsed {@link CriteriaOrdering}.
+   */
+  public CriteriaOrdering readOrdering(StructuredReader reader) {
+
+    reader.require(State.START_OBJECT);
+    PropertyPath<?> path = null;
+    SortOrder order = null;
+    while (!reader.readEnd()) {
+      String name = reader.readName();
+      if (NAME_PROPERTY_PATH.equals(name)) {
+        String p = reader.readValueAsString();
+        path = new SimplePath(p);
+      } else if (NAME_SORT_ORDER.equals(name)) {
+        String o = reader.readValueAsString();
+        order = SortOrder.valueOf(o);
+      } else {
+        reader.skipValue();
+      }
+    }
+    if (path == null) {
+      throw new ObjectNotFoundException(NAME_PROPERTY_PATH);
+    }
+    if (order == null) {
+      throw new ObjectNotFoundException(NAME_SORT_ORDER);
+    }
+    return new CriteriaOrdering(path, order);
+  }
+
+  /**
+   * @return the singleton instance of this {@link CriteriaMarshalling}.
+   */
+  public static CriteriaMarshalling get() {
+
+    return INSTANCE;
   }
 
 }
