@@ -13,6 +13,9 @@ import io.github.mmm.value.PropertyPath;
  */
 public final class SimplePath implements PropertyPath<Object> {
 
+  /** Name of the {@link #path() path} property for marshalling. */
+  public static final String NAME_PATH = "path";
+
   private final String path;
 
   /**

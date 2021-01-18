@@ -2,6 +2,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.criteria.impl;
 
+import io.github.mmm.property.criteria.AbstractCriteriaExpression;
 import io.github.mmm.property.criteria.AggregationOperator;
 import io.github.mmm.property.criteria.CriteriaAggregation;
 import io.github.mmm.value.PropertyPath;

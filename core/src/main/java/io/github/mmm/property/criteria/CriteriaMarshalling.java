@@ -30,10 +30,13 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   public static final String NAME_ARGUMENTS = "args";
 
   /** The property name for a {@link PropertyPath}. */
-  public static final String NAME_PROPERTY_PATH = "path";
+  public static final String NAME_PROPERTY = "path";
 
   /** The property name for a {@link PropertyPath}. */
   public static final String NAME_SORT_ORDER = "order";
+
+  /** The property name for a value. */
+  public static final String NAME_VALUE = "value";
 
   private static final CriteriaMarshalling INSTANCE = new CriteriaMarshalling();
 
@@ -47,6 +50,15 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
 
   @Override
   public void writeObject(StructuredWriter writer, CriteriaExpression<?> expression) {
+
+    writeExpression(writer, expression);
+  }
+
+  /**
+   * @param writer the {@link StructuredWriter} to write to.
+   * @param expression the {@link CriteriaExpression} to write.
+   */
+  public void writeExpression(StructuredWriter writer, CriteriaExpression<?> expression) {
 
     writer.writeStartObject();
     writer.writeName(NAME_OPERATOR);
@@ -62,7 +74,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   }
 
   /**
-   * @param writer the {@link StructuredWriter}.
+   * @param writer the {@link StructuredWriter} to write to.
    * @param arg the {@link CriteriaExpression#getArgs() argument}.
    */
   public void writeArg(StructuredWriter writer, Supplier<?> arg) {
@@ -70,50 +82,69 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
     if (arg instanceof CriteriaExpression) {
       writeObject(writer, (CriteriaExpression<?>) arg);
     } else if (arg instanceof PropertyPath) {
-      writePropertyPath(writer, (PropertyPath<?>) arg);
+      writeProperty(writer, (PropertyPath<?>) arg);
     } else {
       writer.writeValue(arg.get());
     }
   }
 
   /**
-   * @param writer the {@link StructuredWriter}.
-   * @param propertyPath the {@link PropertyPath}.
+   * @param writer the {@link StructuredWriter} to write to.
+   * @param property the {@link PropertyPath}.
    */
-  public void writePropertyPath(StructuredWriter writer, PropertyPath<?> propertyPath) {
+  public void writeProperty(StructuredWriter writer, PropertyPath<?> property) {
 
     writer.writeStartObject();
-    writer.writeName(NAME_PROPERTY_PATH);
-    writer.writeValueAsString(propertyPath.path());
+    writer.writeName(NAME_PROPERTY);
+    writer.writeValueAsString(property.path());
     writer.writeEnd();
   }
 
   /**
-   * @param writer the {@link StructuredWriter}.
+   * @param writer the {@link StructuredWriter} to write to.
    * @param ordering the {@link CriteriaOrdering}.
    */
   public void writeOrdering(StructuredWriter writer, CriteriaOrdering ordering) {
 
     writer.writeStartObject();
-    writer.writeName(NAME_PROPERTY_PATH);
-    writer.writeValueAsString(ordering.getPath().path());
+    writer.writeName(NAME_PROPERTY);
+    writer.writeValueAsString(ordering.getProperty().path());
     writer.writeName(NAME_SORT_ORDER);
     writer.writeValueAsString(ordering.getOrder().name());
+    writer.writeEnd();
+  }
+
+  /**
+   * @param writer the {@link StructuredWriter} to write to.
+   * @param assignment the {@link PropertyAssignment} to write.
+   */
+  public void writeAssignment(StructuredWriter writer, PropertyAssignment<?> assignment) {
+
+    writer.writeStartObject();
+    writer.writeName(NAME_PROPERTY);
+    writer.writeValueAsString(assignment.getProperty().path());
+    writer.writeName(NAME_VALUE);
+    writeArg(writer, assignment.getValue());
     writer.writeEnd();
   }
 
   @Override
   public CriteriaExpression<?> readObject(StructuredReader reader) {
 
-    reader.require(State.START_OBJECT);
     return readExpression(reader);
   }
 
   /**
-   * @param reader the {@link StructuredReader}.
+   * @param reader the {@link StructuredReader} to read from.
    * @return the parsed {@link CriteriaExpression}.
    */
   public CriteriaExpression<?> readExpression(StructuredReader reader) {
+
+    reader.require(State.START_OBJECT);
+    return readExpressionInteral(reader);
+  }
+
+  private CriteriaExpression<?> readExpressionInteral(StructuredReader reader) {
 
     Operator op = null;
     List<Supplier<?>> args = null;
@@ -146,18 +177,31 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   }
 
   /**
-   * @param reader the {@link StructuredReader}.
+   * @param reader the {@link StructuredReader} to read from.
+   * @return the parsed {@link CriteriaExpression}.
+   */
+  public CriteriaPredicate readPredicate(StructuredReader reader) {
+
+    CriteriaExpression<?> expression = readExpression(reader);
+    if (expression instanceof CriteriaPredicate) {
+      return (CriteriaPredicate) expression;
+    }
+    throw new IllegalStateException("Expression is not a predicate: " + expression);
+  }
+
+  /**
+   * @param reader the {@link StructuredReader} to read from.
    * @return the parsed {@link CriteriaExpression#getArgs() argument}.
    */
   public Supplier<?> readArg(StructuredReader reader) {
 
     if (reader.getState() == State.START_OBJECT) {
       reader.next();
-      if (NAME_PROPERTY_PATH.equals(reader.getName())) {
+      if (NAME_PROPERTY.equals(reader.getName())) {
         reader.readName();
-        return readPropertyPath(reader);
+        return readProperty(reader);
       } else {
-        return readExpression(reader);
+        return readExpressionInteral(reader);
       }
     } else {
       return readLiteral(reader);
@@ -165,7 +209,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   }
 
   /**
-   * @param reader the {@link StructuredReader}.
+   * @param reader the {@link StructuredReader} to read from.
    * @return the parsed {@link Literal}.
    */
   public Literal<?> readLiteral(StructuredReader reader) {
@@ -174,10 +218,10 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   }
 
   /**
-   * @param reader the {@link StructuredReader}.
+   * @param reader the {@link StructuredReader} to read from.
    * @return the parsed {@link PropertyPath}.
    */
-  public PropertyPath<?> readPropertyPath(StructuredReader reader) {
+  public PropertyPath<?> readProperty(StructuredReader reader) {
 
     String path = reader.readValueAsString();
     reader.require(State.END_OBJECT);
@@ -185,19 +229,19 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   }
 
   /**
-   * @param reader the {@link StructuredReader}.
+   * @param reader the {@link StructuredReader} to read from.
    * @return the parsed {@link CriteriaOrdering}.
    */
   public CriteriaOrdering readOrdering(StructuredReader reader) {
 
     reader.require(State.START_OBJECT);
-    PropertyPath<?> path = null;
+    PropertyPath<?> property = null;
     SortOrder order = null;
     while (!reader.readEnd()) {
       String name = reader.readName();
-      if (NAME_PROPERTY_PATH.equals(name)) {
+      if (NAME_PROPERTY.equals(name)) {
         String p = reader.readValueAsString();
-        path = new SimplePath(p);
+        property = new SimplePath(p);
       } else if (NAME_SORT_ORDER.equals(name)) {
         String o = reader.readValueAsString();
         order = SortOrder.valueOf(o);
@@ -205,13 +249,45 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
         reader.skipValue();
       }
     }
-    if (path == null) {
-      throw new ObjectNotFoundException(NAME_PROPERTY_PATH);
+    if (property == null) {
+      throw new ObjectNotFoundException(NAME_PROPERTY);
     }
     if (order == null) {
       throw new ObjectNotFoundException(NAME_SORT_ORDER);
     }
-    return new CriteriaOrdering(path, order);
+    return new CriteriaOrdering(property, order);
+  }
+
+  /**
+   * @param reader the {@link StructuredReader} to read from.
+   * @return the parsed {@link PropertyAssignment}.
+   */
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public PropertyAssignment<?> readAssignment(StructuredReader reader) {
+
+    reader.require(State.START_OBJECT);
+    PropertyPath<?> property = null;
+    Supplier<?> value = null;
+    boolean hasValue = false;
+    while (!reader.readEnd()) {
+      String name = reader.readName();
+      if (NAME_PROPERTY.equals(name)) {
+        String p = reader.readValueAsString();
+        property = new SimplePath(p);
+      } else if (NAME_VALUE.equals(name)) {
+        value = readArg(reader);
+        hasValue = true;
+      } else {
+        reader.skipValue();
+      }
+    }
+    if (property == null) {
+      throw new ObjectNotFoundException(NAME_PROPERTY);
+    }
+    if (!hasValue) {
+      throw new ObjectNotFoundException(NAME_VALUE);
+    }
+    return new PropertyAssignment(property, value);
   }
 
   /**

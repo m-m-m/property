@@ -81,23 +81,28 @@ public interface Literal<V> extends Supplier<V> {
   }
 
   /**
+   * @param <V> type of the {@link #get() value}.
    * @param value the {@link #get() value}.
    * @return the {@link Literal}.
    */
-  static Literal<?> of(Object value) {
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  static <V> Literal<V> of(V value) {
 
+    Literal literal;
     if (value == null) {
-      return null;
+      literal = null;
     } else if (value instanceof String) {
-      return of((String) value);
+      literal = of((String) value);
     } else if (value instanceof Boolean) {
-      return of((Boolean) value);
+      literal = of((Boolean) value);
     } else if (value instanceof Number) {
-      return of((Number) value);
+      literal = of((Number) value);
     } else if (value instanceof Temporal) {
-      return of((Temporal) value);
+      literal = of((Temporal) value);
+    } else {
+      literal = new GenericLiteral<>(value);
     }
-    return new GenericLiteral<>(value);
+    return literal;
   }
 
 }

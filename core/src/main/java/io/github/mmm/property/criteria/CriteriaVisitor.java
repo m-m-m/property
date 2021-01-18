@@ -10,6 +10,8 @@ import io.github.mmm.value.PropertyPath;
 /**
  * Interface for visitor on {@link CriteriaExpression}. Override individual methods you are interested in. Typically do
  * something before and/or after delegating to parent method ({@code super.on...(...)}).
+ *
+ * @since 1.0.0
  */
 public interface CriteriaVisitor {
 
@@ -34,16 +36,16 @@ public interface CriteriaVisitor {
     int argCount = expression.getArgCount();
     if (argCount <= 2) {
       if (argCount > 0) {
-        onArg(expression, 0, expression.getFirstArg());
+        onArg(expression.getFirstArg(), 0, expression);
         if (argCount == 2) {
-          onArg(expression, 1, expression.getSecondArg());
+          onArg(expression.getSecondArg(), 1, expression);
         }
       }
     } else {
       List<? extends Supplier<?>> args = expression.getArgs();
       assert (argCount == args.size());
       for (int i = 0; i < argCount; i++) {
-        onArg(expression, i, args.get(i));
+        onArg(args.get(i), i, expression);
       }
     }
     return this;
@@ -57,44 +59,50 @@ public interface CriteriaVisitor {
   }
 
   /**
-   * @param expression the {@link CriteriaExpression} to owning the given {@code arg}.
-   * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
    * @param arg the {@link Supplier} {@link CriteriaExpression#getArgs() argument} to visit.
+   * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
+   * @param parent the parent {@link CriteriaExpression} to owning the given {@code arg}.
    */
-  default void onArg(CriteriaExpression<?> expression, int i, Supplier<?> arg) {
+  default void onArg(Supplier<?> arg, int i, CriteriaExpression<?> parent) {
 
     if (arg instanceof Literal) {
-      onLiteral((Literal<?>) arg);
+      onLiteral((Literal<?>) arg, i, parent);
     } else if (arg instanceof PropertyPath) {
-      onPropertyPath((PropertyPath<?>) arg);
+      onPropertyPath((PropertyPath<?>) arg, i, parent);
     } else if (arg instanceof CriteriaExpression) {
-      onExpression((CriteriaExpression<?>) arg, expression);
+      onExpression((CriteriaExpression<?>) arg, parent);
     } else {
-      onUndefinedArg(arg);
+      onUndefinedArg(arg, i, parent);
     }
   }
 
   /**
    * @param arg the undefined arg (if no {@link Literal}, {@link PropertyPath} or {@link CriteriaExpression}).
-   * @see #onArg(CriteriaExpression, int, Supplier)
+   * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
+   * @param parent the parent {@link CriteriaExpression} to owning the given {@link Supplier}.
+   * @see #onArg(Supplier, int, CriteriaExpression)
    */
-  default void onUndefinedArg(Supplier<?> arg) {
+  default void onUndefinedArg(Supplier<?> arg, int i, CriteriaExpression<?> parent) {
 
   }
 
   /**
    * @param property the {@link PropertyPath} to visit.
-   * @see #onArg(CriteriaExpression, int, Supplier)
+   * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
+   * @param parent the parent {@link CriteriaExpression} to owning the given {@link PropertyPath}.
+   * @see #onArg(Supplier, int, CriteriaExpression)
    */
-  default void onPropertyPath(PropertyPath<?> property) {
+  default void onPropertyPath(PropertyPath<?> property, int i, CriteriaExpression<?> parent) {
 
   }
 
   /**
    * @param literal the {@link Literal} to visit.
-   * @see #onArg(CriteriaExpression, int, Supplier)
+   * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
+   * @param parent the parent {@link CriteriaExpression} to owning the given {@link Literal}.
+   * @see #onArg(Supplier, int, CriteriaExpression)
    */
-  default void onLiteral(Literal<?> literal) {
+  default void onLiteral(Literal<?> literal, int i, CriteriaExpression<?> parent) {
 
   }
 

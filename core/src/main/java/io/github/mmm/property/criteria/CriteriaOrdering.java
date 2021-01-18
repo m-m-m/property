@@ -12,7 +12,7 @@ import io.github.mmm.value.PropertyPath;
  */
 public class CriteriaOrdering {
 
-  private final PropertyPath<?> path;
+  private final PropertyPath<?> property;
 
   private final SortOrder order;
 
@@ -25,20 +25,20 @@ public class CriteriaOrdering {
   public CriteriaOrdering(PropertyPath<?> path, SortOrder order) {
 
     super();
-    this.path = path;
+    this.property = path;
     this.order = order;
   }
 
   /**
-   * @return property
+   * @return the {@link PropertyPath property} to order.
    */
-  public PropertyPath<?> getPath() {
+  public PropertyPath<?> getProperty() {
 
-    return this.path;
+    return this.property;
   }
 
   /**
-   * @return order
+   * @return the {@link SortOrder} to order by.
    */
   public SortOrder getOrder() {
 
@@ -48,7 +48,7 @@ public class CriteriaOrdering {
   @Override
   public String toString() {
 
-    return this.path.path() + " " + this.order;
+    return this.property.path() + " " + this.order;
   }
 
 }

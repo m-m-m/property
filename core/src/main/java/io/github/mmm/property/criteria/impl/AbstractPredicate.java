@@ -4,6 +4,7 @@ package io.github.mmm.property.criteria.impl;
 
 import java.util.Objects;
 
+import io.github.mmm.property.criteria.AbstractCriteriaExpression;
 import io.github.mmm.property.criteria.CriteriaPredicate;
 import io.github.mmm.property.criteria.PredicateOperator;
 
