@@ -18,17 +18,20 @@ public class AggregationFunction<R extends Number> extends AbstractCriteriaExpre
 
   private final AggregationOperator operator;
 
+  private final PropertyPath<?> firstArg;
+
   /**
    * The constructor.
    *
    * @param operator the {@link #getOperator() operator}.
-   * @param path the {@link #getFirstArg() first argument}. May be {@code null} for {@link AggregationOperator#COUNT
+   * @param property the {@link #getFirstArg() first argument}. May be {@code null} for {@link AggregationOperator#COUNT
    *        COUNT(*)}.
    */
-  public AggregationFunction(AggregationOperator operator, PropertyPath<?> path) {
+  public AggregationFunction(AggregationOperator operator, PropertyPath<?> property) {
 
     super();
     this.operator = operator;
+    this.firstArg = property;
   }
 
   @Override
@@ -40,7 +43,7 @@ public class AggregationFunction<R extends Number> extends AbstractCriteriaExpre
   @Override
   public PropertyPath<?> getFirstArg() {
 
-    return null;
+    return this.firstArg;
   }
 
 }

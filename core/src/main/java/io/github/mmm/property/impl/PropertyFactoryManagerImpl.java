@@ -2,6 +2,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.impl;
 
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
 import io.github.mmm.property.factory.PropertyFactory;
 import io.github.mmm.property.factory.PropertyFactoryManager;
+import io.github.mmm.property.factory.SimplePropertyFactory;
 
 /**
  * This is the implementation of {@link PropertyFactoryManager}.
@@ -139,7 +141,11 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
   public <V, PROPERTY extends ReadableProperty<V>> PropertyFactory<V, ? extends PROPERTY> getFactoryForPropertyType(
       Class<PROPERTY> propertyType) {
 
-    return (PropertyFactory) this.propertyType2factoryMap.get(propertyType);
+    PropertyFactory factory = this.propertyType2factoryMap.get(propertyType);
+    if ((factory == null) && !Modifier.isAbstract(propertyType.getModifiers())) {
+      factory = new SimplePropertyFactory(propertyType);
+    }
+    return factory;
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })

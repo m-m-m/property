@@ -219,6 +219,15 @@ public class PredicateOperator extends Operator {
   }
 
   @Override
+  public boolean isInfix() {
+
+    if (isNullBased(this)) {
+      return true;
+    }
+    return super.isInfix();
+  }
+
+  @Override
   public CriteriaPredicate criteria(List<Supplier<?>> args) {
 
     if ((args == null) || args.isEmpty()) {
@@ -263,6 +272,24 @@ public class PredicateOperator extends Operator {
       return (PredicateOperator) op;
     }
     return null;
+  }
+
+  /**
+   * @param op the {@link Operator} to check.
+   * @return {@code true} if {@link #LIKE} or {@link #NOT_LIKE}, {@code false} otherwise.
+   */
+  public static boolean isLikeBased(Operator op) {
+
+    return ((op == LIKE) || (op == NOT_LIKE));
+  }
+
+  /**
+   * @param op the {@link Operator} to check.
+   * @return {@code true} if {@link #IS_NULL} or {@link #IS_NOT_NULL}, {@code false} otherwise.
+   */
+  public static boolean isNullBased(Operator op) {
+
+    return ((op == IS_NULL) || (op == IS_NOT_NULL));
   }
 
   /**

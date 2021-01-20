@@ -21,6 +21,10 @@ public class CriteriaSqlFormatter implements CriteriaVisitor {
 
   private final CriteriaSqlParameters parameters;
 
+  private LikePatternSyntax likeSyntaxSource;
+
+  private LikePatternSyntax likeSyntaxTarget;
+
   /**
    * The constructor using inline {@link CriteriaSqlParameters}. <br>
    * <b>ATTENTION:</b> Only use this for testing or debugging (e.g. in {@link #toString()}) to avoid SQL-injection
@@ -48,6 +52,39 @@ public class CriteriaSqlFormatter implements CriteriaVisitor {
       this.parameters = parameters;
     }
     this.out = out;
+    this.likeSyntaxTarget = LikePatternSyntax.SQL;
+  }
+
+  /**
+   * @return likeSyntaxSource
+   */
+  public LikePatternSyntax getLikeSyntaxSource() {
+
+    return this.likeSyntaxSource;
+  }
+
+  /**
+   * @param likeSyntaxSource new value of {@link #getLikeSyntaxSource()}.
+   */
+  public void setLikeSyntaxSource(LikePatternSyntax likeSyntaxSource) {
+
+    this.likeSyntaxSource = likeSyntaxSource;
+  }
+
+  /**
+   * @return likeSyntaxTarget
+   */
+  public LikePatternSyntax getLikeSyntaxTarget() {
+
+    return this.likeSyntaxTarget;
+  }
+
+  /**
+   * @param likeSyntaxTarget new value of {@link #getLikeSyntaxTarget()}.
+   */
+  public void setLikeSyntaxTarget(LikePatternSyntax likeSyntaxTarget) {
+
+    this.likeSyntaxTarget = likeSyntaxTarget;
   }
 
   /**
@@ -93,13 +130,16 @@ public class CriteriaSqlFormatter implements CriteriaVisitor {
     }
     int argCount = expression.getArgCount();
     if (argCount <= 2) {
-      if (op.isInfix()) {
+      if (argCount == 0) {
+        onOperator(op);
+      } else if (op.isInfix()) {
         onArg(expression.getFirstArg(), 0, expression);
         write(" ");
         onOperator(op);
       } else {
         onOperator(op);
-        write(" ");
+        write("(");
+        useBrackets = true;
         onArg(expression.getFirstArg(), 0, expression);
       }
       if (argCount == 2) {
@@ -181,8 +221,33 @@ public class CriteriaSqlFormatter implements CriteriaVisitor {
   @Override
   public void onLiteral(Literal<?> literal, int i, CriteriaExpression<?> parent) {
 
+    if ((this.likeSyntaxSource != this.likeSyntaxTarget) && (parent != null)) {
+      Operator op = parent.getOperator();
+      if (PredicateOperator.isLikeBased(op)) {
+        Object value = literal.get();
+        if (value instanceof String) {
+          String pattern = (String) value;
+          literal = Literal.of(this.likeSyntaxTarget.convert(pattern, this.likeSyntaxSource));
+        }
+      }
+    }
     this.parameters.onLiteral(literal, this.out, parent);
     CriteriaVisitor.super.onLiteral(literal, i, parent);
+  }
+
+  /**
+   * @param glob the literal value for a LIKE expression assumed in glob-syntax.
+   * @return the given {@code glob} {@link String} converted to LIKE pattern.
+   */
+  protected String convertLikePattern(String glob) {
+
+    int length = glob.length();
+    StringBuilder sb = new StringBuilder(length + 2);
+    int i = 0;
+    while (i < length) {
+
+    }
+    return sb.toString();
   }
 
   @Override

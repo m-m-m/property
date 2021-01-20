@@ -11,7 +11,6 @@ import io.github.mmm.property.number.longs.LongProperty;
 /**
  * Extends {@link LongProperty} to store a {@link Duration} in seconds.
  *
- * @author hohwille
  * @since 1.0.0
  */
 public class DurationInSecondsProperty extends LongProperty {
