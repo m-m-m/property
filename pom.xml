@@ -15,8 +15,6 @@
   <description>Library providing advanced properties.</description>
 
   <properties>
-    <revision>1.0.0</revision>
-    <changelist>-SNAPSHOT</changelist>
     <mmm.repository>property</mmm.repository>
   </properties>
 
@@ -24,15 +22,6 @@
     <module>core</module>
     <module>builder</module>
   </modules>
-
-  <dependencies>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>1.3.0-alpha5</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
 
   <dependencyManagement>
     <dependencies>
@@ -50,14 +39,14 @@
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>mmm-validation-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>0.1.1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>mmm-marshall-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>0.1.1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
