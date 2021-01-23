@@ -6,7 +6,7 @@ image:https://travis-ci.com/m-m-m/property.svg?branch=master["build-status",link
 = mmm-property
 
 image:https://img.shields.io/maven-central/v/io.github.m-m-m/mmm-property.svg?label=Maven%20Central["Maven Central",link=https://search.maven.org/search?q=g:io.github.m-m-m]
-image:https://m-m-m.github.io/javadoc.svg?status=online["apidoc",link="https://m-m-m.github.io/docs/api/io.github.mmm.property/module-summary.html"]
+image:https://javadoc.io/badge2/io.github.m-m-m/mmm-property/javadoc.svg["base JavaDoc", link=https://javadoc.io/doc/io.github.m-m-m/mmm-property]
 
 The module `io.github.mmm.property` (artifactId `mmm-property`) brings extended property support based on https://github.com/m-m-m/value[`mmm-value-observable`].
 It was inspired from JavaFx, but as JavaFx properties are bundled with a GUI framework, projects do not want to dependend on it if they are not using JavaFx.
@@ -41,7 +41,7 @@ Module Dependency:
 = mmm-property-builder
 
 image:https://img.shields.io/maven-central/v/io.github.m-m-m/mmm-property-builder.svg?label=Maven%20Central["Maven Central",link=https://search.maven.org/search?q=g:io.github.m-m-m]
-image:https://m-m-m.github.io/javadoc.svg?status=online["apidoc",link="https://m-m-m.github.io/docs/api/io.github.mmm.property.builder/module-summary.html"]
+image:https://javadoc.io/badge2/io.github.m-m-m/mmm-property-builder/javadoc.svg["base JavaDoc", link=https://javadoc.io/doc/io.github.m-m-m/mmm-property-builder]
 
 The module `io.github.mmm.property.builder` (artifactId `mmm-property-builder`) brings comfortable builders to build properties from `mmm-property` with https://github.com/m-m-m/validation[validation] and https://github.com/m-m-m/nls[nls].
 
