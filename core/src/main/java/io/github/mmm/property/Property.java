@@ -116,10 +116,10 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   @Override
   protected final void requireWritable() throws IllegalStateException {
 
-    super.requireWritable();
     if (isReadOnly()) {
       throw new ReadOnlyException("Property " + getName() + " is readonly and cannot be modified.");
     }
+    super.requireWritable();
   }
 
   @Override
