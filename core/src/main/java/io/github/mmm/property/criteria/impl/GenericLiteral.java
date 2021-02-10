@@ -38,7 +38,22 @@ public class GenericLiteral<V> implements Literal<V> {
   @Override
   public String toString() {
 
-    return StringLiteral.toSql(this.value.toString());
+    return toString(this.value);
+  }
+
+  private String toString(Object literalValue) {
+
+    if (literalValue == null) {
+      return "null";
+    } else if (literalValue instanceof Supplier) {
+      return toString(((Supplier<?>) literalValue).get());
+    } else if (literalValue instanceof Boolean) {
+      return BooleanLiteralImpl.toString(((Boolean) literalValue).booleanValue());
+    } else if (literalValue instanceof Number) {
+      return literalValue.toString();
+    } else {
+      return StringLiteral.toSql(this.value.toString());
+    }
   }
 
 }

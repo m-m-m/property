@@ -42,7 +42,12 @@ public class BooleanLiteralImpl implements BooleanLiteral {
   @Override
   public String toString() {
 
-    if (this == TRUE) {
+    return toString(this == TRUE);
+  }
+
+  static String toString(boolean booleanValue) {
+
+    if (booleanValue) {
       return "TRUE";
     } else {
       return "FALSE";
