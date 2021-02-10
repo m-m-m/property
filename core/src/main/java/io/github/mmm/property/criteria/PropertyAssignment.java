@@ -15,6 +15,9 @@ import io.github.mmm.value.PropertyPath;
  */
 public class PropertyAssignment<V> {
 
+  /** An empty array of {@link PropertyAssignment}. */
+  public static final PropertyAssignment<?>[] EMPTY_ARRAY = new PropertyAssignment<?>[0];
+
   private final PropertyPath<V> property;
 
   private final Supplier<V> value;
