@@ -140,7 +140,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
    */
   public CriteriaExpression<?> readExpression(StructuredReader reader) {
 
-    reader.require(State.START_OBJECT);
+    reader.require(State.START_OBJECT, true);
     return readExpressionInteral(reader);
   }
 
@@ -160,7 +160,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
       } else if (NAME_ARGUMENTS.equals(name)) {
         assert (args == null);
         args = new ArrayList<>();
-        reader.require(State.START_ARRAY);
+        reader.require(State.START_ARRAY, true);
         while (!reader.readEnd()) {
           Supplier<?> arg = readArg(reader);
           args.add(arg);
@@ -224,7 +224,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   public PropertyPath<?> readProperty(StructuredReader reader) {
 
     String path = reader.readValueAsString();
-    reader.require(State.END_OBJECT);
+    reader.require(State.END_OBJECT, true);
     return new SimplePath(path);
   }
 
@@ -234,7 +234,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
    */
   public CriteriaOrdering readOrdering(StructuredReader reader) {
 
-    reader.require(State.START_OBJECT);
+    reader.require(State.START_OBJECT, true);
     PropertyPath<?> property = null;
     SortOrder order = null;
     while (!reader.readEnd()) {
@@ -265,7 +265,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public PropertyAssignment<?> readAssignment(StructuredReader reader) {
 
-    reader.require(State.START_OBJECT);
+    reader.require(State.START_OBJECT, true);
     PropertyPath<?> property = null;
     Supplier<?> value = null;
     boolean hasValue = false;
