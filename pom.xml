@@ -9,13 +9,14 @@
     <relativePath>../parent/pom.xml</relativePath>
   </parent>
   <artifactId>mmm-property-parent</artifactId>
-  <version>${revision}${changelist}</version>
+  <version>${revision}</version>
   <packaging>pom</packaging>
   <name>${project.artifactId}</name>
   <description>Library providing advanced properties.</description>
 
   <properties>
     <mmm.repository>property</mmm.repository>
+    <revision>0-SNAPSHOT</revision>
   </properties>
 
   <modules>
@@ -25,17 +26,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <!-- Internal dependencies -->
-      <dependency>
-        <groupId>${project.groupId}</groupId>
-        <artifactId>mmm-property</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>${project.groupId}</groupId>
-        <artifactId>mmm-property-builder</artifactId>
-        <version>${project.version}</version>
-      </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>mmm-validation-parent</artifactId>
@@ -49,6 +39,17 @@
         <version>${project.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <!-- own modules -->
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>mmm-property</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>mmm-property-builder</artifactId>
+        <version>${project.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
