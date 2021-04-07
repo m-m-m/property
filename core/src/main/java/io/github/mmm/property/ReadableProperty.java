@@ -3,6 +3,7 @@
 package io.github.mmm.property;
 
 import io.github.mmm.marshall.MarshallableObject;
+import io.github.mmm.marshall.size.StructuredFormatSizeComputor;
 import io.github.mmm.property.criteria.CriteriaAggregation;
 import io.github.mmm.property.criteria.CriteriaPredicate;
 import io.github.mmm.property.criteria.PredicateOperator;
@@ -49,6 +50,19 @@ public interface ReadableProperty<V>
    * @see #validate()
    */
   boolean isValid();
+
+  /**
+   * This method shall only be called from {@link #write(io.github.mmm.marshall.StructuredWriter) marshalling}.
+   *
+   * @param computor the {@link StructuredFormatSizeComputor}.
+   * @return the size of this property.
+   * @see #write(io.github.mmm.marshall.StructuredWriter)
+   */
+  default int computeSize(StructuredFormatSizeComputor computor) {
+
+    V value = get();
+    return computor.sizeOfObject(value);
+  }
 
   /**
    * @return {@code true} if transient (e.g. computed and therefore not to be marshalled), {@code false} otherwise.
