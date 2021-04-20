@@ -108,8 +108,11 @@ public class LikePatternSyntax {
     }
     if (syntax == null) {
       syntax = autoDetect(pattern);
+      if (syntax == null) {
+        syntax = this;
+      }
     }
-    if (this == syntax) {
+    if (syntax == this) {
       String result = pattern;
       if (matchSubstring) {
         if (pattern.charAt(0) != this.any) {
@@ -174,9 +177,9 @@ public class LikePatternSyntax {
       return null;
     }
     for (LikePatternSyntax syntax : NAME2SYNTAX_MAP.values()) {
-      if (pattern.indexOf(syntax.any) > 0) {
+      if (pattern.indexOf(syntax.any) >= 0) {
         return syntax;
-      } else if (pattern.indexOf(syntax.single) > 0) {
+      } else if (pattern.indexOf(syntax.single) >= 0) {
         return syntax;
       }
     }
