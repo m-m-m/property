@@ -65,4 +65,3 @@ Module Dependency:
 ```java
   requires transitive io.github.mmm.property.builder;
 ```
-
