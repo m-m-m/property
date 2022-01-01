@@ -91,10 +91,9 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
     }
     registerPropertyType(implementationClass, factory, allowOverride);
     Class<?> valueClass = factory.getValueClass();
-    if (valueClass == null) {
-      Objects.requireNonNull(valueClass, factory.getClass().getName() + ".getValueClass()");
+    if (valueClass != null) {
+      registerValueType(valueClass, factory, allowOverride);
     }
-    registerValueType(valueClass, factory, allowOverride);
     if (factory.isPolymorphic()) {
       registerPolymorphicFactory(factory);
     }

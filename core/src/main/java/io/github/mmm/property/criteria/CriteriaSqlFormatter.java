@@ -2,6 +2,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.criteria;
 
+import java.io.StringWriter;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -291,6 +292,14 @@ public class CriteriaSqlFormatter implements CriteriaVisitor {
   public static CriteriaSqlFormatter of(CriteriaSqlParameters parameters, AppendableWriter appendable) {
 
     return new CriteriaSqlFormatter(parameters, appendable);
+  }
+
+  /**
+   * @return the new {@link CriteriaSqlFormatter} using {@link CriteriaSqlParametersIndexed indexed parameters}.
+   */
+  public static CriteriaSqlFormatter ofIndexedParameters() {
+
+    return ofIndexedParameters(new AppendableWriter(new StringWriter()));
   }
 
   /**

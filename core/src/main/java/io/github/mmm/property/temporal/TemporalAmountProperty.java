@@ -2,22 +2,22 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.temporal;
 
-import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAmount;
 
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.object.SimpleProperty;
-import io.github.mmm.value.observable.temporal.WritableTemporalValue;
+import io.github.mmm.value.observable.temporal.WritableTemporalAmountValue;
 
 /**
- * {@link SimpleProperty} for {@link Temporal} {@link #get() value}.
+ * {@link SimpleProperty} for {@link TemporalAmount} {@link #get() value}.
  *
  * @param <V> type of {@link #get() value}.
  * @since 1.0.0
  */
-public abstract class TemporalProperty<V extends Temporal> extends SimpleProperty<V>
-    implements WritableTemporalValue<V> {
+public abstract class TemporalAmountProperty<V extends TemporalAmount> extends SimpleProperty<V>
+    implements WritableTemporalAmountValue<V> {
 
   /**
    * The constructor.
@@ -25,7 +25,7 @@ public abstract class TemporalProperty<V extends Temporal> extends SimplePropert
    * @param name the {@link #getName() name}.
    * @param metadata the {@link #getMetadata() metadata}.
    */
-  public TemporalProperty(String name, PropertyMetadata<V> metadata) {
+  public TemporalAmountProperty(String name, PropertyMetadata<V> metadata) {
 
     super(name, metadata);
   }
@@ -35,7 +35,7 @@ public abstract class TemporalProperty<V extends Temporal> extends SimplePropert
    *
    * @param name the {@link #getName() name}.
    */
-  public TemporalProperty(String name) {
+  public TemporalAmountProperty(String name) {
 
     super(name);
   }

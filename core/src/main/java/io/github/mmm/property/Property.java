@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 import io.github.mmm.base.exception.ReadOnlyException;
+import io.github.mmm.base.text.CaseHelper;
 import io.github.mmm.marshall.Marshalling;
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
@@ -212,12 +213,30 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
     return this.metadata.getLock().isReadOnly();
   }
 
+  /**
+   * @return {@code true} if the {@link #get() value} of this property is sensitive and should not be written to
+   *         {@link #toString()}, logs, etc., {@code false} otherwise.
+   */
+  protected boolean isSensitive() {
+
+    String nameLowerCase = CaseHelper.toLowerCase(this.name);
+    if (nameLowerCase.endsWith("password") || nameLowerCase.endsWith("credential") || nameLowerCase.endsWith("secret")
+        || nameLowerCase.endsWith("passphrase") || nameLowerCase.equals("pin")) {
+      return true;
+    }
+    return false;
+  }
+
   @Override
   public void toString(StringBuilder sb) {
 
     sb.append(this.name);
     sb.append('=');
-    sb.append(get());
+    if (isSensitive()) {
+      sb.append("**********");
+    } else {
+      sb.append(get());
+    }
   }
 
   @Override

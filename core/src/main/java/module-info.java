@@ -36,7 +36,9 @@ module io.github.mmm.property {
       io.github.mmm.property.object.PropertyFactoryObject, //
       io.github.mmm.property.pattern.PropertyFactoryPattern, //
       io.github.mmm.property.range.PropertyFactoryRange, //
+      io.github.mmm.property.string.PropertyFactoryPassword, //
       io.github.mmm.property.string.PropertyFactoryString, //
+      io.github.mmm.property.temporal.duration.PropertyFactoryDuration, //
       io.github.mmm.property.temporal.instant.PropertyFactoryInstant, //
       io.github.mmm.property.temporal.localdate.PropertyFactoryLocalDate, //
       io.github.mmm.property.temporal.localdatetime.PropertyFactoryLocalDateTime, //
@@ -90,6 +92,8 @@ module io.github.mmm.property {
   exports io.github.mmm.property.number.shorts;
 
   exports io.github.mmm.property.temporal;
+
+  exports io.github.mmm.property.temporal.duration;
 
   exports io.github.mmm.property.temporal.instant;
 
