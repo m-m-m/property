@@ -61,7 +61,7 @@ public interface CriteriaVisitor {
   /**
    * @param arg the {@link Supplier} {@link CriteriaExpression#getArgs() argument} to visit.
    * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
-   * @param parent the parent {@link CriteriaExpression} to owning the given {@code arg}.
+   * @param parent the parent {@link CriteriaExpression} owning the given {@code arg}.
    */
   default void onArg(Supplier<?> arg, int i, CriteriaExpression<?> parent) {
 
@@ -71,15 +71,27 @@ public interface CriteriaVisitor {
       onPropertyPath((PropertyPath<?>) arg, i, parent);
     } else if (arg instanceof CriteriaExpression) {
       onExpression((CriteriaExpression<?>) arg, parent);
+    } else if (arg instanceof ProjectionProperty) {
+      onProjectionProperty((ProjectionProperty<?>) arg, i, parent);
     } else {
       onUndefinedArg(arg, i, parent);
     }
   }
 
   /**
+   * @param arg the {@link ProjectionProperty}.
+   * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
+   * @param parent the parent {@link CriteriaExpression} owning the given {@code arg}.
+   */
+  default void onProjectionProperty(ProjectionProperty<?> arg, int i, CriteriaExpression<?> parent) {
+
+    onArg(arg.getSelection(), i, parent);
+  }
+
+  /**
    * @param arg the undefined arg (if no {@link Literal}, {@link PropertyPath} or {@link CriteriaExpression}).
    * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
-   * @param parent the parent {@link CriteriaExpression} to owning the given {@link Supplier}.
+   * @param parent the parent {@link CriteriaExpression} owning the given {@code arg}.
    * @see #onArg(Supplier, int, CriteriaExpression)
    */
   default void onUndefinedArg(Supplier<?> arg, int i, CriteriaExpression<?> parent) {

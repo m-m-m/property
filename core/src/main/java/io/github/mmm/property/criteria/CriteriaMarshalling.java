@@ -38,6 +38,15 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   /** The property name for a value. */
   public static final String NAME_VALUE = "value";
 
+  /** The property name for a {@link ProjectionProperty#getSelection() selection} as property. */
+  public static final String NAME_SELECTION_PROPERTY = "pp";
+
+  /** The property name for a {@link ProjectionProperty#getSelection() selection} as expression (aggregate function). */
+  public static final String NAME_SELECTION_EXPRESSION = "pe";
+
+  /** The property name for a {@link ProjectionProperty#getProperty() projection property}. */
+  public static final String NAME_PROJECTION_PROPERTY = "as";
+
   private static final CriteriaMarshalling INSTANCE = new CriteriaMarshalling();
 
   /**
@@ -80,9 +89,11 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   public void writeArg(StructuredWriter writer, Supplier<?> arg) {
 
     if (arg instanceof CriteriaExpression) {
-      writeObject(writer, (CriteriaExpression<?>) arg);
+      writeExpression(writer, (CriteriaExpression<?>) arg);
     } else if (arg instanceof PropertyPath) {
       writeProperty(writer, (PropertyPath<?>) arg);
+    } else if (arg instanceof ProjectionProperty) {
+      writeProjectionProperty(writer, (ProjectionProperty<?>) arg);
     } else {
       writer.writeValue(arg.get());
     }
@@ -97,6 +108,28 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
     writer.writeStartObject();
     writer.writeName(NAME_PROPERTY);
     writer.writeValueAsString(property.path());
+    writer.writeEnd();
+  }
+
+  /**
+   * @param writer the {@link StructuredWriter} to write to.
+   * @param projectionProperty the {@link ProjectionProperty} to write.
+   */
+  public void writeProjectionProperty(StructuredWriter writer, ProjectionProperty<?> projectionProperty) {
+
+    writer.writeStartObject();
+    Supplier<?> selection = projectionProperty.getSelection();
+    if (selection instanceof PropertyPath) {
+      writer.writeName(NAME_SELECTION_PROPERTY);
+      writer.writeValueAsString(((PropertyPath<?>) selection).path());
+    } else if (selection instanceof CriteriaExpression) {
+      writer.writeName(NAME_SELECTION_EXPRESSION);
+      writeExpression(writer, (CriteriaExpression<?>) selection);
+    } else {
+      throw new IllegalStateException();
+    }
+    writer.writeName(NAME_PROJECTION_PROPERTY);
+    writer.writeValueAsString(projectionProperty.getProperty().path());
     writer.writeEnd();
   }
 
@@ -197,9 +230,13 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
 
     if (reader.getState() == State.START_OBJECT) {
       reader.next();
-      if (NAME_PROPERTY.equals(reader.getName())) {
+      String name = reader.getName();
+      if (NAME_PROPERTY.equals(name)) {
         reader.readName();
         return readProperty(reader);
+      } else if (NAME_SELECTION_PROPERTY.equals(name) || NAME_SELECTION_EXPRESSION.equals(name)
+          || NAME_PROJECTION_PROPERTY.equals(name)) {
+        return readProjectionProperty(reader);
       } else {
         return readExpressionInteral(reader);
       }
@@ -226,6 +263,35 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
     String path = reader.readValueAsString();
     reader.require(State.END_OBJECT, true);
     return new SimplePath(path);
+  }
+
+  /**
+   * @param reader the {@link StructuredReader} to read from.
+   * @return the parsed {@link ProjectionProperty}.
+   */
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  private ProjectionProperty<?> readProjectionProperty(StructuredReader reader) {
+
+    Supplier<?> selection = null;
+    PropertyPath<?> property = null;
+    while (!reader.readEnd()) {
+      String name = reader.readName();
+      if (NAME_SELECTION_PROPERTY.equals(name)) {
+        assert (selection == null);
+        String path = reader.readValueAsString();
+        selection = new SimplePath(path);
+      } else if (NAME_SELECTION_EXPRESSION.equals(name)) {
+        assert (selection == null);
+        selection = readExpression(reader);
+      } else if (NAME_PROJECTION_PROPERTY.equals(name)) {
+        assert (property == null);
+        String path = reader.readValueAsString();
+        property = new SimplePath(path);
+      } else {
+        reader.skipValue();
+      }
+    }
+    return new ProjectionProperty(selection, property);
   }
 
   /**

@@ -5,6 +5,7 @@ package io.github.mmm.property.criteria.impl;
 import java.util.List;
 import java.util.function.Supplier;
 
+import io.github.mmm.property.criteria.BooleanLiteral;
 import io.github.mmm.property.criteria.CriteriaPredicate;
 import io.github.mmm.property.criteria.PredicateOperator;
 
@@ -14,6 +15,14 @@ import io.github.mmm.property.criteria.PredicateOperator;
  * @since 1.0.0
  */
 public class SimplePredicate extends AbstractPredicate {
+
+  /** {@link SimplePredicate} that always evaluates to {@code true}. */
+  public static final SimplePredicate ALWAYS = new SimplePredicate(BooleanLiteral.TRUE, PredicateOperator.EQ,
+      BooleanLiteral.TRUE);
+
+  /** {@link SimplePredicate} that always evaluates to {@code false}. */
+  public static final SimplePredicate NEVER = new SimplePredicate(BooleanLiteral.TRUE, PredicateOperator.EQ,
+      BooleanLiteral.FALSE);
 
   private final Supplier<?> arg1;
 
@@ -29,6 +38,9 @@ public class SimplePredicate extends AbstractPredicate {
   public SimplePredicate(Supplier<?> arg1, PredicateOperator operator, Supplier<?> arg2) {
 
     super(operator);
+    if (operator.isConjunction()) {
+      throw new IllegalStateException(operator.toString());
+    }
     this.arg1 = arg1;
     this.arg2 = arg2;
     assert ((arg2 == null) == operator.isUnary());
@@ -67,6 +79,11 @@ public class SimplePredicate extends AbstractPredicate {
   @Override
   public CriteriaPredicate not() {
 
+    if (this == ALWAYS) {
+      return NEVER;
+    } else if (this == NEVER) {
+      return ALWAYS;
+    }
     PredicateOperator inverseOperator = this.operator.not();
     if (inverseOperator == null) {
       if (this.operator == PredicateOperator.NOT) {

@@ -86,7 +86,7 @@ public class AggregationOperator extends Operator {
     if (size == 0) {
       return criteria((PropertyPath) null);
     } else if (size == 1) {
-      return criteria((PropertyPath) args.get(1));
+      return criteria((PropertyPath) args.get(0));
     } else {
       throw new IllegalArgumentException("" + size);
     }
