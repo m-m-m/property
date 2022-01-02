@@ -98,7 +98,7 @@ public class AggregationOperator extends Operator {
    * @return the {@link CriteriaAggregation} aggregating the given {@link PropertyPath property} using this
    *         {@link AggregationOperator}.
    */
-  public <V extends Number> CriteriaAggregation<V> criteria(PropertyPath<V> property) {
+  public <V> CriteriaAggregation<V> criteria(PropertyPath<V> property) {
 
     Objects.requireNonNull(property, "property");
     return new AggregationFunction<>(this, property);

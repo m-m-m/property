@@ -17,7 +17,7 @@ import io.github.mmm.value.PropertyPath;
  * @param <R> type of the result value of the aggregation function.
  * @since 1.0.0
  */
-public interface CriteriaAggregation<R extends Number> extends CriteriaExpression<R> {
+public interface CriteriaAggregation<R> extends CriteriaExpression<R> {
 
   /**
    * {@link CriteriaAggregation} for {@code COUNT(*)}.
@@ -92,7 +92,7 @@ public interface CriteriaAggregation<R extends Number> extends CriteriaExpressio
    * @return the {@link CriteriaAggregation} aggregating the given {@link PropertyPath property} using the given
    *         {@link AggregationOperator}.
    */
-  static <R extends Number> CriteriaAggregation<R> of(AggregationOperator operator, PropertyPath<R> property) {
+  static <R> CriteriaAggregation<R> of(AggregationOperator operator, PropertyPath<R> property) {
 
     Objects.requireNonNull(operator, "operator");
     return operator.criteria(property);

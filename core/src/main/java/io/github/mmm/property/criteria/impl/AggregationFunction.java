@@ -13,8 +13,7 @@ import io.github.mmm.value.PropertyPath;
  * @param <R> type of the result value of the aggregation function.
  * @since 1.0.0
  */
-public class AggregationFunction<R extends Number> extends AbstractCriteriaExpression<R>
-    implements CriteriaAggregation<R> {
+public class AggregationFunction<R> extends AbstractCriteriaExpression<R> implements CriteriaAggregation<R> {
 
   private final AggregationOperator operator;
 
