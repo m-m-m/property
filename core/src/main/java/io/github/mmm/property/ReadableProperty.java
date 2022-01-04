@@ -32,17 +32,13 @@ public interface ReadableProperty<V>
   String getName();
 
   @Override
-  default String path() {
+  default ReadablePath parentPath() {
 
-    String path = getName();
     AttributeReadOnly lock = getMetadata().getLock();
     if (lock instanceof ReadablePath) {
-      String prefix = ((ReadablePath) lock).path();
-      if (prefix != null) {
-        path = prefix + path;
-      }
+      return (ReadablePath) lock;
     }
-    return path;
+    return TypedPropertyPath.super.parentPath();
   }
 
   /**

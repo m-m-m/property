@@ -262,7 +262,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
 
     String path = reader.readValueAsString();
     reader.require(State.END_OBJECT, true);
-    return new SimplePath(path);
+    return SimplePath.of(path);
   }
 
   /**
@@ -279,14 +279,14 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
       if (NAME_SELECTION_PROPERTY.equals(name)) {
         assert (selection == null);
         String path = reader.readValueAsString();
-        selection = new SimplePath(path);
+        selection = SimplePath.of(path);
       } else if (NAME_SELECTION_EXPRESSION.equals(name)) {
         assert (selection == null);
         selection = readExpression(reader);
       } else if (NAME_PROJECTION_PROPERTY.equals(name)) {
         assert (property == null);
         String path = reader.readValueAsString();
-        property = new SimplePath(path);
+        property = SimplePath.of(path);
       } else {
         reader.skipValue();
       }
@@ -307,7 +307,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
       String name = reader.readName();
       if (NAME_PROPERTY.equals(name)) {
         String p = reader.readValueAsString();
-        property = new SimplePath(p);
+        property = SimplePath.of(p);
       } else if (NAME_SORT_ORDER.equals(name)) {
         String o = reader.readValueAsString();
         order = SortOrder.valueOf(o);
@@ -339,7 +339,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
       String name = reader.readName();
       if (NAME_PROPERTY.equals(name)) {
         String p = reader.readValueAsString();
-        property = new SimplePath(p);
+        property = SimplePath.of(p);
       } else if (NAME_VALUE.equals(name)) {
         value = readArg(reader);
         hasValue = true;
