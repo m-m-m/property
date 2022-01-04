@@ -20,37 +20,37 @@ public class PredicateOperator extends Operator {
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>{@literal =}
    * ({@link Object#equals(Object) equal})</em> to {@link CriteriaExpression#getSecondArg() second argument}.
    */
-  public static final PredicateOperator EQ = new PredicateOperator("=");
+  public static final PredicateOperator EQ = new PredicateOperator("=", "EQ");
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>{@literal <>} (not
    * {@link Object#equals(Object) equal})</em> to {@link CriteriaExpression#getSecondArg() second argument}.
    */
-  public static final PredicateOperator NEQ = new PredicateOperator("<>", EQ);
+  public static final PredicateOperator NEQ = new PredicateOperator("<>", EQ, "NEQ");
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>{@literal <} (less than)</em>
    * {@link CriteriaExpression#getSecondArg() second argument}.
    */
-  public static final PredicateOperator LT = new PredicateOperator("<");
+  public static final PredicateOperator LT = new PredicateOperator("<", "LT");
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>{@literal <=} (less or
    * equal)</em> {@link CriteriaExpression#getSecondArg() second argument}.
    */
-  public static final PredicateOperator LE = new PredicateOperator("<=");
+  public static final PredicateOperator LE = new PredicateOperator("<=", "LE");
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>{@literal >} (greater
    * than)</em> {@link CriteriaExpression#getSecondArg() second argument}.
    */
-  public static final PredicateOperator GT = new PredicateOperator(">", false, LE);
+  public static final PredicateOperator GT = new PredicateOperator(">", false, LE, "GT");
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>{@literal >=} (greater or
    * equal)</em> {@link CriteriaExpression#getSecondArg() second argument}.
    */
-  public static final PredicateOperator GE = new PredicateOperator(">=", false, LT);
+  public static final PredicateOperator GE = new PredicateOperator(">=", false, LT, "GE");
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} <em>IS NULL</em>.
@@ -135,6 +135,17 @@ public class PredicateOperator extends Operator {
    * The constructor.
    *
    * @param syntax the {@link #getSyntax() syntax}.
+   * @param name the {@link #getName() name}.
+   */
+  protected PredicateOperator(String syntax, String name) {
+
+    this(syntax, false, null, false, name);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param syntax the {@link #getSyntax() syntax}.
    * @param unary the {@link #isUnary() unary flag}.
    */
   protected PredicateOperator(String syntax, boolean unary) {
@@ -156,7 +167,19 @@ public class PredicateOperator extends Operator {
   /**
    * The constructor.
    *
-   * @param syntax the {@link #getSyntax() name}.
+   * @param syntax the {@link #getSyntax() syntax}.
+   * @param not the {@link #not() negated} form or {@code null}.
+   * @param name the {@link #getName() name}.
+   */
+  protected PredicateOperator(String syntax, PredicateOperator not, String name) {
+
+    this(syntax, (not != null), not, name);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param syntax the {@link #getSyntax() syntax}.
    * @param not the {@link #not() negated} form or {@code null}.
    * @param unary the {@link #isUnary() unary flag}.
    */
@@ -168,7 +191,7 @@ public class PredicateOperator extends Operator {
   /**
    * The constructor.
    *
-   * @param syntax the {@link #getSyntax() name}.
+   * @param syntax the {@link #getSyntax() syntax}.
    * @param not the {@link #not() negated} form or {@code null}.
    * @param inverse the {@link #isInverse() inverse flag}.
    */
@@ -180,14 +203,41 @@ public class PredicateOperator extends Operator {
   /**
    * The constructor.
    *
-   * @param syntax the {@link #getSyntax() name}.
+   * @param syntax the {@link #getSyntax() syntax}.
+   * @param not the {@link #not() negated} form or {@code null}.
+   * @param inverse the {@link #isInverse() inverse flag}.
+   * @param name the {@link #getName() name}.
+   */
+  protected PredicateOperator(String syntax, boolean inverse, PredicateOperator not, String name) {
+
+    this(syntax, inverse, not, (not == null) ? false : not.unary, name);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param syntax the {@link #getSyntax() syntax}.
    * @param not the {@link #not() negated} form or {@code null}.
    * @param inverse the {@link #isInverse() inverse flag}.
    * @param unary the {@link #isUnary() unary flag}.
    */
   protected PredicateOperator(String syntax, boolean inverse, PredicateOperator not, boolean unary) {
 
-    super(syntax, not, inverse);
+    this(syntax, inverse, not, unary, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param syntax the {@link #getSyntax() syntax}.
+   * @param not the {@link #not() negated} form or {@code null}.
+   * @param inverse the {@link #isInverse() inverse flag}.
+   * @param unary the {@link #isUnary() unary flag}.
+   * @param name the {@link #getName() name}.
+   */
+  protected PredicateOperator(String syntax, boolean inverse, PredicateOperator not, boolean unary, String name) {
+
+    super(syntax, not, inverse, name);
     this.unary = unary;
   }
 

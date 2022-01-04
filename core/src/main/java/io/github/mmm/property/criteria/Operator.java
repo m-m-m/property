@@ -25,6 +25,8 @@ public abstract class Operator {
 
   private final String syntax;
 
+  private final String name;
+
   private final boolean inverse;
 
   private Operator not;
@@ -37,7 +39,7 @@ public abstract class Operator {
   /**
    * The constructor.
    *
-   * @param syntax the {@link #getSyntax() name}.
+   * @param syntax the {@link #getSyntax() syntax}.
    */
   protected Operator(String syntax) {
 
@@ -47,7 +49,7 @@ public abstract class Operator {
   /**
    * The constructor.
    *
-   * @param syntax the {@link #getSyntax() name}.
+   * @param syntax the {@link #getSyntax() syntax}.
    * @param not the {@link #not() negated} form or {@code null}.
    */
   protected Operator(String syntax, Operator not) {
@@ -58,14 +60,34 @@ public abstract class Operator {
   /**
    * The constructor.
    *
-   * @param syntax the {@link #getSyntax() name}.
+   * @param syntax the {@link #getSyntax() syntax}.
    * @param not the {@link #not() negated} form or {@code null}.
    * @param inverse the {@link #isInverse() inverse flag}.
    */
   protected Operator(String syntax, Operator not, boolean inverse) {
 
+    this(syntax, not, inverse, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param syntax the {@link #getSyntax() syntax}.
+   * @param not the {@link #not() negated} form or {@code null}.
+   * @param inverse the {@link #isInverse() inverse flag}.
+   * @param name the {@link #getName() name}.
+   */
+  protected Operator(String syntax, Operator not, boolean inverse, String name) {
+
     super();
+    assert ((syntax != null) && !syntax.isEmpty()) : syntax;
     this.syntax = syntax;
+    if (name == null) {
+      this.name = syntax.replace(' ', '_');
+    } else {
+      this.name = name;
+    }
+    assert isValidName() : this.name;
     this.inverse = inverse;
     if (not != null) {
       this.not = not;
@@ -122,6 +144,32 @@ public abstract class Operator {
   public String getSyntax() {
 
     return this.syntax;
+  }
+
+  /**
+   * @return a {@link #toString() string representation} like {@link #getSyntax() syntax} but guaranteed to match
+   *         {@code [a-Z0-9_]+}.
+   */
+  public String getName() {
+
+    return this.name;
+  }
+
+  private boolean isValidName() {
+
+    int length = this.name.length();
+    if (length == 0) {
+      return false;
+    }
+    for (int i = length - 1; i >= 0; i--) {
+      char c = this.name.charAt(i);
+      boolean valid = ((c >= 'a') && (c <= 'z')) || ((c >= 'A') && (c <= 'Z')) || ((c >= '0') && (c <= '9'))
+          || (c == '_');
+      if (!valid) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
