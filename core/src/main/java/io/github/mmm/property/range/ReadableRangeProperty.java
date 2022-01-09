@@ -11,9 +11,10 @@ import io.github.mmm.property.ReadableProperty;
  * @param <V> type of the {@link Range} bounds.
  * @since 1.0.0
  */
-public interface ReadableRangeProperty<V> extends ReadableProperty<Range<V>> {
+@SuppressWarnings("rawtypes")
+public interface ReadableRangeProperty<V extends Comparable> extends ReadableProperty<Range<V>> {
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings("unchecked")
   @Override
   default Class<Range<V>> getValueClass() {
 

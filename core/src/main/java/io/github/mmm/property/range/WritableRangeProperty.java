@@ -11,6 +11,8 @@ import io.github.mmm.property.WritableProperty;
  * @param <V> type of the {@link Range} bounds.
  * @since 1.0.0
  */
-public interface WritableRangeProperty<V> extends ReadableRangeProperty<V>, WritableProperty<Range<V>> {
+@SuppressWarnings("rawtypes")
+public interface WritableRangeProperty<V extends Comparable>
+    extends ReadableRangeProperty<V>, WritableProperty<Range<V>> {
 
 }

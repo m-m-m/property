@@ -16,7 +16,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  * @since 1.0.0
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class PropertyFactoryRange<V> extends AbstractPropertyFactory<Range<V>, RangeProperty<V>> {
+public class PropertyFactoryRange<V extends Comparable> extends AbstractPropertyFactory<Range<V>, RangeProperty<V>> {
 
   @Override
   public Class<? extends Range<V>> getValueClass() {

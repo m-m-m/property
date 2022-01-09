@@ -18,7 +18,8 @@ import io.github.mmm.property.object.SimpleProperty;
  * @param <V> type of the {@link Range} bounds.
  * @since 1.0.0
  */
-public class RangeProperty<V> extends SimpleProperty<Range<V>> implements WritableRangeProperty<V> {
+@SuppressWarnings("rawtypes")
+public class RangeProperty<V extends Comparable> extends SimpleProperty<Range<V>> implements WritableRangeProperty<V> {
 
   /** @see #getValueProperty() */
   private final SimpleProperty<V> valueProperty;
@@ -61,7 +62,7 @@ public class RangeProperty<V> extends SimpleProperty<Range<V>> implements Writab
     this.value = newValue;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings("unchecked")
   @Override
   public Range<V> parse(String valueAsString) {
 
@@ -92,7 +93,7 @@ public class RangeProperty<V> extends SimpleProperty<Range<V>> implements Writab
           max = readBound(reader);
         }
       }
-      range = new RangeType<>(min, max);
+      range = RangeType.of(min, max);
       set(range);
     }
   }
