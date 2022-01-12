@@ -14,6 +14,8 @@ module io.github.mmm.property {
 
   requires static io.github.mmm.marshall.json;
 
+  requires transitive io.github.mmm.value.converter;
+
   requires transitive io.github.mmm.value.observable;
 
   requires transitive io.github.mmm.validation;

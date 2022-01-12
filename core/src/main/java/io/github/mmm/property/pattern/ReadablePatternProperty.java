@@ -5,6 +5,7 @@ package io.github.mmm.property.pattern;
 import java.util.regex.Pattern;
 
 import io.github.mmm.property.ReadableProperty;
+import io.github.mmm.property.object.ReadableSimpleProperty;
 import io.github.mmm.value.observable.pattern.PatternExpression;
 
 /**
@@ -12,6 +13,6 @@ import io.github.mmm.value.observable.pattern.PatternExpression;
  *
  * @since 1.0.0
  */
-public interface ReadablePatternProperty extends ReadableProperty<Pattern>, PatternExpression {
+public interface ReadablePatternProperty extends ReadableSimpleProperty<Pattern>, PatternExpression {
 
 }

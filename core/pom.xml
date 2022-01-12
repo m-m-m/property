@@ -11,7 +11,7 @@
   <packaging>jar</packaging>
   <name>${project.artifactId}</name>
   <description>Java module providing advanced powerful properties.</description>
-  
+
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -22,6 +22,10 @@
       <artifactId>mmm-value-observable</artifactId>
     </dependency>
     <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>mmm-value-converter</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
     </dependency>
@@ -29,5 +33,5 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>mmm-validation</artifactId>
     </dependency>
-  </dependencies> 
+  </dependencies>
 </project>

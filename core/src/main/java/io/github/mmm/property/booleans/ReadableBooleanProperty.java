@@ -3,6 +3,7 @@
 package io.github.mmm.property.booleans;
 
 import io.github.mmm.property.ReadableProperty;
+import io.github.mmm.property.object.ReadableSimpleProperty;
 import io.github.mmm.value.observable.booleans.BooleanExpression;
 
 /**
@@ -10,6 +11,6 @@ import io.github.mmm.value.observable.booleans.BooleanExpression;
  *
  * @since 1.0.0
  */
-public interface ReadableBooleanProperty extends BooleanExpression, ReadableProperty<Boolean> {
+public interface ReadableBooleanProperty extends BooleanExpression, ReadableSimpleProperty<Boolean> {
 
 }

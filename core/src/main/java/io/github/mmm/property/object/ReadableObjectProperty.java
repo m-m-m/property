@@ -3,7 +3,6 @@
 package io.github.mmm.property.object;
 
 import io.github.mmm.property.ReadableProperty;
-import io.github.mmm.value.observable.Expression;
 import io.github.mmm.value.observable.object.ObservableObjectValue;
 
 /**
@@ -13,6 +12,6 @@ import io.github.mmm.value.observable.object.ObservableObjectValue;
  *
  * @since 1.0.0
  */
-public interface ReadableObjectProperty<V> extends ReadableProperty<V>, ObservableObjectValue<V>, Expression<V> {
+public interface ReadableObjectProperty<V> extends ReadableSimpleProperty<V>, ObservableObjectValue<V> {
 
 }

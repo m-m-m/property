@@ -17,7 +17,7 @@ import io.github.mmm.validation.range.ValidatorBuilderRange;
  * @param <V> type of the {@link Range} bounds.
  * @since 1.0.0
  */
-public final class RangePropertyBuilder<V> extends
+public final class RangePropertyBuilder<V extends Comparable<?>> extends
     PropertyBuilder<Range<V>, RangeProperty<V>, ValidatorBuilderRange<V, RangePropertyBuilder<V>>, RangePropertyBuilder<V>> {
 
   private SimpleProperty<V> valueProperty;

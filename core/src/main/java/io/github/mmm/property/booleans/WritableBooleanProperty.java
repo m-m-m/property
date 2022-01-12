@@ -3,6 +3,7 @@
 package io.github.mmm.property.booleans;
 
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.object.WritableSimpleProperty;
 import io.github.mmm.value.observable.booleans.WritableBooleanValue;
 
 /**
@@ -11,6 +12,6 @@ import io.github.mmm.value.observable.booleans.WritableBooleanValue;
  * @since 1.0.0
  */
 public interface WritableBooleanProperty
-    extends ReadableBooleanProperty, WritableProperty<Boolean>, WritableBooleanValue {
+    extends ReadableBooleanProperty, WritableSimpleProperty<Boolean>, WritableBooleanValue {
 
 }

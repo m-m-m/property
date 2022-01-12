@@ -18,8 +18,7 @@ import io.github.mmm.validation.main.ObjectValidatorBuilder;
  * @param <SELF> type of this {@link ComparablePropertyBuilder} itself.
  * @since 1.0.0
  */
-@SuppressWarnings("rawtypes")
-public abstract class ComparablePropertyBuilder<V extends Comparable, P extends Property<V>, B extends ObjectValidatorBuilder<V, ? extends ComparablePropertyBuilder<V, P, B, SELF>, ?>, SELF extends ComparablePropertyBuilder<V, P, B, SELF>>
+public abstract class ComparablePropertyBuilder<V extends Comparable<?>, P extends Property<V>, B extends ObjectValidatorBuilder<V, ? extends ComparablePropertyBuilder<V, P, B, SELF>, ?>, SELF extends ComparablePropertyBuilder<V, P, B, SELF>>
     extends PropertyBuilder<V, P, B, SELF> {
 
   /**

@@ -2,7 +2,6 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.object;
 
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -20,16 +19,6 @@ import io.github.mmm.value.observable.object.ObservableSimpleValue;
  * @since 1.0.0
  */
 public interface ReadableSimpleProperty<V> extends ReadableProperty<V>, ObservableSimpleValue<V>, Expression<V> {
-
-  /**
-   * @return the {@link Type} reflecting the {@link #get() value}. May be the same as {@link #getValueClass()} or may
-   *         contain additional generic type information.
-   * @see #getValueClass()
-   */
-  default Type getValueType() {
-
-    return getValueClass();
-  }
 
   /**
    * @param other the {@link Collection} with the literal values to compare with using {@link PredicateOperator#IN in}.

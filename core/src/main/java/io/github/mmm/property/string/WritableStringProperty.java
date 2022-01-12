@@ -3,6 +3,7 @@
 package io.github.mmm.property.string;
 
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.comparable.WritableComparableProperty;
 import io.github.mmm.value.observable.string.WritableStringValue;
 
 /**
@@ -10,6 +11,7 @@ import io.github.mmm.value.observable.string.WritableStringValue;
  *
  * @since 1.0.0
  */
-public interface WritableStringProperty extends ReadableStringProperty, WritableProperty<String>, WritableStringValue {
+public interface WritableStringProperty
+    extends ReadableStringProperty, WritableComparableProperty<String>, WritableStringValue {
 
 }

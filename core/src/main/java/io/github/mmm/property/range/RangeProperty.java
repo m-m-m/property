@@ -11,6 +11,7 @@ import io.github.mmm.marshall.StructuredWriter;
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.object.SimpleProperty;
+import io.github.mmm.value.converter.TypeMapper;
 
 /**
  * Implementation of {@link WritableRangeProperty}.
@@ -18,13 +19,15 @@ import io.github.mmm.property.object.SimpleProperty;
  * @param <V> type of the {@link Range} bounds.
  * @since 1.0.0
  */
-@SuppressWarnings("rawtypes")
-public class RangeProperty<V extends Comparable> extends SimpleProperty<Range<V>> implements WritableRangeProperty<V> {
+public class RangeProperty<V extends Comparable<?>> extends SimpleProperty<Range<V>>
+    implements WritableRangeProperty<V> {
 
   /** @see #getValueProperty() */
   private final SimpleProperty<V> valueProperty;
 
   private Range<V> value;
+
+  private RangeTypeMapper<V> typeMapper;
 
   /**
    * The constructor.
@@ -62,7 +65,7 @@ public class RangeProperty<V extends Comparable> extends SimpleProperty<Range<V>
     this.value = newValue;
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
   public Range<V> parse(String valueAsString) {
 
@@ -134,6 +137,22 @@ public class RangeProperty<V extends Comparable> extends SimpleProperty<Range<V>
   public Property<V> getValueProperty() {
 
     return this.valueProperty;
+  }
+
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  @Override
+  public TypeMapper<Range<V>, ?> getTypeMapper() {
+
+    if (this.typeMapper == null) {
+      Class<V> valueClass;
+      if (this.valueProperty != null) {
+        valueClass = this.valueProperty.getValueClass();
+      } else {
+        valueClass = (Class) Comparable.class;
+      }
+      this.typeMapper = RangeTypeMapper.of(valueClass);
+    }
+    return this.typeMapper;
   }
 
 }

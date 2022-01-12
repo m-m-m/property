@@ -4,6 +4,7 @@ package io.github.mmm.property.range;
 
 import io.github.mmm.base.range.Range;
 import io.github.mmm.property.ReadableProperty;
+import io.github.mmm.property.object.ReadableSimpleProperty;
 
 /**
  * {@link ReadableProperty} with {@link Range} {@link #get() value}.
@@ -11,10 +12,9 @@ import io.github.mmm.property.ReadableProperty;
  * @param <V> type of the {@link Range} bounds.
  * @since 1.0.0
  */
-@SuppressWarnings("rawtypes")
-public interface ReadableRangeProperty<V extends Comparable> extends ReadableProperty<Range<V>> {
+public interface ReadableRangeProperty<V extends Comparable<?>> extends ReadableSimpleProperty<Range<V>> {
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
   default Class<Range<V>> getValueClass() {
 

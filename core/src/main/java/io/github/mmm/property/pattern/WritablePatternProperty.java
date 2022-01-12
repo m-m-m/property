@@ -5,6 +5,7 @@ package io.github.mmm.property.pattern;
 import java.util.regex.Pattern;
 
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.object.WritableSimpleProperty;
 import io.github.mmm.value.observable.pattern.WritablePatternValue;
 
 /**
@@ -13,6 +14,6 @@ import io.github.mmm.value.observable.pattern.WritablePatternValue;
  * @since 1.0.0
  */
 public interface WritablePatternProperty
-    extends ReadablePatternProperty, WritableProperty<Pattern>, WritablePatternValue {
+    extends ReadablePatternProperty, WritableSimpleProperty<Pattern>, WritablePatternValue {
 
 }

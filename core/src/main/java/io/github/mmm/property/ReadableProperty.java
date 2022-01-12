@@ -11,6 +11,7 @@ import io.github.mmm.validation.Validatable;
 import io.github.mmm.value.PropertyPath;
 import io.github.mmm.value.ReadablePath;
 import io.github.mmm.value.TypedPropertyPath;
+import io.github.mmm.value.converter.TypeMapper;
 import io.github.mmm.value.observable.ObservableValue;
 
 /**
@@ -46,6 +47,16 @@ public interface ReadableProperty<V>
    * @see #validate()
    */
   boolean isValid();
+
+  /**
+   * @return the optional {@link TypeMapper} allowing to map the {@link #get() value} to a simple standard type(s) (e.g.
+   *         {@link String} or {@link Number}). This allows build-in support for custom value types to support mapping
+   *         (e.g. to database).
+   */
+  default TypeMapper<V, ?> getTypeMapper() {
+
+    return null;
+  }
 
   /**
    * This method shall only be called from {@link #write(io.github.mmm.marshall.StructuredWriter) marshalling}.

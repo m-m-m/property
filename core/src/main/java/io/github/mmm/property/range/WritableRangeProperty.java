@@ -4,6 +4,7 @@ package io.github.mmm.property.range;
 
 import io.github.mmm.base.range.Range;
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.object.WritableSimpleProperty;
 
 /**
  * {@link WritableProperty} with {@link Range} {@link #get() value}.
@@ -11,8 +12,7 @@ import io.github.mmm.property.WritableProperty;
  * @param <V> type of the {@link Range} bounds.
  * @since 1.0.0
  */
-@SuppressWarnings("rawtypes")
-public interface WritableRangeProperty<V extends Comparable>
-    extends ReadableRangeProperty<V>, WritableProperty<Range<V>> {
+public interface WritableRangeProperty<V extends Comparable<?>>
+    extends ReadableRangeProperty<V>, WritableSimpleProperty<Range<V>> {
 
 }
