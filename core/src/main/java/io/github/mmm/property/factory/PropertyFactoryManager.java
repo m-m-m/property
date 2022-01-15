@@ -2,6 +2,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.factory;
 
+import java.util.Collection;
+
 import io.github.mmm.base.exception.ObjectNotFoundException;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
@@ -162,6 +164,13 @@ public interface PropertyFactoryManager {
 
     return create(null, valueClass, name, metadata);
   }
+
+  /**
+   * @return a {@link Collection} with all registered {@link ReadableProperty#getValueClass() value types}. So for all
+   *         the returned {@link Class}es {@link #create(Class, String) creation of property by value type} is
+   *         supported.
+   */
+  Collection<Class<?>> getValueTypes();
 
   /**
    * @return the {@link PropertyFactoryManager} instance.

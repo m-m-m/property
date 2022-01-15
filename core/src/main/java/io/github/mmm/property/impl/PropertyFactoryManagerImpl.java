@@ -4,6 +4,8 @@ package io.github.mmm.property.impl;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -164,6 +166,12 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
       }
     }
     return (PropertyFactory) factory;
+  }
+
+  @Override
+  public Collection<Class<?>> getValueTypes() {
+
+    return Collections.unmodifiableSet(this.valueType2factoryMap.keySet());
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
