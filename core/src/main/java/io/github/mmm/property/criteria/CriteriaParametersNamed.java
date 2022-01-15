@@ -12,13 +12,13 @@ import io.github.mmm.base.io.AppendableWriter;
 import io.github.mmm.value.PropertyPath;
 
 /**
- * {@link CriteriaSqlParameters} using named parameters. It puts "{@code :«name»}" into the SQL and collects the
- * parameters in a {@link Map} that can get accessed via {@link #getParameters()} after the SQL {@link String} has been
- * created and can be bound as parameters to the statement.
+ * {@link CriteriaParameters} using named parameters. It puts "{@code :«name»}" into the output and collects the
+ * parameters in a {@link Map} that can get accessed via {@link #getParameters()} after the database statement has been
+ * formatted and can be bound as parameters to the statement.
  *
  * @since 1.0.0
  */
-public class CriteriaSqlParametersNamed implements CriteriaSqlParameters {
+public class CriteriaParametersNamed implements CriteriaParameters {
 
   private final Map<String, Object> parameters;
 
@@ -29,7 +29,7 @@ public class CriteriaSqlParametersNamed implements CriteriaSqlParameters {
    *
    * @param merge the {@link #isMerge() merge flag}.
    */
-  public CriteriaSqlParametersNamed(boolean merge) {
+  public CriteriaParametersNamed(boolean merge) {
 
     super();
     this.parameters = new HashMap<>();
@@ -120,7 +120,7 @@ public class CriteriaSqlParametersNamed implements CriteriaSqlParameters {
   }
 
   /**
-   * @return the {@link Map} of collected named parameter values to bind to the SQL statement.
+   * @return the {@link Map} of collected named parameter values to bind to the database statement.
    */
   public Map<String, Object> getParameters() {
 

@@ -8,20 +8,20 @@ import java.util.List;
 import io.github.mmm.base.io.AppendableWriter;
 
 /**
- * {@link CriteriaSqlParameters} using indexed parameters. It puts "{@code ?}" into the SQL and collects the parameters
- * in a {@link List} that can get accessed via {@link #getParameters()} after the SQL {@link String} has been created
- * and can be bound as parameters to the statement.
+ * {@link CriteriaParameters} using indexed parameters. It puts "{@code ?}" for each {@link Literal} into the output and
+ * collects the parameters in a {@link List} that can get accessed via {@link #getParameters()} after the database
+ * statement has been formatted and can be bound as parameters to the statement.
  *
  * @since 1.0.0
  */
-public class CriteriaSqlParametersIndexed implements CriteriaSqlParameters {
+public class CriteriaParametersIndexed implements CriteriaParameters {
 
   private final List<Object> parameters;
 
   /**
    * The constructor.
    */
-  public CriteriaSqlParametersIndexed() {
+  public CriteriaParametersIndexed() {
 
     super();
     this.parameters = new ArrayList<>();
@@ -42,7 +42,7 @@ public class CriteriaSqlParametersIndexed implements CriteriaSqlParameters {
   }
 
   /**
-   * @return the {@link List} of collected indexed parameter values to bind to the SQL statement.
+   * @return the {@link List} of collected indexed parameter values to bind to the database statement.
    */
   public List<Object> getParameters() {
 

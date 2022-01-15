@@ -9,7 +9,7 @@ import io.github.mmm.base.exception.DuplicateObjectException;
 
 /**
  * Enum defining available syntaxes for a match pattern in a LIKE-clause. While databases typically require {@link #SQL}
- * syntax, human user expect {@link #GLOB} syntax in search forms. Therefore this enum also supports
+ * syntax, human users expect {@link #GLOB} syntax in search forms. Therefore this enum also supports
  * {@link #convert(String, LikePatternSyntax, boolean) conversion} from one syntax to another.
  */
 public class LikePatternSyntax {

@@ -29,7 +29,7 @@ public abstract class AbstractCriteriaExpression<R> implements CriteriaExpressio
   @Override
   public String toString() {
 
-    return new CriteriaSqlFormatter().onExpression(this).toString();
+    return new CriteriaFormatter().onExpression(this).toString();
   }
 
 }

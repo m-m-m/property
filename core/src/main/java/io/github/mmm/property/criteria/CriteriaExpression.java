@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.function.Supplier;
 
 /**
- * Interface for a search criteria. Can be e.g. used to build dynamic queries (see {@code mmm-entity-bean}). Use
- * {@link CriteriaSqlFormatter} and its sub-classes to convert to SQL and {@link CriteriaMarshalling} to (un)marshall to
- * JSON, XML, etc.
+ * Interface for a search criteria. Can be e.g. used to build dynamic queries (see {@code mmm-entity-db}). Use
+ * {@link CriteriaFormatter} and its sub-classes to convert to database syntax (e.g. SQL) and
+ * {@link CriteriaMarshalling} to (un)marshall to JSON, XML, etc.
  *
  * @param <R> type of the result value this expression evaluates to.
  * @since 1.0.0
