@@ -3,11 +3,11 @@
 package io.github.mmm.property.criteria.impl;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 import io.github.mmm.property.criteria.BooleanLiteral;
 import io.github.mmm.property.criteria.CriteriaPredicate;
 import io.github.mmm.property.criteria.PredicateOperator;
+import io.github.mmm.value.CriteriaSelection;
 
 /**
  * Implementation of {@link CriteriaPredicate}
@@ -24,9 +24,9 @@ public class SimplePredicate extends AbstractPredicate {
   public static final SimplePredicate NEVER = new SimplePredicate(BooleanLiteral.TRUE, PredicateOperator.EQ,
       BooleanLiteral.FALSE);
 
-  private final Supplier<?> arg1;
+  private final CriteriaSelection<?> arg1;
 
-  private final Supplier<?> arg2;
+  private final CriteriaSelection<?> arg2;
 
   /**
    * The constructor.
@@ -35,7 +35,7 @@ public class SimplePredicate extends AbstractPredicate {
    * @param operator the {@link #getOperator() operator}.
    * @param arg2 the {@link #getFirstArg() second argument}.
    */
-  public SimplePredicate(Supplier<?> arg1, PredicateOperator operator, Supplier<?> arg2) {
+  public SimplePredicate(CriteriaSelection<?> arg1, PredicateOperator operator, CriteriaSelection<?> arg2) {
 
     super(operator);
     if (operator.isConjunction()) {
@@ -47,19 +47,19 @@ public class SimplePredicate extends AbstractPredicate {
   }
 
   @Override
-  public Supplier<?> getFirstArg() {
+  public CriteriaSelection<?> getFirstArg() {
 
     return this.arg1;
   }
 
   @Override
-  public Supplier<?> getSecondArg() {
+  public CriteriaSelection<?> getSecondArg() {
 
     return this.arg2;
   }
 
   @Override
-  public List<? extends Supplier<?>> getArgs() {
+  public List<? extends CriteriaSelection<?>> getArgs() {
 
     if (this.arg2 == null) {
       return List.of(this.arg1);

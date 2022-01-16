@@ -1,7 +1,7 @@
 package io.github.mmm.property.criteria;
 
-import java.util.function.Supplier;
-
+import io.github.mmm.property.ReadableProperty;
+import io.github.mmm.value.CriteriaSelection;
 import io.github.mmm.value.PropertyPath;
 
 /**
@@ -9,11 +9,11 @@ import io.github.mmm.value.PropertyPath;
  * ({@code SelectProjection}).
  *
  * @since 1.0.0
- * @param <V> type of the {@link #get() property value}.
+ * @param <V> type of the selection value.
  */
-public class ProjectionProperty<V> implements Supplier<V> {
+public class ProjectionProperty<V> implements CriteriaSelection<V> {
 
-  private final Supplier<V> selection;
+  private final CriteriaSelection<V> selection;
 
   private final PropertyPath<V> property;
 
@@ -23,9 +23,10 @@ public class ProjectionProperty<V> implements Supplier<V> {
    * @param selection the {@link #getSelection() selection}.
    * @param property the {@link #getProperty() projection property}.
    */
-  protected ProjectionProperty(Supplier<V> selection, PropertyPath<V> property) {
+  protected ProjectionProperty(CriteriaSelection<V> selection, PropertyPath<V> property) {
 
     super();
+    assert (!(property instanceof ReadableProperty) || !((ReadableProperty<?>) property).isReadOnly());
     this.selection = selection;
     this.property = property;
   }
@@ -34,7 +35,7 @@ public class ProjectionProperty<V> implements Supplier<V> {
    * @return the actual selection. Either a {@link ProjectionProperty} on a selected or joined {@code EntityBean} or an
    *         {@link CriteriaAggregation aggregation function}.
    */
-  public Supplier<V> getSelection() {
+  public CriteriaSelection<V> getSelection() {
 
     return this.selection;
   }
@@ -47,14 +48,8 @@ public class ProjectionProperty<V> implements Supplier<V> {
     return this.property;
   }
 
-  @Override
-  public V get() {
-
-    return this.selection.get();
-  }
-
   /**
-   * @param <V> type of the {@link #get() property value}.
+   * @param <V> type of the selection value.
    * @param selection the {@link #getSelection() selection}.
    * @param property the {@link #getProperty() projection property}.
    * @return the new {@link ProjectionProperty}.
@@ -65,7 +60,7 @@ public class ProjectionProperty<V> implements Supplier<V> {
   }
 
   /**
-   * @param <V> type of the {@link #get() property value}.
+   * @param <V> type of the selection value.
    * @param selection the {@link #getSelection() selection}.
    * @param property the {@link #getProperty() projection property}.
    * @return the new {@link ProjectionProperty}.

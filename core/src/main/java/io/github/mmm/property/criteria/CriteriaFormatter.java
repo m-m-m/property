@@ -4,9 +4,9 @@ package io.github.mmm.property.criteria;
 
 import java.io.StringWriter;
 import java.util.List;
-import java.util.function.Supplier;
 
 import io.github.mmm.base.io.AppendableWriter;
+import io.github.mmm.value.CriteriaSelection;
 import io.github.mmm.value.PropertyPath;
 
 /**
@@ -149,7 +149,7 @@ public class CriteriaFormatter implements CriteriaVisitor {
         onArg(expression.getSecondArg(), 1, expression);
       }
     } else {
-      List<? extends Supplier<?>> args = expression.getArgs();
+      List<? extends CriteriaSelection<?>> args = expression.getArgs();
       assert (args.size() == argCount);
       String separator = ",";
       if (op.isInfix()) {
@@ -253,7 +253,7 @@ public class CriteriaFormatter implements CriteriaVisitor {
   }
 
   @Override
-  public void onUndefinedArg(Supplier<?> arg, int i, CriteriaExpression<?> parent) {
+  public void onUndefinedArg(CriteriaSelection<?> arg, int i, CriteriaExpression<?> parent) {
 
     write(arg.toString());
     CriteriaVisitor.super.onUndefinedArg(arg, i, parent);

@@ -5,7 +5,8 @@ package io.github.mmm.property.criteria;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
+
+import io.github.mmm.value.CriteriaSelection;
 
 /**
  * Operator for {@link CriteriaExpression} to compute the result from the {@link CriteriaExpression#getArgs()
@@ -185,7 +186,7 @@ public abstract class Operator {
    * @param args the {@link CriteriaExpression#getArgs() arguments}.
    * @return the {@link CriteriaExpression}.
    */
-  public abstract CriteriaExpression<?> criteria(List<Supplier<?>> args);
+  public abstract CriteriaExpression<?> expression(List<CriteriaSelection<?>> args);
 
   @Override
   public String toString() {

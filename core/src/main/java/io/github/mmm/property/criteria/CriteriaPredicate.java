@@ -11,12 +11,12 @@ import io.github.mmm.property.criteria.impl.SimplePredicate;
 import io.github.mmm.value.PropertyPath;
 
 /**
- * {@link CriteriaExpression} that is a predicate {@link #get() evaluating} to a {@link Boolean}. Can be e.g. used in
- * WHERE or HAVING clauses of queries (see {@code mmm-entity-bean}).
+ * {@link CriteriaExpression} that is a predicate evaluating to a {@link Boolean}. Can be e.g. used in WHERE or HAVING
+ * clauses of queries (see {@code mmm-entity-db}).
  *
  * @since 1.0.0
  */
-public interface CriteriaPredicate extends CriteriaExpression<Boolean>, BooleanSupplier {
+public interface CriteriaPredicate extends CriteriaExpression<Boolean>, BooleanSelection {
 
   @Override
   PredicateOperator getOperator();

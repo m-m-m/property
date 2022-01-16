@@ -4,9 +4,9 @@ package io.github.mmm.property.criteria;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 import io.github.mmm.property.criteria.impl.AggregationFunction;
+import io.github.mmm.value.CriteriaSelection;
 import io.github.mmm.value.PropertyPath;
 
 /**
@@ -80,7 +80,7 @@ public class AggregationOperator extends Operator {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Deprecated
   @Override
-  public CriteriaExpression<?> criteria(List<Supplier<?>> args) {
+  public CriteriaExpression<?> expression(List<CriteriaSelection<?>> args) {
 
     int size = args.size();
     if (size == 0) {

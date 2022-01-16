@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 import io.github.mmm.base.io.AppendableWriter;
+import io.github.mmm.value.CriteriaSelection;
 import io.github.mmm.value.PropertyPath;
 
 /**
@@ -96,7 +96,7 @@ public class CriteriaParametersNamed implements CriteriaParameters {
       if (name == null) {
         int argCount = expression.getArgCount();
         if (argCount > 2) {
-          List<? extends Supplier<?>> args = expression.getArgs();
+          List<? extends CriteriaSelection<?>> args = expression.getArgs();
           int i = 2;
           while ((name == null) && (i < argCount)) {
             name = findName(args.get(i++));
@@ -107,7 +107,7 @@ public class CriteriaParametersNamed implements CriteriaParameters {
     return name;
   }
 
-  private String findName(Supplier<?> arg) {
+  private String findName(CriteriaSelection<?> arg) {
 
     if (arg == null) {
       return null;

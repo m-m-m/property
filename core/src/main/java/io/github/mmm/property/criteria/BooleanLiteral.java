@@ -9,7 +9,7 @@ import io.github.mmm.property.criteria.impl.BooleanLiteralImpl;
  *
  * @since 1.0.0
  */
-public interface BooleanLiteral extends BooleanSupplier, Literal<Boolean> {
+public interface BooleanLiteral extends BooleanSelection, Literal<Boolean> {
 
   /** {@link BooleanLiteral} for {@link Boolean#TRUE}. */
   BooleanLiteral TRUE = BooleanLiteralImpl.TRUE;

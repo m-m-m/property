@@ -4,7 +4,8 @@ package io.github.mmm.property.criteria;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Supplier;
+
+import io.github.mmm.value.CriteriaSelection;
 
 /**
  * Interface for a search criteria. Can be e.g. used to build dynamic queries (see {@code mmm-entity-db}). Use
@@ -14,7 +15,7 @@ import java.util.function.Supplier;
  * @param <R> type of the result value this expression evaluates to.
  * @since 1.0.0
  */
-public interface CriteriaExpression<R> extends Supplier<R> {
+public interface CriteriaExpression<R> extends CriteriaSelection<R> {
 
   /**
    * @return the {@link PredicateOperator} used to compare the {@link #getArgs() arguments}.
@@ -25,20 +26,20 @@ public interface CriteriaExpression<R> extends Supplier<R> {
    * @return the first argument of the {@link #getArgs() arguments}.
    * @see #getArgs()
    */
-  Supplier<?> getFirstArg();
+  CriteriaSelection<?> getFirstArg();
 
   /**
    * @return the second argument of the {@link #getArgs() arguments} or {@code null} if not present (e.g. in case of
    *         unary {@link CriteriaExpression} like {@code NOT(expression)}).
    * @see #getArgs()
    */
-  Supplier<?> getSecondArg();
+  CriteriaSelection<?> getSecondArg();
 
   /**
    * @return the {@link Collection} of arguments. Use {@link #getArgCount()} to check if only 1 or 2 arguments are
    *         present to avoid creation of {@link Collection}.
    */
-  List<? extends Supplier<?>> getArgs();
+  List<? extends CriteriaSelection<?>> getArgs();
 
   /**
    * @return the {@link Collection#size() number} of {@link #getArgs() arguments}.

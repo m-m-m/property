@@ -19,14 +19,6 @@ public abstract class AbstractCriteriaExpression<R> implements CriteriaExpressio
   }
 
   @Override
-  public R get() {
-
-    // TODO also implement binding/expressions here?
-    // so far not planned
-    return null;
-  }
-
-  @Override
   public String toString() {
 
     return new CriteriaFormatter().onExpression(this).toString();

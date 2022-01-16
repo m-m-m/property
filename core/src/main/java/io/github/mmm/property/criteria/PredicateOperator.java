@@ -3,11 +3,11 @@
 package io.github.mmm.property.criteria;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 import io.github.mmm.base.exception.ObjectNotFoundException;
 import io.github.mmm.property.criteria.impl.ConjunctionPredicate;
 import io.github.mmm.property.criteria.impl.SimplePredicate;
+import io.github.mmm.value.CriteriaSelection;
 
 /**
  * {@link Operator} for a {@link CriteriaPredicate} that always evaluates to a {@link Boolean} value.
@@ -278,17 +278,17 @@ public class PredicateOperator extends Operator {
   }
 
   @Override
-  public CriteriaPredicate criteria(List<Supplier<?>> args) {
+  public CriteriaPredicate expression(List<CriteriaSelection<?>> args) {
 
     if ((args == null) || args.isEmpty()) {
       throw new ObjectNotFoundException("Arguments");
     }
     if (isConjunction()) {
-      BooleanSupplier[] predicates = new BooleanSupplier[args.size()];
+      BooleanSelection[] predicates = new BooleanSelection[args.size()];
       int i = 0;
       try {
-        for (Supplier<?> arg : args) {
-          predicates[i] = (BooleanSupplier) arg;
+        for (CriteriaSelection<?> arg : args) {
+          predicates[i] = (BooleanSelection) arg;
           i++;
         }
       } catch (ClassCastException e) {
@@ -298,8 +298,8 @@ public class PredicateOperator extends Operator {
     } else {
       int argCount = args.size();
       if (argCount <= 2) {
-        Supplier<?> arg1 = args.get(0);
-        Supplier<?> arg2 = null;
+        CriteriaSelection<?> arg1 = args.get(0);
+        CriteriaSelection<?> arg2 = null;
         if (argCount > 1) {
           arg2 = args.get(1);
         }

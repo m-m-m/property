@@ -3,8 +3,8 @@
 package io.github.mmm.property.criteria;
 
 import java.util.Objects;
-import java.util.function.Supplier;
 
+import io.github.mmm.value.CriteriaSelection;
 import io.github.mmm.value.PropertyPath;
 
 /**
@@ -20,7 +20,7 @@ public class PropertyAssignment<V> {
 
   private final PropertyPath<V> property;
 
-  private final Supplier<V> value;
+  private final CriteriaSelection<V> value;
 
   /**
    * The constructor.
@@ -28,7 +28,7 @@ public class PropertyAssignment<V> {
    * @param property the {@link #getProperty() property} to assign the {@code value} to.
    * @param value the {@link #getValue() value} to assign.
    */
-  PropertyAssignment(PropertyPath<V> property, Supplier<V> value) {
+  PropertyAssignment(PropertyPath<V> property, CriteriaSelection<V> value) {
 
     super();
     Objects.requireNonNull(property, "property");
@@ -45,9 +45,10 @@ public class PropertyAssignment<V> {
   }
 
   /**
-   * @return the {@link PropertyPath#get() value} to assign.
+   * @return the {@link CriteriaSelection} to assign as value. Typically a {@link Literal} value, but may also be a
+   *         {@link CriteriaExpression} or {@link PropertyPath}.
    */
-  public Supplier<V> getValue() {
+  public CriteriaSelection<V> getValue() {
 
     return this.value;
   }

@@ -4,7 +4,6 @@ package io.github.mmm.property.criteria;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 import io.github.mmm.base.exception.ObjectNotFoundException;
 import io.github.mmm.base.sort.SortOrder;
@@ -12,6 +11,7 @@ import io.github.mmm.marshall.Marshalling;
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredReader.State;
 import io.github.mmm.marshall.StructuredWriter;
+import io.github.mmm.value.CriteriaSelection;
 import io.github.mmm.value.PropertyPath;
 
 /**
@@ -75,7 +75,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
     writer.writeValueAsString(op.getSyntax());
     writer.writeName(NAME_ARGUMENTS);
     writer.writeStartArray();
-    for (Supplier<?> arg : expression.getArgs()) {
+    for (CriteriaSelection<?> arg : expression.getArgs()) {
       writeArg(writer, arg);
     }
     writer.writeEnd(); // end args array
@@ -86,7 +86,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
    * @param writer the {@link StructuredWriter} to write to.
    * @param arg the {@link CriteriaExpression#getArgs() argument}.
    */
-  public void writeArg(StructuredWriter writer, Supplier<?> arg) {
+  public void writeArg(StructuredWriter writer, CriteriaSelection<?> arg) {
 
     if (arg instanceof CriteriaExpression) {
       writeExpression(writer, (CriteriaExpression<?>) arg);
@@ -94,8 +94,10 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
       writeProperty(writer, (PropertyPath<?>) arg);
     } else if (arg instanceof ProjectionProperty) {
       writeProjectionProperty(writer, (ProjectionProperty<?>) arg);
+    } else if (arg instanceof Literal) {
+      writeLiteral(writer, (Literal<?>) arg);
     } else {
-      writer.writeValue(arg.get());
+      writer.writeValue(arg.toString());
     }
   }
 
@@ -118,7 +120,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   public void writeProjectionProperty(StructuredWriter writer, ProjectionProperty<?> projectionProperty) {
 
     writer.writeStartObject();
-    Supplier<?> selection = projectionProperty.getSelection();
+    CriteriaSelection<?> selection = projectionProperty.getSelection();
     if (selection instanceof PropertyPath) {
       writer.writeName(NAME_SELECTION_PROPERTY);
       writer.writeValueAsString(((PropertyPath<?>) selection).path());
@@ -131,6 +133,15 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
     writer.writeName(NAME_PROJECTION_PROPERTY);
     writer.writeValueAsString(projectionProperty.getProperty().path());
     writer.writeEnd();
+  }
+
+  /**
+   * @param writer the {@link StructuredWriter} to write to.
+   * @param literal the {@link Literal} to write.
+   */
+  public void writeLiteral(StructuredWriter writer, Literal<?> literal) {
+
+    writer.writeValue(literal.get());
   }
 
   /**
@@ -180,7 +191,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   private CriteriaExpression<?> readExpressionInteral(StructuredReader reader) {
 
     Operator op = null;
-    List<Supplier<?>> args = null;
+    List<CriteriaSelection<?>> args = null;
     while (!reader.readEnd()) {
       String name = reader.readName();
       if (NAME_OPERATOR.equals(name)) {
@@ -195,7 +206,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
         args = new ArrayList<>();
         reader.require(State.START_ARRAY, true);
         while (!reader.readEnd()) {
-          Supplier<?> arg = readArg(reader);
+          CriteriaSelection<?> arg = readArg(reader);
           args.add(arg);
         }
       } else {
@@ -206,7 +217,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
     if (op == null) {
       throw new ObjectNotFoundException(OPERATOR);
     }
-    return op.criteria(args);
+    return op.expression(args);
   }
 
   /**
@@ -226,7 +237,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
    * @param reader the {@link StructuredReader} to read from.
    * @return the parsed {@link CriteriaExpression#getArgs() argument}.
    */
-  public Supplier<?> readArg(StructuredReader reader) {
+  public CriteriaSelection<?> readArg(StructuredReader reader) {
 
     if (reader.getState() == State.START_OBJECT) {
       reader.next();
@@ -272,7 +283,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   private ProjectionProperty<?> readProjectionProperty(StructuredReader reader) {
 
-    Supplier<?> selection = null;
+    CriteriaSelection<?> selection = null;
     PropertyPath<?> property = null;
     while (!reader.readEnd()) {
       String name = reader.readName();
@@ -333,7 +344,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
 
     reader.require(State.START_OBJECT, true);
     PropertyPath<?> property = null;
-    Supplier<?> value = null;
+    CriteriaSelection<?> value = null;
     boolean hasValue = false;
     while (!reader.readEnd()) {
       String name = reader.readName();

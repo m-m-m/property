@@ -4,6 +4,8 @@ package io.github.mmm.property.criteria;
 
 import java.util.function.Supplier;
 
+import io.github.mmm.value.CriteriaSelection;
+
 /**
  * {@link Supplier} bound to {@link Boolean}.
  *
@@ -11,18 +13,18 @@ import java.util.function.Supplier;
  * @see BooleanLiteral
  * @see CriteriaPredicate
  */
-public interface BooleanSupplier extends Supplier<Boolean> {
+public interface BooleanSelection extends CriteriaSelection<Boolean> {
 
   /**
-   * @return a simplified form of this {@link BooleanSupplier} or this instance itself if already simplified.
+   * @return a simplified form of this {@link BooleanSelection} or this instance itself if already simplified.
    * @see CriteriaExpression#simplify()
    */
-  BooleanSupplier simplify();
+  BooleanSelection simplify();
 
   /**
-   * @return the negated form of this {@link BooleanSupplier} as predicate.
+   * @return the negated form of this {@link BooleanSelection} as predicate.
    * @see CriteriaPredicate#not()
    */
-  BooleanSupplier not();
+  BooleanSelection not();
 
 }

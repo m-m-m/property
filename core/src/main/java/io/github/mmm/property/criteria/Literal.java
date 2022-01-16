@@ -9,6 +9,7 @@ import io.github.mmm.property.criteria.impl.GenericLiteral;
 import io.github.mmm.property.criteria.impl.NumberLiteral;
 import io.github.mmm.property.criteria.impl.StringLiteral;
 import io.github.mmm.property.criteria.impl.TemporalLiteral;
+import io.github.mmm.value.CriteriaSelection;
 
 /**
  * {@link Supplier} for a literal {@link #get() value}.
@@ -16,7 +17,7 @@ import io.github.mmm.property.criteria.impl.TemporalLiteral;
  * @param <V> type of the {@link #get() value}.
  * @since 1.0.0
  */
-public interface Literal<V> extends Supplier<V> {
+public interface Literal<V> extends CriteriaSelection<V>, Supplier<V> {
 
   /**
    * @param value the {@link #get() value}.

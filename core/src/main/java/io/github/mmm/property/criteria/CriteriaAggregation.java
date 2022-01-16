@@ -4,9 +4,9 @@ package io.github.mmm.property.criteria;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Supplier;
 
 import io.github.mmm.property.criteria.impl.AggregationFunction;
+import io.github.mmm.value.CriteriaSelection;
 import io.github.mmm.value.PropertyPath;
 
 /**
@@ -49,7 +49,7 @@ public interface CriteriaAggregation<R> extends CriteriaExpression<R> {
    */
   @Deprecated
   @Override
-  default List<? extends Supplier<?>> getArgs() {
+  default List<? extends CriteriaSelection<?>> getArgs() {
 
     PropertyPath<?> arg = getFirstArg();
     if (arg == null) {
