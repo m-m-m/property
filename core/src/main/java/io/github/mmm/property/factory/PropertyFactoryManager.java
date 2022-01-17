@@ -3,6 +3,7 @@
 package io.github.mmm.property.factory;
 
 import java.util.Collection;
+import java.util.Set;
 
 import io.github.mmm.base.exception.ObjectNotFoundException;
 import io.github.mmm.property.PropertyMetadata;
@@ -170,7 +171,7 @@ public interface PropertyFactoryManager {
    *         the returned {@link Class}es {@link #create(Class, String) creation of property by value type} is
    *         supported.
    */
-  Collection<Class<?>> getValueTypes();
+  Set<Class<?>> getValueTypes();
 
   /**
    * @return the {@link PropertyFactoryManager} instance.

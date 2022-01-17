@@ -4,13 +4,13 @@ package io.github.mmm.property.impl;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ServiceLoader;
+import java.util.Set;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
@@ -169,7 +169,7 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
   }
 
   @Override
-  public Collection<Class<?>> getValueTypes() {
+  public Set<Class<?>> getValueTypes() {
 
     return Collections.unmodifiableSet(this.valueType2factoryMap.keySet());
   }
