@@ -16,7 +16,7 @@ import io.github.mmm.property.criteria.PredicateOperator;
  *
  * @since 1.0.0
  */
-public class ConjunctionPredicate extends AbstractPredicate {
+public class ConjunctionPredicate extends AbstractCriteriaPredicate {
 
   private final List<BooleanSelection> args;
 

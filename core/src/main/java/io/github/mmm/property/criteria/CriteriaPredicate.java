@@ -5,7 +5,6 @@ package io.github.mmm.property.criteria;
 import java.util.Collection;
 import java.util.Objects;
 
-import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.criteria.impl.ConjunctionPredicate;
 import io.github.mmm.property.criteria.impl.SimplePredicate;
 import io.github.mmm.value.PropertyPath;
@@ -86,12 +85,12 @@ public interface CriteriaPredicate extends CriteriaExpression<Boolean>, BooleanS
 
   /**
    * @param <V> type of the {@code value}.
-   * @param property the {@link ReadableProperty} to compare.
+   * @param property the {@link PropertyPath} to compare.
    * @param op the {@link PredicateOperator} for comparison.
    * @param value the value to compare with.
    * @return the resulting {@link CriteriaPredicate}.
    */
-  static <V> CriteriaPredicate of(ReadableProperty<V> property, PredicateOperator op, V value) {
+  static <V> CriteriaPredicate of(PropertyPath<V> property, PredicateOperator op, V value) {
 
     Objects.requireNonNull(property);
     if (value == null) {
@@ -107,12 +106,12 @@ public interface CriteriaPredicate extends CriteriaExpression<Boolean>, BooleanS
 
   /**
    * @param <V> type of the {@code value}.
-   * @param property the {@link ReadableProperty} to compare.
+   * @param property the {@link PropertyPath} to compare.
    * @param op the {@link PredicateOperator} for comparison.
    * @param property2 the second {@link PropertyPath property} to compare with.
    * @return the resulting {@link CriteriaPredicate}.
    */
-  static <V> CriteriaPredicate of(ReadableProperty<V> property, PredicateOperator op, PropertyPath<V> property2) {
+  static <V> CriteriaPredicate of(PropertyPath<V> property, PredicateOperator op, PropertyPath<V> property2) {
 
     Objects.requireNonNull(property);
     Objects.requireNonNull(property2);
@@ -123,10 +122,10 @@ public interface CriteriaPredicate extends CriteriaExpression<Boolean>, BooleanS
    * @param <V> type of the {@code value}.
    * @param value the value to compare with.
    * @param op the {@link PredicateOperator} for comparison.
-   * @param property the {@link ReadableProperty} to compare.
+   * @param property the {@link PropertyPath} to compare.
    * @return the resulting {@link CriteriaPredicate}.
    */
-  static <V> CriteriaPredicate of(V value, PredicateOperator op, ReadableProperty<V> property) {
+  static <V> CriteriaPredicate of(V value, PredicateOperator op, PropertyPath<V> property) {
 
     Objects.requireNonNull(value);
     assert (op == PredicateOperator.LIKE) || (op == PredicateOperator.NOT_LIKE);
@@ -136,34 +135,34 @@ public interface CriteriaPredicate extends CriteriaExpression<Boolean>, BooleanS
 
   /**
    * @param <V> type of the {@code value}.
-   * @param property the {@link ReadableProperty} to compare.
+   * @param property the {@link PropertyPath} to compare.
    * @param values the {@link Collection} with the values to be {@link PredicateOperator#IN in}.
    * @return the resulting {@link CriteriaPredicate}.
    */
-  static <V> CriteriaPredicate ofIn(ReadableProperty<V> property, Collection<V> values) {
+  static <V> CriteriaPredicate ofIn(PropertyPath<V> property, Collection<V> values) {
 
     return of(property, PredicateOperator.IN, values);
   }
 
   /**
    * @param <V> type of the {@code value}.
-   * @param property the {@link ReadableProperty} to compare.
+   * @param property the {@link PropertyPath} to compare.
    * @param values the {@link Collection} with the values to be {@link PredicateOperator#NOT_IN not in}.
    * @return the resulting {@link CriteriaPredicate}.
    */
-  static <V> CriteriaPredicate ofNotIn(ReadableProperty<V> property, Collection<V> values) {
+  static <V> CriteriaPredicate ofNotIn(PropertyPath<V> property, Collection<V> values) {
 
     return of(property, PredicateOperator.NOT_IN, values);
   }
 
   /**
    * @param <V> type of the {@code value}.
-   * @param property the {@link ReadableProperty} to compare.
+   * @param property the {@link PropertyPath} to compare.
    * @param op the {@link PredicateOperator} for comparison.
    * @param values the {@link Collection} with the values to compare with.
    * @return the resulting {@link CriteriaPredicate}.
    */
-  private static <V> CriteriaPredicate of(ReadableProperty<V> property, PredicateOperator op, Collection<V> values) {
+  private static <V> CriteriaPredicate of(PropertyPath<V> property, PredicateOperator op, Collection<V> values) {
 
     Objects.requireNonNull(property);
     if ((values == null) || values.isEmpty()) {

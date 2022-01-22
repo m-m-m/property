@@ -6,23 +6,47 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.github.mmm.value.CriteriaSelection;
+import io.github.mmm.value.CriteriaObject;
 
 /**
  * Operator for {@link CriteriaExpression} to compute the result from the {@link CriteriaExpression#getArgs()
  * arguments}. <br>
  * This class is designed as a dynamic and polymorphic {@link Enum}. There are sub-classes like e.g.
- * {@link PredicateOperator} that define concrete constants to be used as {@link Operator} instance. for some exotic
- * reason you need to add an additional operation you may subclass {@link Operator} and define additional constants.
- * Those will also be supported by {@link #of(String)} method. Please ensure to never create duplicated
- * {@link Operator}s (with the {@link #getSyntax() name} of an existing one).
+ * {@link PredicateOperator} that define concrete constants to be used as {@link CriteriaOperator} instance. for some
+ * exotic reason you need to add an additional operation you may subclass {@link CriteriaOperator} and define additional
+ * constants. Those will also be supported by {@link #of(String)} method. Please ensure to never create duplicated
+ * {@link CriteriaOperator}s (with the {@link #getSyntax() name} of an existing one).
  *
  * @since 1.0.0
  * @see CriteriaExpression#getOperator()
  */
-public abstract class Operator {
+public abstract class CriteriaOperator {
 
-  private static final Map<String, Operator> SYNTAX2OPERATOR_MAP = new HashMap<>();
+  /** {@link #getPriority() Priority} for bitwise NOT operation. */
+  protected static final int PRIO_1_TILDE = 1;
+
+  /** {@link #getPriority() Priority} for multiplication, division, or modulo operation. */
+  protected static final int PRIO_2_MUL = 2;
+
+  /** {@link #getPriority() Priority} for operations like addition, subtraction, conjunction, etc. */
+  protected static final int PRIO_3_ADD = 3;
+
+  /** {@link #getPriority() Priority} for comparison operations (eq, neq, lt, etc.). */
+  protected static final int PRIO_4_COMP = 4;
+
+  /** {@link #getPriority() Priority} for NOT operation. */
+  protected static final int PRIO_5_NOT = 5;
+
+  /** {@link #getPriority() Priority} for AND operation. */
+  protected static final int PRIO_6_AND = 6;
+
+  /** {@link #getPriority() Priority} for operations like OR, IN, LIKE, BETWEEN, etc. */
+  protected static final int PRIO_7_OR = 7;
+
+  /** {@link #getPriority() Priority} for assignment operation (=). */
+  protected static final int PRIO_8_ASSIGN = 8;
+
+  private static final Map<String, CriteriaOperator> SYNTAX2OPERATOR_MAP = new HashMap<>();
 
   private final String syntax;
 
@@ -30,11 +54,11 @@ public abstract class Operator {
 
   private final boolean inverse;
 
-  private Operator not;
+  private CriteriaOperator not;
 
   static {
     PredicateOperator.load();
-    AggregationOperator.load();
+    CriteriaAggregationOperator.load();
   }
 
   /**
@@ -42,7 +66,7 @@ public abstract class Operator {
    *
    * @param syntax the {@link #getSyntax() syntax}.
    */
-  protected Operator(String syntax) {
+  protected CriteriaOperator(String syntax) {
 
     this(syntax, null);
   }
@@ -53,7 +77,7 @@ public abstract class Operator {
    * @param syntax the {@link #getSyntax() syntax}.
    * @param not the {@link #not() negated} form or {@code null}.
    */
-  protected Operator(String syntax, Operator not) {
+  protected CriteriaOperator(String syntax, CriteriaOperator not) {
 
     this(syntax, not, (not != null));
   }
@@ -65,7 +89,7 @@ public abstract class Operator {
    * @param not the {@link #not() negated} form or {@code null}.
    * @param inverse the {@link #isInverse() inverse flag}.
    */
-  protected Operator(String syntax, Operator not, boolean inverse) {
+  protected CriteriaOperator(String syntax, CriteriaOperator not, boolean inverse) {
 
     this(syntax, not, inverse, null);
   }
@@ -78,7 +102,7 @@ public abstract class Operator {
    * @param inverse the {@link #isInverse() inverse flag}.
    * @param name the {@link #getName() name}.
    */
-  protected Operator(String syntax, Operator not, boolean inverse, String name) {
+  protected CriteriaOperator(String syntax, CriteriaOperator not, boolean inverse, String name) {
 
     super();
     assert ((syntax != null) && !syntax.isEmpty()) : syntax;
@@ -100,7 +124,7 @@ public abstract class Operator {
         not.not = this;
       }
     }
-    Operator duplicate = SYNTAX2OPERATOR_MAP.putIfAbsent(syntax, this);
+    CriteriaOperator duplicate = SYNTAX2OPERATOR_MAP.putIfAbsent(syntax, this);
     assert (duplicate == null);
   }
 
@@ -114,7 +138,7 @@ public abstract class Operator {
   }
 
   /**
-   * @return {@code true} if this is a unary {@link Operator} that can take only a
+   * @return {@code true} if this is a unary {@link CriteriaOperator} that can take only a
    *         {@link CriteriaExpression#getFirstArg() single argument}, {@code false} otherwise.
    */
   public abstract boolean isUnary();
@@ -133,7 +157,7 @@ public abstract class Operator {
    * @return the negated form of this operator (e.g. "not equal" for "equal" or "greater-or-equal" for "less-than"). May
    *         be {@code null} if no negated form exists.
    */
-  public Operator not() {
+  public CriteriaOperator not() {
 
     return this.not;
   }
@@ -183,10 +207,16 @@ public abstract class Operator {
   }
 
   /**
+   * @return the priority of this operator. In case you have an expression "A op1 B op2 C" then if the operator priority
+   *         of "op2" is higher it means "A op1 (B op2 C)" and otherwise "(A op1 B) op2 C".
+   */
+  public abstract int getPriority();
+
+  /**
    * @param args the {@link CriteriaExpression#getArgs() arguments}.
    * @return the {@link CriteriaExpression}.
    */
-  public abstract CriteriaExpression<?> expression(List<CriteriaSelection<?>> args);
+  public abstract CriteriaExpression<?> expression(List<CriteriaObject<?>> args);
 
   @Override
   public String toString() {
@@ -195,12 +225,12 @@ public abstract class Operator {
   }
 
   /**
-   * This method is used to unmarshall an {@link Operator} from its {@link #getSyntax() syntax}.
+   * This method is used to unmarshall an {@link CriteriaOperator} from its {@link #getSyntax() syntax}.
    *
-   * @param syntax the {@link #getSyntax() syntax} of the requested {@link Operator}.
-   * @return the predefined {@link Operator} or {@code null} if no such {@link Operator} exists.
+   * @param syntax the {@link #getSyntax() syntax} of the requested {@link CriteriaOperator}.
+   * @return the predefined {@link CriteriaOperator} or {@code null} if no such {@link CriteriaOperator} exists.
    */
-  public static Operator of(String syntax) {
+  public static CriteriaOperator of(String syntax) {
 
     return SYNTAX2OPERATOR_MAP.get(syntax);
   }

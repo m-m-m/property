@@ -16,7 +16,7 @@ public final class StringLiteral implements Literal<String> {
 
   private final String value;
 
-  private String sql;
+  private String formatted;
 
   /**
    * The constructor.
@@ -40,18 +40,18 @@ public final class StringLiteral implements Literal<String> {
    * @param string the {@link String} value.
    * @return the given {@link String} as SQL literal.
    */
-  public static String toSql(String string) {
+  public static String toString(String string) {
 
-    return "'" + string.replace("'", "\\'") + "'";
+    return "'" + string.replace("'", "\'\'") + "'";
   }
 
   @Override
   public String toString() {
 
-    if (this.sql == null) {
-      this.sql = "'" + this.value.replace("'", "\\'") + "'";
+    if (this.formatted == null) {
+      this.formatted = toString(this.value);
     }
-    return this.sql;
+    return this.formatted;
   }
 
 }

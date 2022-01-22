@@ -9,7 +9,7 @@ import io.github.mmm.property.criteria.impl.GenericLiteral;
 import io.github.mmm.property.criteria.impl.NumberLiteral;
 import io.github.mmm.property.criteria.impl.StringLiteral;
 import io.github.mmm.property.criteria.impl.TemporalLiteral;
-import io.github.mmm.value.CriteriaSelection;
+import io.github.mmm.value.CriteriaObject;
 
 /**
  * {@link Supplier} for a literal {@link #get() value}.
@@ -17,7 +17,7 @@ import io.github.mmm.value.CriteriaSelection;
  * @param <V> type of the {@link #get() value}.
  * @since 1.0.0
  */
-public interface Literal<V> extends CriteriaSelection<V>, Supplier<V> {
+public interface Literal<V> extends CriteriaObject<V>, Supplier<V> {
 
   /**
    * @param value the {@link #get() value}.
@@ -92,6 +92,9 @@ public interface Literal<V> extends CriteriaSelection<V>, Supplier<V> {
     Literal literal;
     if (value == null) {
       literal = null;
+    } else if (value instanceof Literal) {
+      // can not happen on type-safe usage but helpful to prevent usage bugs
+      literal = (Literal) value;
     } else if (value instanceof String) {
       literal = of((String) value);
     } else if (value instanceof Boolean) {

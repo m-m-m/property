@@ -87,7 +87,7 @@ public class PredicateOperatorTest extends Assertions {
 
     AdvancedPredicateOperator(String syntax) {
 
-      super(syntax);
+      super(syntax, PRIO_4_COMP);
     }
 
     /**
@@ -96,7 +96,7 @@ public class PredicateOperatorTest extends Assertions {
      */
     public static AdvancedPredicateOperator of(String syntax) {
 
-      Operator op = Operator.of(syntax);
+      CriteriaOperator op = CriteriaOperator.of(syntax);
       if (op instanceof AdvancedPredicateOperator) {
         return (AdvancedPredicateOperator) op;
       }

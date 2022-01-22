@@ -5,14 +5,16 @@ package io.github.mmm.property.criteria;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.mmm.property.criteria.impl.AggregationFunction;
-import io.github.mmm.value.CriteriaSelection;
+import io.github.mmm.property.criteria.impl.CriteriaAggregationImpl;
+import io.github.mmm.value.CriteriaObject;
 import io.github.mmm.value.PropertyPath;
 
 /**
- * {@link CriteriaExpression} using an {@link AggregationOperator} such as {@link AggregationOperator#COUNT COUNT},
- * {@link AggregationOperator#SUM SUM}, {@link AggregationOperator#AVG AVG}, {@link AggregationOperator#MIN MIN},
- * {@link AggregationOperator#MAX MAX}, or {@link AggregationOperator#GROUP_CONCAT GROUP_CONCAT}.
+ * {@link CriteriaExpression} using an {@link CriteriaAggregationOperator} such as
+ * {@link CriteriaAggregationOperator#COUNT COUNT}, {@link CriteriaAggregationOperator#SUM SUM},
+ * {@link CriteriaAggregationOperator#AVG AVG}, {@link CriteriaAggregationOperator#MIN MIN},
+ * {@link CriteriaAggregationOperator#MAX MAX}, or {@link CriteriaAggregationOperator#GROUP_CONCAT GROUP_CONCAT}. A
+ * {@link CriteriaAggregation} can only have one {@link #getFirstArg() argument} (and {@link #COUNT_ALL} has none).
  *
  * @param <R> type of the result value of the aggregation function.
  * @since 1.0.0
@@ -22,17 +24,19 @@ public interface CriteriaAggregation<R> extends CriteriaExpression<R> {
   /**
    * {@link CriteriaAggregation} for {@code COUNT(*)}.
    */
-  CriteriaAggregation<Integer> COUNT_ALL = new AggregationFunction<>(AggregationOperator.COUNT, null);
+  CriteriaAggregation<Integer> COUNT_ALL = new CriteriaAggregationImpl<>(CriteriaAggregationOperator.COUNT, null);
 
   @Override
-  AggregationOperator getOperator();
+  CriteriaAggregationOperator getOperator();
 
   /**
-   * In most cases {@link PropertyPath}{@code <R>} but in case of {@link AggregationOperator#COUNT COUNT} it can have
-   * any value type.
+   * In most cases {@link PropertyPath}{@code <R>} but may also be something else. In case of
+   * {@link CriteriaAggregationOperator#COUNT COUNT} the generic {@code <R>} would be bound to {@link Long} and the the
+   * argument can have any type. Further aggregation functions can be nested (e.g. "MAX(AVG(price))" if used in
+   * combination with "GROUP BY").
    */
   @Override
-  PropertyPath<?> getFirstArg();
+  CriteriaObject<?> getFirstArg();
 
   /**
    * @deprecated will always return {@code null}.
@@ -49,9 +53,9 @@ public interface CriteriaAggregation<R> extends CriteriaExpression<R> {
    */
   @Deprecated
   @Override
-  default List<? extends CriteriaSelection<?>> getArgs() {
+  default List<? extends CriteriaObject<?>> getArgs() {
 
-    PropertyPath<?> arg = getFirstArg();
+    CriteriaObject<?> arg = getFirstArg();
     if (arg == null) {
       return List.of();
     } else {
@@ -67,7 +71,7 @@ public interface CriteriaAggregation<R> extends CriteriaExpression<R> {
   @Override
   default int getArgCount() {
 
-    PropertyPath<?> arg = getFirstArg();
+    CriteriaObject<?> arg = getFirstArg();
     if (arg == null) {
       return 0;
     } else {
@@ -87,26 +91,39 @@ public interface CriteriaAggregation<R> extends CriteriaExpression<R> {
 
   /**
    * @param <R> type of the {@link PropertyPath} and the aggregated result.
-   * @param operator the {@link AggregationOperator}.
+   * @param operator the {@link CriteriaAggregationOperator}.
    * @param property the {@link PropertyPath} to aggregate.
    * @return the {@link CriteriaAggregation} aggregating the given {@link PropertyPath property} using the given
-   *         {@link AggregationOperator}.
+   *         {@link CriteriaAggregationOperator}.
    */
-  static <R> CriteriaAggregation<R> of(AggregationOperator operator, PropertyPath<R> property) {
+  static <R> CriteriaAggregation<R> of(CriteriaAggregationOperator operator, PropertyPath<R> property) {
 
     Objects.requireNonNull(operator, "operator");
     return operator.criteria(property);
   }
 
   /**
+   * @param <R> type of the {@link PropertyPath} and the aggregated result.
+   * @param operator the {@link CriteriaAggregationOperator}.
+   * @param nestedAggregation the nested {@link CriteriaAggregation} to aggregate.
+   * @return the {@link CriteriaAggregation} aggregating the given {@link CriteriaAggregation} using the given
+   *         {@link CriteriaAggregationOperator}.
+   */
+  static <R> CriteriaAggregation<R> of(CriteriaAggregationOperator operator, CriteriaAggregation<R> nestedAggregation) {
+
+    Objects.requireNonNull(operator, "operator");
+    return operator.criteria(nestedAggregation);
+  }
+
+  /**
    * @param property the {@link PropertyPath} to aggregate.
    * @return the {@link CriteriaAggregation} aggregating the given {@link PropertyPath property} using
-   *         {@link AggregationOperator#COUNT COUNT}.
+   *         {@link CriteriaAggregationOperator#COUNT COUNT}.
    */
   static CriteriaAggregation<Integer> count(PropertyPath<?> property) {
 
     Objects.requireNonNull(property, "property");
-    return new AggregationFunction<>(AggregationOperator.COUNT, property);
+    return new CriteriaAggregationImpl<>(CriteriaAggregationOperator.COUNT, property);
   }
 
 }

@@ -1,7 +1,7 @@
 package io.github.mmm.property.criteria;
 
 import io.github.mmm.property.ReadableProperty;
-import io.github.mmm.value.CriteriaSelection;
+import io.github.mmm.value.CriteriaObject;
 import io.github.mmm.value.PropertyPath;
 
 /**
@@ -11,9 +11,9 @@ import io.github.mmm.value.PropertyPath;
  * @since 1.0.0
  * @param <V> type of the selection value.
  */
-public class ProjectionProperty<V> implements CriteriaSelection<V> {
+public class ProjectionProperty<V> implements CriteriaObject<V> {
 
-  private final CriteriaSelection<V> selection;
+  private final CriteriaObject<V> selection;
 
   private final PropertyPath<V> property;
 
@@ -23,7 +23,7 @@ public class ProjectionProperty<V> implements CriteriaSelection<V> {
    * @param selection the {@link #getSelection() selection}.
    * @param property the {@link #getProperty() projection property}.
    */
-  protected ProjectionProperty(CriteriaSelection<V> selection, PropertyPath<V> property) {
+  public ProjectionProperty(CriteriaObject<V> selection, PropertyPath<V> property) {
 
     super();
     assert (!(property instanceof ReadableProperty) || !((ReadableProperty<?>) property).isReadOnly());
@@ -35,7 +35,7 @@ public class ProjectionProperty<V> implements CriteriaSelection<V> {
    * @return the actual selection. Either a {@link ProjectionProperty} on a selected or joined {@code EntityBean} or an
    *         {@link CriteriaAggregation aggregation function}.
    */
-  public CriteriaSelection<V> getSelection() {
+  public CriteriaObject<V> getSelection() {
 
     return this.selection;
   }

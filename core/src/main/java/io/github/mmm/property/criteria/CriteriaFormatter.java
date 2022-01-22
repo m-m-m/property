@@ -6,7 +6,7 @@ import java.io.StringWriter;
 import java.util.List;
 
 import io.github.mmm.base.io.AppendableWriter;
-import io.github.mmm.value.CriteriaSelection;
+import io.github.mmm.value.CriteriaObject;
 import io.github.mmm.value.PropertyPath;
 
 /**
@@ -32,7 +32,7 @@ public class CriteriaFormatter implements CriteriaVisitor {
    * <b>ATTENTION:</b> Only use this for testing or debugging (e.g. in {@link #toString()}) to avoid SQL-injection
    * security vulnerabilities.
    */
-  protected CriteriaFormatter() {
+  public CriteriaFormatter() {
 
     this(null, new AppendableWriter(new StringBuilder()));
   }
@@ -116,7 +116,7 @@ public class CriteriaFormatter implements CriteriaVisitor {
   @Override
   public CriteriaFormatter onExpression(CriteriaExpression<?> expression, CriteriaExpression<?> parent) {
 
-    Operator op = expression.getOperator();
+    CriteriaOperator op = expression.getOperator();
     boolean useBrackets = false;
     if (op.isConjunction()) {
       if (op.isInverse()) {
@@ -149,7 +149,7 @@ public class CriteriaFormatter implements CriteriaVisitor {
         onArg(expression.getSecondArg(), 1, expression);
       }
     } else {
-      List<? extends CriteriaSelection<?>> args = expression.getArgs();
+      List<? extends CriteriaObject<?>> args = expression.getArgs();
       assert (args.size() == argCount);
       String separator = ",";
       if (op.isInfix()) {
@@ -186,14 +186,14 @@ public class CriteriaFormatter implements CriteriaVisitor {
     // (a AND (b OR c)) = a AND (b OR c)
     // (a OR (b AND c)) = a OR b AND c
     // (a NAND (b NOR c)) = NOT(a AND NOT(b OR c))
-    Operator op = expression.getOperator();
+    CriteriaOperator op = expression.getOperator();
     if (parent == null) {
       return false;
     }
     if (op.isInverse()) {
       return true; // e.g. NOT(a AND b)
     }
-    Operator parentOp = parent.getOperator();
+    CriteriaOperator parentOp = parent.getOperator();
     if (op == parentOp) {
       return false;
     }
@@ -207,24 +207,49 @@ public class CriteriaFormatter implements CriteriaVisitor {
   }
 
   @Override
-  public void onOperator(Operator operator) {
+  public void onOperator(CriteriaOperator operator) {
 
     write(operator.toString());
-    CriteriaVisitor.super.onOperator(operator);
   }
 
   @Override
   public void onPropertyPath(PropertyPath<?> property, int i, CriteriaExpression<?> parent) {
 
     write(property.path());
-    CriteriaVisitor.super.onPropertyPath(property, i, parent);
+  }
+
+  @Override
+  public void onProjectionProperty(ProjectionProperty<?> arg, int i, CriteriaExpression<?> parent) {
+
+    CriteriaObject<?> selection = arg.getSelection();
+    onArg(selection, i, parent);
+    PropertyPath<?> property = arg.getProperty();
+    boolean writeAlias = true;
+    if (selection instanceof PropertyPath) {
+      writeAlias = !PropertyPathHelper.isEqualPath((PropertyPath<?>) selection, property, true);
+    }
+    if (writeAlias) {
+      write(" ");
+      onAlias(property.path());
+    }
+  }
+
+  /**
+   * Writes the given {@code alias}. Override to {@link #write(String) write} "AS " as prefix if required or desired.
+   *
+   * @param alias the alias to {@link #write(String) write}.
+   */
+  public void onAlias(String alias) {
+
+    // write("AS ");
+    write(alias);
   }
 
   @Override
   public void onLiteral(Literal<?> literal, int i, CriteriaExpression<?> parent) {
 
     if ((this.likeSyntaxSource != this.likeSyntaxTarget) && (parent != null)) {
-      Operator op = parent.getOperator();
+      CriteriaOperator op = parent.getOperator();
       if (PredicateOperator.isLikeBased(op)) {
         Object value = literal.get();
         if (value instanceof String) {
@@ -253,7 +278,7 @@ public class CriteriaFormatter implements CriteriaVisitor {
   }
 
   @Override
-  public void onUndefinedArg(CriteriaSelection<?> arg, int i, CriteriaExpression<?> parent) {
+  public void onUndefinedArg(CriteriaObject<?> arg, int i, CriteriaExpression<?> parent) {
 
     write(arg.toString());
     CriteriaVisitor.super.onUndefinedArg(arg, i, parent);

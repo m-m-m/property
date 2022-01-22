@@ -4,7 +4,6 @@ package io.github.mmm.property.criteria.impl;
 
 import java.util.Objects;
 
-import io.github.mmm.property.criteria.AbstractCriteriaExpression;
 import io.github.mmm.property.criteria.CriteriaPredicate;
 import io.github.mmm.property.criteria.PredicateOperator;
 
@@ -13,7 +12,7 @@ import io.github.mmm.property.criteria.PredicateOperator;
  *
  * @since 1.0.0
  */
-public abstract class AbstractPredicate extends AbstractCriteriaExpression<Boolean> implements CriteriaPredicate {
+public abstract class AbstractCriteriaPredicate extends AbstractCriteriaExpression<Boolean> implements CriteriaPredicate {
 
   /** @see #getOperator() */
   protected final PredicateOperator operator;
@@ -23,7 +22,7 @@ public abstract class AbstractPredicate extends AbstractCriteriaExpression<Boole
    *
    * @param operator the {@link #getOperator() operator}.
    */
-  public AbstractPredicate(PredicateOperator operator) {
+  public AbstractCriteriaPredicate(PredicateOperator operator) {
 
     super();
     Objects.requireNonNull(operator);

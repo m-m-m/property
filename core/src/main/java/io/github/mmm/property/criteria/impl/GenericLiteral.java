@@ -52,7 +52,7 @@ public class GenericLiteral<V> implements Literal<V> {
     } else if (literalValue instanceof Number) {
       return literalValue.toString();
     } else {
-      return StringLiteral.toSql(this.value.toString());
+      return StringLiteral.toString(this.value.toString());
     }
   }
 

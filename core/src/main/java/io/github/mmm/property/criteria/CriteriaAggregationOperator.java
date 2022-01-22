@@ -5,59 +5,59 @@ package io.github.mmm.property.criteria;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.mmm.property.criteria.impl.AggregationFunction;
-import io.github.mmm.value.CriteriaSelection;
+import io.github.mmm.property.criteria.impl.CriteriaAggregationImpl;
+import io.github.mmm.value.CriteriaObject;
 import io.github.mmm.value.PropertyPath;
 
 /**
- * {@link Operator} for an {@link CriteriaAggregation}.
+ * {@link CriteriaOperator} for an {@link CriteriaAggregation}.
  *
  * @since 1.0.0
  */
-public class AggregationOperator extends Operator {
+public class CriteriaAggregationOperator extends CriteriaOperator {
 
   /**
    * Operator to summarize all values of a {@link CriteriaAggregation#getFirstArg() property} (e.g.
    * <em>SUM(e.Price)</em>).
    */
-  public static final AggregationOperator SUM = new AggregationOperator("SUM");
+  public static final CriteriaAggregationOperator SUM = new CriteriaAggregationOperator("SUM");
 
   /**
    * Operator to calculate the average of all values of a {@link CriteriaAggregation#getFirstArg() property} (e.g.
    * <em>AVG(e.Price)</em>).
    */
-  public static final AggregationOperator AVG = new AggregationOperator("AVG");
+  public static final CriteriaAggregationOperator AVG = new CriteriaAggregationOperator("AVG");
 
   /**
    * Operator to determine the minimum of all values of a {@link CriteriaAggregation#getFirstArg() property} (e.g.
    * <em>MIN(e.Price)</em>).
    */
-  public static final AggregationOperator MIN = new AggregationOperator("MIN");
+  public static final CriteriaAggregationOperator MIN = new CriteriaAggregationOperator("MIN");
 
   /**
    * Operator to determine the maximum of all values of a {@link CriteriaAggregation#getFirstArg() property} (e.g.
    * <em>MAX(e.Price)</em>).
    */
-  public static final AggregationOperator MAX = new AggregationOperator("MAX");
+  public static final CriteriaAggregationOperator MAX = new CriteriaAggregationOperator("MAX");
 
   /**
    * Operator to count all entities ({@code COUNT(*)} or only those where the {@link CriteriaAggregation#getFirstArg()
    * property} is not {@code null} (e.g. <em>COUNT(e.Price)</em>).
    */
-  public static final AggregationOperator COUNT = new AggregationOperator("COUNT");
+  public static final CriteriaAggregationOperator COUNT = new CriteriaAggregationOperator("COUNT");
 
   /**
    * Operator to concatenate all values of a {@link CriteriaAggregation#getFirstArg() property} (e.g.
    * <em>GROUP_CONCAT(e.Name)</em>).
    */
-  public static final AggregationOperator GROUP_CONCAT = new AggregationOperator("GROUP_CONCAT");
+  public static final CriteriaAggregationOperator GROUP_CONCAT = new CriteriaAggregationOperator("GROUP_CONCAT");
 
   /**
    * The constructor.
    *
    * @param syntax the {@link #getSyntax() syntax}.
    */
-  protected AggregationOperator(String syntax) {
+  protected CriteriaAggregationOperator(String syntax) {
 
     super(syntax, null, false);
   }
@@ -69,9 +69,16 @@ public class AggregationOperator extends Operator {
   }
 
   @Override
-  public AggregationOperator not() {
+  public int getPriority() {
 
-    return (AggregationOperator) super.not();
+    // can not occur without parenthesis
+    return 0;
+  }
+
+  @Override
+  public CriteriaAggregationOperator not() {
+
+    return (CriteriaAggregationOperator) super.not();
   }
 
   /**
@@ -80,7 +87,7 @@ public class AggregationOperator extends Operator {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Deprecated
   @Override
-  public CriteriaExpression<?> expression(List<CriteriaSelection<?>> args) {
+  public CriteriaExpression<?> expression(List<CriteriaObject<?>> args) {
 
     int size = args.size();
     if (size == 0) {
@@ -96,23 +103,35 @@ public class AggregationOperator extends Operator {
    * @param <V> type of the {@link PropertyPath} and the aggregated result.
    * @param property the {@link PropertyPath} to aggregate.
    * @return the {@link CriteriaAggregation} aggregating the given {@link PropertyPath property} using this
-   *         {@link AggregationOperator}.
+   *         {@link CriteriaAggregationOperator}.
    */
   public <V> CriteriaAggregation<V> criteria(PropertyPath<V> property) {
 
     Objects.requireNonNull(property, "property");
-    return new AggregationFunction<>(this, property);
+    return new CriteriaAggregationImpl<>(this, property);
   }
 
   /**
-   * @param syntax the {@link #getSyntax() syntax} of the requested {@link AggregationOperator}.
-   * @return the predefined {@link AggregationOperator} or {@code null} if no such operator exists.
+   * @param <V> type of the {@link PropertyPath} and the aggregated result.
+   * @param nestedAggregation the {@link PropertyPath} to aggregate.
+   * @return the {@link CriteriaAggregation} aggregating the given {@link PropertyPath property} using this
+   *         {@link CriteriaAggregationOperator}.
    */
-  public static AggregationOperator of(String syntax) {
+  public <V> CriteriaAggregation<V> criteria(CriteriaAggregation<V> nestedAggregation) {
 
-    Operator op = Operator.of(syntax);
-    if (op instanceof AggregationOperator) {
-      return (AggregationOperator) op;
+    Objects.requireNonNull(nestedAggregation, "property");
+    return new CriteriaAggregationImpl<>(this, nestedAggregation);
+  }
+
+  /**
+   * @param syntax the {@link #getSyntax() syntax} of the requested {@link CriteriaAggregationOperator}.
+   * @return the predefined {@link CriteriaAggregationOperator} or {@code null} if no such operator exists.
+   */
+  public static CriteriaAggregationOperator of(String syntax) {
+
+    CriteriaOperator op = CriteriaOperator.of(syntax);
+    if (op instanceof CriteriaAggregationOperator) {
+      return (CriteriaAggregationOperator) op;
     }
     return null;
   }

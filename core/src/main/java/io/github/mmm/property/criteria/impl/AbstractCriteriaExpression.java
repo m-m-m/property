@@ -1,6 +1,9 @@
 /* Copyright (c) The m-m-m Team, Licensed under the Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0 */
-package io.github.mmm.property.criteria;
+package io.github.mmm.property.criteria.impl;
+
+import io.github.mmm.property.criteria.CriteriaExpression;
+import io.github.mmm.property.criteria.CriteriaFormatter;
 
 /**
  * Base-class for a search criteria.

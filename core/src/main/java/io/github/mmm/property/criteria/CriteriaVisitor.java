@@ -5,7 +5,7 @@ package io.github.mmm.property.criteria;
 import java.util.List;
 import java.util.function.Supplier;
 
-import io.github.mmm.value.CriteriaSelection;
+import io.github.mmm.value.CriteriaObject;
 import io.github.mmm.value.PropertyPath;
 
 /**
@@ -43,7 +43,7 @@ public interface CriteriaVisitor {
         }
       }
     } else {
-      List<? extends CriteriaSelection<?>> args = expression.getArgs();
+      List<? extends CriteriaObject<?>> args = expression.getArgs();
       assert (argCount == args.size());
       for (int i = 0; i < argCount; i++) {
         onArg(args.get(i), i, expression);
@@ -53,9 +53,9 @@ public interface CriteriaVisitor {
   }
 
   /**
-   * @param operator the {@link Operator} to visit.
+   * @param operator the {@link CriteriaOperator} to visit.
    */
-  default void onOperator(Operator operator) {
+  default void onOperator(CriteriaOperator operator) {
 
   }
 
@@ -64,7 +64,7 @@ public interface CriteriaVisitor {
    * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
    * @param parent the parent {@link CriteriaExpression} owning the given {@code arg}.
    */
-  default void onArg(CriteriaSelection<?> arg, int i, CriteriaExpression<?> parent) {
+  default void onArg(CriteriaObject<?> arg, int i, CriteriaExpression<?> parent) {
 
     if (arg instanceof Literal) {
       onLiteral((Literal<?>) arg, i, parent);
@@ -87,15 +87,16 @@ public interface CriteriaVisitor {
   default void onProjectionProperty(ProjectionProperty<?> arg, int i, CriteriaExpression<?> parent) {
 
     onArg(arg.getSelection(), i, parent);
+    onArg(arg.getProperty(), i, parent);
   }
 
   /**
    * @param arg the undefined arg (if no {@link Literal}, {@link PropertyPath} or {@link CriteriaExpression}).
    * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
    * @param parent the parent {@link CriteriaExpression} owning the given {@code arg}.
-   * @see #onArg(CriteriaSelection, int, CriteriaExpression)
+   * @see #onArg(CriteriaObject, int, CriteriaExpression)
    */
-  default void onUndefinedArg(CriteriaSelection<?> arg, int i, CriteriaExpression<?> parent) {
+  default void onUndefinedArg(CriteriaObject<?> arg, int i, CriteriaExpression<?> parent) {
 
   }
 
@@ -103,7 +104,7 @@ public interface CriteriaVisitor {
    * @param property the {@link PropertyPath} to visit.
    * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
    * @param parent the parent {@link CriteriaExpression} to owning the given {@link PropertyPath}.
-   * @see #onArg(CriteriaSelection, int, CriteriaExpression)
+   * @see #onArg(CriteriaObject, int, CriteriaExpression)
    */
   default void onPropertyPath(PropertyPath<?> property, int i, CriteriaExpression<?> parent) {
 
@@ -113,7 +114,7 @@ public interface CriteriaVisitor {
    * @param literal the {@link Literal} to visit.
    * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
    * @param parent the parent {@link CriteriaExpression} to owning the given {@link Literal}.
-   * @see #onArg(CriteriaSelection, int, CriteriaExpression)
+   * @see #onArg(CriteriaObject, int, CriteriaExpression)
    */
   default void onLiteral(Literal<?> literal, int i, CriteriaExpression<?> parent) {
 

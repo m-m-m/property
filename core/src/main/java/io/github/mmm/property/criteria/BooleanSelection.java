@@ -4,7 +4,7 @@ package io.github.mmm.property.criteria;
 
 import java.util.function.Supplier;
 
-import io.github.mmm.value.CriteriaSelection;
+import io.github.mmm.value.CriteriaObject;
 
 /**
  * {@link Supplier} bound to {@link Boolean}.
@@ -13,7 +13,7 @@ import io.github.mmm.value.CriteriaSelection;
  * @see BooleanLiteral
  * @see CriteriaPredicate
  */
-public interface BooleanSelection extends CriteriaSelection<Boolean> {
+public interface BooleanSelection extends CriteriaObject<Boolean> {
 
   /**
    * @return a simplified form of this {@link BooleanSelection} or this instance itself if already simplified.

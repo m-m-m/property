@@ -4,7 +4,7 @@ package io.github.mmm.property.number;
 
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.comparable.ReadableComparableProperty;
-import io.github.mmm.property.criteria.AggregationOperator;
+import io.github.mmm.property.criteria.CriteriaAggregationOperator;
 import io.github.mmm.property.criteria.CriteriaAggregation;
 import io.github.mmm.value.observable.number.NumberExpression;
 
@@ -22,38 +22,38 @@ public interface ReadableNumberProperty<N extends Number & Comparable<? super N>
 
   /**
    * @return the {@link CriteriaAggregation} aggregating all values of this property using
-   *         {@link AggregationOperator#SUM SUM}.
+   *         {@link CriteriaAggregationOperator#SUM SUM}.
    */
   default CriteriaAggregation<N> sum() {
 
-    return AggregationOperator.SUM.criteria(this);
+    return CriteriaAggregationOperator.SUM.criteria(this);
   }
 
   /**
    * @return the {@link CriteriaAggregation} aggregating all values of this property using
-   *         {@link AggregationOperator#AVG AVG}.
+   *         {@link CriteriaAggregationOperator#AVG AVG}.
    */
   default CriteriaAggregation<N> avg() {
 
-    return AggregationOperator.AVG.criteria(this);
+    return CriteriaAggregationOperator.AVG.criteria(this);
   }
 
   /**
    * @return the {@link CriteriaAggregation} aggregating all values of this property using
-   *         {@link AggregationOperator#MIN MIN}.
+   *         {@link CriteriaAggregationOperator#MIN MIN}.
    */
   default CriteriaAggregation<N> min() {
 
-    return AggregationOperator.MIN.criteria(this);
+    return CriteriaAggregationOperator.MIN.criteria(this);
   }
 
   /**
    * @return the {@link CriteriaAggregation} aggregating all values of this property using
-   *         {@link AggregationOperator#MAX MAX}.
+   *         {@link CriteriaAggregationOperator#MAX MAX}.
    */
   default CriteriaAggregation<N> max() {
 
-    return AggregationOperator.MAX.criteria(this);
+    return CriteriaAggregationOperator.MAX.criteria(this);
   }
 
 }

@@ -7,20 +7,20 @@ import java.util.List;
 import io.github.mmm.base.exception.ObjectNotFoundException;
 import io.github.mmm.property.criteria.impl.ConjunctionPredicate;
 import io.github.mmm.property.criteria.impl.SimplePredicate;
-import io.github.mmm.value.CriteriaSelection;
+import io.github.mmm.value.CriteriaObject;
 
 /**
- * {@link Operator} for a {@link CriteriaPredicate} that always evaluates to a {@link Boolean} value.
+ * {@link CriteriaOperator} for a {@link CriteriaPredicate} that always evaluates to a {@link Boolean} value.
  *
  * @since 1.0.0
  */
-public class PredicateOperator extends Operator {
+public class PredicateOperator extends CriteriaOperator {
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>{@literal =}
    * ({@link Object#equals(Object) equal})</em> to {@link CriteriaExpression#getSecondArg() second argument}.
    */
-  public static final PredicateOperator EQ = new PredicateOperator("=", "EQ");
+  public static final PredicateOperator EQ = new PredicateOperator("=", PRIO_4_COMP, "EQ");
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>{@literal <>} (not
@@ -32,13 +32,13 @@ public class PredicateOperator extends Operator {
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>{@literal <} (less than)</em>
    * {@link CriteriaExpression#getSecondArg() second argument}.
    */
-  public static final PredicateOperator LT = new PredicateOperator("<", "LT");
+  public static final PredicateOperator LT = new PredicateOperator("<", PRIO_4_COMP, "LT");
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>{@literal <=} (less or
    * equal)</em> {@link CriteriaExpression#getSecondArg() second argument}.
    */
-  public static final PredicateOperator LE = new PredicateOperator("<=", "LE");
+  public static final PredicateOperator LE = new PredicateOperator("<=", PRIO_4_COMP, "LE");
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>{@literal >} (greater
@@ -55,7 +55,7 @@ public class PredicateOperator extends Operator {
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} <em>IS NULL</em>.
    */
-  public static final PredicateOperator IS_NULL = new PredicateOperator("IS NULL", true);
+  public static final PredicateOperator IS_NULL = new PredicateOperator("IS NULL", true, PRIO_4_COMP);
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} <em>IS NOT NULL</em>.
@@ -66,7 +66,7 @@ public class PredicateOperator extends Operator {
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>LIKE</em>
    * {@link CriteriaExpression#getSecondArg() second argument}.
    */
-  public static final PredicateOperator LIKE = new PredicateOperator("LIKE");
+  public static final PredicateOperator LIKE = new PredicateOperator("LIKE", PRIO_7_OR);
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>NOT LIKE</em>
@@ -78,7 +78,7 @@ public class PredicateOperator extends Operator {
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>IN</em>
    * {@link CriteriaExpression#getSecondArg() second argument} (list).
    */
-  public static final PredicateOperator IN = new PredicateOperator("IN");
+  public static final PredicateOperator IN = new PredicateOperator("IN", PRIO_7_OR);
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} is <em>NOT IN</em>
@@ -90,7 +90,7 @@ public class PredicateOperator extends Operator {
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} (collection) <em>CONTAINS</em> the
    * {@link CriteriaExpression#getSecondArg() second argument}.
    */
-  public static final PredicateOperator CONTAINS = new PredicateOperator("CONTAINS");
+  public static final PredicateOperator CONTAINS = new PredicateOperator("CONTAINS", PRIO_7_OR);
 
   /**
    * Operator to check if {@link CriteriaExpression#getFirstArg() first argument} (collection) <em>NOT CONTAINS</em> the
@@ -99,7 +99,7 @@ public class PredicateOperator extends Operator {
   public static final PredicateOperator NOT_CONTAINS = new PredicateOperator("NOT CONTAINS", CONTAINS);
 
   /** Operator to combine {@link CriteriaExpression#getArgs() arguments} with logical <em>AND</em>. */
-  public static final PredicateOperator AND = new PredicateOperator("AND");
+  public static final PredicateOperator AND = new PredicateOperator("AND", PRIO_6_AND);
 
   /**
    * Operator to combine {@link CriteriaExpression#getArgs() arguments} with logical <em>NAND</em>. Typically normalized
@@ -108,7 +108,7 @@ public class PredicateOperator extends Operator {
   public static final PredicateOperator NAND = new PredicateOperator("NAND", AND);
 
   /** Operator to combine {@link CriteriaExpression#getArgs() arguments} with logical <em>OR</em>. */
-  public static final PredicateOperator OR = new PredicateOperator("OR");
+  public static final PredicateOperator OR = new PredicateOperator("OR", PRIO_7_OR);
 
   /**
    * Operator to combine {@link CriteriaExpression#getArgs() arguments} with logical <em>NOR</em>. Typically normalized
@@ -117,40 +117,33 @@ public class PredicateOperator extends Operator {
   public static final PredicateOperator NOR = new PredicateOperator("NOR", OR);
 
   /** Operator to negate a single {@link CriteriaExpression#getArgs() argument} (<em>NOT</em>). */
-  public static final PredicateOperator NOT = new PredicateOperator("NOT", true, null, true);
+  public static final PredicateOperator NOT = new PredicateOperator("NOT", true, null, true, PRIO_5_NOT);
 
   private final boolean unary;
 
+  private final int priority;
+
   /**
    * The constructor.
    *
    * @param syntax the {@link #getSyntax() syntax}.
+   * @param priority the {@link #getPriority() priority}.
    */
-  protected PredicateOperator(String syntax) {
+  protected PredicateOperator(String syntax, int priority) {
 
-    this(syntax, false, null, false);
+    this(syntax, priority, null);
   }
 
   /**
    * The constructor.
    *
    * @param syntax the {@link #getSyntax() syntax}.
+   * @param priority the {@link #getPriority() priority}.
    * @param name the {@link #getName() name}.
    */
-  protected PredicateOperator(String syntax, String name) {
+  protected PredicateOperator(String syntax, int priority, String name) {
 
-    this(syntax, false, null, false, name);
-  }
-
-  /**
-   * The constructor.
-   *
-   * @param syntax the {@link #getSyntax() syntax}.
-   * @param unary the {@link #isUnary() unary flag}.
-   */
-  protected PredicateOperator(String syntax, boolean unary) {
-
-    this(syntax, false, null, unary);
+    this(syntax, false, null, false, priority, name);
   }
 
   /**
@@ -161,7 +154,7 @@ public class PredicateOperator extends Operator {
    */
   protected PredicateOperator(String syntax, PredicateOperator not) {
 
-    this(syntax, (not != null), not);
+    this(syntax, not, null);
   }
 
   /**
@@ -173,19 +166,19 @@ public class PredicateOperator extends Operator {
    */
   protected PredicateOperator(String syntax, PredicateOperator not, String name) {
 
-    this(syntax, (not != null), not, name);
+    this(syntax, true, not, name);
   }
 
   /**
    * The constructor.
    *
    * @param syntax the {@link #getSyntax() syntax}.
-   * @param not the {@link #not() negated} form or {@code null}.
    * @param unary the {@link #isUnary() unary flag}.
+   * @param priority the {@link #getPriority() priority}.
    */
-  protected PredicateOperator(String syntax, PredicateOperator not, boolean unary) {
+  protected PredicateOperator(String syntax, boolean unary, int priority) {
 
-    this(syntax, (not != null), not, unary);
+    this(syntax, false, null, unary, priority);
   }
 
   /**
@@ -197,7 +190,7 @@ public class PredicateOperator extends Operator {
    */
   protected PredicateOperator(String syntax, boolean inverse, PredicateOperator not) {
 
-    this(syntax, inverse, not, (not == null) ? false : not.unary);
+    this(syntax, inverse, not, not.unary, not.priority);
   }
 
   /**
@@ -210,7 +203,7 @@ public class PredicateOperator extends Operator {
    */
   protected PredicateOperator(String syntax, boolean inverse, PredicateOperator not, String name) {
 
-    this(syntax, inverse, not, (not == null) ? false : not.unary, name);
+    this(syntax, inverse, not, not.unary, not.priority, name);
   }
 
   /**
@@ -219,11 +212,12 @@ public class PredicateOperator extends Operator {
    * @param syntax the {@link #getSyntax() syntax}.
    * @param not the {@link #not() negated} form or {@code null}.
    * @param inverse the {@link #isInverse() inverse flag}.
+   * @param priority the {@link #getPriority() priority}.
    * @param unary the {@link #isUnary() unary flag}.
    */
-  protected PredicateOperator(String syntax, boolean inverse, PredicateOperator not, boolean unary) {
+  protected PredicateOperator(String syntax, boolean inverse, PredicateOperator not, boolean unary, int priority) {
 
-    this(syntax, inverse, not, unary, null);
+    this(syntax, inverse, not, unary, priority, null);
   }
 
   /**
@@ -233,12 +227,15 @@ public class PredicateOperator extends Operator {
    * @param not the {@link #not() negated} form or {@code null}.
    * @param inverse the {@link #isInverse() inverse flag}.
    * @param unary the {@link #isUnary() unary flag}.
+   * @param priority the {@link #getPriority() priority}.
    * @param name the {@link #getName() name}.
    */
-  protected PredicateOperator(String syntax, boolean inverse, PredicateOperator not, boolean unary, String name) {
+  protected PredicateOperator(String syntax, boolean inverse, PredicateOperator not, boolean unary, int priority,
+      String name) {
 
     super(syntax, not, inverse, name);
     this.unary = unary;
+    this.priority = priority;
   }
 
   @Override
@@ -269,6 +266,12 @@ public class PredicateOperator extends Operator {
   }
 
   @Override
+  public int getPriority() {
+
+    return this.priority;
+  }
+
+  @Override
   public boolean isInfix() {
 
     if (isNullBased(this)) {
@@ -278,7 +281,7 @@ public class PredicateOperator extends Operator {
   }
 
   @Override
-  public CriteriaPredicate expression(List<CriteriaSelection<?>> args) {
+  public CriteriaPredicate expression(List<CriteriaObject<?>> args) {
 
     if ((args == null) || args.isEmpty()) {
       throw new ObjectNotFoundException("Arguments");
@@ -287,7 +290,7 @@ public class PredicateOperator extends Operator {
       BooleanSelection[] predicates = new BooleanSelection[args.size()];
       int i = 0;
       try {
-        for (CriteriaSelection<?> arg : args) {
+        for (CriteriaObject<?> arg : args) {
           predicates[i] = (BooleanSelection) arg;
           i++;
         }
@@ -298,8 +301,8 @@ public class PredicateOperator extends Operator {
     } else {
       int argCount = args.size();
       if (argCount <= 2) {
-        CriteriaSelection<?> arg1 = args.get(0);
-        CriteriaSelection<?> arg2 = null;
+        CriteriaObject<?> arg1 = args.get(0);
+        CriteriaObject<?> arg2 = null;
         if (argCount > 1) {
           arg2 = args.get(1);
         }
@@ -317,7 +320,7 @@ public class PredicateOperator extends Operator {
    */
   public static PredicateOperator of(String syntax) {
 
-    Operator op = Operator.of(syntax);
+    CriteriaOperator op = CriteriaOperator.of(syntax);
     if (op instanceof PredicateOperator) {
       return (PredicateOperator) op;
     }
@@ -325,19 +328,19 @@ public class PredicateOperator extends Operator {
   }
 
   /**
-   * @param op the {@link Operator} to check.
+   * @param op the {@link CriteriaOperator} to check.
    * @return {@code true} if {@link #LIKE} or {@link #NOT_LIKE}, {@code false} otherwise.
    */
-  public static boolean isLikeBased(Operator op) {
+  public static boolean isLikeBased(CriteriaOperator op) {
 
     return ((op == LIKE) || (op == NOT_LIKE));
   }
 
   /**
-   * @param op the {@link Operator} to check.
+   * @param op the {@link CriteriaOperator} to check.
    * @return {@code true} if {@link #IS_NULL} or {@link #IS_NOT_NULL}, {@code false} otherwise.
    */
-  public static boolean isNullBased(Operator op) {
+  public static boolean isNullBased(CriteriaOperator op) {
 
     return ((op == IS_NULL) || (op == IS_NOT_NULL));
   }

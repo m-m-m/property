@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import io.github.mmm.base.io.AppendableWriter;
-import io.github.mmm.value.CriteriaSelection;
+import io.github.mmm.value.CriteriaObject;
 import io.github.mmm.value.PropertyPath;
 
 /**
@@ -96,7 +96,7 @@ public class CriteriaParametersNamed implements CriteriaParameters {
       if (name == null) {
         int argCount = expression.getArgCount();
         if (argCount > 2) {
-          List<? extends CriteriaSelection<?>> args = expression.getArgs();
+          List<? extends CriteriaObject<?>> args = expression.getArgs();
           int i = 2;
           while ((name == null) && (i < argCount)) {
             name = findName(args.get(i++));
@@ -107,7 +107,7 @@ public class CriteriaParametersNamed implements CriteriaParameters {
     return name;
   }
 
-  private String findName(CriteriaSelection<?> arg) {
+  private String findName(CriteriaObject<?> arg) {
 
     if (arg == null) {
       return null;

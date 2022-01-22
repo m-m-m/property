@@ -2,6 +2,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.criteria;
 
+import io.github.mmm.property.criteria.impl.SimplePathParser;
 import io.github.mmm.value.PropertyPath;
 import io.github.mmm.value.ReadablePath;
 
@@ -16,6 +17,9 @@ public final class SimplePath implements PropertyPath<Object> {
 
   /** Name of the {@link #path() path} property for marshalling. */
   public static final String NAME_PATH = "path";
+
+  /** The {@link PropertyPathParser} for parsing as {@link SimplePath}. */
+  public static final PropertyPathParser PARSER = SimplePathParser.INSTANCE;
 
   private final SimplePath parent;
 

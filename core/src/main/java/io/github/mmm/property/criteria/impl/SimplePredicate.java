@@ -7,14 +7,14 @@ import java.util.List;
 import io.github.mmm.property.criteria.BooleanLiteral;
 import io.github.mmm.property.criteria.CriteriaPredicate;
 import io.github.mmm.property.criteria.PredicateOperator;
-import io.github.mmm.value.CriteriaSelection;
+import io.github.mmm.value.CriteriaObject;
 
 /**
  * Implementation of {@link CriteriaPredicate}
  *
  * @since 1.0.0
  */
-public class SimplePredicate extends AbstractPredicate {
+public class SimplePredicate extends AbstractCriteriaPredicate {
 
   /** {@link SimplePredicate} that always evaluates to {@code true}. */
   public static final SimplePredicate ALWAYS = new SimplePredicate(BooleanLiteral.TRUE, PredicateOperator.EQ,
@@ -24,9 +24,9 @@ public class SimplePredicate extends AbstractPredicate {
   public static final SimplePredicate NEVER = new SimplePredicate(BooleanLiteral.TRUE, PredicateOperator.EQ,
       BooleanLiteral.FALSE);
 
-  private final CriteriaSelection<?> arg1;
+  private final CriteriaObject<?> arg1;
 
-  private final CriteriaSelection<?> arg2;
+  private final CriteriaObject<?> arg2;
 
   /**
    * The constructor.
@@ -35,7 +35,7 @@ public class SimplePredicate extends AbstractPredicate {
    * @param operator the {@link #getOperator() operator}.
    * @param arg2 the {@link #getFirstArg() second argument}.
    */
-  public SimplePredicate(CriteriaSelection<?> arg1, PredicateOperator operator, CriteriaSelection<?> arg2) {
+  public SimplePredicate(CriteriaObject<?> arg1, PredicateOperator operator, CriteriaObject<?> arg2) {
 
     super(operator);
     if (operator.isConjunction()) {
@@ -47,19 +47,19 @@ public class SimplePredicate extends AbstractPredicate {
   }
 
   @Override
-  public CriteriaSelection<?> getFirstArg() {
+  public CriteriaObject<?> getFirstArg() {
 
     return this.arg1;
   }
 
   @Override
-  public CriteriaSelection<?> getSecondArg() {
+  public CriteriaObject<?> getSecondArg() {
 
     return this.arg2;
   }
 
   @Override
-  public List<? extends CriteriaSelection<?>> getArgs() {
+  public List<? extends CriteriaObject<?>> getArgs() {
 
     if (this.arg2 == null) {
       return List.of(this.arg1);
