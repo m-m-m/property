@@ -79,23 +79,13 @@ public class PropertyAssignment<V> {
   /**
    * @param <V> type of the {@link #getValue() value}.
    * @param property the {@link PropertyPath} to assign the {@code value} to.
-   * @param value the {@link Literal} {@link Literal#get() value} to assign.
+   * @param value the {@link CriteriaObject} with the {@code value} to assign. Can be a {@link Literal},
+   *        {@link PropertyPath property} (from another table), or an {@link CriteriaExpression expression}.
    * @return the new {@link PropertyAssignment}.
    */
-  public static <V> PropertyAssignment<V> of(PropertyPath<V> property, Literal<V> value) {
+  public static <V> PropertyAssignment<V> of(PropertyPath<V> property, CriteriaObject<V> value) {
 
     return new PropertyAssignment<>(property, value);
-  }
-
-  /**
-   * @param <V> type of the {@link #getValue() value}.
-   * @param property the {@link PropertyPath} to assign the {@code value} to.
-   * @param property2 the other {@link PropertyPath} with the {@link PropertyPath#get() value} to assign.
-   * @return the new {@link PropertyAssignment}.
-   */
-  public static <V> PropertyAssignment<V> of(PropertyPath<V> property, PropertyPath<V> property2) {
-
-    return new PropertyAssignment<>(property, property2);
   }
 
   /**
