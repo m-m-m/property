@@ -47,7 +47,7 @@ public class CriteriaObjectParser implements CharScannerParser<CriteriaObject<?>
    */
   public CriteriaObject<?> parse(CharStreamScanner scanner, PropertyPathParser pathParser) {
 
-    char c = scanner.forcePeek();
+    char c = scanner.peek();
     if (c == '(') {
       scanner.next();
       scanner.skipWhile(' ');
@@ -71,7 +71,7 @@ public class CriteriaObjectParser implements CharScannerParser<CriteriaObject<?>
       expressions.add(expression);
     }
     do {
-      if (scanner.forcePeek() == '(') {
+      if (scanner.peek() == '(') {
         expression = parse(scanner);
       } else {
         expression = parsePredicate(scanner, pathParser);
@@ -80,7 +80,7 @@ public class CriteriaObjectParser implements CharScannerParser<CriteriaObject<?>
         expressions.add(expression);
       }
       int spaces = scanner.skipWhile(' ');
-      char c = scanner.forcePeek();
+      char c = scanner.peek();
       if ((c == ',') || (c == ')') || (c == CharStreamScanner.EOS)) {
         break;
       } else if ((c == 'o') || (c == 'O')) {
@@ -178,7 +178,7 @@ public class CriteriaObjectParser implements CharScannerParser<CriteriaObject<?>
    */
   public Literal<?> parseLiteral(CharStreamScanner scanner) {
 
-    char c = scanner.forcePeek();
+    char c = scanner.peek();
     if (c == '\'') {
       scanner.next();
       String string = scanner.readUntil(c, false, c);
@@ -254,7 +254,7 @@ public class CriteriaObjectParser implements CharScannerParser<CriteriaObject<?>
    * @return the parsed {@link CriteriaObject}.
    */
   public CriteriaObject<?> parseSelection(CharStreamScanner scanner) {
-  
+
     return parseSelection(scanner, SimplePath.PARSER);
   }
 
