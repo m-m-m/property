@@ -12,6 +12,8 @@ module io.github.mmm.property {
 
   requires transitive io.github.mmm.marshall;
 
+  requires transitive io.github.mmm.scanner;
+
   requires static io.github.mmm.marshall.json;
 
   requires transitive io.github.mmm.value.converter;
