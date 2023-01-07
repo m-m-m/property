@@ -23,7 +23,6 @@ import io.github.mmm.value.PropertyPath;
  *
  * @since 1.0.0
  */
-@SuppressWarnings("exports")
 public class CriteriaObjectParser implements CharScannerParser<CriteriaObject<?>> {
 
   private static CriteriaObjectParser INSTANCE = new CriteriaObjectParser();
