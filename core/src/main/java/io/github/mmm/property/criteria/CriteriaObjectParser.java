@@ -83,15 +83,15 @@ public class CriteriaObjectParser implements CharScannerParser<CriteriaObject<?>
       if ((c == ',') || (c == ')') || (c == CharStreamScanner.EOS)) {
         break;
       } else if ((c == 'o') || (c == 'O')) {
-        if (scanner.expectStrict("ORDER BY ", true, true)) {
+        if (scanner.expect("ORDER BY ", true, true)) {
           break;
         }
       } else if ((c == 'g') || (c == 'G')) {
-        if (scanner.expectStrict("GROUP BY ", true, true)) {
+        if (scanner.expect("GROUP BY ", true, true)) {
           break;
         }
       } else if ((c == 'h') || (c == 'H')) {
-        if (scanner.expectStrict("HAVING ", true, true)) {
+        if (scanner.expect("HAVING ", true, true)) {
           break;
         }
       }
@@ -182,9 +182,9 @@ public class CriteriaObjectParser implements CharScannerParser<CriteriaObject<?>
       scanner.next();
       String string = scanner.readUntil(c, false, c);
       return Literal.of(string);
-    } else if (((c == 't') || (c == 'T')) && scanner.expectStrict("TRUE", true)) {
+    } else if (((c == 't') || (c == 'T')) && scanner.expect("TRUE", true)) {
       return BooleanLiteral.TRUE;
-    } else if (((c == 'f') || (c == 'F')) && scanner.expectStrict("FALSE", true)) {
+    } else if (((c == 'f') || (c == 'F')) && scanner.expect("FALSE", true)) {
       return BooleanLiteral.FALSE;
     } else if ((c == '+') || (c == '-') || CharFilter.LATIN_DIGIT.accept(c)) {
       String num = scanner.readWhile(NUMER_FILTER);
