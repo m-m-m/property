@@ -6,8 +6,8 @@ import java.util.Collection;
 
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
-import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.WritableProperty;
 import io.github.mmm.property.container.ContainerProperty;
 import io.github.mmm.validation.ValidationResult;
 import io.github.mmm.validation.ValidationResultBuilder;
@@ -29,7 +29,7 @@ public abstract class CollectionProperty<V extends Collection<E>, E> extends Con
    * @param name the {@link #getName() name}.
    * @param valueProperty the {@link #getValueProperty() value property}.
    */
-  public CollectionProperty(String name, Property<E> valueProperty) {
+  public CollectionProperty(String name, WritableProperty<E> valueProperty) {
 
     super(name, valueProperty);
   }
@@ -41,7 +41,7 @@ public abstract class CollectionProperty<V extends Collection<E>, E> extends Con
    * @param valueProperty the {@link #getValueProperty() value property}.
    * @param metadata the {@link #getMetadata() metadata}.
    */
-  public CollectionProperty(String name, Property<E> valueProperty, PropertyMetadata<V> metadata) {
+  public CollectionProperty(String name, WritableProperty<E> valueProperty, PropertyMetadata<V> metadata) {
 
     super(name, valueProperty, metadata);
   }

@@ -40,7 +40,8 @@ public class PropertyFactoryFloat extends AbstractPropertyFactory<Float, FloatPr
   }
 
   @Override
-  public FloatProperty create(String name, Class<? extends Float> valueClass, PropertyMetadata<Float> metadata) {
+  public FloatProperty create(String name, Class<? extends Float> valueClass, PropertyMetadata<Float> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new FloatProperty(name, metadata);
   }

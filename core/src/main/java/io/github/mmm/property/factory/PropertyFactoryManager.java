@@ -113,7 +113,7 @@ public interface PropertyFactoryManager {
    */
   default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name) {
 
-    return create(propertyType, valueClass, name, PropertyMetadataNone.get());
+    return create(propertyType, valueClass, name, PropertyMetadataNone.get(), null);
   }
 
   /**
@@ -126,17 +126,19 @@ public interface PropertyFactoryManager {
    * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
    * @param name the {@link ReadableProperty#getName() property name}.
    * @param metadata the {@link PropertyMetadata}.
+   * @param valueProperty the optional {@link io.github.mmm.property.container.ContainerProperty#getValueProperty()
+   *        value property}. Will typically be {@code null}.
    * @return the new instance of the property.
    * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
    *         for {@code propertyType}.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name,
-      PropertyMetadata<V> metadata) {
+      PropertyMetadata<V> metadata, WritableProperty<?> valueProperty) {
 
     // Open/Oracle JDK compiler has so many bugs in handling of generics...
     PropertyFactory factory = getRequiredFactory((Class) propertyType, (Class) valueClass);
-    return (P) factory.create(name, valueClass, metadata);
+    return (P) factory.create(name, valueClass, metadata, valueProperty);
   }
 
   /**
@@ -149,7 +151,7 @@ public interface PropertyFactoryManager {
    */
   default <V> WritableProperty<V> create(Class<V> valueClass, String name) {
 
-    return create(null, valueClass, name, PropertyMetadataNone.get());
+    return create(null, valueClass, name, PropertyMetadataNone.get(), null);
   }
 
   /**
@@ -163,7 +165,7 @@ public interface PropertyFactoryManager {
    */
   default <V> WritableProperty<V> create(Class<V> valueClass, String name, PropertyMetadata<V> metadata) {
 
-    return create(null, valueClass, name, metadata);
+    return create(null, valueClass, name, metadata, null);
   }
 
   /**

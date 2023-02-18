@@ -42,7 +42,8 @@ public class PropertyFactoryInstant extends AbstractPropertyFactory<Instant, Ins
   }
 
   @Override
-  public InstantProperty create(String name, Class<? extends Instant> valueClass, PropertyMetadata<Instant> metadata) {
+  public InstantProperty create(String name, Class<? extends Instant> valueClass, PropertyMetadata<Instant> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new InstantProperty(name, metadata);
   }

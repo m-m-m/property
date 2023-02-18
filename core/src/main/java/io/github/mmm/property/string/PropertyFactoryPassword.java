@@ -40,7 +40,8 @@ public class PropertyFactoryPassword extends AbstractPropertyFactory<String, Pas
   }
 
   @Override
-  public PasswordProperty create(String name, Class<? extends String> valueClass, PropertyMetadata<String> metadata) {
+  public PasswordProperty create(String name, Class<? extends String> valueClass, PropertyMetadata<String> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new PasswordProperty(name, metadata);
   }

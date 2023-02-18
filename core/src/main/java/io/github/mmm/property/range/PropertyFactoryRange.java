@@ -46,8 +46,8 @@ public class PropertyFactoryRange<V extends Comparable<?>> extends AbstractPrope
   }
 
   @Override
-  public RangeProperty<V> create(String name, Class<? extends Range<V>> valueClass,
-      PropertyMetadata<Range<V>> metadata) {
+  public RangeProperty<V> create(String name, Class<? extends Range<V>> valueClass, PropertyMetadata<Range<V>> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new RangeProperty<>(name, null, metadata);
   }

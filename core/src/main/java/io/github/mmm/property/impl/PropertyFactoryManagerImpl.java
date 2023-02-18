@@ -177,11 +177,11 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
   public <V, PROPERTY extends ReadableProperty<V>> PROPERTY create(Class<PROPERTY> propertyType, Class<V> valueClass,
-      String name, PropertyMetadata<V> metadata) {
+      String name, PropertyMetadata<V> metadata, WritableProperty<?> valueProperty) {
 
     // Open/Oracle JDK compiler has so many bugs in handling of generics...
     PropertyFactory factory = getRequiredFactory((Class) propertyType, (Class) valueClass);
-    return (PROPERTY) factory.create(name, valueClass, metadata);
+    return (PROPERTY) factory.create(name, valueClass, metadata, valueProperty);
   }
 
 }

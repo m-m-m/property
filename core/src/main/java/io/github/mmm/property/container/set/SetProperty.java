@@ -4,8 +4,8 @@ package io.github.mmm.property.container.set;
 
 import java.util.Set;
 
-import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.WritableProperty;
 import io.github.mmm.property.container.collection.CollectionProperty;
 import io.github.mmm.value.observable.container.set.ChangeAwareSet;
 import io.github.mmm.value.observable.container.set.ChangeAwareSets;
@@ -29,7 +29,7 @@ public class SetProperty<E> extends CollectionProperty<Set<E>, E> implements Wri
    * @param name the {@link #getName() name}.
    * @param valueProperty the {@link #getValueProperty() value property}.
    */
-  public SetProperty(String name, Property<E> valueProperty) {
+  public SetProperty(String name, WritableProperty<E> valueProperty) {
 
     super(name, valueProperty);
   }
@@ -41,7 +41,7 @@ public class SetProperty<E> extends CollectionProperty<Set<E>, E> implements Wri
    * @param valueProperty the {@link #getValueProperty() value property}.
    * @param metadata the {@link #getMetadata() metadata}.
    */
-  public SetProperty(String name, Property<E> valueProperty, PropertyMetadata<Set<E>> metadata) {
+  public SetProperty(String name, WritableProperty<E> valueProperty, PropertyMetadata<Set<E>> metadata) {
 
     super(name, valueProperty, metadata);
   }

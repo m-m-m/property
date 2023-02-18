@@ -48,9 +48,9 @@ public class PropertyFactoryMap<K, V> extends AbstractPropertyFactory<Map<K, V>,
 
   @Override
   public MapProperty<K, V> create(String name, Class<? extends Map<K, V>> valueClass,
-      PropertyMetadata<Map<K, V>> metadata) {
+      PropertyMetadata<Map<K, V>> metadata, WritableProperty<?> valueProperty) {
 
-    return new MapProperty<>(name, null, null, metadata);
+    return new MapProperty(name, null, valueProperty, metadata);
   }
 
 }

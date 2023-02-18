@@ -40,7 +40,8 @@ public class PropertyFactoryString extends AbstractPropertyFactory<String, Strin
   }
 
   @Override
-  public StringProperty create(String name, Class<? extends String> valueClass, PropertyMetadata<String> metadata) {
+  public StringProperty create(String name, Class<? extends String> valueClass, PropertyMetadata<String> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new StringProperty(name, metadata);
   }

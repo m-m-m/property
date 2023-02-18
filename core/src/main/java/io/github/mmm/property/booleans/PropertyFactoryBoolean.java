@@ -40,7 +40,8 @@ public class PropertyFactoryBoolean extends AbstractPropertyFactory<Boolean, Boo
   }
 
   @Override
-  public BooleanProperty create(String name, Class<? extends Boolean> valueClass, PropertyMetadata<Boolean> metadata) {
+  public BooleanProperty create(String name, Class<? extends Boolean> valueClass, PropertyMetadata<Boolean> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new BooleanProperty(name, metadata);
   }

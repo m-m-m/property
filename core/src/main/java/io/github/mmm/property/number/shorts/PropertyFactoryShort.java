@@ -40,7 +40,8 @@ public class PropertyFactoryShort extends AbstractPropertyFactory<Short, ShortPr
   }
 
   @Override
-  public ShortProperty create(String name, Class<? extends Short> valueClass, PropertyMetadata<Short> metadata) {
+  public ShortProperty create(String name, Class<? extends Short> valueClass, PropertyMetadata<Short> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new ShortProperty(name, metadata);
   }

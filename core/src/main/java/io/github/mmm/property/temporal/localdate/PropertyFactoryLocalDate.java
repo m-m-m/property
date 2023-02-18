@@ -43,7 +43,7 @@ public class PropertyFactoryLocalDate extends AbstractPropertyFactory<LocalDate,
 
   @Override
   public LocalDateProperty create(String name, Class<? extends LocalDate> valueClass,
-      PropertyMetadata<LocalDate> metadata) {
+      PropertyMetadata<LocalDate> metadata, WritableProperty<?> valueProperty) {
 
     return new LocalDateProperty(name, metadata);
   }

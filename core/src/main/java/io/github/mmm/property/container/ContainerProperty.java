@@ -4,6 +4,7 @@ package io.github.mmm.property.container;
 
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.WritableProperty;
 import io.github.mmm.property.booleans.BooleanProperty;
 import io.github.mmm.property.booleans.ReadableBooleanProperty;
 import io.github.mmm.property.impl.metadata.PropertyMetadataExpression;
@@ -34,7 +35,7 @@ public abstract class ContainerProperty<V, E> extends Property<V> implements Wri
    * @param name the {@link #getName() name}.
    * @param valueProperty the {@link #getValueProperty() value property}.
    */
-  public ContainerProperty(String name, Property<E> valueProperty) {
+  public ContainerProperty(String name, WritableProperty<E> valueProperty) {
 
     this(name, valueProperty, PropertyMetadataNone.get());
   }
@@ -47,13 +48,13 @@ public abstract class ContainerProperty<V, E> extends Property<V> implements Wri
    * @param metadata the {@link #getMetadata() metadata}.
    */
   @SuppressWarnings("unchecked")
-  public ContainerProperty(String name, Property<E> valueProperty, PropertyMetadata<V> metadata) {
+  public ContainerProperty(String name, WritableProperty<E> valueProperty, PropertyMetadata<V> metadata) {
 
     super(name, metadata);
     if (valueProperty == null) {
       valueProperty = (Property<E>) metadata.get(METADATA_KEY_COMPONENT_PROPERTY);
     }
-    this.valueProperty = valueProperty;
+    this.valueProperty = (Property<E>) valueProperty;
   }
 
   @Override
@@ -69,7 +70,7 @@ public abstract class ContainerProperty<V, E> extends Property<V> implements Wri
   }
 
   @Override
-  public Property<E> getValueProperty() {
+  public WritableProperty<E> getValueProperty() {
 
     return this.valueProperty;
   }

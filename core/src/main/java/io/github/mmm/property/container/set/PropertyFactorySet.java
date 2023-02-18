@@ -45,9 +45,10 @@ public class PropertyFactorySet<E> extends AbstractPropertyFactory<Set<E>, SetPr
   }
 
   @Override
-  public SetProperty<E> create(String name, Class<? extends Set<E>> valueClass, PropertyMetadata<Set<E>> metadata) {
+  public SetProperty<E> create(String name, Class<? extends Set<E>> valueClass, PropertyMetadata<Set<E>> metadata,
+      WritableProperty<?> valueProperty) {
 
-    return new SetProperty<>(name, null, metadata);
+    return new SetProperty(name, valueProperty, metadata);
   }
 
 }

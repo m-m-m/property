@@ -42,8 +42,8 @@ public class PropertyFactoryDuration extends AbstractPropertyFactory<Duration, D
   }
 
   @Override
-  public DurationProperty create(String name, Class<? extends Duration> valueClass,
-      PropertyMetadata<Duration> metadata) {
+  public DurationProperty create(String name, Class<? extends Duration> valueClass, PropertyMetadata<Duration> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new DurationProperty(name, metadata);
   }

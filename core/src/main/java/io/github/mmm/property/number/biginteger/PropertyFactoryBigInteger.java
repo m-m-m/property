@@ -43,7 +43,7 @@ public class PropertyFactoryBigInteger extends AbstractPropertyFactory<BigIntege
 
   @Override
   public BigIntegerProperty create(String name, Class<? extends BigInteger> valueClass,
-      PropertyMetadata<BigInteger> metadata) {
+      PropertyMetadata<BigInteger> metadata, WritableProperty<?> valueProperty) {
 
     return new BigIntegerProperty(name, metadata);
   }

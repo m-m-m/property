@@ -43,7 +43,7 @@ public class PropertyFactoryOffsetTime extends AbstractPropertyFactory<OffsetTim
 
   @Override
   public OffsetTimeProperty create(String name, Class<? extends OffsetTime> valueClass,
-      PropertyMetadata<OffsetTime> metadata) {
+      PropertyMetadata<OffsetTime> metadata, WritableProperty<?> valueProperty) {
 
     return new OffsetTimeProperty(name, metadata);
   }

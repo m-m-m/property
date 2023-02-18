@@ -43,7 +43,7 @@ public class PropertyFactoryLocalDateTime extends AbstractPropertyFactory<LocalD
 
   @Override
   public LocalDateTimeProperty create(String name, Class<? extends LocalDateTime> valueClass,
-      PropertyMetadata<LocalDateTime> metadata) {
+      PropertyMetadata<LocalDateTime> metadata, WritableProperty<?> valueProperty) {
 
     return new LocalDateTimeProperty(name, metadata);
   }

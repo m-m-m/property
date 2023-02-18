@@ -43,7 +43,8 @@ public class PropertyFactoryObject<V> extends AbstractPropertyFactory<V, ObjectP
   }
 
   @Override
-  public ObjectProperty<V> create(String name, Class<? extends V> valueClass, PropertyMetadata<V> metadata) {
+  public ObjectProperty<V> create(String name, Class<? extends V> valueClass, PropertyMetadata<V> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new ObjectProperty(name, valueClass, metadata);
   }

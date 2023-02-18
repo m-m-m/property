@@ -45,9 +45,10 @@ public class PropertyFactoryList<E> extends AbstractPropertyFactory<List<E>, Lis
   }
 
   @Override
-  public ListProperty<E> create(String name, Class<? extends List<E>> valueClass, PropertyMetadata<List<E>> metadata) {
+  public ListProperty<E> create(String name, Class<? extends List<E>> valueClass, PropertyMetadata<List<E>> metadata,
+      WritableProperty<?> valueProperty) {
 
-    return new ListProperty(name, null, metadata);
+    return new ListProperty(name, valueProperty, metadata);
   }
 
 }

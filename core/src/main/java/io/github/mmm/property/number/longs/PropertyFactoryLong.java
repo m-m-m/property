@@ -40,7 +40,8 @@ public class PropertyFactoryLong extends AbstractPropertyFactory<Long, LongPrope
   }
 
   @Override
-  public LongProperty create(String name, Class<? extends Long> valueClass, PropertyMetadata<Long> metadata) {
+  public LongProperty create(String name, Class<? extends Long> valueClass, PropertyMetadata<Long> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new LongProperty(name, metadata);
   }

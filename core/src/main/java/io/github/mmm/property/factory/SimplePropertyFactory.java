@@ -64,7 +64,8 @@ public class SimplePropertyFactory<V> extends AbstractPropertyFactory<V, Writabl
   }
 
   @Override
-  public WritableProperty<V> create(String name, Class<? extends V> valueClass, PropertyMetadata<V> metadata) {
+  public WritableProperty<V> create(String name, Class<? extends V> valueClass, PropertyMetadata<V> metadata,
+      WritableProperty<?> valueProperty) {
 
     return this.prototype.copy(name, metadata);
   }

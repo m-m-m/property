@@ -8,11 +8,12 @@ import java.util.Objects;
 
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
-import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
+import io.github.mmm.property.WritableProperty;
 import io.github.mmm.property.container.ContainerProperty;
 import io.github.mmm.property.impl.metadata.PropertyMetadataNone;
 import io.github.mmm.property.object.SimpleProperty;
+import io.github.mmm.property.object.WritableSimpleProperty;
 import io.github.mmm.validation.ValidationResult;
 import io.github.mmm.validation.ValidationResultBuilder;
 import io.github.mmm.value.observable.container.map.ChangeAwareMap;
@@ -41,7 +42,7 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implement
    * @param keyProperty the {@link #getKeyProperty() key property}.
    * @param valueProperty the {@link #getValueProperty() value property}.
    */
-  public MapProperty(String name, SimpleProperty<K> keyProperty, Property<V> valueProperty) {
+  public MapProperty(String name, WritableSimpleProperty<K> keyProperty, WritableProperty<V> valueProperty) {
 
     this(name, keyProperty, valueProperty, PropertyMetadataNone.get());
   }
@@ -55,18 +56,19 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V> implement
    * @param metadata the {@link #getMetadata() metadata}.
    */
   @SuppressWarnings("unchecked")
-  public MapProperty(String name, SimpleProperty<K> keyProperty, Property<V> valueProperty,
+  public MapProperty(String name, WritableSimpleProperty<K> keyProperty, WritableProperty<V> valueProperty,
       PropertyMetadata<Map<K, V>> metadata) {
 
     super(name, valueProperty, metadata);
     if (keyProperty == null) {
-      keyProperty = (SimpleProperty<K>) metadata.get(METADATA_KEY_KEY_PROPERTY);
+      this.keyProperty = (SimpleProperty<K>) metadata.get(METADATA_KEY_KEY_PROPERTY);
+    } else {
+      this.keyProperty = (SimpleProperty<K>) keyProperty;
     }
-    this.keyProperty = keyProperty;
   }
 
   @Override
-  public SimpleProperty<K> getKeyProperty() {
+  public WritableSimpleProperty<K> getKeyProperty() {
 
     return this.keyProperty;
   }

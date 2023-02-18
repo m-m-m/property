@@ -80,6 +80,18 @@ public interface ReadableProperty<V>
   }
 
   /**
+   * @return {@code true} if the {@link #get() property value} is mandatory and will not accept {@code null} or empty
+   *         values), {@code false} otherwise.
+   * @see #getMetadata()
+   * @see PropertyMetadata#getValidator()
+   * @see io.github.mmm.validation.Validator#isMandatory()
+   */
+  default boolean isMandatory() {
+
+    return getMetadata().getValidator().isMandatory();
+  }
+
+  /**
    * @return the {@link PropertyMetadata metadata} of this property.
    */
   PropertyMetadata<V> getMetadata();

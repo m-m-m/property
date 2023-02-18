@@ -40,7 +40,8 @@ public class PropertyFactoryDouble extends AbstractPropertyFactory<Double, Doubl
   }
 
   @Override
-  public DoubleProperty create(String name, Class<? extends Double> valueClass, PropertyMetadata<Double> metadata) {
+  public DoubleProperty create(String name, Class<? extends Double> valueClass, PropertyMetadata<Double> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new DoubleProperty(name, metadata);
   }

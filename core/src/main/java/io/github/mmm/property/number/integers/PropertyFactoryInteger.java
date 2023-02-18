@@ -40,7 +40,8 @@ public class PropertyFactoryInteger extends AbstractPropertyFactory<Integer, Int
   }
 
   @Override
-  public IntegerProperty create(String name, Class<? extends Integer> valueClass, PropertyMetadata<Integer> metadata) {
+  public IntegerProperty create(String name, Class<? extends Integer> valueClass, PropertyMetadata<Integer> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new IntegerProperty(name, metadata);
   }

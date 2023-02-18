@@ -48,10 +48,12 @@ public interface PropertyFactory<V, P extends WritableProperty<V>> {
    *
    * @param name the {@link ReadableProperty#getName() property name}.
    * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
-   * @param metadata TODO
+   * @param metadata the {@link ReadableProperty#getMetadata() metadata}.
+   * @param valueProperty the optional {@link io.github.mmm.property.container.ContainerProperty#getValueProperty()
+   *        value property}. Will typically be {@code null}.
    * @return the new instance of the property.
    */
-  P create(String name, Class<? extends V> valueClass, PropertyMetadata<V> metadata);
+  P create(String name, Class<? extends V> valueClass, PropertyMetadata<V> metadata, WritableProperty<?> valueProperty);
 
   /**
    * @return {@code true} if {@link #getValueClass() value class} is polymorphic and also sub-types are handled by this

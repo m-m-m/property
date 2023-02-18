@@ -29,6 +29,7 @@ module io.github.mmm.property {
       io.github.mmm.property.container.list.PropertyFactoryList, //
       io.github.mmm.property.container.map.PropertyFactoryMap, //
       io.github.mmm.property.container.set.PropertyFactorySet, //
+      io.github.mmm.property.locale.PropertyFactoryLocale, //
       io.github.mmm.property.number.bigdecimal.PropertyFactoryBigDecimal, //
       io.github.mmm.property.number.biginteger.PropertyFactoryBigInteger, //
       io.github.mmm.property.number.bytes.PropertyFactoryByte, //
@@ -56,8 +57,9 @@ module io.github.mmm.property {
 
   exports io.github.mmm.property.booleans;
 
-  // exports net.sf.mmm.property.api.comparables;
   exports io.github.mmm.property.container;
+
+  exports io.github.mmm.property.container.collection;
 
   exports io.github.mmm.property.container.list;
 
@@ -76,6 +78,8 @@ module io.github.mmm.property {
   exports io.github.mmm.property.string;
 
   exports io.github.mmm.property.factory;
+
+  exports io.github.mmm.property.locale;
 
   exports io.github.mmm.property.number;
 

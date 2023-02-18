@@ -42,7 +42,8 @@ public class PropertyFactoryPattern extends AbstractPropertyFactory<Pattern, Pat
   }
 
   @Override
-  public PatternProperty create(String name, Class<? extends Pattern> valueClass, PropertyMetadata<Pattern> metadata) {
+  public PatternProperty create(String name, Class<? extends Pattern> valueClass, PropertyMetadata<Pattern> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new PatternProperty(name, metadata);
   }

@@ -40,7 +40,8 @@ public class PropertyFactoryByte extends AbstractPropertyFactory<Byte, BytePrope
   }
 
   @Override
-  public ByteProperty create(String name, Class<? extends Byte> valueClass, PropertyMetadata<Byte> metadata) {
+  public ByteProperty create(String name, Class<? extends Byte> valueClass, PropertyMetadata<Byte> metadata,
+      WritableProperty<?> valueProperty) {
 
     return new ByteProperty(name, metadata);
   }

@@ -43,7 +43,7 @@ public class PropertyFactoryBigDecimal extends AbstractPropertyFactory<BigDecima
 
   @Override
   public BigDecimalProperty create(String name, Class<? extends BigDecimal> valueClass,
-      PropertyMetadata<BigDecimal> metadata) {
+      PropertyMetadata<BigDecimal> metadata, WritableProperty<?> valueProperty) {
 
     return new BigDecimalProperty(name, metadata);
   }

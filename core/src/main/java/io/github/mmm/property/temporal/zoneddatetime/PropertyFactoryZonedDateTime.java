@@ -43,7 +43,7 @@ public class PropertyFactoryZonedDateTime extends AbstractPropertyFactory<ZonedD
 
   @Override
   public ZonedDateTimeProperty create(String name, Class<? extends ZonedDateTime> valueClass,
-      PropertyMetadata<ZonedDateTime> metadata) {
+      PropertyMetadata<ZonedDateTime> metadata, WritableProperty<?> valueProperty) {
 
     return new ZonedDateTimeProperty(name, metadata);
   }
