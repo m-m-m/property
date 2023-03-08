@@ -29,6 +29,7 @@ module io.github.mmm.property {
       io.github.mmm.property.container.list.PropertyFactoryList, //
       io.github.mmm.property.container.map.PropertyFactoryMap, //
       io.github.mmm.property.container.set.PropertyFactorySet, //
+      io.github.mmm.property.enumeration.PropertyFactoryEnum, //
       io.github.mmm.property.locale.PropertyFactoryLocale, //
       io.github.mmm.property.number.bigdecimal.PropertyFactoryBigDecimal, //
       io.github.mmm.property.number.biginteger.PropertyFactoryBigInteger, //
@@ -76,6 +77,8 @@ module io.github.mmm.property {
   exports io.github.mmm.property.range;
 
   exports io.github.mmm.property.string;
+
+  exports io.github.mmm.property.enumeration;
 
   exports io.github.mmm.property.factory;
 
