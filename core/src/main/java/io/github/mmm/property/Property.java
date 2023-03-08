@@ -70,6 +70,15 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
     return this.metadata;
   }
 
+  @Override
+  public int compareTo(ReadableProperty<?> otherProperty) {
+
+    if (otherProperty == null) {
+      return 1;
+    }
+    return this.name.compareTo(otherProperty.getName());
+  }
+
   @SuppressWarnings("unchecked")
   @Override
   protected final Property<V> clone() {

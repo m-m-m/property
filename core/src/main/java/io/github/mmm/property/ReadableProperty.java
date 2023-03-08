@@ -21,8 +21,8 @@ import io.github.mmm.value.observable.ObservableValue;
  *
  * @since 1.0.0
  */
-public interface ReadableProperty<V>
-    extends ObservableValue<V>, TypedPropertyPath<V>, MarshallableObject, Validatable, AttributeReadOnly {
+public interface ReadableProperty<V> extends ObservableValue<V>, TypedPropertyPath<V>, MarshallableObject, Validatable,
+    AttributeReadOnly, Comparable<ReadableProperty<?>> {
 
   /**
    * @return the name of the property. By convention it should start with a {@link Character#isUpperCase(char) capital}
