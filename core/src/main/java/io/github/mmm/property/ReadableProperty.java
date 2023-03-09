@@ -32,6 +32,31 @@ public interface ReadableProperty<V> extends ObservableValue<V>, TypedPropertyPa
   @Override
   String getName();
 
+  /**
+   * @return the {@link #getName() name} including the {@link #parentPath() owner(s)}.
+   */
+  default String getQualifiedName() {
+
+    return getQualifiedName(true);
+  }
+
+  /**
+   * @param fixed {@code true} to use {@link #path(boolean) fixed path}, {@code false} otherwise.
+   * @return the {@link #getName() name} including the {@link #parentPath() owner(s)}.
+   */
+  default String getQualifiedName(boolean fixed) {
+
+    String path = "";
+    AttributeReadOnly lock = getMetadata().getLock();
+    if (lock instanceof ReadablePath) {
+      path = ((ReadablePath) lock).path(fixed);
+    }
+    if (path.isEmpty()) {
+      return getName();
+    }
+    return path + "." + getName();
+  }
+
   @Override
   default ReadablePath parentPath() {
 
