@@ -1,3 +1,5 @@
+/* Copyright (c) The m-m-m Team, Licensed under the Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.criteria;
 
 import io.github.mmm.base.filter.CharFilter;
@@ -12,7 +14,6 @@ import io.github.mmm.value.ReadablePath;
  * @see SimplePath#PARSER
  * @since 1.0.0
  */
-@SuppressWarnings("exports")
 public interface PropertyPathParser extends CharScannerParser<PropertyPath<?>> {
 
   @Override
