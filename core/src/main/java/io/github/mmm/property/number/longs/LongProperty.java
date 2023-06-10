@@ -21,7 +21,7 @@ public class LongProperty extends NumberProperty<Long> implements WritableLongPr
    */
   public LongProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -32,7 +32,31 @@ public class LongProperty extends NumberProperty<Long> implements WritableLongPr
    */
   public LongProperty(String name, PropertyMetadata<Long> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public LongProperty(String name, Long value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public LongProperty(String name, Long value, PropertyMetadata<Long> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

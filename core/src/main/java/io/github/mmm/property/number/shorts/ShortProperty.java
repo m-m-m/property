@@ -21,7 +21,7 @@ public class ShortProperty extends NumberProperty<Short> implements WritableShor
    */
   public ShortProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -32,7 +32,31 @@ public class ShortProperty extends NumberProperty<Short> implements WritableShor
    */
   public ShortProperty(String name, PropertyMetadata<Short> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public ShortProperty(String name, Short value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public ShortProperty(String name, Short value, PropertyMetadata<Short> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

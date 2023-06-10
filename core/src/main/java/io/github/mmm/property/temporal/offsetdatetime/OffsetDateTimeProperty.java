@@ -23,7 +23,7 @@ public class OffsetDateTimeProperty extends TemporalProperty<OffsetDateTime> imp
    */
   public OffsetDateTimeProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -34,7 +34,31 @@ public class OffsetDateTimeProperty extends TemporalProperty<OffsetDateTime> imp
    */
   public OffsetDateTimeProperty(String name, PropertyMetadata<OffsetDateTime> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public OffsetDateTimeProperty(String name, OffsetDateTime value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public OffsetDateTimeProperty(String name, OffsetDateTime value, PropertyMetadata<OffsetDateTime> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

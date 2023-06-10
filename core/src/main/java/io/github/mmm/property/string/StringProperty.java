@@ -21,7 +21,7 @@ public class StringProperty extends SimpleProperty<String> implements WritableSt
    */
   public StringProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -32,7 +32,31 @@ public class StringProperty extends SimpleProperty<String> implements WritableSt
    */
   public StringProperty(String name, PropertyMetadata<String> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public StringProperty(String name, String value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public StringProperty(String name, String value, PropertyMetadata<String> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

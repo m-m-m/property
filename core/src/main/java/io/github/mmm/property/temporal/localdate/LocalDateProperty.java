@@ -24,7 +24,7 @@ public class LocalDateProperty extends TemporalProperty<LocalDate> implements Wr
    */
   public LocalDateProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -35,7 +35,31 @@ public class LocalDateProperty extends TemporalProperty<LocalDate> implements Wr
    */
   public LocalDateProperty(String name, PropertyMetadata<LocalDate> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public LocalDateProperty(String name, LocalDate value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public LocalDateProperty(String name, LocalDate value, PropertyMetadata<LocalDate> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

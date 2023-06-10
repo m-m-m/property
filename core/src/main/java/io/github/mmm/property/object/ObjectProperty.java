@@ -6,7 +6,6 @@ import java.util.Objects;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.impl.metadata.PropertyMetadataNone;
 
 /**
  * Generic implementation of {@link WritableProperty} for arbitrary objects that do not have their own custom
@@ -29,7 +28,7 @@ public class ObjectProperty<V> extends SimpleProperty<V> implements WritableObje
    */
   public ObjectProperty(String name, Class<V> valueClass) {
 
-    this(name, valueClass, PropertyMetadataNone.get());
+    this(name, valueClass, null);
   }
 
   /**
@@ -44,6 +43,33 @@ public class ObjectProperty<V> extends SimpleProperty<V> implements WritableObje
     super(name, metadata);
     Objects.requireNonNull(valueClass);
     this.valueClass = valueClass;
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public ObjectProperty(String name, V value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  @SuppressWarnings("unchecked")
+  public ObjectProperty(String name, V value, PropertyMetadata<V> metadata) {
+
+    super(name, metadata);
+    Objects.requireNonNull(value);
+    this.value = value;
+    this.valueClass = (Class<V>) this.value.getClass();
   }
 
   @Override

@@ -2,6 +2,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.enumeration;
 
+import java.util.Objects;
+
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.object.SimpleProperty;
 
@@ -24,7 +26,7 @@ public class EnumProperty<E extends Enum<E>> extends SimpleProperty<E> implement
    */
   public EnumProperty(String name) {
 
-    super(name);
+    this(name, null, (PropertyMetadata<E>) null);
   }
 
   /**
@@ -36,6 +38,33 @@ public class EnumProperty<E extends Enum<E>> extends SimpleProperty<E> implement
   public EnumProperty(String name, PropertyMetadata<E> metadata) {
 
     this(name, metadata, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public EnumProperty(String name, E value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  @SuppressWarnings("unchecked")
+  public EnumProperty(String name, E value, PropertyMetadata<E> metadata) {
+
+    super(name, metadata);
+    Objects.requireNonNull(value);
+    this.value = value;
+    this.valueClass = (Class<E>) this.value.getClass();
   }
 
   /**

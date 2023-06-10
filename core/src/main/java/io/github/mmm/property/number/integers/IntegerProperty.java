@@ -21,7 +21,7 @@ public class IntegerProperty extends NumberProperty<Integer> implements Writable
    */
   public IntegerProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -32,7 +32,31 @@ public class IntegerProperty extends NumberProperty<Integer> implements Writable
    */
   public IntegerProperty(String name, PropertyMetadata<Integer> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public IntegerProperty(String name, Integer value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public IntegerProperty(String name, Integer value, PropertyMetadata<Integer> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

@@ -21,7 +21,7 @@ public class DoubleProperty extends NumberProperty<Double> implements WritableDo
    */
   public DoubleProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -32,7 +32,31 @@ public class DoubleProperty extends NumberProperty<Double> implements WritableDo
    */
   public DoubleProperty(String name, PropertyMetadata<Double> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public DoubleProperty(String name, Double value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public DoubleProperty(String name, Double value, PropertyMetadata<Double> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

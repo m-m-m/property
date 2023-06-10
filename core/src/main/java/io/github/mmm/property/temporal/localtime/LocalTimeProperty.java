@@ -24,7 +24,7 @@ public class LocalTimeProperty extends TemporalProperty<LocalTime> implements Wr
    */
   public LocalTimeProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -35,7 +35,31 @@ public class LocalTimeProperty extends TemporalProperty<LocalTime> implements Wr
    */
   public LocalTimeProperty(String name, PropertyMetadata<LocalTime> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public LocalTimeProperty(String name, LocalTime value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public LocalTimeProperty(String name, LocalTime value, PropertyMetadata<LocalTime> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

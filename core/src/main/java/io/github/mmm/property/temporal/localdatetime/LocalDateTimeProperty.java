@@ -23,7 +23,7 @@ public class LocalDateTimeProperty extends TemporalProperty<LocalDateTime> imple
    */
   public LocalDateTimeProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -34,7 +34,31 @@ public class LocalDateTimeProperty extends TemporalProperty<LocalDateTime> imple
    */
   public LocalDateTimeProperty(String name, PropertyMetadata<LocalDateTime> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public LocalDateTimeProperty(String name, LocalDateTime value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public LocalDateTimeProperty(String name, LocalDateTime value, PropertyMetadata<LocalDateTime> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

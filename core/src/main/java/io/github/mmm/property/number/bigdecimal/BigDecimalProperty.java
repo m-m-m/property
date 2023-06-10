@@ -23,7 +23,7 @@ public class BigDecimalProperty extends NumberProperty<BigDecimal> implements Wr
    */
   public BigDecimalProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -34,7 +34,31 @@ public class BigDecimalProperty extends NumberProperty<BigDecimal> implements Wr
    */
   public BigDecimalProperty(String name, PropertyMetadata<BigDecimal> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public BigDecimalProperty(String name, BigDecimal value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public BigDecimalProperty(String name, BigDecimal value, PropertyMetadata<BigDecimal> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

@@ -21,7 +21,7 @@ public class FloatProperty extends NumberProperty<Float> implements WritableFloa
    */
   public FloatProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -32,7 +32,31 @@ public class FloatProperty extends NumberProperty<Float> implements WritableFloa
    */
   public FloatProperty(String name, PropertyMetadata<Float> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public FloatProperty(String name, Float value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public FloatProperty(String name, Float value, PropertyMetadata<Float> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

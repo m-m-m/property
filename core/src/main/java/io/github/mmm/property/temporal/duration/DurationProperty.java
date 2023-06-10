@@ -23,7 +23,7 @@ public class DurationProperty extends TemporalAmountProperty<Duration> implement
    */
   public DurationProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -34,7 +34,31 @@ public class DurationProperty extends TemporalAmountProperty<Duration> implement
    */
   public DurationProperty(String name, PropertyMetadata<Duration> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public DurationProperty(String name, Duration value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public DurationProperty(String name, Duration value, PropertyMetadata<Duration> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

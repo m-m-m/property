@@ -23,7 +23,7 @@ public class BooleanProperty extends SimpleProperty<Boolean> implements Writable
    */
   public BooleanProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -34,7 +34,31 @@ public class BooleanProperty extends SimpleProperty<Boolean> implements Writable
    */
   public BooleanProperty(String name, PropertyMetadata<Boolean> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public BooleanProperty(String name, Boolean value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public BooleanProperty(String name, Boolean value, PropertyMetadata<Boolean> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

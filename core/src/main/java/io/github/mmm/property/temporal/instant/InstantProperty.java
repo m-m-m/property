@@ -23,7 +23,7 @@ public class InstantProperty extends TemporalProperty<Instant> implements Writab
    */
   public InstantProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -34,7 +34,31 @@ public class InstantProperty extends TemporalProperty<Instant> implements Writab
    */
   public InstantProperty(String name, PropertyMetadata<Instant> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public InstantProperty(String name, Instant value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public InstantProperty(String name, Instant value, PropertyMetadata<Instant> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

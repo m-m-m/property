@@ -21,7 +21,7 @@ public class ByteProperty extends NumberProperty<Byte> implements WritableBytePr
    */
   public ByteProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -32,7 +32,31 @@ public class ByteProperty extends NumberProperty<Byte> implements WritableBytePr
    */
   public ByteProperty(String name, PropertyMetadata<Byte> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public ByteProperty(String name, Byte value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public ByteProperty(String name, Byte value, PropertyMetadata<Byte> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override

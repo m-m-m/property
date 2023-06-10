@@ -23,7 +23,7 @@ public class ZonedDateTimeProperty extends TemporalProperty<ZonedDateTime> imple
    */
   public ZonedDateTimeProperty(String name) {
 
-    super(name);
+    this(name, null, null);
   }
 
   /**
@@ -34,7 +34,31 @@ public class ZonedDateTimeProperty extends TemporalProperty<ZonedDateTime> imple
    */
   public ZonedDateTimeProperty(String name, PropertyMetadata<ZonedDateTime> metadata) {
 
+    this(name, null, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public ZonedDateTimeProperty(String name, ZonedDateTime value) {
+
+    this(name, value, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public ZonedDateTimeProperty(String name, ZonedDateTime value, PropertyMetadata<ZonedDateTime> metadata) {
+
     super(name, metadata);
+    this.value = value;
   }
 
   @Override
