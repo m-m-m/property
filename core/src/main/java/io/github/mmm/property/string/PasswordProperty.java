@@ -28,6 +28,29 @@ public class PasswordProperty extends StringProperty implements WritablePassword
     super(name, metadata);
   }
 
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   */
+  public PasswordProperty(String name, String value) {
+
+    super(name, value);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  public PasswordProperty(String name, String value, PropertyMetadata<String> metadata) {
+
+    super(name, value, metadata);
+  }
+
   @Override
   protected boolean isSensitive() {
 
