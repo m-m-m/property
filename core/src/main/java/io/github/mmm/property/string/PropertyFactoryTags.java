@@ -18,7 +18,7 @@ public class PropertyFactoryTags extends AbstractPropertyFactory<String, TagsPro
   @Override
   public Class<String> getValueClass() {
 
-    return String.class;
+    return null;
   }
 
   @Override
