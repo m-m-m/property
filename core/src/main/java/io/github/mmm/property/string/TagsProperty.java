@@ -169,14 +169,17 @@ public final class TagsProperty extends StringProperty implements WritableTagsPr
       if (valueLength == tagLength) {
         assert (tagStart == 0);
         this.tagsMutable.clear();
-        super.doSet("");
+        value = "";
+        super.doSet(value);
+        fireChange(value);
+        return removed;
       }
       boolean tagStarts = false;
       boolean tagEnds = false;
       // e.g. search for tag "hit" in value "pop,superhits,hit" needs to continue indexOf search so we loop here
       while (!tagStarts || !tagEnds) {
         if (end > 0) {
-          tagStart = value.indexOf(tag, tagStart);
+          tagStart = value.indexOf(tag, end);
         }
         if (tagStart < 0) {
           assert (tagStart >= 0); // internal consistency error
@@ -194,7 +197,7 @@ public final class TagsProperty extends StringProperty implements WritableTagsPr
           }
         }
         if (end < valueLength) {
-          char after = value.charAt(end + 1);
+          char after = value.charAt(end);
           tagEnds = (after == ',');
           if (tagEnds && (tagStart == 0)) {
             end++;
