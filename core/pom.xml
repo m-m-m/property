@@ -17,6 +17,13 @@
       <groupId>${project.groupId}</groupId>
       <artifactId>mmm-marshall-json</artifactId>
     </dependency>
+    <!-- This is actually a strange maven bug as mmm-marshall is a transitive dependency of mmm-marshall-json.
+      But if I omit mmm-marshall, I get compiler errors and mvn dependency:tree does not show this dependency.
+      However, m2e Dependnecy Hierachy is showing it even if outcommented/removed here -->
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>mmm-marshall</artifactId>
+    </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>mmm-value-observable</artifactId>
