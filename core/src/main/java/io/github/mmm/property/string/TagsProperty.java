@@ -12,9 +12,20 @@ import io.github.mmm.property.PropertyMetadata;
  */
 public final class TagsProperty extends StringProperty implements WritableTagsProperty {
 
+  /** Default {@link #getName() name}. */
+  public static final String NAME = "Tags";
+
   private final Set<String> tags;
 
   private final Set<String> tagsMutable;
+
+  /**
+   * The constructor.
+   */
+  public TagsProperty() {
+
+    this(NAME, null, null);
+  }
 
   /**
    * The constructor.
@@ -122,7 +133,7 @@ public final class TagsProperty extends StringProperty implements WritableTagsPr
     boolean added = this.tagsMutable.add(tag);
     if (added) {
       String value = doGet();
-      if (value.isEmpty()) {
+      if ((value == null) || value.isEmpty()) {
         super.doSet(tag);
       } else {
         super.doSet(value + "," + tag);
