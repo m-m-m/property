@@ -4,22 +4,28 @@ package io.github.mmm.property.string;
 
 import java.util.Arrays;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * This is the test of {@link StringListProperty}.
- *
- * @author hohwille
+ * Test of {@link StringListProperty}.
  */
-public class StringListPropertyTest extends Assertions {
+public class StringListPropertyTest extends StringCollectionPropertyTest {
+
+  @Override
+  protected StringListProperty createEmpty() {
+
+    return new StringListProperty("List");
+  }
 
   /** Test of {@link StringListProperty#contains(String)}. */
   @Test
   public void testContains() {
 
-    StringListProperty property = new StringListProperty("stringList");
+    // arrange
+    StringListProperty property = createEmpty();
+    // act
     property.set("|a|bc|d|");
+    // assert
     assertThat(property.contains("a")).isTrue();
     assertThat(property.contains("b")).isFalse();
     assertThat(property.contains("bc")).isTrue();
@@ -27,57 +33,72 @@ public class StringListPropertyTest extends Assertions {
     assertThat(property.contains("e")).isFalse();
   }
 
-  /** Test of {@link StringListProperty#getValueAsList()}. */
+  /** Test of {@link StringListProperty#contains(String)} with {@code null} and empty value. */
+  @Test
+  public void testContainsEmpty() {
+
+    // arrange
+    StringListProperty property = createEmpty();
+    // assert
+    assertThat(property.contains("a")).isFalse();
+    // act
+    property.set("");
+    // assert
+    assertThat(property.contains("a")).isFalse();
+  }
+
+  /** Test of {@link StringListProperty#getAsList()}. */
   @Test
   public void testGetValueAsList() {
 
-    StringListProperty property = new StringListProperty("stringList");
+    StringListProperty property = createEmpty();
     property.set("|a|bc|d|");
-    assertThat(property.getValueAsList()).containsExactly("a", "bc", "d");
+    assertThat(property.getAsList()).containsExactly("a", "bc", "d");
   }
 
-  /** Test of {@link StringListProperty#setValueAsCollection(java.util.Collection)}. */
+  /** Test of {@link StringListProperty#set(java.util.Collection)}. */
   @Test
   public void testSetValueAsCollection() {
 
-    StringListProperty property = new StringListProperty("stringList");
-    property.setValueAsCollection(Arrays.asList("a", "bc", "d"));
+    StringListProperty property = createEmpty();
+    property.set(Arrays.asList("a", "bc", "d"));
     assertThat(property.getValue()).isEqualTo("|a|bc|d|");
   }
 
-  /** Test of {@link StringListProperty#getValueAsCsv(String)}. */
+  /** Test of {@link StringListProperty#getCsv(String, boolean)}. */
   @Test
   public void testGetValueAsCsv() {
 
-    StringListProperty property = new StringListProperty("stringList");
+    StringListProperty property = createEmpty();
     property.set("|a|bc|d|");
-    assertThat(property.getValueAsCsv(", ")).isEqualTo("a, bc, d");
+    assertThat(property.getCsv(", ", false)).isEqualTo("a, bc, d");
+    assertThat(property.getCsv("|", true)).isEqualTo(property.get());
+    assertThat(property.getCsv("|", false)).isEqualTo("a|bc|d");
   }
 
-  /** Test of {@link StringListProperty#setValueAsCsv(String, char, boolean)}. */
+  /** Test of {@link StringListProperty#setCsv(String, String, boolean, boolean)}. */
   @Test
   public void testSetValueAsCsv() {
 
-    StringListProperty property = new StringListProperty("stringList");
-    property.setValueAsCsv("a, bc, d");
+    StringListProperty property = createEmpty();
+    property.setCsv("a, bc, d", ", ", false);
     assertThat(property.getValue()).isEqualTo("|a|bc|d|");
-    property.setValueAsCsv("a, bc, d", ',', false);
+    property.setCsv("a, bc, d", ",", false, false);
     assertThat(property.getValue()).isEqualTo("|a| bc| d|");
   }
 
-  /** Test of {@link StringListProperty#add(String, boolean)}. */
+  /** Test of {@link StringListProperty#add(String)}. */
   @Test
   public void testAdd() {
 
-    StringListProperty property = new StringListProperty("stringList");
-    assertThat(property.add("a", true)).isTrue();
-    assertThat(property.add("bc", true)).isTrue();
-    assertThat(property.add("d", true)).isTrue();
+    StringListProperty property = createEmpty();
+    assertThat(property.add("a")).isTrue();
+    assertThat(property.add("bc")).isTrue();
+    assertThat(property.add("d")).isTrue();
     assertThat(property.getValue()).isEqualTo("|a|bc|d|");
-    assertThat(property.add("a", true)).isFalse();
-    assertThat(property.add("b", true)).isTrue();
+    assertThat(property.add("b")).isTrue();
     assertThat(property.getValue()).isEqualTo("|a|bc|d|b|");
-    assertThat(property.add("a", false)).isTrue();
+    assertThat(property.add("a")).isTrue();
     assertThat(property.getValue()).isEqualTo("|a|bc|d|b|a|");
   }
 
@@ -85,7 +106,7 @@ public class StringListPropertyTest extends Assertions {
   @Test
   public void testRemove() {
 
-    StringListProperty property = new StringListProperty("stringList");
+    StringListProperty property = createEmpty();
     property.set("|a|bc|d|");
     assertThat(property.remove("b")).isFalse();
     assertThat(property.getValue()).isEqualTo("|a|bc|d|");
@@ -95,7 +116,32 @@ public class StringListPropertyTest extends Assertions {
     assertThat(property.getValue()).isEqualTo("|bc|");
     assertThat(property.remove("e")).isFalse();
     assertThat(property.remove("bc")).isTrue();
-    assertThat(property.getValue()).isEmpty();
+    assertThat(property.getAsList()).isEmpty();
+  }
+
+  /** Test of {@link StringListProperty#add(String) adding} empty {@link String}s. */
+  @Test
+  public void testAddEmptyStrings() {
+
+    StringListProperty property = createEmpty();
+    assertThat(property.get()).isNull();
+    assertThat(property.add("")).isTrue();
+    assertThat(property.get()).isEqualTo("||");
+    assertThat(property.add("")).isTrue();
+    assertThat(property.get()).isEqualTo("|||");
+  }
+
+  /** Test of {@link StringListProperty#set(String)} with two empty {@link String}s. */
+  @Test
+  public void testSetEmptyStrings() {
+
+    // arrange
+    StringListProperty property = createEmpty();
+    // act
+    property.set("|||");
+    // assert
+    assertThat(property.getAsList()).containsExactly("", "");
+    assertThat(property.getCsv(",", false)).isEqualTo(",");
   }
 
 }
