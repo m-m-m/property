@@ -196,6 +196,8 @@ public abstract class StringCollectionProperty extends StringProperty {
     if (element == null) {
       return false;
     }
+    String separtor = getSeparator();
+    assert (!element.contains(separtor));
     Collection<String> collection = getCollection();
     if (collection != null) {
       boolean added = collection.add(element);
@@ -204,7 +206,6 @@ public abstract class StringCollectionProperty extends StringProperty {
       }
     }
     String oldValue = get();
-    String separtor = getSeparator();
     String value;
     if (oldValue == null) {
       value = element;
