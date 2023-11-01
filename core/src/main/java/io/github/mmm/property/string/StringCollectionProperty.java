@@ -4,11 +4,14 @@ package io.github.mmm.property.string;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
+import io.github.mmm.marshall.StructuredReader;
+import io.github.mmm.marshall.StructuredWriter;
 import io.github.mmm.property.PropertyMetadata;
 
 /**
- * This is an extension of {@link StringProperty} that stores a {@link Collection} of {@link String} as a simple
+ * This is an extension of {@link StringProperty} that stores a {@link Collection} of {@link String}s as a simple
  * {@link String} in a CSV like format. Since it needs a separator character that shall not occur inside the contained
  * {@link String} elements, it is only suitable for limited use-cases such as representing a set of tags or synonyms.
  * For a generic collection of arbitrary {@link String}s (or other elements) please consider using
@@ -91,11 +94,12 @@ public abstract class StringCollectionProperty extends StringProperty {
     Collection<String> collection = getCollection();
     if (collection != null) {
       collection.clear();
+      Consumer<String> consumer = s -> collection.add(s);
       if ((value != null) && !value.isEmpty()) {
         String separator = getSeparator();
         boolean enclose = isEncloseWithSeparator();
         // will parse the value CSV and insert elements into collection...
-        convertCsv(value, separator, enclose, false, null, false, collection);
+        convertCsv(value, separator, enclose, false, null, false, consumer);
       }
     }
     if (isEncloseWithSeparator() && (value != null) && !value.isEmpty()) {
@@ -348,13 +352,15 @@ public abstract class StringCollectionProperty extends StringProperty {
 
     requireWritable();
     Collection<String> collection = getCollection();
+    Consumer<String> consumer = null;
     if (collection != null) {
       collection.clear();
+      consumer = s -> collection.add(s);
     }
     String oldValue = get();
     String defaultSeparator = getSeparator();
     boolean defaultEnclose = isEncloseWithSeparator();
-    String value = convertCsv(csv, separator, enclose, trim, defaultSeparator, defaultEnclose, collection);
+    String value = convertCsv(csv, separator, enclose, trim, defaultSeparator, defaultEnclose, consumer);
     doSet(oldValue, value);
   }
 
@@ -368,7 +374,7 @@ public abstract class StringCollectionProperty extends StringProperty {
   }
 
   private String convertCsv(String csv, String csvSeparator, boolean csvEnclose, boolean trim, String targetSeparator,
-      boolean targetEnclose, Collection<String> collection) {
+      boolean targetEnclose, Consumer<String> consumer) {
 
     if (csv == null) {
       return null;
@@ -378,8 +384,8 @@ public abstract class StringCollectionProperty extends StringProperty {
       if (csvEnclose) {
         return empty(targetEnclose);
       }
-      if (collection != null) {
-        collection.add("");
+      if (consumer != null) {
+        consumer.accept("");
       }
       if (targetEnclose) {
         return targetSeparator + targetSeparator;
@@ -416,7 +422,7 @@ public abstract class StringCollectionProperty extends StringProperty {
       if (targetSeparator != null) {
         sb = new StringBuilder(csvLength);
       }
-    } else if (collection == null) {
+    } else if (consumer == null) {
       if (csvLength <= csvSeparatorLength) {
         assert (result.isEmpty());
         return null;
@@ -427,7 +433,7 @@ public abstract class StringCollectionProperty extends StringProperty {
     if (targetEnclose) {
       sep = targetSeparator;
     }
-    assert ((sb != null) || (collection != null)); // otherwise this method call was pointless...
+    assert ((sb != null) || (consumer != null)); // otherwise this method call was pointless...
     do {
       int index = csv.indexOf(csvSeparator, start);
       String element;
@@ -441,8 +447,8 @@ public abstract class StringCollectionProperty extends StringProperty {
       if (trim) {
         element = element.trim();
       }
-      if (collection != null) {
-        collection.add(element);
+      if (consumer != null) {
+        consumer.accept(element);
       }
       if (sb != null) {
         sb.append(sep);
@@ -469,8 +475,32 @@ public abstract class StringCollectionProperty extends StringProperty {
     String value = get();
     String separator = getSeparator();
     boolean enclose = isEncloseWithSeparator();
-    convertCsv(value, separator, enclose, false, null, false, collection);
+    convertCsv(value, separator, enclose, false, null, false, s -> collection.add(s));
     return collection;
+  }
+
+  @Override
+  public void read(StructuredReader reader) {
+
+    if (reader.readStartArray()) {
+      while (!reader.readEndArray()) {
+        String element = reader.readValueAsString();
+        add(element);
+      }
+    } else {
+      super.read(reader);
+    }
+  }
+
+  @Override
+  public void write(StructuredWriter writer) {
+
+    writer.writeStartArray();
+    String value = get();
+    String separator = getSeparator();
+    boolean enclose = isEncloseWithSeparator();
+    convertCsv(value, separator, enclose, false, null, false, s -> writer.writeValueAsString(s));
+    writer.writeEnd();
   }
 
 }

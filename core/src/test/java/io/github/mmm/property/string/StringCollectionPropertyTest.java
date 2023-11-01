@@ -7,6 +7,9 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import io.github.mmm.marshall.JsonFormat;
+import io.github.mmm.marshall.MarshallingConfig;
+
 /**
  * Abstract base class for tests of {@link StringCollectionProperty}.
  */
@@ -18,7 +21,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
   protected abstract StringCollectionProperty createEmpty();
 
   /**
-   * Test {@link StringSetProperty#remove(String)} with {@code null}.
+   * Test {@link StringCollectionProperty#remove(String)} with {@code null}.
    */
   @Test
   public void testRemoveNull() {
@@ -33,7 +36,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
   }
 
   /**
-   * Test {@link StringSetProperty#remove(String)} with the empty {@link String}.
+   * Test {@link StringCollectionProperty#remove(String)} with the empty {@link String}.
    */
   @Test
   public void testRemoveEmptyString() {
@@ -47,7 +50,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
     assertThat(property.get()).isNull();
   }
 
-  /** Test of {@link StringSetProperty#contains(String)}. */
+  /** Test of {@link StringCollectionProperty#contains(String)}. */
   @Test
   public void testContainsNull() {
 
@@ -59,7 +62,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
     assertThat(contains).isFalse();
   }
 
-  /** Test of {@link StringSetProperty#contains(String)}. */
+  /** Test of {@link StringCollectionProperty#contains(String)}. */
   @Test
   public void testContainsEmptyString() {
 
@@ -75,7 +78,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
   }
 
   /**
-   * Test {@link StringSetProperty#getCsv(String, boolean)} when no value is set.
+   * Test {@link StringCollectionProperty#getCsv(String, boolean)} when no value is set.
    */
   @Test
   public void testGetAsCsvNoElement() {
@@ -90,7 +93,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
   }
 
   /**
-   * Test {@link StringSetProperty#getCsv(String, boolean)} after a single element was added.
+   * Test {@link StringCollectionProperty#getCsv(String, boolean)} after a single element was added.
    */
   @Test
   public void testGetAsCsvSingleElement() {
@@ -105,7 +108,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
   }
 
   /**
-   * Test {@link StringSetProperty#getCsv(String, boolean)} after multiple elements have been added.
+   * Test {@link StringCollectionProperty#getCsv(String, boolean)} after multiple elements have been added.
    */
   @Test
   public void testGetAsCsvMultipleElements() {
@@ -125,7 +128,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
   }
 
   /**
-   * Test {@link StringSetProperty#setCsv(String, String, boolean, boolean)} with null.
+   * Test {@link StringCollectionProperty#setCsv(String, String, boolean, boolean)} with null.
    */
   @Test
   public void testSetCsvNull() {
@@ -139,7 +142,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
   }
 
   /**
-   * Test {@link StringSetProperty#setCsv(String, String, boolean, boolean)} with empty {@link String}.
+   * Test {@link StringCollectionProperty#setCsv(String, String, boolean, boolean)} with empty {@link String}.
    */
   @Test
   public void testSetCsvEmptyString() {
@@ -163,7 +166,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
   }
 
   /**
-   * Test {@link StringSetProperty#setCsv(String, String, boolean, boolean)} with multiple elements.
+   * Test {@link StringCollectionProperty#setCsv(String, String, boolean, boolean)} with multiple elements.
    */
   @Test
   public void testSetCsvMultipleElements() {
@@ -178,7 +181,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
   }
 
   /**
-   * Test {@link StringSetProperty#setCsv(String, String, boolean, boolean)} with a single element.
+   * Test {@link StringCollectionProperty#setCsv(String, String, boolean, boolean)} with a single element.
    */
   @Test
   public void testSetCsvSingleElement() {
@@ -193,7 +196,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
   }
 
   /**
-   * Test {@link StringSetProperty#set(java.util.Collection)}.
+   * Test {@link StringCollectionProperty#set(java.util.Collection)}.
    */
   @Test
   public void testSetCollection() {
@@ -207,7 +210,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
   }
 
   /**
-   * Test {@link StringSetProperty#set(java.util.Collection)} with empty {@link Collection}.
+   * Test {@link StringCollectionProperty#set(java.util.Collection)} with empty {@link Collection}.
    */
   @Test
   public void testSetCollectionEmpty() {
@@ -221,7 +224,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
   }
 
   /**
-   * Test {@link StringSetProperty#set(java.util.Collection)} with {@code null}.
+   * Test {@link StringCollectionProperty#set(java.util.Collection)} with {@code null}.
    */
   @Test
   public void testSetCollectionNull() {
@@ -233,6 +236,63 @@ public abstract class StringCollectionPropertyTest extends Assertions {
     property.set(collection);
     // assert
     assertThat(property.getCsv(",", false)).isEqualTo(null);
+  }
+
+  /**
+   * Test of {@link StringCollectionProperty#read(io.github.mmm.marshall.StructuredReader)} as flat JSON {@link String}.
+   */
+  @Test
+  public void testReadJsonString() {
+
+    // arrange
+    String value = fill4Tags();
+    StringCollectionProperty property = createEmpty();
+    // act
+    JsonFormat.of().read("\"" + value + "\"", property);
+    // assert
+    assertThat(property.get()).isEqualTo(value);
+  }
+
+  private String fill4Tags() {
+
+    StringCollectionProperty property = createEmpty();
+    property.setCsv("hit;pop;partyhit;superhits", ";", false, false);
+    String value = property.get();
+    assertThat(value).contains("hit", "pop", "partyhit", "superhits");
+    return value;
+  }
+
+  /**
+   * Test of {@link StringCollectionProperty#read(io.github.mmm.marshall.StructuredReader)} as JSON array of
+   * {@link String}s.
+   */
+  @Test
+  public void testReadJsonArray() {
+
+    // arrange
+    String value = fill4Tags();
+    StringCollectionProperty property = createEmpty();
+    // act
+    JsonFormat.of().read("[\"hit\",\"pop\",\"partyhit\",\"superhits\"]", property);
+    // assert
+    assertThat(property.get()).isEqualTo(value);
+  }
+
+  /**
+   * Test of {@link StringCollectionProperty#read(io.github.mmm.marshall.StructuredReader)} from a JSON array of
+   * {@link String}s.
+   */
+  @Test
+  public void testWriteArray() {
+
+    // arrange
+    String value = fill4Tags();
+    StringCollectionProperty property = createEmpty();
+    // act
+    property.set(value);
+    String json = JsonFormat.of(MarshallingConfig.NO_INDENTATION).write(property);
+    // assert
+    assertThat(json).isEqualTo("[\"hit\",\"pop\",\"partyhit\",\"superhits\"]");
   }
 
 }

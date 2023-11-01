@@ -10,8 +10,11 @@ import java.util.Set;
 import io.github.mmm.property.PropertyMetadata;
 
 /**
- * {@link StringCollectionProperty} maintaining a {@link Set} of {@link String}s. Especially useful to represent tags,
- * synonyms/aliases, etc.
+ * {@link StringCollectionProperty} maintaining a {@link Set} of {@link String}s. It will preserve the order of its
+ * elements as they are {@link #add(String) added} in its {@link #getValue() value}. However, the order of the
+ * {@link #getAsSet() value as set} is unspecified.<br>
+ * A {@link StringSetProperty} is especially useful to represent tags, synonyms/aliases, etc. However, study
+ * {@link StringCollectionProperty} before using.
  *
  * @since 1.0.0
  */
