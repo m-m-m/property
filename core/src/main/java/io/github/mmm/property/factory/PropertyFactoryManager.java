@@ -85,7 +85,7 @@ public interface PropertyFactoryManager {
       PropertyMetadata<V> metadata) {
 
     // Open/Oracle JDK compiler has so many bugs in handling of generics... https://github.com/m-m-m/util/issues/166
-    PropertyFactory factory = getRequiredFactory(propertyType, (Class) valueClass);
+    PropertyFactory factory = getRequiredFactory(propertyType, valueClass);
     if (factory instanceof AbstractSimplePropertyFactory simpleFactory) {
       // avoid creating PropertyTypeInfo if not used...
       return (P) simpleFactory.create(name, metadata);
@@ -115,7 +115,7 @@ public interface PropertyFactoryManager {
       PropertyMetadata<V> metadata) {
 
     // Open/Oracle JDK compiler has so many bugs in handling of generics... https://github.com/m-m-m/util/issues/166
-    PropertyFactory factory = getRequiredFactory(propertyType, (Class) typeInfo.getValueClass());
+    PropertyFactory factory = getRequiredFactory(propertyType, typeInfo.getValueClass());
     return (P) factory.create(name, typeInfo, metadata);
   }
 
@@ -156,7 +156,7 @@ public interface PropertyFactoryManager {
     PropertyFactory factory = null;
     if (propertyType != null) {
       // Open/Oracle JDK compiler has so many bugs in handling of generics... https://github.com/m-m-m/util/issues/166
-      factory = getFactoryForPropertyType((Class) propertyType);
+      factory = getFactoryForPropertyType(propertyType);
     }
     if (valueType != null) {
       if ((factory == null) || (factory.getValueClass() == null)) {
