@@ -68,8 +68,8 @@ public class ObjectProperty<V> extends SimpleProperty<V> implements WritableObje
 
     super(name, metadata);
     Objects.requireNonNull(value);
-    this.value = value;
-    this.valueClass = (Class<V>) this.value.getClass();
+    this.valueClass = (Class<V>) value.getClass();
+    doSet(value);
   }
 
   @Override

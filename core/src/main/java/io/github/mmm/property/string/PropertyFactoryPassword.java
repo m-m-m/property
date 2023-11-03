@@ -5,7 +5,7 @@ package io.github.mmm.property.string;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -13,7 +13,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryPassword extends AbstractPropertyFactory<String, PasswordProperty> {
+public class PropertyFactoryPassword extends AbstractSimplePropertyFactory<String, PasswordProperty> {
 
   @Override
   public Class<String> getValueClass() {
@@ -40,8 +40,7 @@ public class PropertyFactoryPassword extends AbstractPropertyFactory<String, Pas
   }
 
   @Override
-  public PasswordProperty create(String name, Class<? extends String> valueClass, PropertyMetadata<String> metadata,
-      WritableProperty<?> valueProperty) {
+  public PasswordProperty create(String name, PropertyMetadata<String> metadata) {
 
     return new PasswordProperty(name, metadata);
   }

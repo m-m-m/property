@@ -5,7 +5,7 @@ package io.github.mmm.property.number.shorts;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -13,7 +13,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryShort extends AbstractPropertyFactory<Short, ShortProperty> {
+public class PropertyFactoryShort extends AbstractSimplePropertyFactory<Short, ShortProperty> {
 
   @Override
   public Class<Short> getValueClass() {
@@ -40,8 +40,7 @@ public class PropertyFactoryShort extends AbstractPropertyFactory<Short, ShortPr
   }
 
   @Override
-  public ShortProperty create(String name, Class<? extends Short> valueClass, PropertyMetadata<Short> metadata,
-      WritableProperty<?> valueProperty) {
+  public ShortProperty create(String name, PropertyMetadata<Short> metadata) {
 
     return new ShortProperty(name, metadata);
   }

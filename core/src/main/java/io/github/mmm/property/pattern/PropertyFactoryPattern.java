@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -15,7 +15,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryPattern extends AbstractPropertyFactory<Pattern, PatternProperty> {
+public class PropertyFactoryPattern extends AbstractSimplePropertyFactory<Pattern, PatternProperty> {
 
   @Override
   public Class<Pattern> getValueClass() {
@@ -42,8 +42,7 @@ public class PropertyFactoryPattern extends AbstractPropertyFactory<Pattern, Pat
   }
 
   @Override
-  public PatternProperty create(String name, Class<? extends Pattern> valueClass, PropertyMetadata<Pattern> metadata,
-      WritableProperty<?> valueProperty) {
+  public PatternProperty create(String name, PropertyMetadata<Pattern> metadata) {
 
     return new PatternProperty(name, metadata);
   }

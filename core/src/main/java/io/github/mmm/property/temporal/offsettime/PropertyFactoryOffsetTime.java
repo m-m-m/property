@@ -7,7 +7,7 @@ import java.time.OffsetTime;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -15,7 +15,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryOffsetTime extends AbstractPropertyFactory<OffsetTime, OffsetTimeProperty> {
+public class PropertyFactoryOffsetTime extends AbstractSimplePropertyFactory<OffsetTime, OffsetTimeProperty> {
 
   @Override
   public Class<OffsetTime> getValueClass() {
@@ -42,8 +42,7 @@ public class PropertyFactoryOffsetTime extends AbstractPropertyFactory<OffsetTim
   }
 
   @Override
-  public OffsetTimeProperty create(String name, Class<? extends OffsetTime> valueClass,
-      PropertyMetadata<OffsetTime> metadata, WritableProperty<?> valueProperty) {
+  public OffsetTimeProperty create(String name, PropertyMetadata<OffsetTime> metadata) {
 
     return new OffsetTimeProperty(name, metadata);
   }

@@ -16,7 +16,7 @@ import io.github.mmm.property.WritableProperty;
  * @since 1.0.0
  */
 @SuppressWarnings({ "unchecked", "rawtypes" })
-public class SimplePropertyFactory<V> extends AbstractPropertyFactory<V, WritableProperty<V>> {
+public class SimplePropertyFactory<V> extends AbstractSimplePropertyFactory<V, WritableProperty<V>> {
 
   private final Class<WritableProperty<V>> impl;
 
@@ -40,7 +40,7 @@ public class SimplePropertyFactory<V> extends AbstractPropertyFactory<V, Writabl
   }
 
   @Override
-  public Class<? extends V> getValueClass() {
+  public Class<V> getValueClass() {
 
     return null;
   }
@@ -64,8 +64,7 @@ public class SimplePropertyFactory<V> extends AbstractPropertyFactory<V, Writabl
   }
 
   @Override
-  public WritableProperty<V> create(String name, Class<? extends V> valueClass, PropertyMetadata<V> metadata,
-      WritableProperty<?> valueProperty) {
+  public WritableProperty<V> create(String name, PropertyMetadata<V> metadata) {
 
     return this.prototype.copy(name, metadata);
   }

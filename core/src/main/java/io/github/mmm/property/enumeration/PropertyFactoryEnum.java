@@ -7,6 +7,7 @@ import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
 import io.github.mmm.property.factory.AbstractPropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
+import io.github.mmm.property.factory.PropertyTypeInfo;
 import io.github.mmm.property.locale.LocaleProperty;
 
 /**
@@ -43,10 +44,9 @@ public class PropertyFactoryEnum<E extends Enum<E>> extends AbstractPropertyFact
   }
 
   @Override
-  public EnumProperty<E> create(String name, Class<? extends E> valueClass, PropertyMetadata<E> metadata,
-      WritableProperty<?> valueProperty) {
+  public EnumProperty<E> create(String name, PropertyTypeInfo<E> typeInfo, PropertyMetadata<E> metadata) {
 
-    return new EnumProperty(name, metadata, valueClass);
+    return new EnumProperty(name, metadata, typeInfo.getValueClass());
   }
 
 }

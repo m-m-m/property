@@ -7,7 +7,7 @@ import java.math.BigInteger;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -15,7 +15,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryBigInteger extends AbstractPropertyFactory<BigInteger, BigIntegerProperty> {
+public class PropertyFactoryBigInteger extends AbstractSimplePropertyFactory<BigInteger, BigIntegerProperty> {
 
   @Override
   public Class<BigInteger> getValueClass() {
@@ -42,8 +42,7 @@ public class PropertyFactoryBigInteger extends AbstractPropertyFactory<BigIntege
   }
 
   @Override
-  public BigIntegerProperty create(String name, Class<? extends BigInteger> valueClass,
-      PropertyMetadata<BigInteger> metadata, WritableProperty<?> valueProperty) {
+  public BigIntegerProperty create(String name, PropertyMetadata<BigInteger> metadata) {
 
     return new BigIntegerProperty(name, metadata);
   }

@@ -5,7 +5,7 @@ package io.github.mmm.property.number.doubles;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -13,7 +13,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryDouble extends AbstractPropertyFactory<Double, DoubleProperty> {
+public class PropertyFactoryDouble extends AbstractSimplePropertyFactory<Double, DoubleProperty> {
 
   @Override
   public Class<Double> getValueClass() {
@@ -40,8 +40,7 @@ public class PropertyFactoryDouble extends AbstractPropertyFactory<Double, Doubl
   }
 
   @Override
-  public DoubleProperty create(String name, Class<? extends Double> valueClass, PropertyMetadata<Double> metadata,
-      WritableProperty<?> valueProperty) {
+  public DoubleProperty create(String name, PropertyMetadata<Double> metadata) {
 
     return new DoubleProperty(name, metadata);
   }

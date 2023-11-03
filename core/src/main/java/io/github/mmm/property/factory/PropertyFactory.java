@@ -24,7 +24,7 @@ public interface PropertyFactory<V, P extends WritableProperty<V>> {
    * @return the {@link Class} of the {@link ReadableProperty#get() property value}. May be {@code null} for a generic
    *         property.
    */
-  Class<? extends V> getValueClass();
+  Class<V> getValueClass();
 
   /**
    * @return the {@link Class} reflecting the {@link ReadableProperty} interface. May be {@code null} if no dedicated
@@ -49,11 +49,22 @@ public interface PropertyFactory<V, P extends WritableProperty<V>> {
    * @param name the {@link ReadableProperty#getName() property name}.
    * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
    * @param metadata the {@link ReadableProperty#getMetadata() metadata}.
-   * @param valueProperty the optional {@link io.github.mmm.property.container.ContainerProperty#getValueProperty()
-   *        value property}. Will typically be {@code null}.
    * @return the new instance of the property.
    */
-  P create(String name, Class<? extends V> valueClass, PropertyMetadata<V> metadata, WritableProperty<?> valueProperty);
+  P create(String name, PropertyTypeInfo<V> valueClass, PropertyMetadata<V> metadata);
+
+  /**
+   * Creates a new instance of the property.
+   *
+   * @param name the {@link ReadableProperty#getName() property name}.
+   * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
+   * @param metadata the {@link ReadableProperty#getMetadata() metadata}.
+   * @return the new instance of the property.
+   */
+  default P create(String name, Class<V> valueClass, PropertyMetadata<V> metadata) {
+
+    return create(name, PropertyTypeInfo.ofValueClass(valueClass), metadata);
+  }
 
   /**
    * @return {@code true} if {@link #getValueClass() value class} is polymorphic and also sub-types are handled by this

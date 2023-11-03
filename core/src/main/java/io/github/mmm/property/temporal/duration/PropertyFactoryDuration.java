@@ -7,7 +7,7 @@ import java.time.Duration;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -15,7 +15,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryDuration extends AbstractPropertyFactory<Duration, DurationProperty> {
+public class PropertyFactoryDuration extends AbstractSimplePropertyFactory<Duration, DurationProperty> {
 
   @Override
   public Class<Duration> getValueClass() {
@@ -42,8 +42,7 @@ public class PropertyFactoryDuration extends AbstractPropertyFactory<Duration, D
   }
 
   @Override
-  public DurationProperty create(String name, Class<? extends Duration> valueClass, PropertyMetadata<Duration> metadata,
-      WritableProperty<?> valueProperty) {
+  public DurationProperty create(String name, PropertyMetadata<Duration> metadata) {
 
     return new DurationProperty(name, metadata);
   }

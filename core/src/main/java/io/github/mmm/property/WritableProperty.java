@@ -3,6 +3,7 @@
 package io.github.mmm.property;
 
 import io.github.mmm.marshall.MarshallingObject;
+import io.github.mmm.value.ReadableValue;
 import io.github.mmm.value.observable.WritableObservableValue;
 
 /**
@@ -32,6 +33,14 @@ public interface WritableProperty<V> extends WritableObservableValue<V>, Readabl
    *         applied.
    */
   WritableProperty<V> copy(String newName, PropertyMetadata<V> newMetadata);
+
+  /**
+   * @param other the {@link ReadableValue property} to copy the {@link #get() value} from.
+   */
+  default void copyValue(ReadableValue<V> other) {
+
+    set(other.get());
+  }
 
   /**
    * @param <P> type of the property.

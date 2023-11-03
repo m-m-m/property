@@ -7,7 +7,7 @@ import java.time.Instant;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -15,7 +15,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryInstant extends AbstractPropertyFactory<Instant, InstantProperty> {
+public class PropertyFactoryInstant extends AbstractSimplePropertyFactory<Instant, InstantProperty> {
 
   @Override
   public Class<Instant> getValueClass() {
@@ -42,8 +42,7 @@ public class PropertyFactoryInstant extends AbstractPropertyFactory<Instant, Ins
   }
 
   @Override
-  public InstantProperty create(String name, Class<? extends Instant> valueClass, PropertyMetadata<Instant> metadata,
-      WritableProperty<?> valueProperty) {
+  public InstantProperty create(String name, PropertyMetadata<Instant> metadata) {
 
     return new InstantProperty(name, metadata);
   }

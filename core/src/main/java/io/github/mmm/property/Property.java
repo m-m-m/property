@@ -129,7 +129,6 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
     if (isReadOnly()) {
       throw new ReadOnlyException("Property " + getName() + " is readonly and cannot be modified.");
     }
-    super.requireWritable();
   }
 
   @Override
@@ -217,6 +216,8 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
     if (this.readOnlyProperty == this) {
       return true;
     } else if (this.metadata.getExpression() != null) {
+      return true;
+    } else if (isBoundOneWay()) {
       return true;
     }
     return this.metadata.getLock().isReadOnly();

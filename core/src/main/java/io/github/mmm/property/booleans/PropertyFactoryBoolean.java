@@ -5,7 +5,7 @@ package io.github.mmm.property.booleans;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -13,10 +13,10 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryBoolean extends AbstractPropertyFactory<Boolean, BooleanProperty> {
+public class PropertyFactoryBoolean extends AbstractSimplePropertyFactory<Boolean, BooleanProperty> {
 
   @Override
-  public Class<? extends Boolean> getValueClass() {
+  public Class<Boolean> getValueClass() {
 
     return Boolean.class;
   }
@@ -40,8 +40,7 @@ public class PropertyFactoryBoolean extends AbstractPropertyFactory<Boolean, Boo
   }
 
   @Override
-  public BooleanProperty create(String name, Class<? extends Boolean> valueClass, PropertyMetadata<Boolean> metadata,
-      WritableProperty<?> valueProperty) {
+  public BooleanProperty create(String name, PropertyMetadata<Boolean> metadata) {
 
     return new BooleanProperty(name, metadata);
   }

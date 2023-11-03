@@ -21,6 +21,106 @@ public interface PropertyFactoryManager {
 
   /**
    * @param <V> the generic type of the {@link WritableProperty#get() property value}.
+   * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
+   * @param name the {@link ReadableProperty#getName() property name}.
+   * @return the new instance of the property.
+   * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
+   *         for {@code propertyType}.
+   */
+  default <V> WritableProperty<V> create(Class<V> valueClass, String name) {
+
+    return create(null, valueClass, name);
+  }
+
+  /**
+   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
+   * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
+   * @param name the {@link ReadableProperty#getName() property name}.
+   * @param metadata the {@link ReadableProperty#getMetadata() metadata}.
+   * @return the new instance of the property.
+   * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
+   *         for {@code propertyType}.
+   */
+  default <V> WritableProperty<V> create(Class<V> valueClass, String name, PropertyMetadata<V> metadata) {
+
+    return create(null, valueClass, name, metadata);
+  }
+
+  /**
+   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
+   * @param <P> the generic type of the {@link WritableProperty property} to create.
+   * @param propertyType the {@link Class} reflecting the property to create. May be the
+   *        {@link PropertyFactory#getReadableInterface() readable interface},
+   *        {@link PropertyFactory#getWritableInterface() writable interface}, or the
+   *        {@link PropertyFactory#getImplementationClass() implementation}.
+   * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
+   * @param name the {@link ReadableProperty#getName() property name}.
+   * @return the new instance of the property.
+   * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
+   *         for {@code propertyType}.
+   */
+  default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name) {
+
+    return create(propertyType, valueClass, name, PropertyMetadataNone.get());
+  }
+
+  /**
+   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
+   * @param <P> the generic type of the {@link WritableProperty property} to create.
+   * @param propertyType the {@link Class} reflecting the property to create. May be the
+   *        {@link PropertyFactory#getReadableInterface() readable interface},
+   *        {@link PropertyFactory#getWritableInterface() writable interface}, or the
+   *        {@link PropertyFactory#getImplementationClass() implementation}.
+   * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
+   * @param name the {@link ReadableProperty#getName() property name}.
+   * @param metadata the {@link PropertyMetadata}.
+   * @param valueProperty the optional {@link io.github.mmm.property.container.ContainerProperty#getValueProperty()
+   *        value property}. Will typically be {@code null}.
+   * @return the new instance of the property.
+   * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
+   *         for {@code propertyType}.
+   */
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name,
+      PropertyMetadata<V> metadata) {
+
+    // Open/Oracle JDK compiler has so many bugs in handling of generics... https://github.com/m-m-m/util/issues/166
+    PropertyFactory factory = getRequiredFactory(propertyType, (Class) valueClass);
+    if (factory instanceof AbstractSimplePropertyFactory simpleFactory) {
+      // avoid creating PropertyTypeInfo if not used...
+      return (P) simpleFactory.create(name, metadata);
+    } else {
+      return (P) factory.create(name, PropertyTypeInfo.ofValueClass(valueClass), metadata);
+    }
+  }
+
+  /**
+   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
+   * @param <P> the generic type of the {@link WritableProperty property} to create.
+   * @param propertyType the {@link Class} reflecting the property to create. May be the
+   *        {@link PropertyFactory#getReadableInterface() readable interface},
+   *        {@link PropertyFactory#getWritableInterface() writable interface}, or the
+   *        {@link PropertyFactory#getImplementationClass() implementation}.
+   * @param typeInfo the {@link PropertyTypeInfo}.
+   * @param name the {@link ReadableProperty#getName() property name}.
+   * @param metadata the {@link PropertyMetadata}.
+   * @param valueProperty the optional {@link io.github.mmm.property.container.ContainerProperty#getValueProperty()
+   *        value property}. Will typically be {@code null}.
+   * @return the new instance of the property.
+   * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
+   *         for {@code propertyType}.
+   */
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, PropertyTypeInfo<V> typeInfo, String name,
+      PropertyMetadata<V> metadata) {
+
+    // Open/Oracle JDK compiler has so many bugs in handling of generics... https://github.com/m-m-m/util/issues/166
+    PropertyFactory factory = getRequiredFactory(propertyType, (Class) typeInfo.getValueClass());
+    return (P) factory.create(name, typeInfo, metadata);
+  }
+
+  /**
+   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
    * @param <P> the generic type of the {@link WritableProperty property}.
    * @param propertyType the {@link Class} reflecting the property to create. May be the
    *        {@link PropertyFactory#getReadableInterface() readable interface},
@@ -51,11 +151,11 @@ public interface PropertyFactoryManager {
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
   default <V, P extends ReadableProperty<V>> PropertyFactory<V, ? extends P> getFactory(Class<P> propertyType,
-      Class<? extends V> valueType) {
+      Class<V> valueType) {
 
     PropertyFactory factory = null;
     if (propertyType != null) {
-      // Open/Oracle JDK compiler has so many bugs in handling of generics...
+      // Open/Oracle JDK compiler has so many bugs in handling of generics... https://github.com/m-m-m/util/issues/166
       factory = getFactoryForPropertyType((Class) propertyType);
     }
     if (valueType != null) {
@@ -86,8 +186,7 @@ public interface PropertyFactoryManager {
   default <V, P extends ReadableProperty<V>> PropertyFactory<V, ? extends P> getRequiredFactory(Class<P> propertyType,
       Class<V> valueType) {
 
-    // Open/Oracle JDK compiler has so many bugs in handling of generics...
-    PropertyFactory<V, ? extends P> factory = getFactory((Class) propertyType, (Class) valueType);
+    PropertyFactory<V, ? extends P> factory = getFactory(propertyType, (Class) valueType);
     if (factory == null) {
       Class<?> type = propertyType;
       if (type == null) {
@@ -96,76 +195,6 @@ public interface PropertyFactoryManager {
       throw new ObjectNotFoundException("PropertyFactory", type);
     }
     return factory;
-  }
-
-  /**
-   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
-   * @param <P> the generic type of the {@link WritableProperty property} to create.
-   * @param propertyType the {@link Class} reflecting the property to create. May be the
-   *        {@link PropertyFactory#getReadableInterface() readable interface},
-   *        {@link PropertyFactory#getWritableInterface() writable interface}, or the
-   *        {@link PropertyFactory#getImplementationClass() implementation}.
-   * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
-   * @param name the {@link ReadableProperty#getName() property name}.
-   * @return the new instance of the property.
-   * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
-   *         for {@code propertyType}.
-   */
-  default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name) {
-
-    return create(propertyType, valueClass, name, PropertyMetadataNone.get(), null);
-  }
-
-  /**
-   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
-   * @param <P> the generic type of the {@link WritableProperty property} to create.
-   * @param propertyType the {@link Class} reflecting the property to create. May be the
-   *        {@link PropertyFactory#getReadableInterface() readable interface},
-   *        {@link PropertyFactory#getWritableInterface() writable interface}, or the
-   *        {@link PropertyFactory#getImplementationClass() implementation}.
-   * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
-   * @param name the {@link ReadableProperty#getName() property name}.
-   * @param metadata the {@link PropertyMetadata}.
-   * @param valueProperty the optional {@link io.github.mmm.property.container.ContainerProperty#getValueProperty()
-   *        value property}. Will typically be {@code null}.
-   * @return the new instance of the property.
-   * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
-   *         for {@code propertyType}.
-   */
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name,
-      PropertyMetadata<V> metadata, WritableProperty<?> valueProperty) {
-
-    // Open/Oracle JDK compiler has so many bugs in handling of generics...
-    PropertyFactory factory = getRequiredFactory((Class) propertyType, (Class) valueClass);
-    return (P) factory.create(name, valueClass, metadata, valueProperty);
-  }
-
-  /**
-   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
-   * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
-   * @param name the {@link ReadableProperty#getName() property name}.
-   * @return the new instance of the property.
-   * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
-   *         for {@code propertyType}.
-   */
-  default <V> WritableProperty<V> create(Class<V> valueClass, String name) {
-
-    return create(null, valueClass, name, PropertyMetadataNone.get(), null);
-  }
-
-  /**
-   * @param <V> the generic type of the {@link WritableProperty#get() property value}.
-   * @param valueClass the {@link ReadableProperty#getValueClass() value class}.
-   * @param name the {@link ReadableProperty#getName() property name}.
-   * @param metadata the {@link ReadableProperty#getMetadata() metadata}.
-   * @return the new instance of the property.
-   * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
-   *         for {@code propertyType}.
-   */
-  default <V> WritableProperty<V> create(Class<V> valueClass, String name, PropertyMetadata<V> metadata) {
-
-    return create(null, valueClass, name, metadata, null);
   }
 
   /**

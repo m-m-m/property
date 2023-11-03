@@ -5,7 +5,7 @@ package io.github.mmm.property.number.bytes;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -13,7 +13,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryByte extends AbstractPropertyFactory<Byte, ByteProperty> {
+public class PropertyFactoryByte extends AbstractSimplePropertyFactory<Byte, ByteProperty> {
 
   @Override
   public Class<Byte> getValueClass() {
@@ -40,8 +40,7 @@ public class PropertyFactoryByte extends AbstractPropertyFactory<Byte, BytePrope
   }
 
   @Override
-  public ByteProperty create(String name, Class<? extends Byte> valueClass, PropertyMetadata<Byte> metadata,
-      WritableProperty<?> valueProperty) {
+  public ByteProperty create(String name, PropertyMetadata<Byte> metadata) {
 
     return new ByteProperty(name, metadata);
   }

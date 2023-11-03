@@ -17,6 +17,7 @@ import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
 import io.github.mmm.property.factory.PropertyFactory;
 import io.github.mmm.property.factory.PropertyFactoryManager;
+import io.github.mmm.property.factory.PropertyTypeInfo;
 import io.github.mmm.property.factory.SimplePropertyFactory;
 
 /**
@@ -176,12 +177,12 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
-  public <V, PROPERTY extends ReadableProperty<V>> PROPERTY create(Class<PROPERTY> propertyType, Class<V> valueClass,
-      String name, PropertyMetadata<V> metadata, WritableProperty<?> valueProperty) {
+  public <V, PROPERTY extends ReadableProperty<V>> PROPERTY create(Class<PROPERTY> propertyType,
+      PropertyTypeInfo<V> typeInfo, String name, PropertyMetadata<V> metadata) {
 
     // Open/Oracle JDK compiler has so many bugs in handling of generics...
-    PropertyFactory factory = getRequiredFactory((Class) propertyType, (Class) valueClass);
-    return (PROPERTY) factory.create(name, valueClass, metadata, valueProperty);
+    PropertyFactory factory = getRequiredFactory((Class) propertyType, (Class) typeInfo.getValueClass());
+    return (PROPERTY) factory.create(name, typeInfo, metadata);
   }
 
 }

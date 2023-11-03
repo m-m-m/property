@@ -7,7 +7,7 @@ import java.time.LocalTime;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -15,7 +15,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryLocalTime extends AbstractPropertyFactory<LocalTime, LocalTimeProperty> {
+public class PropertyFactoryLocalTime extends AbstractSimplePropertyFactory<LocalTime, LocalTimeProperty> {
 
   @Override
   public Class<LocalTime> getValueClass() {
@@ -42,8 +42,7 @@ public class PropertyFactoryLocalTime extends AbstractPropertyFactory<LocalTime,
   }
 
   @Override
-  public LocalTimeProperty create(String name, Class<? extends LocalTime> valueClass,
-      PropertyMetadata<LocalTime> metadata, WritableProperty<?> valueProperty) {
+  public LocalTimeProperty create(String name, PropertyMetadata<LocalTime> metadata) {
 
     return new LocalTimeProperty(name, metadata);
   }

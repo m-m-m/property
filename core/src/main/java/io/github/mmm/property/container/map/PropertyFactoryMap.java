@@ -10,6 +10,7 @@ import io.github.mmm.property.WritableProperty;
 import io.github.mmm.property.container.set.SetProperty;
 import io.github.mmm.property.factory.AbstractPropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
+import io.github.mmm.property.factory.PropertyTypeInfo;
 
 /**
  * This is the implementation of {@link PropertyFactory} for {@link SetProperty}.
@@ -23,7 +24,7 @@ import io.github.mmm.property.factory.PropertyFactory;
 public class PropertyFactoryMap<K, V> extends AbstractPropertyFactory<Map<K, V>, MapProperty<K, V>> {
 
   @Override
-  public Class<? extends Map<K, V>> getValueClass() {
+  public Class<Map<K, V>> getValueClass() {
 
     return (Class) Map.class;
   }
@@ -47,10 +48,10 @@ public class PropertyFactoryMap<K, V> extends AbstractPropertyFactory<Map<K, V>,
   }
 
   @Override
-  public MapProperty<K, V> create(String name, Class<? extends Map<K, V>> valueClass,
-      PropertyMetadata<Map<K, V>> metadata, WritableProperty<?> valueProperty) {
+  public MapProperty<K, V> create(String name, PropertyTypeInfo<Map<K, V>> typeInfo,
+      PropertyMetadata<Map<K, V>> metadata) {
 
-    return new MapProperty(name, null, valueProperty, metadata);
+    return new MapProperty(name, typeInfo.getKeyProperty(), typeInfo.getValueProperty(), metadata);
   }
 
 }

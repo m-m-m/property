@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -15,7 +15,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryBigDecimal extends AbstractPropertyFactory<BigDecimal, BigDecimalProperty> {
+public class PropertyFactoryBigDecimal extends AbstractSimplePropertyFactory<BigDecimal, BigDecimalProperty> {
 
   @Override
   public Class<BigDecimal> getValueClass() {
@@ -42,8 +42,7 @@ public class PropertyFactoryBigDecimal extends AbstractPropertyFactory<BigDecima
   }
 
   @Override
-  public BigDecimalProperty create(String name, Class<? extends BigDecimal> valueClass,
-      PropertyMetadata<BigDecimal> metadata, WritableProperty<?> valueProperty) {
+  public BigDecimalProperty create(String name, PropertyMetadata<BigDecimal> metadata) {
 
     return new BigDecimalProperty(name, metadata);
   }

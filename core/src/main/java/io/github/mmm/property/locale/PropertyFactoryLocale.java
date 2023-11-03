@@ -7,7 +7,7 @@ import java.util.Locale;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -15,7 +15,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryLocale extends AbstractPropertyFactory<Locale, LocaleProperty> {
+public class PropertyFactoryLocale extends AbstractSimplePropertyFactory<Locale, LocaleProperty> {
 
   @Override
   public Class<Locale> getValueClass() {
@@ -42,8 +42,7 @@ public class PropertyFactoryLocale extends AbstractPropertyFactory<Locale, Local
   }
 
   @Override
-  public LocaleProperty create(String name, Class<? extends Locale> valueClass, PropertyMetadata<Locale> metadata,
-      WritableProperty<?> valueProperty) {
+  public LocaleProperty create(String name, PropertyMetadata<Locale> metadata) {
 
     return new LocaleProperty(name, metadata);
   }

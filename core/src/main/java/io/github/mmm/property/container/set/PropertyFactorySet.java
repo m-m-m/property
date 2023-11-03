@@ -9,6 +9,7 @@ import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
 import io.github.mmm.property.factory.AbstractPropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
+import io.github.mmm.property.factory.PropertyTypeInfo;
 
 /**
  * Implementation of {@link PropertyFactory} for {@link SetProperty}.
@@ -21,7 +22,7 @@ import io.github.mmm.property.factory.PropertyFactory;
 public class PropertyFactorySet<E> extends AbstractPropertyFactory<Set<E>, SetProperty<E>> {
 
   @Override
-  public Class<? extends Set<E>> getValueClass() {
+  public Class<Set<E>> getValueClass() {
 
     return (Class) Set.class;
   }
@@ -45,10 +46,9 @@ public class PropertyFactorySet<E> extends AbstractPropertyFactory<Set<E>, SetPr
   }
 
   @Override
-  public SetProperty<E> create(String name, Class<? extends Set<E>> valueClass, PropertyMetadata<Set<E>> metadata,
-      WritableProperty<?> valueProperty) {
+  public SetProperty<E> create(String name, PropertyTypeInfo<Set<E>> typeInfo, PropertyMetadata<Set<E>> metadata) {
 
-    return new SetProperty(name, valueProperty, metadata);
+    return new SetProperty(name, typeInfo.getValueProperty(), metadata);
   }
 
 }

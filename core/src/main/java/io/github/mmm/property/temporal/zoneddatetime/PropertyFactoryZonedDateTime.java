@@ -7,7 +7,7 @@ import java.time.ZonedDateTime;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -15,7 +15,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryZonedDateTime extends AbstractPropertyFactory<ZonedDateTime, ZonedDateTimeProperty> {
+public class PropertyFactoryZonedDateTime extends AbstractSimplePropertyFactory<ZonedDateTime, ZonedDateTimeProperty> {
 
   @Override
   public Class<ZonedDateTime> getValueClass() {
@@ -42,8 +42,7 @@ public class PropertyFactoryZonedDateTime extends AbstractPropertyFactory<ZonedD
   }
 
   @Override
-  public ZonedDateTimeProperty create(String name, Class<? extends ZonedDateTime> valueClass,
-      PropertyMetadata<ZonedDateTime> metadata, WritableProperty<?> valueProperty) {
+  public ZonedDateTimeProperty create(String name, PropertyMetadata<ZonedDateTime> metadata) {
 
     return new ZonedDateTimeProperty(name, metadata);
   }

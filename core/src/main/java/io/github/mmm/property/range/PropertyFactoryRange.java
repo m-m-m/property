@@ -8,6 +8,8 @@ import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
 import io.github.mmm.property.factory.AbstractPropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
+import io.github.mmm.property.factory.PropertyTypeInfo;
+import io.github.mmm.property.object.SimpleProperty;
 
 /**
  * Implementation of {@link PropertyFactory} for {@link RangeProperty}.
@@ -15,41 +17,42 @@ import io.github.mmm.property.factory.PropertyFactory;
  * @param <V> type of the {@link Range} values.
  * @since 1.0.0
  */
+@SuppressWarnings({ "unchecked", "rawtypes" })
 public class PropertyFactoryRange<V extends Comparable<?>> extends AbstractPropertyFactory<Range<V>, RangeProperty<V>> {
 
   @Override
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  public Class<? extends Range<V>> getValueClass() {
+  public Class<Range<V>> getValueClass() {
 
     return (Class) RangeProperty.class;
   }
 
   @Override
-  @SuppressWarnings({ "unchecked", "rawtypes" })
   public Class<? extends ReadableProperty<Range<V>>> getReadableInterface() {
 
     return (Class) ReadableRangeProperty.class;
   }
 
   @Override
-  @SuppressWarnings({ "unchecked", "rawtypes" })
   public Class<? extends WritableProperty<Range<V>>> getWritableInterface() {
 
     return (Class) WritableRangeProperty.class;
   }
 
   @Override
-  @SuppressWarnings({ "unchecked", "rawtypes" })
   public Class<RangeProperty<V>> getImplementationClass() {
 
     return (Class) RangeProperty.class;
   }
 
   @Override
-  public RangeProperty<V> create(String name, Class<? extends Range<V>> valueClass, PropertyMetadata<Range<V>> metadata,
-      WritableProperty<?> valueProperty) {
+  public RangeProperty<V> create(String name, PropertyTypeInfo<Range<V>> typeInfo,
+      PropertyMetadata<Range<V>> metadata) {
 
-    return new RangeProperty<>(name, null, metadata);
+    try {
+      return new RangeProperty<>(name, (SimpleProperty) typeInfo.getValueProperty(), metadata);
+    } catch (ClassCastException e) {
+      throw new IllegalStateException("Range and RangeProperty only support simple values as generic type!", e);
+    }
   }
 
 }

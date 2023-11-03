@@ -9,6 +9,7 @@ import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
 import io.github.mmm.property.factory.AbstractPropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
+import io.github.mmm.property.factory.PropertyTypeInfo;
 
 /**
  * This is the implementation of {@link PropertyFactory} for {@link ListProperty}.
@@ -21,7 +22,7 @@ import io.github.mmm.property.factory.PropertyFactory;
 public class PropertyFactoryList<E> extends AbstractPropertyFactory<List<E>, ListProperty<E>> {
 
   @Override
-  public Class<? extends List<E>> getValueClass() {
+  public Class<List<E>> getValueClass() {
 
     return (Class) List.class;
   }
@@ -45,10 +46,9 @@ public class PropertyFactoryList<E> extends AbstractPropertyFactory<List<E>, Lis
   }
 
   @Override
-  public ListProperty<E> create(String name, Class<? extends List<E>> valueClass, PropertyMetadata<List<E>> metadata,
-      WritableProperty<?> valueProperty) {
+  public ListProperty<E> create(String name, PropertyTypeInfo<List<E>> typeInfo, PropertyMetadata<List<E>> metadata) {
 
-    return new ListProperty(name, valueProperty, metadata);
+    return new ListProperty(name, typeInfo.getValueProperty(), metadata);
   }
 
 }

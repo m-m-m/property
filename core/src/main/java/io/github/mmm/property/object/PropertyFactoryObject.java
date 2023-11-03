@@ -7,6 +7,7 @@ import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
 import io.github.mmm.property.factory.AbstractPropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
+import io.github.mmm.property.factory.PropertyTypeInfo;
 
 /**
  * This is the implementation of {@link PropertyFactory} for {@link ObjectProperty}.
@@ -19,7 +20,7 @@ import io.github.mmm.property.factory.PropertyFactory;
 public class PropertyFactoryObject<V> extends AbstractPropertyFactory<V, ObjectProperty<V>> {
 
   @Override
-  public Class<? extends V> getValueClass() {
+  public Class<V> getValueClass() {
 
     return (Class) Object.class;
   }
@@ -43,10 +44,9 @@ public class PropertyFactoryObject<V> extends AbstractPropertyFactory<V, ObjectP
   }
 
   @Override
-  public ObjectProperty<V> create(String name, Class<? extends V> valueClass, PropertyMetadata<V> metadata,
-      WritableProperty<?> valueProperty) {
+  public ObjectProperty<V> create(String name, PropertyTypeInfo<V> typeInfo, PropertyMetadata<V> metadata) {
 
-    return new ObjectProperty(name, valueClass, metadata);
+    return new ObjectProperty(name, typeInfo.getValueClass(), metadata);
   }
 
   @Override

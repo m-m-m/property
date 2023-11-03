@@ -5,7 +5,7 @@ package io.github.mmm.property.number.longs;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -13,7 +13,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryLong extends AbstractPropertyFactory<Long, LongProperty> {
+public class PropertyFactoryLong extends AbstractSimplePropertyFactory<Long, LongProperty> {
 
   @Override
   public Class<Long> getValueClass() {
@@ -40,8 +40,7 @@ public class PropertyFactoryLong extends AbstractPropertyFactory<Long, LongPrope
   }
 
   @Override
-  public LongProperty create(String name, Class<? extends Long> valueClass, PropertyMetadata<Long> metadata,
-      WritableProperty<?> valueProperty) {
+  public LongProperty create(String name, PropertyMetadata<Long> metadata) {
 
     return new LongProperty(name, metadata);
   }

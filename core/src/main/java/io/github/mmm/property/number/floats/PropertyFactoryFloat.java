@@ -5,7 +5,7 @@ package io.github.mmm.property.number.floats;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -13,7 +13,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryFloat extends AbstractPropertyFactory<Float, FloatProperty> {
+public class PropertyFactoryFloat extends AbstractSimplePropertyFactory<Float, FloatProperty> {
 
   @Override
   public Class<Float> getValueClass() {
@@ -40,8 +40,7 @@ public class PropertyFactoryFloat extends AbstractPropertyFactory<Float, FloatPr
   }
 
   @Override
-  public FloatProperty create(String name, Class<? extends Float> valueClass, PropertyMetadata<Float> metadata,
-      WritableProperty<?> valueProperty) {
+  public FloatProperty create(String name, PropertyMetadata<Float> metadata) {
 
     return new FloatProperty(name, metadata);
   }

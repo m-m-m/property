@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.property.WritableProperty;
-import io.github.mmm.property.factory.AbstractPropertyFactory;
+import io.github.mmm.property.factory.AbstractSimplePropertyFactory;
 import io.github.mmm.property.factory.PropertyFactory;
 
 /**
@@ -15,7 +15,7 @@ import io.github.mmm.property.factory.PropertyFactory;
  *
  * @since 1.0.0
  */
-public class PropertyFactoryLocalDate extends AbstractPropertyFactory<LocalDate, LocalDateProperty> {
+public class PropertyFactoryLocalDate extends AbstractSimplePropertyFactory<LocalDate, LocalDateProperty> {
 
   @Override
   public Class<LocalDate> getValueClass() {
@@ -42,8 +42,7 @@ public class PropertyFactoryLocalDate extends AbstractPropertyFactory<LocalDate,
   }
 
   @Override
-  public LocalDateProperty create(String name, Class<? extends LocalDate> valueClass,
-      PropertyMetadata<LocalDate> metadata, WritableProperty<?> valueProperty) {
+  public LocalDateProperty create(String name, PropertyMetadata<LocalDate> metadata) {
 
     return new LocalDateProperty(name, metadata);
   }
