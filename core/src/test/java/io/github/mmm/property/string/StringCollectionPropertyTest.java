@@ -7,8 +7,8 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import io.github.mmm.marshall.JsonFormat;
 import io.github.mmm.marshall.MarshallingConfig;
+import io.github.mmm.marshall.StandardFormat;
 
 /**
  * Abstract base class for tests of {@link StringCollectionProperty}.
@@ -248,7 +248,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
     String value = fill4Tags();
     StringCollectionProperty property = createEmpty();
     // act
-    JsonFormat.of().read("\"" + value + "\"", property);
+    StandardFormat.json().read("\"" + value + "\"", property);
     // assert
     assertThat(property.get()).isEqualTo(value);
   }
@@ -273,7 +273,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
     String value = fill4Tags();
     StringCollectionProperty property = createEmpty();
     // act
-    JsonFormat.of().read("[\"hit\",\"pop\",\"partyhit\",\"superhits\"]", property);
+    StandardFormat.json().read("[\"hit\",\"pop\",\"partyhit\",\"superhits\"]", property);
     // assert
     assertThat(property.get()).isEqualTo(value);
   }
@@ -290,7 +290,7 @@ public abstract class StringCollectionPropertyTest extends Assertions {
     StringCollectionProperty property = createEmpty();
     // act
     property.set(value);
-    String json = JsonFormat.of(MarshallingConfig.NO_INDENTATION).write(property);
+    String json = StandardFormat.json(MarshallingConfig.NO_INDENTATION).write(property);
     // assert
     assertThat(json).isEqualTo("[\"hit\",\"pop\",\"partyhit\",\"superhits\"]");
   }

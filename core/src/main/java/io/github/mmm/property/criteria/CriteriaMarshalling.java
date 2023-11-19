@@ -9,8 +9,10 @@ import io.github.mmm.base.exception.ObjectNotFoundException;
 import io.github.mmm.base.sort.SortOrder;
 import io.github.mmm.marshall.Marshalling;
 import io.github.mmm.marshall.StructuredReader;
-import io.github.mmm.marshall.StructuredReader.State;
+import io.github.mmm.marshall.StructuredState;
 import io.github.mmm.marshall.StructuredWriter;
+import io.github.mmm.marshall.id.StructuredIdMapping;
+import io.github.mmm.marshall.id.StructuredIdMappingObject;
 import io.github.mmm.value.CriteriaObject;
 import io.github.mmm.value.PropertyPath;
 
@@ -19,7 +21,7 @@ import io.github.mmm.value.PropertyPath;
  *
  * @since 1.0.0
  */
-public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
+public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>>, StructuredIdMappingObject {
 
   private static final String OPERATOR = "Operator";
 
@@ -69,7 +71,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
    */
   public void writeExpression(StructuredWriter writer, CriteriaExpression<?> expression) {
 
-    writer.writeStartObject();
+    writer.writeStartObject(this);
     writer.writeName(NAME_OPERATOR);
     CriteriaOperator op = expression.getOperator();
     writer.writeValueAsString(op.getSyntax());
@@ -107,7 +109,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
    */
   public void writeProperty(StructuredWriter writer, PropertyPath<?> property) {
 
-    writer.writeStartObject();
+    writer.writeStartObject(this);
     writer.writeName(NAME_PROPERTY);
     writer.writeValueAsString(property.path());
     writer.writeEnd();
@@ -119,7 +121,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
    */
   public void writeProjectionProperty(StructuredWriter writer, ProjectionProperty<?> projectionProperty) {
 
-    writer.writeStartObject();
+    writer.writeStartObject(this);
     CriteriaObject<?> selection = projectionProperty.getSelection();
     if (selection instanceof PropertyPath) {
       writer.writeName(NAME_SELECTION_PROPERTY);
@@ -150,7 +152,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
    */
   public void writeOrdering(StructuredWriter writer, CriteriaOrdering ordering) {
 
-    writer.writeStartObject();
+    writer.writeStartObject(this);
     writer.writeName(NAME_PROPERTY);
     writer.writeValueAsString(ordering.getProperty().path());
     writer.writeName(NAME_SORT_ORDER);
@@ -164,7 +166,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
    */
   public void writeAssignment(StructuredWriter writer, PropertyAssignment<?> assignment) {
 
-    writer.writeStartObject();
+    writer.writeStartObject(this);
     writer.writeName(NAME_PROPERTY);
     writer.writeValueAsString(assignment.getProperty().path());
     writer.writeName(NAME_VALUE);
@@ -184,7 +186,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
    */
   public CriteriaExpression<?> readExpression(StructuredReader reader) {
 
-    reader.require(State.START_OBJECT, true);
+    reader.require(StructuredState.START_OBJECT, true);
     return readExpressionInteral(reader);
   }
 
@@ -204,7 +206,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
       } else if (NAME_ARGUMENTS.equals(name)) {
         assert (args == null);
         args = new ArrayList<>();
-        reader.require(State.START_ARRAY, true);
+        reader.require(StructuredState.START_ARRAY, true);
         while (!reader.readEnd()) {
           CriteriaObject<?> arg = readArg(reader);
           args.add(arg);
@@ -239,7 +241,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
    */
   public CriteriaObject<?> readArg(StructuredReader reader) {
 
-    if (reader.getState() == State.START_OBJECT) {
+    if (reader.getState() == StructuredState.START_OBJECT) {
       reader.next();
       String name = reader.getName();
       if (NAME_PROPERTY.equals(name)) {
@@ -272,7 +274,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   public PropertyPath<?> readProperty(StructuredReader reader) {
 
     String path = reader.readValueAsString();
-    reader.require(State.END_OBJECT, true);
+    reader.require(StructuredState.END_OBJECT, true);
     return SimplePath.of(path);
   }
 
@@ -311,7 +313,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
    */
   public CriteriaOrdering readOrdering(StructuredReader reader) {
 
-    reader.require(State.START_OBJECT, true);
+    reader.require(StructuredState.START_OBJECT, true);
     PropertyPath<?> property = null;
     SortOrder order = null;
     while (!reader.readEnd()) {
@@ -342,7 +344,7 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public PropertyAssignment<?> readAssignment(StructuredReader reader) {
 
-    reader.require(State.START_OBJECT, true);
+    reader.require(StructuredState.START_OBJECT, true);
     PropertyPath<?> property = null;
     CriteriaObject<?> value = null;
     boolean hasValue = false;
@@ -365,6 +367,13 @@ public class CriteriaMarshalling implements Marshalling<CriteriaExpression<?>> {
       throw new ObjectNotFoundException(NAME_VALUE);
     }
     return new PropertyAssignment(property, value);
+  }
+
+  @Override
+  public StructuredIdMapping defineIdMapping() {
+
+    return StructuredIdMapping.of(NAME_OPERATOR, NAME_VALUE, NAME_PROPERTY, NAME_ARGUMENTS, NAME_SORT_ORDER,
+        NAME_PROJECTION_PROPERTY, NAME_SELECTION_EXPRESSION, NAME_SELECTION_PROPERTY);
   }
 
   /**

@@ -274,7 +274,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
 
     Marshalling<V> marshalling = this.metadata.getMarshalling();
     if (marshalling == null) {
-      read(reader);
+      readValue(reader);
     } else {
       V value = marshalling.readObject(reader);
       set(value);
@@ -282,8 +282,25 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
     return this;
   }
 
+  /**
+   * @return this {@link Property} itself. Can be ignored and no need to write code that updates the containing object
+   *         with the result of this method.
+   */
   @Override
-  public void read(StructuredReader reader) {
+  public final Property<V> read(StructuredReader reader) {
+
+    readValue(reader);
+    return this;
+  }
+
+  /**
+   * Reads the {@link #get() value} of this {@link Property} from the given {@link StructuredReader} and
+   * {@link #set(Object) sets} it.
+   *
+   * @param reader the {@link StructuredReader} to read the value from.
+   * @see #read(StructuredReader)
+   */
+  protected void readValue(StructuredReader reader) {
 
     V value = reader.readValue(getValueClass());
     set(value);

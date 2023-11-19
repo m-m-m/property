@@ -47,7 +47,7 @@ public abstract class TemporalProperty<V extends Temporal> extends SimplePropert
   }
 
   @Override
-  public void read(StructuredReader reader) {
+  protected void readValue(StructuredReader reader) {
 
     V value = reader.readValue(getValueClass());
     set(value);

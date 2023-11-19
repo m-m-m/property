@@ -38,7 +38,7 @@ public abstract class NumberProperty<N extends Number & Comparable<? super N>> e
   }
 
   @Override
-  public void read(StructuredReader reader) {
+  protected void readValue(StructuredReader reader) {
 
     N value = reader.readValue(getValueClass());
     set(value);

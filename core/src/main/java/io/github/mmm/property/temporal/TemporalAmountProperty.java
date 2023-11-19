@@ -47,7 +47,7 @@ public abstract class TemporalAmountProperty<V extends TemporalAmount> extends S
   }
 
   @Override
-  public void read(StructuredReader reader) {
+  protected void readValue(StructuredReader reader) {
 
     V value = reader.readValue(getValueClass());
     set(value);

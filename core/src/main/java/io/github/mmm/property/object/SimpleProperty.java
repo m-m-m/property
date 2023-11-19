@@ -37,7 +37,7 @@ public abstract class SimpleProperty<V> extends Property<V> implements WritableS
   }
 
   @Override
-  public void read(StructuredReader reader) {
+  protected void readValue(StructuredReader reader) {
 
     String value = reader.readValueAsString();
     setAsString(value);

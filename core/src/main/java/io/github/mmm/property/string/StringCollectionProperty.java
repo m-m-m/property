@@ -481,7 +481,7 @@ public abstract class StringCollectionProperty extends StringProperty {
   }
 
   @Override
-  public void read(StructuredReader reader) {
+  protected void readValue(StructuredReader reader) {
 
     if (reader.readStartArray()) {
       while (!reader.readEndArray()) {
@@ -489,7 +489,7 @@ public abstract class StringCollectionProperty extends StringProperty {
         add(element);
       }
     } else {
-      super.read(reader);
+      super.readValue(reader);
     }
   }
 

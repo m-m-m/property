@@ -8,6 +8,8 @@ import io.github.mmm.base.range.Range;
 import io.github.mmm.base.range.RangeType;
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
+import io.github.mmm.marshall.id.StructuredIdMapping;
+import io.github.mmm.marshall.id.StructuredIdMappingObject;
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.object.SimpleProperty;
@@ -20,7 +22,7 @@ import io.github.mmm.value.converter.TypeMapper;
  * @since 1.0.0
  */
 public class RangeProperty<V extends Comparable<?>> extends SimpleProperty<Range<V>>
-    implements WritableRangeProperty<V> {
+    implements WritableRangeProperty<V>, StructuredIdMappingObject {
 
   /** @see #getValueProperty() */
   private final SimpleProperty<V> valueProperty;
@@ -82,18 +84,21 @@ public class RangeProperty<V extends Comparable<?>> extends SimpleProperty<Range
   }
 
   @Override
-  public void read(StructuredReader reader) {
+  protected void readValue(StructuredReader reader) {
 
     Range<V> range = Range.unbounded();
-    if (reader.readStartObject()) {
+    if (reader.readStartObject(this)) {
       V min = null;
       V max = null;
       while (!reader.readEnd()) {
-        String name = reader.readName();
-        if (name.equals(Range.PROPERTY_MIN)) {
+        if (reader.isName(Range.PROPERTY_MIN)) {
+          assert (min == null);
           min = readBound(reader);
-        } else if (name.equals(Range.PROPERTY_MIN)) {
+        } else if (reader.isName(Range.PROPERTY_MIN)) {
+          assert (max == null);
           max = readBound(reader);
+        } else {
+          throw new IllegalStateException("Invalid range property " + reader.getName());
         }
       }
       range = RangeType.of(min, max);
@@ -101,10 +106,15 @@ public class RangeProperty<V extends Comparable<?>> extends SimpleProperty<Range
     }
   }
 
+  @SuppressWarnings("unchecked")
   private V readBound(StructuredReader reader) {
 
-    this.valueProperty.read(reader);
-    return this.valueProperty.get();
+    if (this.valueProperty == null) {
+      return (V) reader.readValue();
+    } else {
+      this.valueProperty.read(reader);
+      return this.valueProperty.get();
+    }
   }
 
   @Override
@@ -112,7 +122,7 @@ public class RangeProperty<V extends Comparable<?>> extends SimpleProperty<Range
 
     Range<V> range = get();
     if (range != null) {
-      writer.writeStartObject();
+      writer.writeStartObject(this);
       writeBound(writer, Range.PROPERTY_MIN, range.getMin());
       writeBound(writer, Range.PROPERTY_MAX, range.getMax());
       writer.writeEnd();
@@ -121,9 +131,11 @@ public class RangeProperty<V extends Comparable<?>> extends SimpleProperty<Range
 
   private void writeBound(StructuredWriter writer, String name, V bound) {
 
-    writer.writeName("min");
+    writer.writeName(Range.PROPERTY_MIN);
     if (bound == null) {
       writer.writeValueAsNull();
+    } else if (this.valueProperty == null) {
+      writer.writeValue(bound);
     } else {
       this.valueProperty.set(bound);
       this.valueProperty.write(writer);
@@ -153,6 +165,12 @@ public class RangeProperty<V extends Comparable<?>> extends SimpleProperty<Range
       this.typeMapper = RangeTypeMapper.of(valueClass);
     }
     return this.typeMapper;
+  }
+
+  @Override
+  public StructuredIdMapping defineIdMapping() {
+
+    return StructuredIdMapping.of(Range.PROPERTY_MIN, Range.PROPERTY_MAX);
   }
 
 }
