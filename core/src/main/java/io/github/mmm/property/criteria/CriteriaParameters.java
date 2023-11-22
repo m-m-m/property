@@ -8,9 +8,10 @@ import io.github.mmm.base.io.AppendableWriter;
  * Interface to handle {@link Literal} {@link Literal#get() values} as parameters in {@link CriteriaExpression} of
  * database statements.
  *
+ * @param <V> type of the {@link CriteriaParameter}s.
  * @since 1.0.0
  */
-public interface CriteriaParameters {
+public interface CriteriaParameters<V extends CriteriaParameter<?>> extends Iterable<V> {
 
   /**
    * @param literal the {@link Literal} to {@link AppendableWriter#write(String) write} in database syntax (e.g. SQL)
@@ -26,7 +27,7 @@ public interface CriteriaParameters {
    * @return the casted {@link CriteriaParameters}.
    */
   @SuppressWarnings("unchecked")
-  default <P extends CriteriaParameters> P cast() {
+  default <P extends CriteriaParameters<?>> P cast() {
 
     return (P) this;
   }

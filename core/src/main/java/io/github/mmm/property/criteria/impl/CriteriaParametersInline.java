@@ -1,10 +1,16 @@
 /* Copyright (c) The m-m-m Team, Licensed under the Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0 */
-package io.github.mmm.property.criteria;
+package io.github.mmm.property.criteria.impl;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.Objects;
 
 import io.github.mmm.base.io.AppendableWriter;
+import io.github.mmm.property.criteria.CriteriaExpression;
+import io.github.mmm.property.criteria.CriteriaParameter;
+import io.github.mmm.property.criteria.CriteriaParameters;
+import io.github.mmm.property.criteria.Literal;
 
 /**
  * Implementation of {@link CriteriaParameters} that directly outputs the {@link Literal} {@link Literal#get() value}.
@@ -13,7 +19,7 @@ import io.github.mmm.base.io.AppendableWriter;
  *
  * @since 1.0.0
  */
-class CriteriaParametersInline implements CriteriaParameters {
+public class CriteriaParametersInline implements CriteriaParameters<CriteriaParameter<?>> {
 
   private static final CriteriaParametersInline INSTANCE = new CriteriaParametersInline();
 
@@ -23,10 +29,16 @@ class CriteriaParametersInline implements CriteriaParameters {
     out.write(Objects.toString(literal));
   }
 
+  @Override
+  public Iterator<CriteriaParameter<?>> iterator() {
+
+    return Collections.emptyIterator();
+  }
+
   /**
    * @return the singleton instance of this {@link CriteriaParametersInline}.
    */
-  static CriteriaParametersInline get() {
+  public static CriteriaParametersInline get() {
 
     return INSTANCE;
   }

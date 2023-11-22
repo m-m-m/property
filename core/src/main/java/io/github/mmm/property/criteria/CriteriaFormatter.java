@@ -2,10 +2,10 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.criteria;
 
-import java.io.StringWriter;
 import java.util.List;
 
 import io.github.mmm.base.io.AppendableWriter;
+import io.github.mmm.property.criteria.impl.CriteriaParametersInline;
 import io.github.mmm.value.CriteriaObject;
 import io.github.mmm.value.PropertyPath;
 
@@ -21,7 +21,7 @@ public class CriteriaFormatter implements CriteriaVisitor {
   /** {@link Appendable} where to {@link Appendable#append(CharSequence) append} the SQL. */
   protected final AppendableWriter out;
 
-  private final CriteriaParameters parameters;
+  private final CriteriaParameters<?> parameters;
 
   private LikePatternSyntax likeSyntaxSource;
 
@@ -45,7 +45,7 @@ public class CriteriaFormatter implements CriteriaVisitor {
    *        vulnerabilities.
    * @param out the {@link Appendable} to {@link #write(String) write} to.
    */
-  protected CriteriaFormatter(CriteriaParameters parameters, AppendableWriter out) {
+  protected CriteriaFormatter(CriteriaParameters<?> parameters, AppendableWriter out) {
 
     super();
     if (parameters == null) {
@@ -108,7 +108,7 @@ public class CriteriaFormatter implements CriteriaVisitor {
   /**
    * @return the {@link CriteriaParameters}.
    */
-  public CriteriaParameters getParameters() {
+  public CriteriaParameters<?> getParameters() {
 
     return this.parameters;
   }
@@ -241,7 +241,6 @@ public class CriteriaFormatter implements CriteriaVisitor {
    */
   public void onAlias(String alias) {
 
-    // write("AS ");
     write(alias);
   }
 
@@ -302,10 +301,19 @@ public class CriteriaFormatter implements CriteriaVisitor {
 
   /**
    * @param parameters the {@link CriteriaParameters}.
+   * @return the new {@link CriteriaFormatter}.
+   */
+  public static CriteriaFormatter of(CriteriaParameters<?> parameters) {
+
+    return of(parameters, new StringBuilder());
+  }
+
+  /**
+   * @param parameters the {@link CriteriaParameters}.
    * @param appendable the {@link Appendable} where to write the database syntax to.
    * @return the new {@link CriteriaFormatter}.
    */
-  public static CriteriaFormatter of(CriteriaParameters parameters, Appendable appendable) {
+  public static CriteriaFormatter of(CriteriaParameters<?> parameters, Appendable appendable) {
 
     return of(parameters, new AppendableWriter(appendable));
   }
@@ -315,66 +323,66 @@ public class CriteriaFormatter implements CriteriaVisitor {
    * @param appendable the {@link AppendableWriter} where to write the database syntax to.
    * @return the new {@link CriteriaFormatter}.
    */
-  public static CriteriaFormatter of(CriteriaParameters parameters, AppendableWriter appendable) {
+  public static CriteriaFormatter of(CriteriaParameters<?> parameters, AppendableWriter appendable) {
 
     return new CriteriaFormatter(parameters, appendable);
   }
 
-  /**
-   * @return the new {@link CriteriaFormatter} using {@link CriteriaParametersIndexed indexed parameters}.
-   */
-  public static CriteriaFormatter ofIndexedParameters() {
-
-    return ofIndexedParameters(new AppendableWriter(new StringWriter()));
-  }
-
-  /**
-   * @param appendable the {@link Appendable} where to write the database syntax to.
-   * @return the new {@link CriteriaFormatter} using {@link CriteriaParametersIndexed indexed parameters}.
-   */
-  public static CriteriaFormatter ofIndexedParameters(Appendable appendable) {
-
-    return ofIndexedParameters(new AppendableWriter(appendable));
-  }
-
-  /**
-   * @param appendable the {@link AppendableWriter} where to write the database syntax to.
-   * @return the new {@link CriteriaFormatter} using {@link CriteriaParametersIndexed indexed parameters}.
-   */
-  public static CriteriaFormatter ofIndexedParameters(AppendableWriter appendable) {
-
-    CriteriaParametersIndexed parameters = new CriteriaParametersIndexed();
-    return new CriteriaFormatter(parameters, appendable);
-  }
-
-  /**
-   * @param appendable the {@link Appendable} where to write the database syntax to.
-   * @return the new {@link CriteriaFormatter} using {@link CriteriaParametersNamed named parameters}.
-   */
-  public static CriteriaFormatter ofNamedParameters(Appendable appendable) {
-
-    return ofNamedParameters(appendable, false);
-  }
-
-  /**
-   * @param appendable the {@link Appendable} where to write the database syntax to.
-   * @param merge the {@link CriteriaParametersNamed#isMerge() merge flag}.
-   * @return the new {@link CriteriaFormatter} using {@link CriteriaParametersNamed named parameters}.
-   */
-  public static CriteriaFormatter ofNamedParameters(Appendable appendable, boolean merge) {
-
-    return ofNamedParameters(new AppendableWriter(appendable), merge);
-  }
-
-  /**
-   * @param appendable the {@link AppendableWriter} where to write the database syntax to.
-   * @param merge the {@link CriteriaParametersNamed#isMerge() merge flag}.
-   * @return the new {@link CriteriaFormatter} using {@link CriteriaParametersNamed named parameters}.
-   */
-  public static CriteriaFormatter ofNamedParameters(AppendableWriter appendable, boolean merge) {
-
-    CriteriaParametersNamed parameters = new CriteriaParametersNamed(merge);
-    return new CriteriaFormatter(parameters, appendable);
-  }
+  // /**
+  // * @return the new {@link CriteriaFormatter} using {@link CriteriaParametersIndexed indexed parameters}.
+  // */
+  // public static CriteriaFormatter ofIndexedParameters() {
+  //
+  // return ofIndexedParameters(new AppendableWriter(new StringWriter()));
+  // }
+  //
+  // /**
+  // * @param appendable the {@link Appendable} where to write the database syntax to.
+  // * @return the new {@link CriteriaFormatter} using {@link CriteriaParametersIndexed indexed parameters}.
+  // */
+  // public static CriteriaFormatter ofIndexedParameters(Appendable appendable) {
+  //
+  // return ofIndexedParameters(new AppendableWriter(appendable));
+  // }
+  //
+  // /**
+  // * @param appendable the {@link AppendableWriter} where to write the database syntax to.
+  // * @return the new {@link CriteriaFormatter} using {@link CriteriaParametersIndexed indexed parameters}.
+  // */
+  // public static CriteriaFormatter ofIndexedParameters(AppendableWriter appendable) {
+  //
+  // CriteriaParametersIndexed parameters = new CriteriaParametersIndexed();
+  // return new CriteriaFormatter(parameters, appendable);
+  // }
+  //
+  // /**
+  // * @param appendable the {@link Appendable} where to write the database syntax to.
+  // * @return the new {@link CriteriaFormatter} using {@link CriteriaParametersNamed named parameters}.
+  // */
+  // public static CriteriaFormatter ofNamedParameters(Appendable appendable) {
+  //
+  // return ofNamedParameters(appendable, false);
+  // }
+  //
+  // /**
+  // * @param appendable the {@link Appendable} where to write the database syntax to.
+  // * @param merge the {@link CriteriaParametersNamed#isMerge() merge flag}.
+  // * @return the new {@link CriteriaFormatter} using {@link CriteriaParametersNamed named parameters}.
+  // */
+  // public static CriteriaFormatter ofNamedParameters(Appendable appendable, boolean merge) {
+  //
+  // return ofNamedParameters(new AppendableWriter(appendable), merge);
+  // }
+  //
+  // /**
+  // * @param appendable the {@link AppendableWriter} where to write the database syntax to.
+  // * @param merge the {@link CriteriaParametersNamed#isMerge() merge flag}.
+  // * @return the new {@link CriteriaFormatter} using {@link CriteriaParametersNamed named parameters}.
+  // */
+  // public static CriteriaFormatter ofNamedParameters(AppendableWriter appendable, boolean merge) {
+  //
+  // CriteriaParametersNamed parameters = new CriteriaParametersNamed(merge);
+  // return new CriteriaFormatter(parameters, appendable);
+  // }
 
 }
