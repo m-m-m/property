@@ -63,16 +63,11 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V>
    * @param valueProperty the {@link #getValueProperty() value property}.
    * @param metadata the {@link #getMetadata() metadata}.
    */
-  @SuppressWarnings("unchecked")
   public MapProperty(String name, WritableSimpleProperty<K> keyProperty, WritableProperty<V> valueProperty,
       PropertyMetadata<Map<K, V>> metadata) {
 
     super(name, valueProperty, metadata);
-    if (keyProperty == null) {
-      this.keyProperty = (SimpleProperty<K>) metadata.get(METADATA_KEY_KEY_PROPERTY);
-    } else {
-      this.keyProperty = (SimpleProperty<K>) keyProperty;
-    }
+    this.keyProperty = (SimpleProperty<K>) keyProperty;
   }
 
   @Override

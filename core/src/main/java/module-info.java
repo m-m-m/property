@@ -22,6 +22,8 @@ module io.github.mmm.property {
 
   requires transitive io.github.mmm.validation;
 
+  requires transitive io.github.mmm.base.metainfo;
+
   uses io.github.mmm.property.factory.PropertyFactory;
 
   provides io.github.mmm.property.factory.PropertyFactory //

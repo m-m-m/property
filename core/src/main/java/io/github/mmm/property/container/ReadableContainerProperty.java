@@ -18,9 +18,6 @@ import io.github.mmm.value.observable.container.ReadableContainerValue;
  */
 public interface ReadableContainerProperty<V, E> extends ReadableProperty<V>, ReadableContainerValue<V, E> {
 
-  /** {@link io.github.mmm.property.PropertyMetadata#get(String) Metadata key} for {@link #getValueProperty()}. */
-  String METADATA_KEY_COMPONENT_PROPERTY = "componentProperty";
-
   /**
    * @return the {@link ReadableProperty} representing the type of the values (e.g. map values or collection elements)
    *         contained in the property container {@link #getValue() value}.

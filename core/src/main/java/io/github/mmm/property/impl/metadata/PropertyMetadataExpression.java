@@ -4,6 +4,7 @@ package io.github.mmm.property.impl.metadata;
 
 import java.util.function.Supplier;
 
+import io.github.mmm.base.metainfo.MetaInfo;
 import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
@@ -66,6 +67,15 @@ public class PropertyMetadataExpression<V> extends PropertyMetadataValidator<V> 
 
     if (newValidator != this.validator) {
       return new PropertyMetadataExpression<>(this.lock, newValidator, this.expression);
+    }
+    return this;
+  }
+
+  @Override
+  public PropertyMetadata<V> withMetaInfo(MetaInfo metaInfo) {
+
+    if ((metaInfo != null) && !metaInfo.isEmpty()) {
+      return new PropertyMetadataInfo<>(this.lock, this.validator, this.expression, metaInfo);
     }
     return this;
   }

@@ -4,6 +4,7 @@ package io.github.mmm.property.impl.metadata;
 
 import java.util.function.Supplier;
 
+import io.github.mmm.base.metainfo.MetaInfo;
 import io.github.mmm.property.AbstractPropertyMetadata;
 import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
@@ -50,6 +51,15 @@ public final class PropertyMetadataNone<V> extends AbstractPropertyMetadata<V> {
 
     if (newExpression != null) {
       return new PropertyMetadataExpression<>(null, null, newExpression);
+    }
+    return this;
+  }
+
+  @Override
+  public PropertyMetadata<V> withMetaInfo(MetaInfo metaInfo) {
+
+    if ((metaInfo != null) && !metaInfo.isEmpty()) {
+      return new PropertyMetadataInfo<>(null, null, null, metaInfo);
     }
     return this;
   }

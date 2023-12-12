@@ -65,12 +65,12 @@ public abstract class PropertyBuilderTest<V> extends Assertions {
     assertThat(property.validate().isValid()).isTrue();
 
     // and when
-    property = builder.metadata("key", "value").build(name);
+    property = builder.metaInfo("key", "value").build(name);
     assertThat(property).isNotNull();
     assertThat(property.getName()).isEqualTo(name);
     assertThat(property.get()).isNull();
     assertThat(property.getMetadata().getValidator()).isSameAs(ValidatorMandatory.get());
-    assertThat(property.getMetadata().get("key")).isEqualTo("value");
+    assertThat(property.getMetadata().getMetaInfo().get("key")).isEqualTo("value");
   }
 
   /**

@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import io.github.mmm.base.metainfo.MetaInfo;
 import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
@@ -53,7 +54,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
   /** @see #value(Object) */
   protected V value;
 
-  private Map<String, Object> metadataMap;
+  private Map<String, String> metadataMap;
 
   /**
    * The constructor.
@@ -135,16 +136,16 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
   }
 
   /**
-   * @param metadataKey the {@link PropertyMetadata#get(String) metadata key}.
-   * @param metadataValue the {@link PropertyMetadata#get(String) metadata value}.
+   * @param metaKey the {@link io.github.mmm.base.metainfo.MetaInfo#get(String) meta-info key}.
+   * @param metaValue the {@link io.github.mmm.base.metainfo.MetaInfo#get(String) meta-info value}.
    * @return this builder itself ({@code this}) for fluent API calls.
    */
-  public SELF metadata(String metadataKey, Object metadataValue) {
+  public SELF metaInfo(String metaKey, String metaValue) {
 
     if (this.metadataMap == null) {
       this.metadataMap = new HashMap<>();
     }
-    this.metadataMap.put(metadataKey, metadataValue);
+    this.metadataMap.put(metaKey, metaValue);
     return self();
   }
 
@@ -205,7 +206,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
     if (this.validatorBuilder != null) {
       validator = this.validatorBuilder.build();
     }
-    return PropertyMetadata.of(this.lock, validator, null, null, this.metadataMap);
+    return PropertyMetadata.of(this.lock, validator, null, MetaInfo.empty().with(this.metadataMap));
   }
 
   /**

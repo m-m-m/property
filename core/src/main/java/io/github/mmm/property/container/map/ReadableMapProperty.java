@@ -18,9 +18,6 @@ import io.github.mmm.value.observable.container.map.ObservableMapValue;
  */
 public interface ReadableMapProperty<K, V> extends ObservableMapValue<K, V>, ReadableContainerProperty<Map<K, V>, V> {
 
-  /** {@link io.github.mmm.property.PropertyMetadata#get(String) Metadata key} for {@link #getKeyProperty()}. */
-  String METADATA_KEY_KEY_PROPERTY = "keyProperty";
-
   /**
    * @return the {@link ReadableProperty} representing the type of the {@link Map#keySet() keys} of the {@link Map}
    *         {@link #getValue() value}.

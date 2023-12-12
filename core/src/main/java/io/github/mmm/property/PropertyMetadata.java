@@ -2,17 +2,15 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property;
 
-import java.lang.reflect.Type;
-import java.util.Map;
 import java.util.function.Supplier;
 
+import io.github.mmm.base.metainfo.MetaInfo;
 import io.github.mmm.marshall.Marshalling;
 import io.github.mmm.property.impl.metadata.PropertyMetadataExpression;
 import io.github.mmm.property.impl.metadata.PropertyMetadataLock;
-import io.github.mmm.property.impl.metadata.PropertyMetadataMap;
+import io.github.mmm.property.impl.metadata.PropertyMetadataInfo;
 import io.github.mmm.property.impl.metadata.PropertyMetadataNone;
 import io.github.mmm.property.impl.metadata.PropertyMetadataValidator;
-import io.github.mmm.property.impl.metadata.PropertyMetadataValueType;
 import io.github.mmm.property.impl.readonly.AttributeNeverReadOnly;
 import io.github.mmm.validation.Validator;
 
@@ -40,76 +38,6 @@ public interface PropertyMetadata<V> {
   Supplier<? extends V> getExpression();
 
   /**
-   * @param key the {@link java.util.Map#containsKey(Object) key} of the requested metadata.
-   * @return the value of the metadata for the given {@code key}. Will be {@code null} if no metadata exists for the
-   *         given {@code key}.
-   * @see #get(String, Class)
-   */
-  Object get(String key);
-
-  /**
-   * @param <T> type of the metadata.
-   * @param key the {@link java.util.Map#containsKey(Object) key} of the requested metadata.
-   * @param type {@link Class} reflecting the type of the requested metadata value.
-   * @return the value of the metadata for the given {@code key}. Will be {@code null} if no metadata exists for the
-   *         given {@code key}.
-   */
-  @SuppressWarnings("unchecked")
-  default <T> T get(String key, Class<T> type) {
-
-    Object value = get(key);
-    return (T) value;
-  }
-
-  /**
-   * <b>ATTENTION:</b> This is a convenient method for {@link #get(String, Class)} where {@link Class#getName()} is used
-   * as key. Be aware that this can only work for final classes, {@link java.lang.annotation.Annotation}s or if the
-   * producer of this {@link PropertyMetadata} provides the metadata under the {@code type} you are expecting as API.
-   * Also it is discouraged to use this method for generic types such as {@link String} or {@link Long} as values of
-   * such type can be anything and should have a semantic key.
-   *
-   * @param <T> type of the metadata.
-   * @param type {@link Class} reflecting the type of the requested metadata value.
-   * @return the value of the metadata for the given {@code key}. Will be {@code null} if no metadata exists for the
-   *         given {@code key}.
-   * @see #get(String, Class)
-   */
-  default <T> T get(Class<T> type) {
-
-    return get(type.getName(), type);
-  }
-
-  /**
-   * @return the {@link Iterable} of all {@link #get(String) metadata keys}.
-   */
-  Iterable<String> getKeys();
-
-  /**
-   * @return the {@link Map#size() size} of the {@link #getKeys() key}/ {@link #get(Class) value} pairs in this map.
-   */
-  int getKeyCount();
-
-  /**
-   * @return {@code true} if this metadata has at least one {@link #getKeys() key}/{@link #get(String) value} pair,
-   *         {@code false} otherwise (if empty and {@link #getKeyCount() key count} is {@code 0}).
-   */
-  default boolean hasKeys() {
-
-    return getKeyCount() > 0;
-  }
-
-  /**
-   * @return a new or immutable {@link Map} with this metadata {@link #getKeys() key}/{@link #get(Class) value} pairs.
-   */
-  Map<String, Object> asMap();
-
-  /**
-   * @return the optional {@link Type} of the {@link Property#get() property value}. May be {@code null}.
-   * @see ReadableProperty#getValueClass()
-   */
-  Type getValueType();
-
-  /**
    * @return the optional custom {@link Marshalling}. If {@code null} the default marshalling of the {@link Property} is
    *         used. Overriding also allows to extend or replace the property value with more complex data from this
    *         metadata - e.g. to reuse a {@code Bean} to represent a query to find instances of that {@code Bean}.
@@ -117,6 +45,14 @@ public interface PropertyMetadata<V> {
   default Marshalling<V> getMarshalling() {
 
     return null;
+  }
+
+  /**
+   * @return the actual meta-info.
+   */
+  default MetaInfo getMetaInfo() {
+
+    return MetaInfo.empty();
   }
 
   /**
@@ -150,6 +86,12 @@ public interface PropertyMetadata<V> {
   PropertyMetadata<V> withExpression(Supplier<? extends V> newExpression);
 
   /**
+   * @param metaInfo the new {@link #getMetaInfo() meta-info}.
+   * @return a new instance of {@link PropertyMetadata} with the given {@link MetaInfo} used for {@link #getMetaInfo()}.
+   */
+  PropertyMetadata<V> withMetaInfo(MetaInfo metaInfo);
+
+  /**
    * @return the lock object that can make the owning {@link Property} {@link AttributeReadOnly#isReadOnly() read-only}.
    *         Typically this is the owning bean.
    */
@@ -160,20 +102,17 @@ public interface PropertyMetadata<V> {
 
   /**
    * @param <V> type of the {@link Property#get() property value}.
-   * @param lock the {@link PropertyMetadata#getLock() lock} (owning bean).
-   * @param validator the {@link PropertyMetadata#getValidator() validator}.
-   * @param expression the {@link PropertyMetadata#getExpression() expression}.
-   * @param valueType the {@link PropertyMetadata#getValueType() value type}.
-   * @param map the {@link PropertyMetadata#get(String) metadata} {@link Map}.
+   * @param lock the {@link #getLock() lock} (owning bean).
+   * @param validator the {@link #getValidator() validator}.
+   * @param expression the {@link #getExpression() expression}.
+   * @param metaInfo the {@link #getMetaInfo() meta-info}.
    * @return the new {@link PropertyMetadata}.
    */
   static <V> PropertyMetadata<V> of(AttributeReadOnly lock, Validator<? super V> validator,
-      Supplier<? extends V> expression, Type valueType, Map<String, Object> map) {
+      Supplier<? extends V> expression, MetaInfo metaInfo) {
 
-    if (isNotEmpty(map)) {
-      return new PropertyMetadataMap<>(lock, validator, expression, valueType, map);
-    } else if (valueType != null) {
-      return new PropertyMetadataValueType<>(lock, validator, expression, valueType);
+    if (isNotEmpty(metaInfo)) {
+      return new PropertyMetadataInfo<>(lock, validator, expression, metaInfo);
     } else if (expression != null) {
       return new PropertyMetadataExpression<>(lock, validator, expression);
     } else if (Validator.isValidating(validator)) {
@@ -184,12 +123,12 @@ public interface PropertyMetadata<V> {
     return PropertyMetadataNone.get();
   }
 
-  private static boolean isNotEmpty(Map<?, ?> map) {
+  private static boolean isNotEmpty(MetaInfo metaInfo) {
 
-    if (map == null) {
+    if (metaInfo == null) {
       return false;
     }
-    return !map.isEmpty();
+    return !metaInfo.isEmpty();
   }
 
   /**
@@ -199,7 +138,7 @@ public interface PropertyMetadata<V> {
    */
   static <V> PropertyMetadata<V> of(AttributeReadOnly lock) {
 
-    return of(lock, null, null, null, null);
+    return of(lock, null, null, null);
   }
 
   /**
@@ -210,7 +149,7 @@ public interface PropertyMetadata<V> {
    */
   static <V> PropertyMetadata<V> of(AttributeReadOnly lock, Validator<? super V> validator) {
 
-    return of(lock, validator, null, null, null);
+    return of(lock, validator, null, null);
   }
 
   /**
@@ -223,21 +162,7 @@ public interface PropertyMetadata<V> {
   static <V> PropertyMetadata<V> of(AttributeReadOnly lock, Validator<? super V> validator,
       Supplier<? extends V> expression) {
 
-    return of(lock, validator, expression, null, null);
-  }
-
-  /**
-   * @param <V> type of the {@link Property#get() property value}.
-   * @param lock the {@link PropertyMetadata#getLock() lock} (owning bean).
-   * @param validator the {@link PropertyMetadata#getValidator() validator}.
-   * @param expression the {@link PropertyMetadata#getExpression() expression}.
-   * @param valueType the {@link PropertyMetadata#getValueType() value type}.
-   * @return the new {@link PropertyMetadata}.
-   */
-  static <V> PropertyMetadata<V> of(AttributeReadOnly lock, Validator<? super V> validator,
-      Supplier<? extends V> expression, Type valueType) {
-
-    return of(lock, validator, expression, valueType, null);
+    return of(lock, validator, expression, null);
   }
 
   /**
@@ -249,7 +174,7 @@ public interface PropertyMetadata<V> {
    */
   static <V> PropertyMetadata<V> ofExpression(Supplier<? extends V> expression) {
 
-    return of(null, null, expression, null, null);
+    return of(null, null, expression, null);
   }
 
 }

@@ -47,13 +47,9 @@ public abstract class ContainerProperty<V, E> extends Property<V> implements Wri
    * @param valueProperty the {@link #getValueProperty() value property}.
    * @param metadata the {@link #getMetadata() metadata}.
    */
-  @SuppressWarnings("unchecked")
   public ContainerProperty(String name, WritableProperty<E> valueProperty, PropertyMetadata<V> metadata) {
 
     super(name, metadata);
-    if (valueProperty == null) {
-      valueProperty = (Property<E>) metadata.get(METADATA_KEY_COMPONENT_PROPERTY);
-    }
     this.valueProperty = (Property<E>) valueProperty;
   }
 
