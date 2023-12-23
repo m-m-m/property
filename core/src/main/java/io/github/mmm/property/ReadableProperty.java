@@ -87,7 +87,6 @@ public interface ReadableProperty<V> extends ObservableValue<V>, TypedPropertyPa
    */
   default boolean isTransient() {
 
-    // can we simply use isReadOnly() instead?
     return getMetadata().isTransient();
   }
 

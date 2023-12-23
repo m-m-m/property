@@ -7,8 +7,8 @@ import java.util.function.Supplier;
 import io.github.mmm.base.metainfo.MetaInfo;
 import io.github.mmm.marshall.Marshalling;
 import io.github.mmm.property.impl.metadata.PropertyMetadataExpression;
-import io.github.mmm.property.impl.metadata.PropertyMetadataLock;
 import io.github.mmm.property.impl.metadata.PropertyMetadataInfo;
+import io.github.mmm.property.impl.metadata.PropertyMetadataLock;
 import io.github.mmm.property.impl.metadata.PropertyMetadataNone;
 import io.github.mmm.property.impl.metadata.PropertyMetadataValidator;
 import io.github.mmm.property.impl.readonly.AttributeNeverReadOnly;
@@ -23,6 +23,12 @@ import io.github.mmm.validation.Validator;
  * @since 1.0.0
  */
 public interface PropertyMetadata<V> {
+
+  /**
+   * {@link MetaInfo#getAsBoolean(String) Key} for {@link #isTransient() transient flag} in {@link #getMetaInfo()
+   * meta-info}.
+   */
+  String KEY_TRANSIENT = "transient";
 
   /**
    * @return the {@link Validator} used to {@link ReadableProperty#validate() validate} the property.
@@ -56,12 +62,13 @@ public interface PropertyMetadata<V> {
   }
 
   /**
-   * @return {@code true} if transient (e.g. computed and therefore not to be marshalled), {@code false} otherwise.
+   * @return {@code true} if transient (will be excluded from marshalling and persistence e.g. if computed),
+   *         {@code false} otherwise.
    * @see ReadableProperty#isTransient()
    */
   default boolean isTransient() {
 
-    return (getExpression() != null);
+    return (getExpression() != null) || getMetaInfo().getAsBoolean(KEY_TRANSIENT, false);
   }
 
   /**
