@@ -50,7 +50,7 @@ public interface PropertyPathParser extends CharScannerParser<PropertyPath<?>> {
    */
   static String parseSegment(CharStreamScanner scanner, PropertyPath<?> path) {
 
-    String segment = scanner.readWhile(CharFilter.SEGMENT);
+    String segment = scanner.readWhile(CharFilter.SEGMENT, 1, 256);
     if ((segment == null) || (segment.isEmpty())) {
       if (path != null) {
         throw new IllegalArgumentException("Expected path segment not found at " + path + ".");
