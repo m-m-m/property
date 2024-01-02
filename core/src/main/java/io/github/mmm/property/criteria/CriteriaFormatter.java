@@ -261,6 +261,13 @@ public class CriteriaFormatter implements CriteriaVisitor {
     CriteriaVisitor.super.onLiteral(literal, i, parent);
   }
 
+  @Override
+  public void onNullValue(int i, CriteriaExpression<?> parent) {
+
+    write("null");
+    CriteriaVisitor.super.onNullValue(i, parent);
+  }
+
   /**
    * @param glob the literal value for a LIKE expression assumed in glob-syntax.
    * @return the given {@code glob} {@link String} converted to LIKE pattern.

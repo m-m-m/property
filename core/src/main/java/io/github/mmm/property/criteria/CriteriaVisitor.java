@@ -66,7 +66,9 @@ public interface CriteriaVisitor {
    */
   default void onArg(CriteriaObject<?> arg, int i, CriteriaExpression<?> parent) {
 
-    if (arg instanceof Literal) {
+    if (arg == null) {
+      onNullValue(i, parent);
+    } else if (arg instanceof Literal) {
       onLiteral((Literal<?>) arg, i, parent);
     } else if (arg instanceof PropertyPath) {
       onPropertyPath((PropertyPath<?>) arg, i, parent);
@@ -117,6 +119,16 @@ public interface CriteriaVisitor {
    * @see #onArg(CriteriaObject, int, CriteriaExpression)
    */
   default void onLiteral(Literal<?> literal, int i, CriteriaExpression<?> parent) {
+
+  }
+
+  /**
+   * @param literal the {@link Literal} to visit.
+   * @param i the {@link List#get(int) index} of {@code arg} in the {@link CriteriaExpression#getArgs() arguments}.
+   * @param parent the parent {@link CriteriaExpression} to owning the given {@link Literal}.
+   * @see #onArg(CriteriaObject, int, CriteriaExpression)
+   */
+  default void onNullValue(int i, CriteriaExpression<?> parent) {
 
   }
 
