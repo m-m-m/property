@@ -153,4 +153,16 @@ public interface ReadableProperty<V> extends ObservableValue<V>, TypedPropertyPa
     return CriteriaAggregation.count(this);
   }
 
+  /**
+   * Similar to {@link #equals(Object)} but may be overridden for more semantic comparison (e.g. for bean property).
+   *
+   * @param other the other {@link ReadableProperty property} to compare with.
+   * @return {@code true} if this property is equal to the given property.
+   * @see #equals(Object)
+   */
+  default boolean isEqual(ReadableProperty<?> other) {
+
+    return equals(other);
+  }
+
 }
