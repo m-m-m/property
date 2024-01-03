@@ -68,14 +68,14 @@ public interface CriteriaVisitor {
 
     if (arg == null) {
       onNullValue(i, parent);
-    } else if (arg instanceof Literal) {
-      onLiteral((Literal<?>) arg, i, parent);
-    } else if (arg instanceof PropertyPath) {
-      onPropertyPath((PropertyPath<?>) arg, i, parent);
-    } else if (arg instanceof CriteriaExpression) {
-      onExpression((CriteriaExpression<?>) arg, parent);
-    } else if (arg instanceof ProjectionProperty) {
-      onProjectionProperty((ProjectionProperty<?>) arg, i, parent);
+    } else if (arg instanceof Literal<?> literal) {
+      onLiteral(literal, i, parent);
+    } else if (arg instanceof PropertyPath<?> property) {
+      onPropertyPath(property, i, parent);
+    } else if (arg instanceof CriteriaExpression<?> expression) {
+      onExpression(expression, parent);
+    } else if (arg instanceof ProjectionProperty<?> projection) {
+      onProjectionProperty(projection, i, parent);
     } else {
       onUndefinedArg(arg, i, parent);
     }

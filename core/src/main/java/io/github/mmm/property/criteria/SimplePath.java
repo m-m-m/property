@@ -21,7 +21,7 @@ public final class SimplePath implements PropertyPath<Object> {
   /** The {@link PropertyPathParser} for parsing as {@link SimplePath}. */
   public static final PropertyPathParser PARSER = SimplePathParser.INSTANCE;
 
-  private final SimplePath parent;
+  private final ReadablePath parent;
 
   private final String name;
 
@@ -31,7 +31,7 @@ public final class SimplePath implements PropertyPath<Object> {
    * @param parent the {@link #parentPath() parent path} or {@code null} for root.
    * @param name the {@link #getName() name} and {@link #pathSegment() segment}.
    */
-  public SimplePath(SimplePath parent, String name) {
+  public SimplePath(ReadablePath parent, String name) {
 
     super();
     this.parent = parent;
