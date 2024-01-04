@@ -1,9 +1,8 @@
-package io.github.mmm.property.criteria.impl;
+package io.github.mmm.property.criteria;
 
-import io.github.mmm.property.criteria.PropertyPathParser;
-import io.github.mmm.property.criteria.SimplePath;
 import io.github.mmm.scanner.CharStreamScanner;
 import io.github.mmm.value.PropertyPath;
+import io.github.mmm.value.SimplePath;
 
 /**
  * Implementation of {@link PropertyPathParser} for {@link SimplePath}.

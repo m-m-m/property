@@ -15,6 +15,7 @@ import io.github.mmm.marshall.id.StructuredIdMapping;
 import io.github.mmm.marshall.id.StructuredIdMappingObject;
 import io.github.mmm.value.CriteriaObject;
 import io.github.mmm.value.PropertyPath;
+import io.github.mmm.value.SimplePath;
 
 /**
  * {@link Marshalling} to map {@link CriteriaExpression}s.

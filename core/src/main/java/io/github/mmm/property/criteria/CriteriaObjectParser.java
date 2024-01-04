@@ -15,6 +15,7 @@ import io.github.mmm.scanner.CharScannerParser;
 import io.github.mmm.scanner.CharStreamScanner;
 import io.github.mmm.value.CriteriaObject;
 import io.github.mmm.value.PropertyPath;
+import io.github.mmm.value.SimplePath;
 
 /**
  * {@link CharScannerParser} for {@link CriteriaObject}.<br>
@@ -38,7 +39,7 @@ public class CriteriaObjectParser implements CharScannerParser<CriteriaObject<?>
   @Override
   public CriteriaObject<?> parse(CharStreamScanner scanner) {
 
-    return parse(scanner, SimplePath.PARSER);
+    return parse(scanner, SimplePathParser.INSTANCE);
   }
 
   /**
@@ -256,7 +257,7 @@ public class CriteriaObjectParser implements CharScannerParser<CriteriaObject<?>
    */
   public CriteriaObject<?> parseSelection(CharStreamScanner scanner) {
 
-    return parseSelection(scanner, SimplePath.PARSER);
+    return parseSelection(scanner, SimplePathParser.INSTANCE);
   }
 
   /**

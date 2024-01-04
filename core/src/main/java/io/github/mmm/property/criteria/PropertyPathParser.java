@@ -11,7 +11,7 @@ import io.github.mmm.value.ReadablePath;
 /**
  * {@link CharScannerParser} for {@link PropertyPath}.
  *
- * @see SimplePath#PARSER
+ * @see SimplePathParser
  * @since 1.0.0
  */
 public interface PropertyPathParser extends CharScannerParser<PropertyPath<?>> {

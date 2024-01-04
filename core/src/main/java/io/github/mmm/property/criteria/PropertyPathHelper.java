@@ -4,6 +4,7 @@ package io.github.mmm.property.criteria;
 
 import io.github.mmm.value.PropertyPath;
 import io.github.mmm.value.ReadablePath;
+import io.github.mmm.value.SimplePath;
 import io.github.mmm.value.WritablePath;
 
 /**
