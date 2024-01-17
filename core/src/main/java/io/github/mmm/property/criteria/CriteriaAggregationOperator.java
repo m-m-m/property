@@ -105,7 +105,7 @@ public class CriteriaAggregationOperator extends CriteriaOperator {
    * @return the {@link CriteriaAggregation} aggregating the given {@link PropertyPath property} using this
    *         {@link CriteriaAggregationOperator}.
    */
-  public <V> CriteriaAggregation<V> criteria(PropertyPath<V> property) {
+  public <V extends Comparable<? super V>> CriteriaAggregation<V> criteria(PropertyPath<V> property) {
 
     Objects.requireNonNull(property, "property");
     return new CriteriaAggregationImpl<>(this, property);
@@ -117,7 +117,7 @@ public class CriteriaAggregationOperator extends CriteriaOperator {
    * @return the {@link CriteriaAggregation} aggregating the given {@link PropertyPath property} using this
    *         {@link CriteriaAggregationOperator}.
    */
-  public <V> CriteriaAggregation<V> criteria(CriteriaAggregation<V> nestedAggregation) {
+  public <V extends Comparable<? super V>> CriteriaAggregation<V> criteria(CriteriaAggregation<V> nestedAggregation) {
 
     Objects.requireNonNull(nestedAggregation, "property");
     return new CriteriaAggregationImpl<>(this, nestedAggregation);

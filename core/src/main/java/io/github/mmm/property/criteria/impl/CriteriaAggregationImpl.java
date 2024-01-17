@@ -9,10 +9,11 @@ import io.github.mmm.value.CriteriaObject;
 /**
  * Implementation of {@link CriteriaAggregation}.
  *
- * @param <R> type of the result value of the aggregation function.
+ * @param <V> type of the result value of the aggregation function.
  * @since 1.0.0
  */
-public class CriteriaAggregationImpl<R> extends AbstractCriteriaExpression<R> implements CriteriaAggregation<R> {
+public class CriteriaAggregationImpl<V extends Comparable<? super V>> extends AbstractCriteriaExpression<V>
+    implements CriteriaAggregation<V> {
 
   private final CriteriaAggregationOperator operator;
 

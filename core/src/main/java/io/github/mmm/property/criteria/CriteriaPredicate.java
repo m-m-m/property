@@ -7,6 +7,7 @@ import java.util.Objects;
 
 import io.github.mmm.property.criteria.impl.ConjunctionPredicate;
 import io.github.mmm.property.criteria.impl.SimplePredicate;
+import io.github.mmm.value.CriteriaObject;
 import io.github.mmm.value.PropertyPath;
 
 /**
@@ -85,12 +86,12 @@ public interface CriteriaPredicate extends CriteriaExpression<Boolean>, BooleanS
 
   /**
    * @param <V> type of the {@code value}.
-   * @param property the {@link PropertyPath} to compare.
+   * @param property the {@link CriteriaObject} to compare. Should typically be a {@link PropertyPath}.
    * @param op the {@link PredicateOperator} for comparison.
    * @param value the value to compare with.
    * @return the resulting {@link CriteriaPredicate}.
    */
-  static <V> CriteriaPredicate of(PropertyPath<V> property, PredicateOperator op, V value) {
+  static <V> CriteriaPredicate of(CriteriaObject<V> property, PredicateOperator op, V value) {
 
     Objects.requireNonNull(property);
     if (value == null) {
@@ -111,7 +112,7 @@ public interface CriteriaPredicate extends CriteriaExpression<Boolean>, BooleanS
    * @param property2 the second {@link PropertyPath property} to compare with.
    * @return the resulting {@link CriteriaPredicate}.
    */
-  static <V> CriteriaPredicate of(PropertyPath<V> property, PredicateOperator op, PropertyPath<V> property2) {
+  static <V> CriteriaPredicate of(CriteriaObject<V> property, PredicateOperator op, PropertyPath<V> property2) {
 
     Objects.requireNonNull(property);
     Objects.requireNonNull(property2);

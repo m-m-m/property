@@ -67,7 +67,7 @@ public class ProjectionProperty<V> implements CriteriaObject<V> {
    * @param property the {@link #getProperty() projection property}.
    * @return the new {@link ProjectionProperty}.
    */
-  public static <V extends Number> ProjectionProperty<V> of(CriteriaAggregation<V> selection,
+  public static <V extends Number & Comparable<V>> ProjectionProperty<V> of(CriteriaAggregation<V> selection,
       PropertyPath<V> property) {
 
     return new ProjectionProperty<>(selection, property);

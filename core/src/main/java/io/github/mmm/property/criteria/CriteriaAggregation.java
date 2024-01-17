@@ -5,6 +5,7 @@ package io.github.mmm.property.criteria;
 import java.util.List;
 import java.util.Objects;
 
+import io.github.mmm.property.comparable.ComparablePredicateSupport;
 import io.github.mmm.property.criteria.impl.CriteriaAggregationImpl;
 import io.github.mmm.value.CriteriaObject;
 import io.github.mmm.value.PropertyPath;
@@ -16,10 +17,11 @@ import io.github.mmm.value.PropertyPath;
  * {@link CriteriaAggregationOperator#MAX MAX}, or {@link CriteriaAggregationOperator#GROUP_CONCAT GROUP_CONCAT}. A
  * {@link CriteriaAggregation} can only have one {@link #getFirstArg() argument} (and {@link #COUNT_ALL} has none).
  *
- * @param <R> type of the result value of the aggregation function.
+ * @param <V> type of the result value of the aggregation function.
  * @since 1.0.0
  */
-public interface CriteriaAggregation<R> extends CriteriaExpression<R> {
+public interface CriteriaAggregation<V extends Comparable<? super V>>
+    extends CriteriaExpression<V>, ComparablePredicateSupport<V> {
 
   /**
    * {@link CriteriaAggregation} for {@code COUNT(*)}.
@@ -84,7 +86,7 @@ public interface CriteriaAggregation<R> extends CriteriaExpression<R> {
    */
   @Deprecated
   @Override
-  default CriteriaAggregation<R> simplify() {
+  default CriteriaAggregation<V> simplify() {
 
     return this;
   }
@@ -96,7 +98,8 @@ public interface CriteriaAggregation<R> extends CriteriaExpression<R> {
    * @return the {@link CriteriaAggregation} aggregating the given {@link PropertyPath property} using the given
    *         {@link CriteriaAggregationOperator}.
    */
-  static <R> CriteriaAggregation<R> of(CriteriaAggregationOperator operator, PropertyPath<R> property) {
+  static <R extends Comparable<? super R>> CriteriaAggregation<R> of(CriteriaAggregationOperator operator,
+      PropertyPath<R> property) {
 
     Objects.requireNonNull(operator, "operator");
     return operator.criteria(property);
@@ -109,7 +112,8 @@ public interface CriteriaAggregation<R> extends CriteriaExpression<R> {
    * @return the {@link CriteriaAggregation} aggregating the given {@link CriteriaAggregation} using the given
    *         {@link CriteriaAggregationOperator}.
    */
-  static <R> CriteriaAggregation<R> of(CriteriaAggregationOperator operator, CriteriaAggregation<R> nestedAggregation) {
+  static <R extends Comparable<? super R>> CriteriaAggregation<R> of(CriteriaAggregationOperator operator,
+      CriteriaAggregation<R> nestedAggregation) {
 
     Objects.requireNonNull(operator, "operator");
     return operator.criteria(nestedAggregation);
