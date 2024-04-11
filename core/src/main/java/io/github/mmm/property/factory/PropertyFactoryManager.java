@@ -59,7 +59,7 @@ public interface PropertyFactoryManager {
    * @throws IllegalArgumentException if no {@link PropertyFactory} was {@link #getFactoryForPropertyType(Class) found}
    *         for {@code propertyType}.
    */
-  default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name) {
+  default <V, P extends WritableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name) {
 
     return create(propertyType, valueClass, name, PropertyMetadataNone.get());
   }
@@ -81,11 +81,10 @@ public interface PropertyFactoryManager {
    *         for {@code propertyType}.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name,
+  default <V, P extends WritableProperty<V>> P create(Class<P> propertyType, Class<V> valueClass, String name,
       PropertyMetadata<V> metadata) {
 
-    // Open/Oracle JDK compiler has so many bugs in handling of generics... https://github.com/m-m-m/util/issues/166
-    PropertyFactory factory = getRequiredFactory(propertyType, (Class) valueClass);
+    PropertyFactory factory = getRequiredFactory(propertyType, valueClass);
     if (factory instanceof AbstractSimplePropertyFactory simpleFactory) {
       // avoid creating PropertyTypeInfo if not used...
       return (P) simpleFactory.create(name, metadata);
@@ -111,11 +110,10 @@ public interface PropertyFactoryManager {
    *         for {@code propertyType}.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  default <V, P extends ReadableProperty<V>> P create(Class<P> propertyType, PropertyTypeInfo<V> typeInfo, String name,
+  default <V, P extends WritableProperty<V>> P create(Class<P> propertyType, PropertyTypeInfo<V> typeInfo, String name,
       PropertyMetadata<V> metadata) {
 
-    // Open/Oracle JDK compiler has so many bugs in handling of generics... https://github.com/m-m-m/util/issues/166
-    PropertyFactory factory = getRequiredFactory(propertyType, (Class) typeInfo.getValueClass());
+    PropertyFactory factory = getRequiredFactory(propertyType, typeInfo.getValueClass());
     return (P) factory.create(name, typeInfo, metadata);
   }
 
@@ -128,7 +126,7 @@ public interface PropertyFactoryManager {
    *        {@link PropertyFactory#getImplementationClass() implementation}.
    * @return the according {@link PropertyFactory} or {@code null} if no such factory is registered.
    */
-  <V, P extends ReadableProperty<V>> PropertyFactory<V, ? extends P> getFactoryForPropertyType(Class<P> propertyType);
+  <V, P extends WritableProperty<V>> PropertyFactory<V, ? extends P> getFactoryForPropertyType(Class<P> propertyType);
 
   /**
    * @see PropertyFactory#getValueClass()
@@ -137,7 +135,7 @@ public interface PropertyFactoryManager {
    * @param valueType the {@link Class} reflecting the {@link WritableProperty#get() property value}.
    * @return the according {@link PropertyFactory} or {@code null} if no such factory is registered.
    */
-  <V> PropertyFactory<V, ? extends ReadableProperty<V>> getFactoryForValueType(Class<? extends V> valueType);
+  <V> PropertyFactory<V, ? extends WritableProperty<V>> getFactoryForValueType(Class<? extends V> valueType);
 
   /**
    * @param <V> the generic type of the {@link WritableProperty#get() property value}.
@@ -150,13 +148,12 @@ public interface PropertyFactoryManager {
    * @return the according {@link PropertyFactory} or {@code null} if no such factory is registered.
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  default <V, P extends ReadableProperty<V>> PropertyFactory<V, ? extends P> getFactory(Class<P> propertyType,
+  default <V, P extends WritableProperty<V>> PropertyFactory<V, ? extends P> getFactory(Class<P> propertyType,
       Class<V> valueType) {
 
     PropertyFactory factory = null;
     if (propertyType != null) {
-      // Open/Oracle JDK compiler has so many bugs in handling of generics... https://github.com/m-m-m/util/issues/166
-      factory = getFactoryForPropertyType((Class) propertyType);
+      factory = getFactoryForPropertyType(propertyType);
     }
     if (valueType != null) {
       if ((factory == null) || (factory.getValueClass() == null)) {
@@ -183,7 +180,7 @@ public interface PropertyFactoryManager {
    * @throws ObjectNotFoundException if no such {@link PropertyFactory} could be found.
    */
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  default <V, P extends ReadableProperty<V>> PropertyFactory<V, ? extends P> getRequiredFactory(Class<P> propertyType,
+  default <V, P extends WritableProperty<V>> PropertyFactory<V, ? extends P> getRequiredFactory(Class<P> propertyType,
       Class<V> valueType) {
 
     PropertyFactory<V, ? extends P> factory = getFactory(propertyType, (Class) valueType);

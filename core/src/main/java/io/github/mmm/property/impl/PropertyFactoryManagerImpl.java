@@ -140,7 +140,7 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
-  public <V, PROPERTY extends ReadableProperty<V>> PropertyFactory<V, ? extends PROPERTY> getFactoryForPropertyType(
+  public <V, PROPERTY extends WritableProperty<V>> PropertyFactory<V, ? extends PROPERTY> getFactoryForPropertyType(
       Class<PROPERTY> propertyType) {
 
     PropertyFactory factory = this.propertyType2factoryMap.get(propertyType);
@@ -152,7 +152,7 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
-  public <V> PropertyFactory<V, ? extends ReadableProperty<V>> getFactoryForValueType(Class<? extends V> valueClass) {
+  public <V> PropertyFactory<V, ? extends WritableProperty<V>> getFactoryForValueType(Class<? extends V> valueClass) {
 
     if (valueClass.isPrimitive()) {
       valueClass = (Class) PRIMITIVE2WRAPPER_MAP.get(valueClass);
@@ -177,7 +177,7 @@ public class PropertyFactoryManagerImpl implements PropertyFactoryManager {
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
-  public <V, PROPERTY extends ReadableProperty<V>> PROPERTY create(Class<PROPERTY> propertyType,
+  public <V, PROPERTY extends WritableProperty<V>> PROPERTY create(Class<PROPERTY> propertyType,
       PropertyTypeInfo<V> typeInfo, String name, PropertyMetadata<V> metadata) {
 
     // Open/Oracle JDK compiler has so many bugs in handling of generics...
