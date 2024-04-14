@@ -10,6 +10,7 @@ import io.github.mmm.property.object.WritableSimpleProperty;
  * {@link PropertyFactory#create(String, PropertyTypeInfo, io.github.mmm.property.PropertyMetadata) creation}.
  *
  * @param <V> type of {@link #getValueClass()}.
+ * @since 1.0.0
  */
 public interface PropertyTypeInfo<V> {
 
