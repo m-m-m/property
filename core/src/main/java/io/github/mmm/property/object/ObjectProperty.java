@@ -97,4 +97,10 @@ public class ObjectProperty<V> extends SimpleProperty<V> implements WritableObje
     throw new UnsupportedOperationException();
   }
 
+  @Override
+  public V getStaticSafeValue() {
+
+    return null; // no generic fallback available
+  }
+
 }

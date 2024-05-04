@@ -22,10 +22,9 @@ public interface ReadableRangeProperty<V extends Comparable<?>> extends Readable
   }
 
   @Override
-  default Range<V> getSafe() {
+  default Range<V> getStaticSafeValue() {
 
-    final Range<V> value = get();
-    return value == null ? Range.unbounded() : value;
+    return Range.unbounded();
   }
 
 }
