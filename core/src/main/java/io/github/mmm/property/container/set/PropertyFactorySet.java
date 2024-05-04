@@ -51,4 +51,10 @@ public class PropertyFactorySet<E> extends AbstractPropertyFactory<Set<E>, SetPr
     return new SetProperty(name, typeInfo.getValueProperty(), metadata);
   }
 
+  @Override
+  public boolean isPolymorphic() {
+
+    return true;
+  }
+
 }

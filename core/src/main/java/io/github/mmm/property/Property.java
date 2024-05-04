@@ -238,18 +238,6 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   }
 
   @Override
-  public void toString(StringBuilder sb) {
-
-    sb.append(this.name);
-    sb.append('=');
-    if (isSensitive()) {
-      sb.append("**********");
-    } else {
-      sb.append(get());
-    }
-  }
-
-  @Override
   public final void writeObject(StructuredWriter writer, Object object) {
 
     if (object != this) {
@@ -304,6 +292,18 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
 
     V value = reader.readValue(getValueClass());
     set(value);
+  }
+
+  @Override
+  public void toString(StringBuilder sb) {
+
+    sb.append(this.name);
+    sb.append('=');
+    if (isSensitive()) {
+      sb.append("**********");
+    } else {
+      sb.append(get());
+    }
   }
 
   @Override

@@ -9,16 +9,9 @@ import io.github.mmm.property.PropertyTest;
  */
 public class LocalePropertyTest extends PropertyTest<Locale, LocaleProperty> {
 
-  @Override
-  protected Class<Locale> getValueClass() {
+  LocalePropertyTest() {
 
-    return Locale.class;
-  }
-
-  @Override
-  protected Locale getExampleValue() {
-
-    return Locale.GERMAN;
+    super(Locale.GERMAN, LocaleProperty.class);
   }
 
 }

@@ -54,4 +54,10 @@ public class PropertyFactoryMap<K, V> extends AbstractPropertyFactory<Map<K, V>,
     return new MapProperty(name, typeInfo.getKeyProperty(), typeInfo.getValueProperty(), metadata);
   }
 
+  @Override
+  public boolean isPolymorphic() {
+
+    return true;
+  }
+
 }

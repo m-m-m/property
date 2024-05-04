@@ -51,4 +51,10 @@ public class PropertyFactoryList<E> extends AbstractPropertyFactory<List<E>, Lis
     return new ListProperty(name, typeInfo.getValueProperty(), metadata);
   }
 
+  @Override
+  public boolean isPolymorphic() {
+
+    return true;
+  }
+
 }
