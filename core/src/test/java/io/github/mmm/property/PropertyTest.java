@@ -126,7 +126,6 @@ public abstract class PropertyTest<V, P extends Property<V>> extends Assertions 
     if (property instanceof ReadableSimpleValue simple) {
       assertThat(json).contains(simple.getAsString());
     }
-
   }
 
   /**

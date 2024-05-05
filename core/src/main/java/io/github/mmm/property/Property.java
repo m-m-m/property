@@ -199,9 +199,10 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
 
     if (this.readOnlyProperty == null) {
       if (this.metadata.getExpression() != null) {
+        // TODO might be incorrect since lock can still point to writable bean, must be bullet-proof
         this.readOnlyProperty = this;
       } else {
-        Property<V> copy = copy(null, this.metadata.withExpression(createReadOnlyExpression()));
+        Property<V> copy = copy(null, this.metadata.withLock(null).withExpression(createReadOnlyExpression()));
         copy.makeReadOnly();
         this.readOnlyProperty = copy;
       }
