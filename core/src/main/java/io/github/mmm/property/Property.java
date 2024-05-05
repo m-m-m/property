@@ -23,9 +23,9 @@ import io.github.mmm.value.observable.AbstractWritableObservableValue;
  */
 public abstract class Property<V> extends AbstractWritableObservableValue<V> implements WritableProperty<V>, Cloneable {
 
-  private String name;
+  private /* final */ String name;
 
-  private PropertyMetadata<V> metadata;
+  private /* final */ PropertyMetadata<V> metadata;
 
   private ValidationResult validationResult;
 
