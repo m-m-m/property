@@ -201,13 +201,30 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
       if (this.metadata.getExpression() != null) {
         this.readOnlyProperty = this;
       } else {
-        Property<V> copy = copy(null, null);
-        copy.bindInternal(this);
-        copy.readOnlyProperty = copy;
+        Property<V> copy = copy(null, this.metadata.withExpression(createReadOnlyExpression()));
+        copy.makeReadOnly();
         this.readOnlyProperty = copy;
       }
     }
     return this.readOnlyProperty;
+  }
+
+  /**
+   * @return the {@link PropertyMetadata#getExpression() expression} to {@link #get() get the value} of a
+   *         {@link #getReadOnly() read-only property view}. By default we assume that the {@link #get() property value}
+   *         is immutable. However, for {@link Property properties} where this is not the case (e.g.
+   *         {@link io.github.mmm.property.container.ContainerProperty}), this needs to be overridden.
+   */
+  protected Supplier<? extends V> createReadOnlyExpression() {
+
+    return this::get;
+  }
+
+  @Override
+  protected void makeReadOnly() {
+
+    super.makeReadOnly();
+    this.readOnlyProperty = this;
   }
 
   @Override

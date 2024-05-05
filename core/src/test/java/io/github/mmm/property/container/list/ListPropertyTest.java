@@ -1,6 +1,9 @@
 package io.github.mmm.property.container.list;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import io.github.mmm.property.PropertyTest;
@@ -22,6 +25,22 @@ class ListPropertyTest extends PropertyTest<List<Object>, ListProperty<Object>> 
   ListPropertyTest() {
 
     super(EXAMPLE_VALUE, (Class) ListProperty.class);
+  }
+
+  @Override
+  protected void verifyReadOnlyValue(ListProperty<Object> readOnly) {
+
+    List<Object> list = readOnly.get();
+    assertThat(list).isEqualTo(EXAMPLE_VALUE);
+    assertThrows(UnsupportedOperationException.class, () -> list.add("bar"));
+    assertThrows(UnsupportedOperationException.class, () -> list.add(0, "bar"));
+    assertThrows(UnsupportedOperationException.class, () -> list.remove("foo"));
+    assertThrows(UnsupportedOperationException.class, () -> {
+      Iterator<Object> iterator = list.iterator();
+      assertThat(iterator).hasNext();
+      assertThat(iterator.next()).isEqualTo("foo");
+      iterator.remove();
+    });
   }
 
 }

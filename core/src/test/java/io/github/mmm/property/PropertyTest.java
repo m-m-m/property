@@ -6,9 +6,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import io.github.mmm.base.exception.ReadOnlyException;
+import io.github.mmm.marshall.StandardFormat;
+import io.github.mmm.marshall.StructuredTextFormat;
 import io.github.mmm.property.factory.PropertyFactoryManager;
 import io.github.mmm.value.observable.ObservableEvent;
 import io.github.mmm.value.observable.ObservableEventListener;
+import io.github.mmm.value.observable.object.ReadableSimpleValue;
 
 /**
  * Abstract test case for testing sub-classes of {@link Property}.
@@ -59,44 +62,84 @@ public abstract class PropertyTest<V, P extends Property<V>> extends Assertions 
 
   /** Test via {@link PropertyFactoryManager#create(Class, String)}. */
   @Test
-  public void testFactory() {
+  public void testPropertyFromFactory() {
 
     // arrange
-    String name = PROPERTY_NAME;
-    ;
     // act
-    PropertyFactoryManager propertyFactoryManager = PropertyFactoryManager.get();
-    Class<P> propertyType = null;
-    if (this.createByPropertyClass) {
-      propertyType = this.propertyClass;
-    }
-    WritableProperty<V> property = propertyFactoryManager.create(propertyType, this.valueClass, name);
+    P property = createProperty();
     // assert
     assertThat(property).isNotNull();
     assertThat(property).isInstanceOf(this.propertyClass);
-    assertThat(property.getName()).isEqualTo(name);
+    assertThat(property.getName()).isEqualTo(PROPERTY_NAME);
     assertThat(property.getValueClass()).isAssignableFrom(this.valueClass);
-    assertThat(property.getSafe()).isNotNull();
     assertThat(property.get()).isNull();
-    WritableProperty<V> readOnly = property.getReadOnly();
+    assertThat(property.getSafe()).isEqualTo(property.getFallbackSafeValue());
+    P readOnly = WritableProperty.getReadOnly(property);
     assertThat(readOnly.get()).isNull();
     ChangeListener<V> listener = new ChangeListener<>();
-    readOnly.addListener(listener);
+    assertThrows(ReadOnlyException.class, () -> {
+      readOnly.addListener(listener);
+    });
+    property.addListener(listener);
     property.set(this.exampleValue);
     ObservableEvent<V> event = listener.event;
     assertThat(property).hasToString(expectedToString(property));
     assertThat(property.get()).isSameAs(this.exampleValue);
     assertThat(property.isReadOnly()).isEqualTo(false);
     assertThat(readOnly.isReadOnly()).isEqualTo(true);
-    assertThat(readOnly.get()).isSameAs(this.exampleValue);
+    verifyReadOnlyValue(readOnly);
     assertThat(event).isNotNull();
     assertThat(event.getOldValue()).isNull();
-    assertThat(event.getValue()).isSameAs(this.exampleValue); // TODO
+    assertThat(event.getValue()).isSameAs(this.exampleValue);
+    assertThat(event.getObservable()).isSameAs(property);
     Object eventChangeType = event.getChange();
     assertThat(eventChangeType).isNull();
     assertThrows(ReadOnlyException.class, () -> {
       readOnly.set(null);
     });
+    verifyJsonMarshalling(property);
+  }
+
+  private P createProperty() {
+
+    PropertyFactoryManager propertyFactoryManager = PropertyFactoryManager.get();
+    Class<P> propertyType = null;
+    if (this.createByPropertyClass) {
+      propertyType = this.propertyClass;
+    }
+    return propertyFactoryManager.create(propertyType, this.valueClass, PROPERTY_NAME);
+  }
+
+  private void verifyJsonMarshalling(P property) {
+
+    // arrange
+    StructuredTextFormat jsonFormat = StandardFormat.json();
+    // act
+    String json = jsonFormat.write(property);
+    WritableProperty<V> property2 = createProperty();
+    assertThat(property.isEqual(property2)).isFalse();
+    jsonFormat.read(json, property2);
+    // assert
+    // we have mapped our property to JSON and verify that we have entirely recreated it from the JSON string.
+    assertThat(property2.get()).isNotNull().isEqualTo(property.get());
+    assertThat(property2.isEqual(property)).isTrue();
+    if (property instanceof ReadableSimpleValue simple) {
+      assertThat(json).contains(simple.getAsString());
+    }
+
+  }
+
+  /**
+   * Verifies the {@link WritableProperty#get() value} of a {@link WritableProperty#getReadOnly() read-only}
+   * {@link Property} pointing to the example value. By default it will assert the value to be identical to the example
+   * value, since most value types should be immutable. However, for collections this method needs to be overridden
+   * accordingly.
+   *
+   * @param readOnly the {@link WritableProperty#getReadOnly() read-only property view}.
+   */
+  protected void verifyReadOnlyValue(P readOnly) {
+
+    assertThat(readOnly.get()).isSameAs(this.exampleValue);
   }
 
   private String expectedToString(WritableProperty<V> property) {

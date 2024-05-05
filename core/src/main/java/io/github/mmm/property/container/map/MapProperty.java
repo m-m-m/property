@@ -5,6 +5,7 @@ package io.github.mmm.property.container.map;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
@@ -290,6 +291,25 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V>
   public StructuredIdMapping defineIdMapping() {
 
     return StructuredIdMapping.of(NAME_KEY, NAME_VALUE);
+  }
+
+  @Override
+  protected Supplier<? extends Map<K, V>> createReadOnlyExpression() {
+
+    final Map<K, V> readOnlyMap;
+    if (this.changeAwareMap == null) {
+      readOnlyMap = ChangeAwareMaps.ofUnmodifiable(this::getSafe);
+      return () -> {
+        Map<K, V> result = get();
+        if (result == null) {
+          return null;
+        }
+        return readOnlyMap;
+      };
+    } else {
+      readOnlyMap = ChangeAwareMaps.ofUnmodifiable(this.changeAwareMap);
+      return () -> readOnlyMap;
+    }
   }
 
 }

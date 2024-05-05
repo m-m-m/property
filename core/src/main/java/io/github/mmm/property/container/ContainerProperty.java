@@ -2,6 +2,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.container;
 
+import java.util.function.Supplier;
+
 import io.github.mmm.property.Property;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.WritableProperty;
@@ -101,5 +103,8 @@ public abstract class ContainerProperty<V, E> extends Property<V> implements Wri
     fireEventFor(this.sizeProperty);
     fireEventFor(this.emptyProperty);
   }
+
+  @Override
+  protected abstract Supplier<? extends V> createReadOnlyExpression();
 
 }

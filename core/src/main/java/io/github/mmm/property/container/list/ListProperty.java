@@ -3,6 +3,7 @@
 package io.github.mmm.property.container.list;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.WritableProperty;
@@ -86,6 +87,25 @@ public class ListProperty<E> extends CollectionProperty<List<E>, E> implements W
       });
     }
     return this.changeAwareList;
+  }
+
+  @Override
+  protected Supplier<? extends List<E>> createReadOnlyExpression() {
+
+    final List<E> readOnlyList;
+    if (this.changeAwareList == null) {
+      readOnlyList = ChangeAwareLists.ofUnmodifiable(this::getSafe);
+      return () -> {
+        List<E> result = get();
+        if (result == null) {
+          return null;
+        }
+        return readOnlyList;
+      };
+    } else {
+      readOnlyList = ChangeAwareLists.ofUnmodifiable(this.changeAwareList);
+      return () -> readOnlyList;
+    }
   }
 
 }

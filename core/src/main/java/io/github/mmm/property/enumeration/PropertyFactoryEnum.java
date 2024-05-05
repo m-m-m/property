@@ -49,4 +49,10 @@ public class PropertyFactoryEnum<E extends Enum<E>> extends AbstractPropertyFact
     return new EnumProperty(name, metadata, typeInfo.getValueClass());
   }
 
+  @Override
+  public boolean isPolymorphic() {
+
+    return true;
+  }
+
 }

@@ -66,6 +66,7 @@ public abstract class CollectionProperty<V extends Collection<E>, E> extends Con
     return result;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   protected void readValue(StructuredReader reader) {
 
@@ -78,8 +79,13 @@ public abstract class CollectionProperty<V extends Collection<E>, E> extends Con
     } else {
       collection = getOrCreate();
       do {
-        this.valueProperty.read(reader);
-        E element = this.valueProperty.get();
+        E element;
+        if (this.valueProperty == null) {
+          element = (E) reader.readValue();
+        } else {
+          this.valueProperty.read(reader);
+          element = this.valueProperty.get();
+        }
         collection.add(element);
       } while (!reader.readEnd());
     }
@@ -95,8 +101,12 @@ public abstract class CollectionProperty<V extends Collection<E>, E> extends Con
     }
     writer.writeStartArray();
     for (E element : collection) {
-      this.valueProperty.set(element);
-      this.valueProperty.write(writer);
+      if (this.valueProperty == null) {
+        writer.writeValue(element);
+      } else {
+        this.valueProperty.set(element);
+        this.valueProperty.write(writer);
+      }
     }
     writer.writeEnd();
   }

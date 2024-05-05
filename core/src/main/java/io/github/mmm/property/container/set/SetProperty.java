@@ -3,6 +3,7 @@
 package io.github.mmm.property.container.set;
 
 import java.util.Set;
+import java.util.function.Supplier;
 
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.WritableProperty;
@@ -86,6 +87,25 @@ public class SetProperty<E> extends CollectionProperty<Set<E>, E> implements Wri
       });
     }
     return this.changeAwareSet;
+  }
+
+  @Override
+  protected Supplier<? extends Set<E>> createReadOnlyExpression() {
+
+    final Set<E> readOnlySet;
+    if (this.changeAwareSet == null) {
+      readOnlySet = ChangeAwareSets.ofUnmodifiable(this::getSafe);
+      return () -> {
+        Set<E> result = get();
+        if (result == null) {
+          return null;
+        }
+        return readOnlySet;
+      };
+    } else {
+      readOnlySet = ChangeAwareSets.ofUnmodifiable(this.changeAwareSet);
+      return () -> readOnlySet;
+    }
   }
 
 }

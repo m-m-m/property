@@ -4,6 +4,8 @@ package io.github.mmm.property.temporal.duration;
 
 import java.time.Duration;
 
+import io.github.mmm.marshall.StructuredReader;
+import io.github.mmm.marshall.StructuredWriter;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.temporal.TemporalAmountProperty;
 
@@ -71,6 +73,18 @@ public class DurationProperty extends TemporalAmountProperty<Duration> implement
   protected void doSet(Duration newValue) {
 
     this.value = newValue;
+  }
+
+  @Override
+  public void write(StructuredWriter writer) {
+
+    writer.writeValueAsString(getAsString());
+  }
+
+  @Override
+  protected void readValue(StructuredReader reader) {
+
+    setAsString(reader.readValueAsString());
   }
 
 }

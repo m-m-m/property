@@ -98,7 +98,7 @@ public class ObjectProperty<V> extends SimpleProperty<V> implements WritableObje
   }
 
   @Override
-  public V getStaticSafeValue() {
+  public V getFallbackSafeValue() {
 
     return null; // no generic fallback available
   }
