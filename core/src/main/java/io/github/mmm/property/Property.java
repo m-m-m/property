@@ -142,7 +142,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
 
   /**
    * Clears the cached internal {@link #validate() validation} result. Has to be called if the {@link #get() value} has
-   * changed (from an external call) and is not {@link #isValueMutable() mutable}.
+   * changed (from an external call) and {@link #isValueMutable() is not mutable}.
    */
   protected void clearValidationResult() {
 

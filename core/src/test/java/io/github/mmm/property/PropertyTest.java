@@ -87,7 +87,11 @@ public abstract class PropertyTest<V, P extends Property<V>> extends Assertions 
     assertThat(property.get()).isSameAs(this.exampleValue);
     assertThat(property.isReadOnly()).isEqualTo(false);
     assertThat(readOnly.isReadOnly()).isEqualTo(true);
-    verifyReadOnlyValue(readOnly);
+    if (readOnly.isValueMutable()) {
+      verifyReadOnlyValue(readOnly);
+    } else {
+      assertThat(readOnly.get()).isSameAs(this.exampleValue);
+    }
     assertThat(event).isNotNull();
     assertThat(event.getOldValue()).isNull();
     assertThat(event.getValue()).isSameAs(this.exampleValue);
@@ -130,15 +134,15 @@ public abstract class PropertyTest<V, P extends Property<V>> extends Assertions 
 
   /**
    * Verifies the {@link WritableProperty#get() value} of a {@link WritableProperty#getReadOnly() read-only}
-   * {@link Property} pointing to the example value. By default it will assert the value to be identical to the example
-   * value, since most value types should be immutable. However, for collections this method needs to be overridden
-   * accordingly.
+   * {@link Property} pointing to the example value. This method has to be overridden for tests on
+   * {@link Property#isValueMutable() mutable values}.
    *
    * @param readOnly the {@link WritableProperty#getReadOnly() read-only property view}.
    */
   protected void verifyReadOnlyValue(P readOnly) {
 
-    assertThat(readOnly.get()).isSameAs(this.exampleValue);
+    throw new IllegalStateException("Property has mutable value (" + readOnly.getValueClass().getName() + ") but test ("
+        + getClass().getSimpleName() + ") does not override verifyReadOnlyValue!");
   }
 
   private String expectedToString(WritableProperty<V> property) {
