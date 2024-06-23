@@ -3,9 +3,12 @@
 package io.github.mmm.property.string;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
 
+import io.github.mmm.base.collection.AbstractIterator;
 import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
 import io.github.mmm.property.PropertyMetadata;
@@ -22,7 +25,7 @@ import io.github.mmm.property.PropertyMetadata;
  *
  * @since 1.0.0
  */
-public abstract class StringCollectionProperty extends StringProperty {
+public abstract class StringCollectionProperty extends StringProperty implements Iterable<String> {
 
   /**
    * The constructor.
@@ -502,6 +505,58 @@ public abstract class StringCollectionProperty extends StringProperty {
     boolean enclose = isEncloseWithSeparator();
     convertCsv(value, separator, enclose, false, null, false, s -> writer.writeValueAsString(s));
     writer.writeEnd();
+  }
+
+  @Override
+  public Iterator<String> iterator() {
+
+    String value = get();
+    if (value == null) {
+      return Collections.emptyIterator();
+    }
+    return new ValueIterator(value, getSeparator(), isEncloseWithSeparator());
+  }
+
+  private static class ValueIterator extends AbstractIterator<String> {
+
+    private final String string;
+
+    private final String separator;
+
+    private final int end;
+
+    private int index = 0;
+
+    private ValueIterator(String string, String separator, boolean enclose) {
+
+      super();
+      this.string = string;
+      this.separator = separator;
+      this.end = string.length();
+      if (enclose && string.startsWith(separator)) {
+        this.index = separator.length();
+      }
+      findFirst();
+    }
+
+    @Override
+    protected String findNext() {
+
+      if (this.index >= this.end) {
+        return null;
+      }
+      int i = this.string.indexOf(this.separator, this.index);
+      if (i < 0) {
+        i = this.end;
+      }
+      String result = this.string.substring(this.index, i);
+      this.index = i + this.separator.length();
+      if (this.index >= this.end) {
+        this.index = this.end;
+      }
+      return result;
+    }
+
   }
 
 }

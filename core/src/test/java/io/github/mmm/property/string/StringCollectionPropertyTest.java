@@ -295,4 +295,20 @@ public abstract class StringCollectionPropertyTest extends Assertions {
     assertThat(json).isEqualTo("[\"hit\",\"pop\",\"partyhit\",\"superhits\"]");
   }
 
+  /**
+   * Test {@link StringCollectionProperty#iterator()} after multiple elements have been added.
+   */
+  @Test
+  public void testIterable() {
+
+    // arrange
+    StringCollectionProperty property = createEmpty();
+    // act
+    property.add("one");
+    property.add("two");
+    property.add("three");
+    // assert
+    Iterable<String> iterable = property;
+    assertThat(iterable).containsExactly("one", "two", "three");
+  }
 }
