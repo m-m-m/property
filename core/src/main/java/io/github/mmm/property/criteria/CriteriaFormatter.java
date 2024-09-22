@@ -34,7 +34,7 @@ public class CriteriaFormatter implements CriteriaVisitor {
    */
   public CriteriaFormatter() {
 
-    this(null, new AppendableWriter(new StringBuilder()));
+    this(null, new AppendableWriter());
   }
 
   /**
