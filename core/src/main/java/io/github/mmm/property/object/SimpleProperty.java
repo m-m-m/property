@@ -46,7 +46,7 @@ public abstract class SimpleProperty<V> extends Property<V> implements WritableS
   @Override
   public void write(StructuredWriter writer) {
 
-    writer.writeValue(getAsString());
+    writer.writeValueAsString(getAsString());
   }
 
 }

@@ -46,14 +46,17 @@ module io.github.mmm.property {
       io.github.mmm.property.range.PropertyFactoryRange, //
       io.github.mmm.property.string.PropertyFactoryPassword, //
       io.github.mmm.property.string.PropertyFactoryString, //
-      io.github.mmm.property.temporal.duration.PropertyFactoryDuration, //
-      io.github.mmm.property.temporal.instant.PropertyFactoryInstant, //
-      io.github.mmm.property.temporal.localdate.PropertyFactoryLocalDate, //
-      io.github.mmm.property.temporal.localdatetime.PropertyFactoryLocalDateTime, //
-      io.github.mmm.property.temporal.localtime.PropertyFactoryLocalTime, //
-      io.github.mmm.property.temporal.offsetdatetime.PropertyFactoryOffsetDateTime, //
-      io.github.mmm.property.temporal.offsettime.PropertyFactoryOffsetTime, //
-      io.github.mmm.property.temporal.zoneddatetime.PropertyFactoryZonedDateTime //
+      io.github.mmm.property.time.dayofweek.PropertyFactoryDayOfWeek, //
+      io.github.mmm.property.time.duration.PropertyFactoryDuration, //
+      io.github.mmm.property.time.instant.PropertyFactoryInstant, //
+      io.github.mmm.property.time.localdate.PropertyFactoryLocalDate, //
+      io.github.mmm.property.time.localdatetime.PropertyFactoryLocalDateTime, //
+      io.github.mmm.property.time.localtime.PropertyFactoryLocalTime, //
+      io.github.mmm.property.time.month.PropertyFactoryMonth, //
+      io.github.mmm.property.time.offsetdatetime.PropertyFactoryOffsetDateTime, //
+      io.github.mmm.property.time.offsettime.PropertyFactoryOffsetTime, //
+      io.github.mmm.property.time.year.PropertyFactoryYear, //
+      io.github.mmm.property.time.zoneddatetime.PropertyFactoryZonedDateTime //
   ;
 
   exports io.github.mmm.property;
@@ -104,21 +107,27 @@ module io.github.mmm.property {
 
   exports io.github.mmm.property.number.shorts;
 
-  exports io.github.mmm.property.temporal;
+  exports io.github.mmm.property.time;
 
-  exports io.github.mmm.property.temporal.duration;
+  exports io.github.mmm.property.time.dayofweek;
 
-  exports io.github.mmm.property.temporal.instant;
+  exports io.github.mmm.property.time.duration;
 
-  exports io.github.mmm.property.temporal.localdate;
+  exports io.github.mmm.property.time.instant;
 
-  exports io.github.mmm.property.temporal.localdatetime;
+  exports io.github.mmm.property.time.localdate;
 
-  exports io.github.mmm.property.temporal.localtime;
+  exports io.github.mmm.property.time.localdatetime;
 
-  exports io.github.mmm.property.temporal.offsetdatetime;
+  exports io.github.mmm.property.time.localtime;
 
-  exports io.github.mmm.property.temporal.offsettime;
+  exports io.github.mmm.property.time.month;
 
-  exports io.github.mmm.property.temporal.zoneddatetime;
+  exports io.github.mmm.property.time.offsetdatetime;
+
+  exports io.github.mmm.property.time.offsettime;
+
+  exports io.github.mmm.property.time.year;
+
+  exports io.github.mmm.property.time.zoneddatetime;
 }

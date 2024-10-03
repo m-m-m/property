@@ -24,13 +24,16 @@ import io.github.mmm.property.builder.number.FloatPropertyBuilder;
 import io.github.mmm.property.builder.number.IntegerPropertyBuilder;
 import io.github.mmm.property.builder.number.LongPropertyBuilder;
 import io.github.mmm.property.builder.number.ShortPropertyBuilder;
-import io.github.mmm.property.builder.temporal.InstantPropertyBuilder;
-import io.github.mmm.property.builder.temporal.LocalDatePropertyBuilder;
-import io.github.mmm.property.builder.temporal.LocalDateTimePropertyBuilder;
-import io.github.mmm.property.builder.temporal.LocalTimePropertyBuilder;
-import io.github.mmm.property.builder.temporal.OffsetDateTimePropertyBuilder;
-import io.github.mmm.property.builder.temporal.OffsetTimePropertyBuilder;
-import io.github.mmm.property.builder.temporal.ZonedDateTimePropertyBuilder;
+import io.github.mmm.property.builder.time.DayOfWeekPropertyBuilder;
+import io.github.mmm.property.builder.time.InstantPropertyBuilder;
+import io.github.mmm.property.builder.time.LocalDatePropertyBuilder;
+import io.github.mmm.property.builder.time.LocalDateTimePropertyBuilder;
+import io.github.mmm.property.builder.time.LocalTimePropertyBuilder;
+import io.github.mmm.property.builder.time.MonthPropertyBuilder;
+import io.github.mmm.property.builder.time.OffsetDateTimePropertyBuilder;
+import io.github.mmm.property.builder.time.OffsetTimePropertyBuilder;
+import io.github.mmm.property.builder.time.YearPropertyBuilder;
+import io.github.mmm.property.builder.time.ZonedDateTimePropertyBuilder;
 import io.github.mmm.property.number.bigdecimal.BigDecimalProperty;
 import io.github.mmm.property.number.biginteger.BigIntegerProperty;
 import io.github.mmm.property.number.bytes.ByteProperty;
@@ -41,13 +44,16 @@ import io.github.mmm.property.number.longs.LongProperty;
 import io.github.mmm.property.number.shorts.ShortProperty;
 import io.github.mmm.property.pattern.PatternProperty;
 import io.github.mmm.property.string.StringProperty;
-import io.github.mmm.property.temporal.instant.InstantProperty;
-import io.github.mmm.property.temporal.localdate.LocalDateProperty;
-import io.github.mmm.property.temporal.localdatetime.LocalDateTimeProperty;
-import io.github.mmm.property.temporal.localtime.LocalTimeProperty;
-import io.github.mmm.property.temporal.offsetdatetime.OffsetDateTimeProperty;
-import io.github.mmm.property.temporal.offsettime.OffsetTimeProperty;
-import io.github.mmm.property.temporal.zoneddatetime.ZonedDateTimeProperty;
+import io.github.mmm.property.time.dayofweek.DayOfWeekProperty;
+import io.github.mmm.property.time.instant.InstantProperty;
+import io.github.mmm.property.time.localdate.LocalDateProperty;
+import io.github.mmm.property.time.localdatetime.LocalDateTimeProperty;
+import io.github.mmm.property.time.localtime.LocalTimeProperty;
+import io.github.mmm.property.time.month.MonthProperty;
+import io.github.mmm.property.time.offsetdatetime.OffsetDateTimeProperty;
+import io.github.mmm.property.time.offsettime.OffsetTimeProperty;
+import io.github.mmm.property.time.year.YearProperty;
+import io.github.mmm.property.time.zoneddatetime.ZonedDateTimeProperty;
 
 /**
  * Interface for a factory of {@link PropertyBuilder}s and {@link Property properties}. May optionally implement one of
@@ -256,6 +262,23 @@ public interface PropertyBuilders {
   }
 
   /**
+   * @return a new {@link DayOfWeekPropertyBuilder}.
+   */
+  default DayOfWeekPropertyBuilder newDayOfWeek() {
+
+    return builder(new DayOfWeekPropertyBuilder(getLock()), this);
+  }
+
+  /**
+   * @param name the {@link Property#getName() property name}.
+   * @return a new {@link DayOfWeekProperty}.
+   */
+  default DayOfWeekProperty newDayOfWeek(String name) {
+
+    return get(name, this, metadata -> accept(new DayOfWeekProperty(name, metadata), this));
+  }
+
+  /**
    * @return a new {@link InstantPropertyBuilder}.
    */
   default InstantPropertyBuilder newInstant() {
@@ -324,6 +347,23 @@ public interface PropertyBuilders {
   }
 
   /**
+   * @return a new {@link MonthPropertyBuilder}.
+   */
+  default MonthPropertyBuilder newMonth() {
+
+    return builder(new MonthPropertyBuilder(getLock()), this);
+  }
+
+  /**
+   * @param name the {@link Property#getName() property name}.
+   * @return a new {@link MonthProperty}.
+   */
+  default MonthProperty newMonth(String name) {
+
+    return get(name, this, metadata -> accept(new MonthProperty(name, metadata), this));
+  }
+
+  /**
    * @return a new {@link OffsetDateTimePropertyBuilder}.
    */
   default OffsetDateTimePropertyBuilder newOffsetDateTime() {
@@ -355,6 +395,23 @@ public interface PropertyBuilders {
   default OffsetTimeProperty newOffsetTime(String name) {
 
     return get(name, this, metadata -> accept(new OffsetTimeProperty(name, metadata), this));
+  }
+
+  /**
+   * @return a new {@link YearPropertyBuilder}.
+   */
+  default YearPropertyBuilder newYear() {
+
+    return builder(new YearPropertyBuilder(getLock()), this);
+  }
+
+  /**
+   * @param name the {@link Property#getName() property name}.
+   * @return a new {@link YearProperty}.
+   */
+  default YearProperty newYear(String name) {
+
+    return get(name, this, metadata -> accept(new YearProperty(name, metadata), this));
   }
 
   /**

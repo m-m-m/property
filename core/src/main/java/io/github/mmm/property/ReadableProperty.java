@@ -9,7 +9,6 @@ import io.github.mmm.property.criteria.PredicateOperator;
 import io.github.mmm.validation.Validatable;
 import io.github.mmm.value.PropertyPath;
 import io.github.mmm.value.ReadablePath;
-import io.github.mmm.value.TypedPropertyPath;
 import io.github.mmm.value.converter.TypeMapper;
 import io.github.mmm.value.observable.ObservableValue;
 
@@ -20,7 +19,7 @@ import io.github.mmm.value.observable.ObservableValue;
  *
  * @since 1.0.0
  */
-public interface ReadableProperty<V> extends ObservableValue<V>, TypedPropertyPath<V>, MarshallableObject, Validatable,
+public interface ReadableProperty<V> extends ObservableValue<V>, PropertyPath<V>, MarshallableObject, Validatable,
     AttributeReadOnly, Comparable<ReadableProperty<?>> {
 
   /**
@@ -63,7 +62,7 @@ public interface ReadableProperty<V> extends ObservableValue<V>, TypedPropertyPa
     if (lock instanceof ReadablePath) {
       return (ReadablePath) lock;
     }
-    return TypedPropertyPath.super.parentPath();
+    return PropertyPath.super.parentPath();
   }
 
   /**

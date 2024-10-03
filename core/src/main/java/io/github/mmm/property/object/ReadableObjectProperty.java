@@ -12,6 +12,6 @@ import io.github.mmm.value.observable.object.ObservableObjectValue;
  *
  * @since 1.0.0
  */
-public interface ReadableObjectProperty<V> extends ReadableSimpleProperty<V>, ObservableObjectValue<V> {
+public interface ReadableObjectProperty<V> extends ReadableProperty<V>, ObservableObjectValue<V> {
 
 }

@@ -20,6 +20,6 @@ module io.github.mmm.property.builder {
 
   exports io.github.mmm.property.builder.number;
 
-  exports io.github.mmm.property.builder.temporal;
+  exports io.github.mmm.property.builder.time;
 
 }

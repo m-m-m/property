@@ -127,9 +127,17 @@ public abstract class PropertyTest<V, P extends Property<V>> extends Assertions 
     // we have mapped our property to JSON and verify that we have entirely recreated it from the JSON string.
     assertThat(property2.get()).isNotNull().isEqualTo(property.get());
     assertThat(property2.isEqual(property)).isTrue();
-    if (property instanceof ReadableSimpleValue simple) {
+    if (isJsonEqualToString() && property instanceof ReadableSimpleValue simple) {
       assertThat(json).contains(simple.getAsString());
     }
+  }
+
+  /**
+   * @return {@code true} if JSON value is the {@link ReadableSimpleValue#getAsString() string representation}.
+   */
+  protected boolean isJsonEqualToString() {
+
+    return ReadableSimpleValue.class.isAssignableFrom(this.propertyClass);
   }
 
   /**

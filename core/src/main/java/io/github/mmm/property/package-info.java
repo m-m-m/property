@@ -18,16 +18,16 @@
  * implement your beans. Stop wasting your time and use your time to actually implement real value.<br>
  * Note: You can also implement custom datatypes as property just like
  * {@link io.github.mmm.property.string.StringListProperty} or
- * {@link io.github.mmm.property.temporal.DurationInSecondsProperty}.
+ * {@link io.github.mmm.property.time.DurationInSecondsProperty}.
  *
  * @see io.github.mmm.property.string.StringProperty
  * @see io.github.mmm.property.booleans.BooleanProperty
  * @see io.github.mmm.property.number.integers.IntegerProperty
  * @see io.github.mmm.property.number.longs.LongProperty
  * @see io.github.mmm.property.number.bigdecimal.BigDecimalProperty
- * @see io.github.mmm.property.temporal.instant.InstantProperty
- * @see io.github.mmm.property.temporal.localdate.LocalDateProperty
- * @see io.github.mmm.property.temporal.localdatetime.LocalDateTimeProperty
+ * @see io.github.mmm.property.time.instant.InstantProperty
+ * @see io.github.mmm.property.time.localdate.LocalDateProperty
+ * @see io.github.mmm.property.time.localdatetime.LocalDateTimeProperty
  * @see io.github.mmm.property.container.list.ListProperty
  * @see io.github.mmm.property.container.set.SetProperty
  * @see io.github.mmm.property.container.map.MapProperty
