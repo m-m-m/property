@@ -34,15 +34,23 @@ public class CriteriaFormatter implements CriteriaVisitor {
    */
   public CriteriaFormatter() {
 
-    this(null, new AppendableWriter());
+    this(null);
   }
 
   /**
    * The constructor.
    *
-   * @param parameters the {@link CriteriaParameters} or {@code null} for default (inline). <b>ATTENTION:</b> Use
-   *        {@code null} only for testing or debugging (e.g. in {@link #toString()}) to avoid SQL-injection security
-   *        vulnerabilities.
+   * @param parameters the {@link CriteriaParameters} or {@code null} for default (inline).
+   */
+  protected CriteriaFormatter(CriteriaParameters<?> parameters) {
+
+    this(parameters, null);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param parameters the {@link CriteriaParameters} or {@code null} for default (inline).
    * @param out the {@link Appendable} to {@link #write(String) write} to.
    */
   protected CriteriaFormatter(CriteriaParameters<?> parameters, AppendableWriter out) {
@@ -53,7 +61,11 @@ public class CriteriaFormatter implements CriteriaVisitor {
     } else {
       this.parameters = parameters;
     }
-    this.out = out;
+    if (out == null) {
+      this.out = new AppendableWriter();
+    } else {
+      this.out = out;
+    }
     this.likeSyntaxTarget = LikePatternSyntax.SQL;
   }
 
