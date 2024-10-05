@@ -84,7 +84,7 @@ public class RangeProperty<V extends Comparable<?>> extends SimpleProperty<Range
   }
 
   @Override
-  protected void readValue(StructuredReader reader) {
+  protected Range<V> readValue(StructuredReader reader, boolean apply) {
 
     Range<V> range = Range.unbounded();
     if (reader.readStartObject(this)) {
@@ -102,8 +102,11 @@ public class RangeProperty<V extends Comparable<?>> extends SimpleProperty<Range
         }
       }
       range = RangeType.of(min, max);
-      set(range);
+      if (apply) {
+        set(range);
+      }
     }
+    return range;
   }
 
   @SuppressWarnings("unchecked")
@@ -118,10 +121,11 @@ public class RangeProperty<V extends Comparable<?>> extends SimpleProperty<Range
   }
 
   @Override
-  public void write(StructuredWriter writer) {
+  public void writeValue(StructuredWriter writer, Range<V> range) {
 
-    Range<V> range = get();
-    if (range != null) {
+    if (range == null) {
+      writer.writeValueAsNull();
+    } else {
       writer.writeStartObject(this);
       writeBound(writer, Range.PROPERTY_MIN, range.getMin());
       writeBound(writer, Range.PROPERTY_MAX, range.getMax());

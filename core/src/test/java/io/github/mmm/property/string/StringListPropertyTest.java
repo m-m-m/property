@@ -9,7 +9,15 @@ import org.junit.jupiter.api.Test;
 /**
  * Test of {@link StringListProperty}.
  */
-public class StringListPropertyTest extends StringCollectionPropertyTest {
+public class StringListPropertyTest extends StringCollectionPropertyTest<StringListProperty> {
+
+  /**
+   * The constructor.
+   */
+  public StringListPropertyTest() {
+
+    super(StringListProperty.class);
+  }
 
   @Override
   protected StringListProperty createEmpty() {

@@ -4,6 +4,7 @@ package io.github.mmm.property.time.month;
 
 import java.time.Month;
 
+import io.github.mmm.marshall.StructuredReader;
 import io.github.mmm.marshall.StructuredWriter;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.object.SimpleProperty;
@@ -81,13 +82,30 @@ public class MonthProperty extends SimpleProperty<Month> implements WritableMont
   }
 
   @Override
-  public void write(StructuredWriter writer) {
+  public void writeValue(StructuredWriter writer, Month month) {
 
-    if (this.value == null) {
+    if (month == null) {
       writer.writeValueAsNull();
     } else {
-      writer.writeValueAsInteger(this.value.getValue());
+      writer.writeValueAsInteger(month.getValue());
     }
+  }
+
+  @Override
+  protected Month readValue(StructuredReader reader, boolean apply) {
+
+    Month month = null;
+    Integer monthValue = reader.readValueAsInteger();
+    if (monthValue != null) {
+      int m = monthValue.intValue();
+      if (m != 0) {
+        month = Month.of(m);
+      }
+    }
+    if (apply) {
+      set(month);
+    }
+    return month;
   }
 
 }

@@ -74,15 +74,19 @@ public class BooleanProperty extends SimpleProperty<Boolean> implements Writable
   }
 
   @Override
-  protected void readValue(StructuredReader reader) {
+  protected Boolean readValue(StructuredReader reader, boolean apply) {
 
-    set(reader.readValueAsBoolean());
+    Boolean booleanValue = reader.readValueAsBoolean();
+    if (apply) {
+      set(booleanValue);
+    }
+    return booleanValue;
   }
 
   @Override
-  public void write(StructuredWriter writer) {
+  public void writeValue(StructuredWriter writer, Boolean booleanValue) {
 
-    writer.writeValueAsBoolean(get());
+    writer.writeValueAsBoolean(booleanValue);
   }
 
 }

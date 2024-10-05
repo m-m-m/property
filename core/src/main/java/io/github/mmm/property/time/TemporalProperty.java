@@ -41,16 +41,19 @@ public abstract class TemporalProperty<V extends Temporal> extends SimplePropert
   }
 
   @Override
-  public void write(StructuredWriter writer) {
+  protected V readValue(StructuredReader reader, boolean apply) {
 
-    writer.writeValue(get());
+    V value = reader.readValue(getValueClass());
+    if (apply) {
+      set(value);
+    }
+    return value;
   }
 
   @Override
-  protected void readValue(StructuredReader reader) {
+  public void writeValue(StructuredWriter writer, V value) {
 
-    V value = reader.readValue(getValueClass());
-    set(value);
+    writer.writeValue(value);
   }
 
 }

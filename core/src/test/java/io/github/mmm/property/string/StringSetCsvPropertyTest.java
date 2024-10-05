@@ -7,7 +7,15 @@ import org.junit.jupiter.api.Test;
 /**
  * Test of {@link StringSetCsvProperty}.
  */
-public class StringSetCsvPropertyTest extends StringCollectionPropertyTest {
+public class StringSetCsvPropertyTest extends StringCollectionPropertyTest<StringSetCsvProperty> {
+
+  /**
+   * The constructor.
+   */
+  public StringSetCsvPropertyTest() {
+
+    super(StringSetCsvProperty.class);
+  }
 
   @Override
   protected StringSetCsvProperty createEmpty() {

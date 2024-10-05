@@ -76,15 +76,26 @@ public class DurationProperty extends TemporalAmountProperty<Duration> implement
   }
 
   @Override
-  public void write(StructuredWriter writer) {
+  protected Duration readValue(StructuredReader reader, boolean apply) {
 
-    writer.writeValueAsString(getAsString());
+    String valueAsString = reader.readValueAsString();
+    Duration duration;
+    if (apply) {
+      duration = setAsString(valueAsString);
+    } else {
+      duration = parse(valueAsString);
+    }
+    return duration;
   }
 
   @Override
-  protected void readValue(StructuredReader reader) {
+  public void writeValue(StructuredWriter writer, Duration duration) {
 
-    setAsString(reader.readValueAsString());
+    if (duration == null) {
+      writer.writeValueAsNull();
+    } else {
+      writer.writeValueAsString(format(duration));
+    }
   }
 
 }

@@ -106,12 +106,12 @@ public abstract class StringCollectionProperty extends StringProperty implements
       }
     }
     if (isEncloseWithSeparator() && (value != null) && !value.isEmpty()) {
-      String separtor = getSeparator();
-      if (!value.startsWith(separtor)) {
-        value = separtor + value;
+      String separator = getSeparator();
+      if (!value.startsWith(separator)) {
+        value = separator + value;
       }
-      if (!value.endsWith(separtor)) {
-        value = value + separtor;
+      if (!value.endsWith(separator)) {
+        value = value + separator;
       }
     }
     super.setWithChange(oldValue, value);
@@ -199,8 +199,8 @@ public abstract class StringCollectionProperty extends StringProperty implements
     if (element == null) {
       return false;
     }
-    String separtor = getSeparator();
-    assert (!element.contains(separtor));
+    String separator = getSeparator();
+    assert (!element.contains(separator));
     Collection<String> collection = getCollection();
     if (collection != null) {
       boolean added = collection.add(element);
@@ -211,14 +211,15 @@ public abstract class StringCollectionProperty extends StringProperty implements
     String oldValue = get();
     String value;
     if (oldValue == null) {
-      value = element;
       if (isEncloseWithSeparator()) {
-        value = separtor + element + separtor;
+        value = separator + element + separator;
+      } else {
+        value = element;
       }
     } else if (isEncloseWithSeparator()) {
-      value = oldValue + element + separtor;
+      value = oldValue + element + separator;
     } else {
-      value = oldValue + separtor + element;
+      value = oldValue + separator + element;
     }
     doSet(oldValue, value);
     return true;
@@ -484,23 +485,48 @@ public abstract class StringCollectionProperty extends StringProperty implements
   }
 
   @Override
-  protected void readValue(StructuredReader reader) {
+  protected String readValue(StructuredReader reader, boolean apply) {
 
     if (reader.readStartArray()) {
-      while (!reader.readEndArray()) {
-        String element = reader.readValueAsString();
-        add(element);
+      if (apply) {
+        while (!reader.readEndArray()) {
+          String element = reader.readValueAsString();
+          add(element);
+        }
+        return get();
+      } else {
+        StringBuilder sb = new StringBuilder();
+        String separator = getSeparator();
+        boolean encloseWithSeparator = isEncloseWithSeparator();
+        while (!reader.readEndArray()) {
+          String element = reader.readValueAsString();
+          if (sb.isEmpty()) {
+            if (encloseWithSeparator) {
+              sb.append(separator);
+              sb.append(element);
+              sb.append(separator);
+            } else {
+              sb.append(element);
+            }
+          } else if (encloseWithSeparator) {
+            sb.append(element);
+            sb.append(separator);
+          } else {
+            sb.append(separator);
+            sb.append(element);
+          }
+        }
+        return sb.toString();
       }
     } else {
-      super.readValue(reader);
+      return super.readValue(reader, apply);
     }
   }
 
   @Override
-  public void write(StructuredWriter writer) {
+  public void writeValue(StructuredWriter writer, String value) {
 
     writer.writeStartArray();
-    String value = get();
     String separator = getSeparator();
     boolean enclose = isEncloseWithSeparator();
     convertCsv(value, separator, enclose, false, null, false, s -> writer.writeValueAsString(s));

@@ -9,7 +9,15 @@ import org.junit.jupiter.api.Test;
 /**
  * Test of {@link StringListCsvProperty}.
  */
-public class StringListCsvPropertyTest extends StringCollectionPropertyTest {
+public class StringListCsvPropertyTest extends StringCollectionPropertyTest<StringListCsvProperty> {
+
+  /**
+   * The constructor.
+   */
+  public StringListCsvPropertyTest() {
+
+    super(StringListCsvProperty.class);
+  }
 
   @Override
   protected StringListCsvProperty createEmpty() {

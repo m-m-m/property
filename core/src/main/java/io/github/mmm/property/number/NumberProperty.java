@@ -38,16 +38,19 @@ public abstract class NumberProperty<N extends Number & Comparable<? super N>> e
   }
 
   @Override
-  protected void readValue(StructuredReader reader) {
+  protected N readValue(StructuredReader reader, boolean apply) {
 
     N value = reader.readValue(getValueClass());
-    set(value);
+    if (apply) {
+      set(value);
+    }
+    return value;
   }
 
   @Override
-  public void write(StructuredWriter writer) {
+  public void writeValue(StructuredWriter writer, N value) {
 
-    writer.writeValue(get());
+    writer.writeValue(value);
   }
 
 }

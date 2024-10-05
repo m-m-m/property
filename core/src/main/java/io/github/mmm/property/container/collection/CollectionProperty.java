@@ -66,18 +66,25 @@ public abstract class CollectionProperty<V extends Collection<E>, E> extends Con
     return result;
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "unchecked", "null" })
   @Override
-  protected void readValue(StructuredReader reader) {
+  protected V readValue(StructuredReader reader, boolean apply) {
 
-    Collection<E> collection;
+    V collection = null;
+    if (!apply) {
+      collection = create();
+    }
     if (!reader.readStartArray()) {
-      collection = getValue();
-      if (collection != null) {
-        collection.clear();
+      if (apply) {
+        collection = getValue();
+        if (collection != null) {
+          collection.clear();
+        }
       }
     } else {
-      collection = getOrCreate();
+      if (apply) {
+        collection = getOrCreate();
+      }
       do {
         E element;
         if (this.valueProperty == null) {
@@ -89,12 +96,12 @@ public abstract class CollectionProperty<V extends Collection<E>, E> extends Con
         collection.add(element);
       } while (!reader.readEnd());
     }
+    return collection;
   }
 
   @Override
-  public void write(StructuredWriter writer) {
+  public void writeValue(StructuredWriter writer, V collection) {
 
-    Collection<E> collection = get();
     if (collection == null) {
       writer.writeValueAsNull();
       return;

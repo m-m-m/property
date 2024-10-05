@@ -9,6 +9,9 @@ import io.github.mmm.base.exception.ReadOnlyException;
 import io.github.mmm.marshall.StandardFormat;
 import io.github.mmm.marshall.StructuredTextFormat;
 import io.github.mmm.property.factory.PropertyFactoryManager;
+import io.github.mmm.validation.ValidationResult;
+import io.github.mmm.validation.Validator;
+import io.github.mmm.validation.main.ValidatorMandatory;
 import io.github.mmm.value.observable.ObservableEvent;
 import io.github.mmm.value.observable.ObservableEventListener;
 import io.github.mmm.value.observable.object.ReadableSimpleValue;
@@ -104,32 +107,75 @@ public abstract class PropertyTest<V, P extends Property<V>> extends Assertions 
     verifyJsonMarshalling(property);
   }
 
+  /** Test via {@link Property#validate()}. */
+  @Test
+  public void testPropertyValidation() {
+
+    // arrange
+    P property = createProperty();
+    // act
+    ValidationResult result = property.validate();
+    // assert
+    assertThat(result.isValid()).isFalse();
+    assertThat(result.getCode()).isEqualTo(Validator.ID_MANDATORY);
+    assertThat(result.getMessage()).isEqualTo(ValidatorMandatory.get().validate(null, property.getName()).getMessage());
+    // arrange
+    property.set(this.exampleValue);
+    result = property.validate();
+    // act
+    result = property.validate();
+    assertThat(result.isValid()).isTrue();
+    assertThat(result.getCode()).isNull();
+    assertThat(result.getMessage()).isNull();
+  }
+
   private P createProperty() {
+
+    PropertyMetadata<V> metadata = PropertyMetadata.of(null, ValidatorMandatory.get());
+    return createProperty(metadata);
+  }
+
+  private P createProperty(PropertyMetadata<V> metadata) {
 
     PropertyFactoryManager propertyFactoryManager = PropertyFactoryManager.get();
     Class<P> propertyType = null;
     if (this.createByPropertyClass) {
       propertyType = this.propertyClass;
     }
-    return propertyFactoryManager.create(propertyType, this.valueClass, PROPERTY_NAME);
+    P property = propertyFactoryManager.create(propertyType, this.valueClass, PROPERTY_NAME, metadata);
+    assertThat(property.getMetadata()).isSameAs(metadata);
+    return property;
   }
 
   private void verifyJsonMarshalling(P property) {
 
     // arrange
+    V propertyValue = property.get();
     StructuredTextFormat jsonFormat = StandardFormat.json();
     // act
     String json = jsonFormat.write(property);
-    WritableProperty<V> property2 = createProperty();
+    P property2 = createProperty();
     assertThat(property.isEqual(property2)).isFalse();
     jsonFormat.read(json, property2);
     // assert
     // we have mapped our property to JSON and verify that we have entirely recreated it from the JSON string.
-    assertThat(property2.get()).isNotNull().isEqualTo(property.get());
+    assertThat(property2.get()).isNotNull().isEqualTo(propertyValue);
     assertThat(property2.isEqual(property)).isTrue();
     if (isJsonEqualToString() && property instanceof ReadableSimpleValue simple) {
       assertThat(json).contains(simple.getAsString());
     }
+
+    // test that readValue(StructuredReader) has no side-effects
+
+    // act
+    property2 = createProperty();
+    ChangeListener<? super V> listener = new ChangeListener<>();
+    property2.addListener(listener);
+    V value = property2.readValue(jsonFormat.reader(json));
+    // assert
+    assertThat(value).isNotNull().isEqualTo(propertyValue);
+    assertThat(property2.get()).isNull();
+    assertThat(listener.event).isNull();
   }
 
   /**

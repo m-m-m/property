@@ -146,10 +146,14 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V>
     return this.changeAwareMap;
   }
 
+  @SuppressWarnings("null")
   @Override
-  protected void readValue(StructuredReader reader) {
+  protected Map<K, V> readValue(StructuredReader reader, boolean apply) {
 
-    Map<K, V> map;
+    Map<K, V> map = null;
+    if (!apply) {
+      map = create();
+    }
     boolean empty;
     if (reader.getFormat().isIdBased()) {
       empty = !reader.readStartArray();
@@ -157,18 +161,23 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V>
       empty = !reader.readStartObject(this);
     }
     if (empty) {
-      map = getValue();
-      if (map != null) {
-        map.clear();
+      if (apply) {
+        map = getValue();
+        if (map != null) {
+          map.clear();
+        }
       }
     } else {
-      map = getOrCreate();
+      if (apply) {
+        map = getOrCreate();
+      }
       do {
         K mapKey = readMapKey(reader);
         V mapValue = readMapValue(reader);
         map.put(mapKey, mapValue);
       } while (!reader.readEnd());
     }
+    return map;
   }
 
   private K readMapKey(StructuredReader reader) {
@@ -222,9 +231,8 @@ public class MapProperty<K, V> extends ContainerProperty<Map<K, V>, V>
   }
 
   @Override
-  public void write(StructuredWriter writer) {
+  public void writeValue(StructuredWriter writer, Map<K, V> map) {
 
-    Map<K, V> map = getValue();
     if (map == null) {
       writer.writeValueAsNull();
       return;

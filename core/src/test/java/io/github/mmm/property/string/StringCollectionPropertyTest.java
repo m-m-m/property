@@ -4,21 +4,48 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import io.github.mmm.marshall.MarshallingConfig;
 import io.github.mmm.marshall.StandardFormat;
+import io.github.mmm.property.PropertyTest;
 
 /**
  * Abstract base class for tests of {@link StringCollectionProperty}.
+ *
+ * @param <P> type of the {@link StringCollectionProperty}.
  */
-public abstract class StringCollectionPropertyTest extends Assertions {
+public abstract class StringCollectionPropertyTest<P extends StringCollectionProperty> extends PropertyTest<String, P> {
+
+  /**
+   * The constructor.
+   *
+   * @param propertyClass the {@link StringCollectionProperty} {@link Class}.
+   */
+  protected StringCollectionPropertyTest(Class<P> propertyClass) {
+
+    super(exampleValue(propertyClass), propertyClass, true);
+  }
+
+  private static String exampleValue(Class<?> propertyClass) {
+
+    if (propertyClass.getSimpleName().contains("Csv")) {
+      return "a;bc;b;aa";
+    } else {
+      return "|a|bc|b|aa|";
+    }
+  }
+
+  @Override
+  protected boolean isJsonEqualToString() {
+
+    return false;
+  }
 
   /**
    * @return a new and empty instance of the {@link StringCollectionProperty} to test.
    */
-  protected abstract StringCollectionProperty createEmpty();
+  protected abstract P createEmpty();
 
   /**
    * Test {@link StringCollectionProperty#remove(String)} with {@code null}.

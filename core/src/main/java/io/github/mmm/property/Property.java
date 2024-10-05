@@ -270,9 +270,23 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   }
 
   @Override
-  public void write(StructuredWriter writer) {
+  public final void write(StructuredWriter writer) {
 
-    writer.writeValue(get());
+    writeValue(writer, get());
+  }
+
+  /**
+   * Implementation of the marshalling (serializing value to formats such as JSON) if no
+   * {@link PropertyMetadata#getMarshalling() external marshalling} is defined. Writes the given {@link #get() value} to
+   * the given {@link StructuredWriter}.
+   *
+   * @param writer the {@link StructuredWriter}.
+   * @param value the {@link #get() value} to write.
+   * @see #write(StructuredWriter)
+   */
+  public void writeValue(StructuredWriter writer, V value) {
+
+    writer.writeValue(value);
   }
 
   @Override
@@ -280,7 +294,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
 
     Marshalling<V> marshalling = this.metadata.getMarshalling();
     if (marshalling == null) {
-      readValue(reader);
+      readValue(reader, true);
     } else {
       V value = marshalling.readObject(reader);
       set(value);
@@ -295,21 +309,43 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   @Override
   public final Property<V> read(StructuredReader reader) {
 
-    readValue(reader);
+    readValue(reader, true);
     return this;
   }
 
   /**
-   * Reads the {@link #get() value} of this {@link Property} from the given {@link StructuredReader} and
-   * {@link #set(Object) sets} it.
+   * Reads the {@link #get() value} from the given {@link StructuredReader} without side-effects (no impact on this
+   * {@link Property}).
    *
    * @param reader the {@link StructuredReader} to read the value from.
+   * @return the unmarshalled value.
+   * @see #readValue(StructuredReader, boolean)
+   */
+  public final V readValue(StructuredReader reader) {
+
+    return readValue(reader, false);
+  }
+
+  /**
+   * Implementation of the unmarshalling (deserializing value from formats such as JSON) if no
+   * {@link PropertyMetadata#getMarshalling() external marshalling} is defined. Reads the {@link #get() value} from the
+   * given {@link StructuredReader}.
+   *
+   * @param reader the {@link StructuredReader} to read the value from.
+   * @param apply {@code true} if the value shall be {@link #set(Object) set} in this {@link Property} (default),
+   *        {@code false} to only read the value without side-effects. The reason for this design is to allow reading an
+   *        external value using a {@link Property} as marshalling while implementations can sill optimize the default
+   *        case (e.g. when reading a collection no new collection needs to be created).
+   * @return the unmarshalled value.
    * @see #read(StructuredReader)
    */
-  protected void readValue(StructuredReader reader) {
+  protected V readValue(StructuredReader reader, boolean apply) {
 
     V value = reader.readValue(getValueClass());
-    set(value);
+    if (apply) {
+      set(value);
+    }
+    return value;
   }
 
   @Override
