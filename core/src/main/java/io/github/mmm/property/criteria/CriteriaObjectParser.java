@@ -49,8 +49,8 @@ public class CriteriaObjectParser implements CharScannerParser<CriteriaObject<?>
    */
   public CriteriaObject<?> parse(CharStreamScanner scanner, PropertyPathParser pathParser) {
 
-    char c = scanner.peek();
-    if (c == '(') {
+    int cp = scanner.peek();
+    if (cp == '(') {
       scanner.next();
       scanner.skipWhile(' ');
       CriteriaObject<?> expression = parse(scanner);
@@ -82,18 +82,18 @@ public class CriteriaObjectParser implements CharScannerParser<CriteriaObject<?>
         expressions.add(expression);
       }
       int spaces = scanner.skipWhile(' ');
-      char c = scanner.peek();
-      if ((c == ',') || (c == ')') || (c == CharStreamScanner.EOS)) {
+      int cp = scanner.peek();
+      if ((cp == ',') || (cp == ')') || (cp == CharStreamScanner.EOS)) {
         break;
-      } else if ((c == 'o') || (c == 'O')) {
+      } else if ((cp == 'o') || (cp == 'O')) {
         if (scanner.expect("ORDER BY ", true, true)) {
           break;
         }
-      } else if ((c == 'g') || (c == 'G')) {
+      } else if ((cp == 'g') || (cp == 'G')) {
         if (scanner.expect("GROUP BY ", true, true)) {
           break;
         }
-      } else if ((c == 'h') || (c == 'H')) {
+      } else if ((cp == 'h') || (cp == 'H')) {
         if (scanner.expect("HAVING ", true, true)) {
           break;
         }
@@ -180,19 +180,19 @@ public class CriteriaObjectParser implements CharScannerParser<CriteriaObject<?>
    */
   public Literal<?> parseLiteral(CharStreamScanner scanner) {
 
-    char c = scanner.peek();
-    if (c == '\'') {
+    int cp = scanner.peek();
+    if (cp == '\'') {
       scanner.next();
-      String string = scanner.readUntil(c, false, c);
+      String string = scanner.readUntil(cp, false, cp);
       return Literal.of(string);
-    } else if (((c == 't') || (c == 'T')) && scanner.expect("TRUE", true)) {
+    } else if (((cp == 't') || (cp == 'T')) && scanner.expect("TRUE", true)) {
       return BooleanLiteral.TRUE;
-    } else if (((c == 'f') || (c == 'F')) && scanner.expect("FALSE", true)) {
+    } else if (((cp == 'f') || (cp == 'F')) && scanner.expect("FALSE", true)) {
       return BooleanLiteral.FALSE;
-    } else if ((c == '+') || (c == '-') || CharFilter.LATIN_DIGIT.accept(c)) {
+    } else if ((cp == '+') || (cp == '-') || CharFilter.LATIN_DIGIT.accept(cp)) {
       String num = scanner.readWhile(NUMER_FILTER);
       int len = num.length();
-      if ((c == '+') || (c == '-')) {
+      if ((cp == '+') || (cp == '-')) {
         len--;
       }
       Number number;
