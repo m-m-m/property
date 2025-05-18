@@ -16,7 +16,7 @@ import io.github.mmm.value.PropertyPath;
  *
  * @since 1.0.0
  */
-public class CriteriaFormatter implements CriteriaVisitor {
+public class CriteriaFormatter implements CriteriaVisitor, AttributeReadParameters {
 
   /** {@link Appendable} where to {@link Appendable#append(CharSequence) append} the SQL. */
   protected final AppendableWriter out;
@@ -117,9 +117,7 @@ public class CriteriaFormatter implements CriteriaVisitor {
     return this.out;
   }
 
-  /**
-   * @return the {@link CriteriaParameters}.
-   */
+  @Override
   public CriteriaParameters<?> getParameters() {
 
     return this.parameters;

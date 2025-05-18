@@ -59,8 +59,8 @@ public interface ReadableProperty<V> extends ObservableValue<V>, PropertyPath<V>
   default ReadablePath parentPath() {
 
     AttributeReadOnly lock = getMetadata().getLock();
-    if (lock instanceof ReadablePath) {
-      return (ReadablePath) lock;
+    if (lock instanceof ReadablePath path) {
+      return path;
     }
     return PropertyPath.super.parentPath();
   }
