@@ -18,10 +18,11 @@ import io.github.mmm.value.PropertyPath;
  */
 public class CriteriaFormatter implements CriteriaVisitor, AttributeReadParameters {
 
-  /** {@link Appendable} where to {@link Appendable#append(CharSequence) append} the SQL. */
+  /** @see #out() */
   protected final AppendableWriter out;
 
-  private final CriteriaParameters<?> parameters;
+  /** @see #getParameters() */
+  protected CriteriaParameters<?> parameters;
 
   private LikePatternSyntax likeSyntaxSource;
 

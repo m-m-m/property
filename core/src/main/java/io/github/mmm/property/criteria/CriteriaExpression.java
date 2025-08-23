@@ -8,12 +8,16 @@ import java.util.List;
 import io.github.mmm.value.CriteriaObject;
 
 /**
- * Interface for a search criteria. Can be e.g. used to build dynamic queries (see {@code mmm-entity-db}). Use
- * {@link CriteriaFormatter} and its sub-classes to convert to database syntax (e.g. SQL) and
- * {@link CriteriaMarshalling} to (un)marshall to JSON, XML, etc.
+ * Interface for a criteria expression. It combines an {@link #getOperator() operator} to invoke on the
+ * {@link #getArgs() arguments}. Since many expressions are unary or binary there are also methods like
+ * {@link #getArgCount()} as well as {@link #getFirstArg()} and {@link #getSecondArg()} to squeeze out the best
+ * performance and prevent creating pointless arrays and {@link List}s.
+ *
+ * To build dynamic queries using {@link CriteriaExpression}s see {@code mmm-orm}.
  *
  * @param <R> type of the result value this expression evaluates to.
  * @since 1.0.0
+ * @see CriteriaMarshalling
  */
 public interface CriteriaExpression<R> extends CriteriaObject<R> {
 
