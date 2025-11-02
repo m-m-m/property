@@ -5,6 +5,7 @@ package io.github.mmm.property.time.localtime;
 import java.time.LocalTime;
 
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.comparable.WritableComparableProperty;
 import io.github.mmm.value.observable.time.localtime.WritableLocalTimeValue;
 
 /**
@@ -13,6 +14,6 @@ import io.github.mmm.value.observable.time.localtime.WritableLocalTimeValue;
  * @since 1.0.0
  */
 public interface WritableLocalTimeProperty
-    extends ReadableLocalTimeProperty, WritableProperty<LocalTime>, WritableLocalTimeValue {
+    extends ReadableLocalTimeProperty, WritableComparableProperty<LocalTime>, WritableLocalTimeValue {
 
 }

@@ -5,6 +5,7 @@ package io.github.mmm.property.time.year;
 import java.time.Year;
 
 import io.github.mmm.property.ReadableProperty;
+import io.github.mmm.property.comparable.ReadableComparableProperty;
 import io.github.mmm.value.observable.time.year.ReadableYearValue;
 
 /**
@@ -12,6 +13,6 @@ import io.github.mmm.value.observable.time.year.ReadableYearValue;
  *
  * @since 1.0.0
  */
-public interface ReadableYearProperty extends ReadableProperty<Year>, ReadableYearValue {
+public interface ReadableYearProperty extends ReadableComparableProperty<Year>, ReadableYearValue {
 
 }

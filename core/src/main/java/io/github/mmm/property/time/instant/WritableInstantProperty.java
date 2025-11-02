@@ -5,6 +5,7 @@ package io.github.mmm.property.time.instant;
 import java.time.Instant;
 
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.comparable.WritableComparableProperty;
 import io.github.mmm.value.observable.time.instant.WritableInstantValue;
 
 /**
@@ -14,6 +15,6 @@ import io.github.mmm.value.observable.time.instant.WritableInstantValue;
  * @since 1.0.0
  */
 public interface WritableInstantProperty
-    extends ReadableInstantProperty, WritableProperty<Instant>, WritableInstantValue {
+    extends ReadableInstantProperty, WritableComparableProperty<Instant>, WritableInstantValue {
 
 }

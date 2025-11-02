@@ -5,6 +5,7 @@ package io.github.mmm.property.time.offsettime;
 import java.time.OffsetTime;
 
 import io.github.mmm.property.ReadableProperty;
+import io.github.mmm.property.comparable.ReadableComparableProperty;
 import io.github.mmm.value.observable.time.offsettime.OffsetTimeExpression;
 
 /**
@@ -12,7 +13,7 @@ import io.github.mmm.value.observable.time.offsettime.OffsetTimeExpression;
  *
  * @since 1.0.0
  */
-public interface ReadableOffsetTimeProperty extends ReadableProperty<OffsetTime>, OffsetTimeExpression {
+public interface ReadableOffsetTimeProperty extends ReadableComparableProperty<OffsetTime>, OffsetTimeExpression {
 
   @Override
   default Class<OffsetTime> getValueClass() {

@@ -5,6 +5,7 @@ package io.github.mmm.property.time.localdate;
 import java.time.LocalDate;
 
 import io.github.mmm.property.ReadableProperty;
+import io.github.mmm.property.comparable.ReadableComparableProperty;
 import io.github.mmm.value.observable.time.localdate.LocalDateExpression;
 
 /**
@@ -13,6 +14,6 @@ import io.github.mmm.value.observable.time.localdate.LocalDateExpression;
  *
  * @since 1.0.0
  */
-public interface ReadableLocalDateProperty extends ReadableProperty<LocalDate>, LocalDateExpression {
+public interface ReadableLocalDateProperty extends ReadableComparableProperty<LocalDate>, LocalDateExpression {
 
 }

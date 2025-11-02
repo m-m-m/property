@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import io.github.mmm.property.ReadableProperty;
+import io.github.mmm.property.comparable.ReadableComparableProperty;
 import io.github.mmm.value.observable.time.duration.DurationExpression;
 
 /**
@@ -14,6 +15,6 @@ import io.github.mmm.value.observable.time.duration.DurationExpression;
  *
  * @since 1.0.0
  */
-public interface ReadableDurationProperty extends ReadableProperty<Duration>, DurationExpression {
+public interface ReadableDurationProperty extends ReadableComparableProperty<Duration>, DurationExpression {
 
 }

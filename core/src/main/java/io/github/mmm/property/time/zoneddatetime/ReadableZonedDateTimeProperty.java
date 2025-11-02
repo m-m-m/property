@@ -5,6 +5,7 @@ package io.github.mmm.property.time.zoneddatetime;
 import java.time.ZonedDateTime;
 
 import io.github.mmm.property.ReadableProperty;
+import io.github.mmm.property.comparable.ReadableComparableProperty;
 import io.github.mmm.value.observable.time.zoneddatetime.ZonedDateTimeExpression;
 
 /**
@@ -12,7 +13,8 @@ import io.github.mmm.value.observable.time.zoneddatetime.ZonedDateTimeExpression
  *
  * @since 1.0.0
  */
-public interface ReadableZonedDateTimeProperty extends ReadableProperty<ZonedDateTime>, ZonedDateTimeExpression {
+public interface ReadableZonedDateTimeProperty
+    extends ReadableComparableProperty<ZonedDateTime>, ZonedDateTimeExpression {
 
   @Override
   default Class<ZonedDateTime> getValueClass() {

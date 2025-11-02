@@ -5,6 +5,7 @@ package io.github.mmm.property.time.month;
 import java.time.Month;
 
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.comparable.WritableComparableProperty;
 import io.github.mmm.value.observable.time.month.WritableMonthValue;
 
 /**
@@ -12,6 +13,7 @@ import io.github.mmm.value.observable.time.month.WritableMonthValue;
  *
  * @since 1.0.0
  */
-public interface WritableMonthProperty extends ReadableMonthProperty, WritableProperty<Month>, WritableMonthValue {
+public interface WritableMonthProperty
+    extends ReadableMonthProperty, WritableComparableProperty<Month>, WritableMonthValue {
 
 }

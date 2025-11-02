@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.time.Instant;
 
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.comparable.WritableComparableProperty;
 import io.github.mmm.value.observable.time.duration.WritableDurationValue;
 
 /**
@@ -15,6 +16,6 @@ import io.github.mmm.value.observable.time.duration.WritableDurationValue;
  * @since 1.0.0
  */
 public interface WritableDurationProperty
-    extends ReadableDurationProperty, WritableProperty<Duration>, WritableDurationValue {
+    extends ReadableDurationProperty, WritableComparableProperty<Duration>, WritableDurationValue {
 
 }

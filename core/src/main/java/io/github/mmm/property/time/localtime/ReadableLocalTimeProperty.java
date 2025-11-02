@@ -5,6 +5,7 @@ package io.github.mmm.property.time.localtime;
 import java.time.LocalTime;
 
 import io.github.mmm.property.ReadableProperty;
+import io.github.mmm.property.comparable.ReadableComparableProperty;
 import io.github.mmm.value.observable.time.localtime.LocalTimeExpression;
 
 /**
@@ -12,7 +13,7 @@ import io.github.mmm.value.observable.time.localtime.LocalTimeExpression;
  *
  * @since 1.0.0
  */
-public interface ReadableLocalTimeProperty extends ReadableProperty<LocalTime>, LocalTimeExpression {
+public interface ReadableLocalTimeProperty extends ReadableComparableProperty<LocalTime>, LocalTimeExpression {
 
   @Override
   default Class<LocalTime> getValueClass() {

@@ -5,6 +5,7 @@ package io.github.mmm.property.time.zoneddatetime;
 import java.time.ZonedDateTime;
 
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.comparable.WritableComparableProperty;
 import io.github.mmm.value.observable.time.zoneddatetime.WritableZonedDateTimeValue;
 
 /**
@@ -13,6 +14,6 @@ import io.github.mmm.value.observable.time.zoneddatetime.WritableZonedDateTimeVa
  * @since 1.0.0
  */
 public interface WritableZonedDateTimeProperty
-    extends ReadableZonedDateTimeProperty, WritableProperty<ZonedDateTime>, WritableZonedDateTimeValue {
+    extends ReadableZonedDateTimeProperty, WritableComparableProperty<ZonedDateTime>, WritableZonedDateTimeValue {
 
 }

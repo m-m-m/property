@@ -5,6 +5,7 @@ package io.github.mmm.property.time.offsetdatetime;
 import java.time.OffsetDateTime;
 
 import io.github.mmm.property.WritableProperty;
+import io.github.mmm.property.comparable.WritableComparableProperty;
 import io.github.mmm.value.observable.time.offsetdatetime.WritableOffsetDateTimeValue;
 
 /**
@@ -13,6 +14,6 @@ import io.github.mmm.value.observable.time.offsetdatetime.WritableOffsetDateTime
  * @since 1.0.0
  */
 public interface WritableOffsetDateTimeProperty
-    extends ReadableOffsetDateTimeProperty, WritableProperty<OffsetDateTime>, WritableOffsetDateTimeValue {
+    extends ReadableOffsetDateTimeProperty, WritableComparableProperty<OffsetDateTime>, WritableOffsetDateTimeValue {
 
 }
