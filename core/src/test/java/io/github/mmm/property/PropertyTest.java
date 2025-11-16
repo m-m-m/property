@@ -126,7 +126,7 @@ public abstract class PropertyTest<V, P extends Property<V>> extends Assertions 
     result = property.validate();
     assertThat(result.isValid()).isTrue();
     assertThat(result.getCode()).isNull();
-    assertThat(result.getMessage()).isNull();
+    assertThat(result.getMessage()).isEqualTo("Valid");
   }
 
   private P createProperty() {
