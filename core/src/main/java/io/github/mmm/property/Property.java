@@ -276,7 +276,7 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   }
 
   /**
-   * Implementation of the marshalling (serializing value to formats such as JSON) if no
+   * Implementation of the marshalling (serialising value to formats such as JSON) if no
    * {@link PropertyMetadata#getMarshalling() external marshalling} is defined. Writes the given {@link #get() value} to
    * the given {@link StructuredWriter}.
    *
@@ -327,14 +327,14 @@ public abstract class Property<V> extends AbstractWritableObservableValue<V> imp
   }
 
   /**
-   * Implementation of the unmarshalling (deserializing value from formats such as JSON) if no
+   * Implementation of the unmarshalling (de-serialising value from formats such as JSON) if no
    * {@link PropertyMetadata#getMarshalling() external marshalling} is defined. Reads the {@link #get() value} from the
    * given {@link StructuredReader}.
    *
    * @param reader the {@link StructuredReader} to read the value from.
    * @param apply {@code true} if the value shall be {@link #set(Object) set} in this {@link Property} (default),
    *        {@code false} to only read the value without side-effects. The reason for this design is to allow reading an
-   *        external value using a {@link Property} as marshalling while implementations can sill optimize the default
+   *        external value using a {@link Property} as marshalling while implementations can sill optimise the default
    *        case (e.g. when reading a collection no new collection needs to be created).
    * @return the unmarshalled value.
    * @see #read(StructuredReader)
