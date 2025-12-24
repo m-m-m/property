@@ -27,4 +27,11 @@ public interface ReadableRangeProperty<V extends Comparable<?>> extends Readable
     return Range.unbounded();
   }
 
+  @Override
+  default boolean isEmpty() {
+
+    Range<V> range = get();
+    return (range == null) || ((range.getMin() == null) && (range.getMax() == null));
+  }
+
 }

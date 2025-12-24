@@ -81,7 +81,7 @@ public class PatternProperty extends SimpleProperty<Pattern> implements Writable
   }
 
   @Override
-  public StringProperty asString() {
+  public StringProperty expString() {
 
     return new PatternStringProperty(getName() + ".string");
   }

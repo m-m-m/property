@@ -40,9 +40,7 @@ public class ObjectProperty<V> extends SimpleProperty<V> implements WritableObje
    */
   public ObjectProperty(String name, Class<V> valueClass, PropertyMetadata<V> metadata) {
 
-    super(name, metadata);
-    Objects.requireNonNull(valueClass);
-    this.valueClass = valueClass;
+    this(name, valueClass, null, metadata);
   }
 
   /**
@@ -63,13 +61,32 @@ public class ObjectProperty<V> extends SimpleProperty<V> implements WritableObje
    * @param value the (initial) {@link #get() value}.
    * @param metadata the {@link #getMetadata() metadata}.
    */
-  @SuppressWarnings("unchecked")
   public ObjectProperty(String name, V value, PropertyMetadata<V> metadata) {
 
+    this(name, null, value, metadata);
+  }
+
+  /**
+   * The constructor.
+   *
+   * @param name the {@link #getName() name}.
+   * @param valueClass the {@link #getValueClass() value class}.
+   * @param value the (initial) {@link #get() value}.
+   * @param metadata the {@link #getMetadata() metadata}.
+   */
+  @SuppressWarnings("unchecked")
+  protected ObjectProperty(String name, Class<V> valueClass, V value, PropertyMetadata<V> metadata) {
+
     super(name, metadata);
-    Objects.requireNonNull(value);
-    this.valueClass = (Class<V>) value.getClass();
-    doSet(value);
+    if (valueClass == null) {
+      Objects.requireNonNull(value);
+      this.valueClass = (Class<V>) value.getClass();
+    } else {
+      this.valueClass = valueClass;
+    }
+    if (value != null) {
+      doSet(value);
+    }
   }
 
   @Override
