@@ -14,12 +14,12 @@ public class PredicateOperatorTest extends Assertions {
   @Test
   public void testAll() {
 
-    // given
+    // arrange
     boolean unary = true;
     boolean notUnary = false;
     boolean inverse = true;
     boolean notInverse = false;
-    // when + then
+    // act + assert
     check(PredicateOperator.EQ, "=", PredicateOperator.NEQ, "<>");
     check(PredicateOperator.IS_NULL, "IS NULL", PredicateOperator.IS_NOT_NULL, "IS NOT NULL", unary);
     check(PredicateOperator.LIKE, "LIKE", PredicateOperator.NOT_LIKE, "NOT LIKE");

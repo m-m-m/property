@@ -38,12 +38,12 @@ public abstract class PropertyBuilderTest<V> extends Assertions {
   @Test
   public void testBasics() {
 
-    // given
+    // arrange
     PropertyBuilder<V, ?, ?, ?> builder = createBuilder();
     String name = "MyProperty";
-    // when
+    // act
     Property<V> property = builder.build(name);
-    // then
+    // assert
     assertThat(property).isNotNull();
     assertThat(property.getName()).isEqualTo(name);
     assertThat(property.get()).isNull();
@@ -51,7 +51,7 @@ public abstract class PropertyBuilderTest<V> extends Assertions {
     assertThat(property.getMetadata().getClass().getSimpleName()).isEqualTo("PropertyMetadataNone");
     assertThat(property.validate().isValid()).isTrue();
 
-    // and when
+    // act again
     builder.withValidator().mandatory().and();
     property = builder.build(name);
     assertThat(property).isNotNull();
@@ -64,7 +64,7 @@ public abstract class PropertyBuilderTest<V> extends Assertions {
     property.set(getExampleValue());
     assertThat(property.validate().isValid()).isTrue();
 
-    // and when
+    // act again
     property = builder.metaInfo("key", "value").build(name);
     assertThat(property).isNotNull();
     assertThat(property.getName()).isEqualTo(name);
@@ -79,13 +79,13 @@ public abstract class PropertyBuilderTest<V> extends Assertions {
   @Test
   public void testAsList() {
 
-    // given
+    // arrange
     PropertyBuilder<V, ?, ?, ?> builder = createBuilder();
     String name = "MyProperty";
-    // when
+    // act
     builder.withValidator().mandatory().and();
     ListProperty<V> property = builder.asList().withValidator().size(1, 2).and().build(name);
-    // then
+    // assert
     assertThat(property).isNotNull();
     assertThat(property.getName()).isEqualTo(name);
     assertThat(property.get()).isNull();

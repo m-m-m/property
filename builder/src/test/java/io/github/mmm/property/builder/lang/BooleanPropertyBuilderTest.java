@@ -33,19 +33,19 @@ public class BooleanPropertyBuilderTest extends PropertyBuilderTest<Boolean> {
   @Test
   public void testBuilder() {
 
-    // given
+    // arrange
     BooleanPropertyBuilder builder = createBuilder();
     String name = "MyProperty";
-    // when
+    // act
     BooleanProperty property = builder.withValidator().mandatory().and().build(name);
     ValidationResult result = property.validate();
-    // then
+    // assert
     assertThat(result.isValid()).as(result.toString()).isFalse();
     assertThat(result.getMessage()).isEqualTo("The value has to be filled.");
     // but when
     property.set(Boolean.TRUE);
     result = property.validate();
-    // then
+    // assert
     assertThat(result.isValid()).isTrue();
   }
 

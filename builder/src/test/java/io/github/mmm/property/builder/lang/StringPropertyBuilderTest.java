@@ -35,20 +35,20 @@ public class StringPropertyBuilderTest extends PropertyBuilderTest<String> {
   @Test
   public void testBuilder() {
 
-    // given
+    // arrange
     StringPropertyBuilder builder = createBuilder();
     String name = "MyProperty";
-    // when
+    // act
     StringProperty property = builder.withValidator().mandatory().range("10", "20")
         .pattern(Pattern.compile("[a-zA-Z0-9]*")).and().build(name);
     property.set("HelloWorld");
     ValidationResult result = property.validate();
-    // then
+    // assert
     assertThat(result.isValid()).as(result.toString()).isTrue();
     // but when
     property.set("Hi World");
     result = property.validate();
-    // then
+    // assert
     assertThat(result.isValid()).isFalse();
     assertThat(result.getMessage()).isEqualTo(
         "The length needs to be in the range from 10 to 20.\nThe value has to match the format '[a-zA-Z0-9]*'.");
@@ -56,7 +56,7 @@ public class StringPropertyBuilderTest extends PropertyBuilderTest<String> {
     // or when
     property.set(null);
     result = property.validate();
-    // then
+    // assert
     assertThat(result.isValid()).isFalse();
     assertThat(result.getMessage()).isEqualTo(ERR_MANDATORY);
   }
