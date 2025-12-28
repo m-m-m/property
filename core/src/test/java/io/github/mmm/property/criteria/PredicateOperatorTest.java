@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Test;
 /**
  * Test of {@link PredicateOperator}.
  */
-public class PredicateOperatorTest extends Assertions {
+class PredicateOperatorTest extends Assertions {
 
   /** Tests all "enum" constants of {@link PredicateOperator}. */
   @Test
-  public void testAll() {
+  void testAll() {
 
     // arrange
     boolean unary = true;
@@ -66,7 +66,7 @@ public class PredicateOperatorTest extends Assertions {
    *
    */
   @Test
-  public void testCustomEnums() {
+  void testCustomEnums() {
 
     // ATTENTION: will fail before class AdvancedPredicateOperator has been loaded and initialized by classloader
     // assertThat(PredicateOperator.of("IS COOL")).isSameAs(AdvancedPredicateOperator.IS_COOL);

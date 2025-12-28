@@ -36,7 +36,7 @@ public abstract class PropertyBuilderTest<V> extends Assertions {
    * Test basic features of {@link PropertyBuilder}.
    */
   @Test
-  public void testBasics() {
+  void testBasics() {
 
     // arrange
     PropertyBuilder<V, ?, ?, ?> builder = createBuilder();
@@ -77,7 +77,7 @@ public abstract class PropertyBuilderTest<V> extends Assertions {
    * Test of {@link PropertyBuilder#asList()}.
    */
   @Test
-  public void testAsList() {
+  void testAsList() {
 
     // arrange
     PropertyBuilder<V, ?, ?, ?> builder = createBuilder();

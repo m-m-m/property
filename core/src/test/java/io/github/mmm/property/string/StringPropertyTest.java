@@ -5,7 +5,7 @@ import io.github.mmm.property.PropertyTest;
 /**
  * Test of {@link StringProperty}.
  */
-public class StringPropertyTest extends PropertyTest<String, StringProperty> {
+class StringPropertyTest extends PropertyTest<String, StringProperty> {
 
   StringPropertyTest() {
 

@@ -8,7 +8,7 @@ import io.github.mmm.property.time.instant.InstantProperty;
 /**
  * Test of {@link InstantProperty}.
  */
-public class InstantPropertyTest extends PropertyTest<Instant, InstantProperty> {
+class InstantPropertyTest extends PropertyTest<Instant, InstantProperty> {
 
   InstantPropertyTest() {
 

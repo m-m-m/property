@@ -9,7 +9,7 @@ import io.github.mmm.property.PropertyTest;
 /**
  * Test of {@link EnumProperty}.
  */
-public class EnumPropertyTest extends PropertyTest<TestEnum, EnumProperty<TestEnum>> {
+class EnumPropertyTest extends PropertyTest<TestEnum, EnumProperty<TestEnum>> {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   EnumPropertyTest() {
@@ -19,7 +19,7 @@ public class EnumPropertyTest extends PropertyTest<TestEnum, EnumProperty<TestEn
 
   /** Test that {@link EnumProperty#getSafe()} uses first enum constant as fallback. */
   @Test
-  public void testSafe() {
+  void testSafe() {
 
     // arrange
     EnumProperty<TestEnum> enumProperty = new EnumProperty<>("enum", null, TestEnum.class);
@@ -31,7 +31,7 @@ public class EnumPropertyTest extends PropertyTest<TestEnum, EnumProperty<TestEn
 
   /** Test that {@link EnumProperty} can be read from its {@link Enum#toString()} value as JSON. */
   @Test
-  public void testReadJson() {
+  void testReadJson() {
 
     // arrange
     EnumProperty<TestEnum> enumProperty = new EnumProperty<>("enum", null, TestEnum.class);
@@ -45,7 +45,7 @@ public class EnumPropertyTest extends PropertyTest<TestEnum, EnumProperty<TestEn
 
   /** Test that {@link EnumProperty} writes its {@link Enum#toString()} value as JSON. */
   @Test
-  public void testWriteJson() {
+  void testWriteJson() {
 
     // arrange
     EnumProperty<TestEnum> enumProperty = new EnumProperty<>("enum", null, TestEnum.class);

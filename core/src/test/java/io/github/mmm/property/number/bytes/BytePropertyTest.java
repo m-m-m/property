@@ -5,7 +5,7 @@ import io.github.mmm.property.PropertyTest;
 /**
  * Test of {@link ByteProperty}.
  */
-public class BytePropertyTest extends PropertyTest<Byte, ByteProperty> {
+class BytePropertyTest extends PropertyTest<Byte, ByteProperty> {
 
   BytePropertyTest() {
 

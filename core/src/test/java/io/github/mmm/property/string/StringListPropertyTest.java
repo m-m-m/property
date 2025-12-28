@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test of {@link StringListProperty}.
  */
-public class StringListPropertyTest extends StringCollectionPropertyTest<StringListProperty> {
+class StringListPropertyTest extends StringCollectionPropertyTest<StringListProperty> {
 
   /**
    * The constructor.
@@ -27,7 +27,7 @@ public class StringListPropertyTest extends StringCollectionPropertyTest<StringL
 
   /** Test of {@link StringListProperty#contains(String)}. */
   @Test
-  public void testContains() {
+  void testContains() {
 
     // arrange
     StringListProperty property = createEmpty();
@@ -43,7 +43,7 @@ public class StringListPropertyTest extends StringCollectionPropertyTest<StringL
 
   /** Test of {@link StringListProperty#contains(String)} with {@code null} and empty value. */
   @Test
-  public void testContainsEmpty() {
+  void testContainsEmpty() {
 
     // arrange
     StringListProperty property = createEmpty();
@@ -57,7 +57,7 @@ public class StringListPropertyTest extends StringCollectionPropertyTest<StringL
 
   /** Test of {@link StringListProperty#getAsList()}. */
   @Test
-  public void testGetValueAsList() {
+  void testGetValueAsList() {
 
     StringListProperty property = createEmpty();
     property.set("|a|bc|d|");
@@ -66,7 +66,7 @@ public class StringListPropertyTest extends StringCollectionPropertyTest<StringL
 
   /** Test of {@link StringListProperty#set(java.util.Collection)}. */
   @Test
-  public void testSetValueAsCollection() {
+  void testSetValueAsCollection() {
 
     StringListProperty property = createEmpty();
     property.set(Arrays.asList("a", "bc", "d"));
@@ -75,7 +75,7 @@ public class StringListPropertyTest extends StringCollectionPropertyTest<StringL
 
   /** Test of {@link StringListProperty#getCsv(String, boolean)}. */
   @Test
-  public void testGetValueAsCsv() {
+  void testGetValueAsCsv() {
 
     StringListProperty property = createEmpty();
     property.set("|a|bc|d|");
@@ -86,7 +86,7 @@ public class StringListPropertyTest extends StringCollectionPropertyTest<StringL
 
   /** Test of {@link StringListProperty#setCsv(String, String, boolean, boolean)}. */
   @Test
-  public void testSetValueAsCsv() {
+  void testSetValueAsCsv() {
 
     StringListProperty property = createEmpty();
     property.setCsv("a, bc, d", ", ", false);
@@ -97,7 +97,7 @@ public class StringListPropertyTest extends StringCollectionPropertyTest<StringL
 
   /** Test of {@link StringListProperty#add(String)}. */
   @Test
-  public void testAdd() {
+  void testAdd() {
 
     StringListProperty property = createEmpty();
     assertThat(property.add("a")).isTrue();
@@ -112,7 +112,7 @@ public class StringListPropertyTest extends StringCollectionPropertyTest<StringL
 
   /** Test of {@link StringListProperty#remove(String)}. */
   @Test
-  public void testRemove() {
+  void testRemove() {
 
     StringListProperty property = createEmpty();
     property.set("|a|bc|d|");
@@ -129,7 +129,7 @@ public class StringListPropertyTest extends StringCollectionPropertyTest<StringL
 
   /** Test of {@link StringListProperty#add(String) adding} empty {@link String}s. */
   @Test
-  public void testAddEmptyStrings() {
+  void testAddEmptyStrings() {
 
     StringListProperty property = createEmpty();
     assertThat(property.get()).isNull();
@@ -141,7 +141,7 @@ public class StringListPropertyTest extends StringCollectionPropertyTest<StringL
 
   /** Test of {@link StringListProperty#set(String)} with two empty {@link String}s. */
   @Test
-  public void testSetEmptyStrings() {
+  void testSetEmptyStrings() {
 
     // arrange
     StringListProperty property = createEmpty();

@@ -51,7 +51,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test {@link StringCollectionProperty#remove(String)} with {@code null}.
    */
   @Test
-  public void testRemoveNull() {
+  void testRemoveNull() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -66,7 +66,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test {@link StringCollectionProperty#remove(String)} with the empty {@link String}.
    */
   @Test
-  public void testRemoveEmptyString() {
+  void testRemoveEmptyString() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -79,7 +79,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
 
   /** Test of {@link StringCollectionProperty#contains(String)}. */
   @Test
-  public void testContainsNull() {
+  void testContainsNull() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -91,7 +91,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
 
   /** Test of {@link StringCollectionProperty#contains(String)}. */
   @Test
-  public void testContainsEmptyString() {
+  void testContainsEmptyString() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -108,7 +108,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test {@link StringCollectionProperty#getCsv(String, boolean)} when no value is set.
    */
   @Test
-  public void testGetAsCsvNoElement() {
+  void testGetAsCsvNoElement() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -123,7 +123,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test {@link StringCollectionProperty#getCsv(String, boolean)} after a single element was added.
    */
   @Test
-  public void testGetAsCsvSingleElement() {
+  void testGetAsCsvSingleElement() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -138,7 +138,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test {@link StringCollectionProperty#getCsv(String, boolean)} after multiple elements have been added.
    */
   @Test
-  public void testGetAsCsvMultipleElements() {
+  void testGetAsCsvMultipleElements() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -158,7 +158,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test {@link StringCollectionProperty#setCsv(String, String, boolean, boolean)} with null.
    */
   @Test
-  public void testSetCsvNull() {
+  void testSetCsvNull() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -172,7 +172,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test {@link StringCollectionProperty#setCsv(String, String, boolean, boolean)} with empty {@link String}.
    */
   @Test
-  public void testSetCsvEmptyString() {
+  void testSetCsvEmptyString() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -196,7 +196,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test {@link StringCollectionProperty#setCsv(String, String, boolean, boolean)} with multiple elements.
    */
   @Test
-  public void testSetCsvMultipleElements() {
+  void testSetCsvMultipleElements() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -211,7 +211,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test {@link StringCollectionProperty#setCsv(String, String, boolean, boolean)} with a single element.
    */
   @Test
-  public void testSetCsvSingleElement() {
+  void testSetCsvSingleElement() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -226,7 +226,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test {@link StringCollectionProperty#set(java.util.Collection)}.
    */
   @Test
-  public void testSetCollection() {
+  void testSetCollection() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -240,7 +240,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test {@link StringCollectionProperty#set(java.util.Collection)} with empty {@link Collection}.
    */
   @Test
-  public void testSetCollectionEmpty() {
+  void testSetCollectionEmpty() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -254,7 +254,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test {@link StringCollectionProperty#set(java.util.Collection)} with {@code null}.
    */
   @Test
-  public void testSetCollectionNull() {
+  void testSetCollectionNull() {
 
     // arrange
     StringCollectionProperty property = createEmpty();
@@ -269,7 +269,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test of {@link StringCollectionProperty#read(io.github.mmm.marshall.StructuredReader)} as flat JSON {@link String}.
    */
   @Test
-  public void testReadJsonString() {
+  void testReadJsonString() {
 
     // arrange
     String value = fill4Tags();
@@ -294,7 +294,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * {@link String}s.
    */
   @Test
-  public void testReadJsonArray() {
+  void testReadJsonArray() {
 
     // arrange
     String value = fill4Tags();
@@ -310,7 +310,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * {@link String}s.
    */
   @Test
-  public void testWriteArray() {
+  void testWriteArray() {
 
     // arrange
     String value = fill4Tags();
@@ -326,7 +326,7 @@ public abstract class StringCollectionPropertyTest<P extends StringCollectionPro
    * Test {@link StringCollectionProperty#iterator()} after multiple elements have been added.
    */
   @Test
-  public void testIterable() {
+  void testIterable() {
 
     // arrange
     StringCollectionProperty property = createEmpty();

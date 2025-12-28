@@ -7,7 +7,7 @@ import io.github.mmm.property.PropertyTest;
 /**
  * Test of {@link BigDecimalProperty}.
  */
-public class BigDecimalPropertyTest extends PropertyTest<BigDecimal, BigDecimalProperty> {
+class BigDecimalPropertyTest extends PropertyTest<BigDecimal, BigDecimalProperty> {
 
   BigDecimalPropertyTest() {
 

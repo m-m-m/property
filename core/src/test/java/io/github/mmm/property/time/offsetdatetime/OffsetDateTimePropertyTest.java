@@ -8,7 +8,7 @@ import io.github.mmm.property.time.offsetdatetime.OffsetDateTimeProperty;
 /**
  * Test of {@link OffsetDateTimeProperty}.
  */
-public class OffsetDateTimePropertyTest extends PropertyTest<OffsetDateTime, OffsetDateTimeProperty> {
+class OffsetDateTimePropertyTest extends PropertyTest<OffsetDateTime, OffsetDateTimeProperty> {
 
   OffsetDateTimePropertyTest() {
 

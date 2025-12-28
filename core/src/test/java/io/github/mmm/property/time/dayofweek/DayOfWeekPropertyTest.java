@@ -7,7 +7,7 @@ import io.github.mmm.property.PropertyTest;
 /**
  * Test of {@link DayOfWeekProperty}.
  */
-public class DayOfWeekPropertyTest extends PropertyTest<DayOfWeek, DayOfWeekProperty> {
+class DayOfWeekPropertyTest extends PropertyTest<DayOfWeek, DayOfWeekProperty> {
 
   DayOfWeekPropertyTest() {
 

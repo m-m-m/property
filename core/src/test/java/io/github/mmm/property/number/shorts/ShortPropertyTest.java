@@ -5,7 +5,7 @@ import io.github.mmm.property.PropertyTest;
 /**
  * Test of {@link ShortProperty}.
  */
-public class ShortPropertyTest extends PropertyTest<Short, ShortProperty> {
+class ShortPropertyTest extends PropertyTest<Short, ShortProperty> {
 
   ShortPropertyTest() {
 

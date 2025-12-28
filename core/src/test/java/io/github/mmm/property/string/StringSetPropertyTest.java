@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test of {@link StringSetProperty}.
  */
-public class StringSetPropertyTest extends StringCollectionPropertyTest<StringSetProperty> {
+class StringSetPropertyTest extends StringCollectionPropertyTest<StringSetProperty> {
 
   /**
    * The constructor.
@@ -27,7 +27,7 @@ public class StringSetPropertyTest extends StringCollectionPropertyTest<StringSe
    * Test {@link StringSetProperty#remove(String)} of last tag with collision.
    */
   @Test
-  public void testRemoveLast() {
+  void testRemoveLast() {
 
     // arrange
     StringSetProperty tags = createEmpty();
@@ -46,7 +46,7 @@ public class StringSetPropertyTest extends StringCollectionPropertyTest<StringSe
    * Test {@link StringSetProperty#remove(String)} of first tag with collision.
    */
   @Test
-  public void testRemoveFirst() {
+  void testRemoveFirst() {
 
     // arrange
     StringSetProperty tags = createEmpty();
@@ -66,7 +66,7 @@ public class StringSetPropertyTest extends StringCollectionPropertyTest<StringSe
    * Test {@link StringSetProperty#getCsv(String, boolean)}.
    */
   @Test
-  public void testGetAsCsv() {
+  void testGetAsCsv() {
 
     // arrange
     StringSetProperty tags = createEmpty();
@@ -81,7 +81,7 @@ public class StringSetPropertyTest extends StringCollectionPropertyTest<StringSe
    * Test {@link StringSetProperty#setCsv(String, String, boolean, boolean)}.
    */
   @Test
-  public void testSetCsv() {
+  void testSetCsv() {
 
     // arrange
     StringSetProperty tags = createEmpty();
@@ -95,7 +95,7 @@ public class StringSetPropertyTest extends StringCollectionPropertyTest<StringSe
    * Test {@link StringSetProperty#setCsv(String, String, boolean, boolean)} with a single element.
    */
   @Test
-  public void testSetCsvSingle() {
+  void testSetCsvSingle() {
 
     // arrange
     StringSetProperty tags = createEmpty();
@@ -108,7 +108,7 @@ public class StringSetPropertyTest extends StringCollectionPropertyTest<StringSe
 
   /** Test of {@link StringSetProperty#contains(String)}. */
   @Test
-  public void testContains() {
+  void testContains() {
 
     // arrange
     StringSetProperty property = createEmpty();

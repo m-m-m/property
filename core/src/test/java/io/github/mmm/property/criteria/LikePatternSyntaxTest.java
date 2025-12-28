@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Test;
 /**
  * Test of {@link LikePatternSyntax}.
  */
-public class LikePatternSyntaxTest extends Assertions {
+class LikePatternSyntaxTest extends Assertions {
 
   /** Basic test of {@link LikePatternSyntax#GLOB}. */
   @Test
-  public void testGlob() {
+  void testGlob() {
 
     LikePatternSyntax syntax = LikePatternSyntax.GLOB;
     assertThat(syntax.getAny()).isEqualTo('*');
@@ -21,7 +21,7 @@ public class LikePatternSyntaxTest extends Assertions {
 
   /** Basic test of {@link LikePatternSyntax#SQL}. */
   @Test
-  public void testSql() {
+  void testSql() {
 
     LikePatternSyntax syntax = LikePatternSyntax.SQL;
     assertThat(syntax.getAny()).isEqualTo('%');
@@ -33,7 +33,7 @@ public class LikePatternSyntaxTest extends Assertions {
    * to {@link LikePatternSyntax#SQL}.
    */
   @Test
-  public void testGlob2Sql() {
+  void testGlob2Sql() {
 
     LikePatternSyntax source = LikePatternSyntax.GLOB;
     LikePatternSyntax target = LikePatternSyntax.SQL;
@@ -54,7 +54,7 @@ public class LikePatternSyntaxTest extends Assertions {
    * {@link LikePatternSyntax#GLOB}.
    */
   @Test
-  public void testSql2Glob() {
+  void testSql2Glob() {
 
     LikePatternSyntax source = LikePatternSyntax.SQL;
     LikePatternSyntax target = LikePatternSyntax.GLOB;
@@ -72,7 +72,7 @@ public class LikePatternSyntaxTest extends Assertions {
 
   /** Test of {@link LikePatternSyntax#autoDetect(String)}. */
   @Test
-  public void testAutoDetect() {
+  void testAutoDetect() {
 
     assertThat(LikePatternSyntax.autoDetect(null)).isEqualTo(null);
     assertThat(LikePatternSyntax.autoDetect("")).isEqualTo(null);

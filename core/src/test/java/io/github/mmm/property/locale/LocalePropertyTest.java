@@ -7,7 +7,7 @@ import io.github.mmm.property.PropertyTest;
 /**
  * Test of {@link LocaleProperty}.
  */
-public class LocalePropertyTest extends PropertyTest<Locale, LocaleProperty> {
+class LocalePropertyTest extends PropertyTest<Locale, LocaleProperty> {
 
   LocalePropertyTest() {
 

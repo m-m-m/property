@@ -5,7 +5,7 @@ import io.github.mmm.property.PropertyTest;
 /**
  * Test of {@link DoubleProperty}.
  */
-public class DoublePropertyTest extends PropertyTest<Double, DoubleProperty> {
+class DoublePropertyTest extends PropertyTest<Double, DoubleProperty> {
 
   DoublePropertyTest() {
 

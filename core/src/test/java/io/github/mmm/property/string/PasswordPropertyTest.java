@@ -6,7 +6,7 @@ import io.github.mmm.property.WritableProperty;
 /**
  * Test of {@link PasswordProperty}.
  */
-public class PasswordPropertyTest extends PropertyTest<String, PasswordProperty> {
+class PasswordPropertyTest extends PropertyTest<String, PasswordProperty> {
 
   PasswordPropertyTest() {
 

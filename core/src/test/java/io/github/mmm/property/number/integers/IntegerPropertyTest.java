@@ -5,7 +5,7 @@ import io.github.mmm.property.PropertyTest;
 /**
  * Test of {@link IntegerProperty}.
  */
-public class IntegerPropertyTest extends PropertyTest<Integer, IntegerProperty> {
+class IntegerPropertyTest extends PropertyTest<Integer, IntegerProperty> {
 
   IntegerPropertyTest() {
 

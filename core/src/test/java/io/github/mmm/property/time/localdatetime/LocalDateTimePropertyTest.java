@@ -8,7 +8,7 @@ import io.github.mmm.property.time.localdatetime.LocalDateTimeProperty;
 /**
  * Test of {@link LocalDateTimeProperty}.
  */
-public class LocalDateTimePropertyTest extends PropertyTest<LocalDateTime, LocalDateTimeProperty> {
+class LocalDateTimePropertyTest extends PropertyTest<LocalDateTime, LocalDateTimeProperty> {
 
   LocalDateTimePropertyTest() {
 

@@ -8,7 +8,7 @@ import io.github.mmm.property.time.duration.DurationProperty;
 /**
  * Test of {@link DurationProperty}.
  */
-public class DurationPropertyTest extends PropertyTest<Duration, DurationProperty> {
+class DurationPropertyTest extends PropertyTest<Duration, DurationProperty> {
 
   DurationPropertyTest() {
 

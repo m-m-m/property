@@ -13,7 +13,7 @@ import io.github.mmm.validation.ValidationResult;
  *
  * @since 1.0.0
  */
-public class BooleanPropertyBuilderTest extends PropertyBuilderTest<Boolean> {
+class BooleanPropertyBuilderTest extends PropertyBuilderTest<Boolean> {
 
   @Override
   protected BooleanPropertyBuilder createBuilder() {
@@ -31,7 +31,7 @@ public class BooleanPropertyBuilderTest extends PropertyBuilderTest<Boolean> {
    * Test of {@link BooleanPropertyBuilder}.
    */
   @Test
-  public void testBuilder() {
+  void testBuilder() {
 
     // arrange
     BooleanPropertyBuilder builder = createBuilder();

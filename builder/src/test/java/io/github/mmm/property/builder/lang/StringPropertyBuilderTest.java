@@ -15,7 +15,7 @@ import io.github.mmm.validation.ValidationResult;
  *
  * @since 1.0.0
  */
-public class StringPropertyBuilderTest extends PropertyBuilderTest<String> {
+class StringPropertyBuilderTest extends PropertyBuilderTest<String> {
 
   @Override
   protected StringPropertyBuilder createBuilder() {
@@ -33,7 +33,7 @@ public class StringPropertyBuilderTest extends PropertyBuilderTest<String> {
    * Test of {@link StringPropertyBuilder}.
    */
   @Test
-  public void testBuilder() {
+  void testBuilder() {
 
     // arrange
     StringPropertyBuilder builder = createBuilder();

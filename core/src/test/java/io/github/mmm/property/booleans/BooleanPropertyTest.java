@@ -5,7 +5,7 @@ import io.github.mmm.property.PropertyTest;
 /**
  * Test of {@link BooleanProperty}.
  */
-public class BooleanPropertyTest extends PropertyTest<Boolean, BooleanProperty> {
+class BooleanPropertyTest extends PropertyTest<Boolean, BooleanProperty> {
 
   BooleanPropertyTest() {
 

@@ -7,7 +7,7 @@ import io.github.mmm.property.PropertyTest;
 /**
  * Test of {@link BigIntegerProperty}.
  */
-public class BigIntegerPropertyTest extends PropertyTest<BigInteger, BigIntegerProperty> {
+class BigIntegerPropertyTest extends PropertyTest<BigInteger, BigIntegerProperty> {
 
   BigIntegerPropertyTest() {
 

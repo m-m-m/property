@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Test of {@link StringSetCsvProperty}.
  */
-public class StringSetCsvPropertyTest extends StringCollectionPropertyTest<StringSetCsvProperty> {
+class StringSetCsvPropertyTest extends StringCollectionPropertyTest<StringSetCsvProperty> {
 
   /**
    * The constructor.
@@ -27,7 +27,7 @@ public class StringSetCsvPropertyTest extends StringCollectionPropertyTest<Strin
    * Test {@link StringSetCsvProperty#remove(String)} of last tag with collision.
    */
   @Test
-  public void testRemoveLast() {
+  void testRemoveLast() {
 
     // arrange
     StringSetCsvProperty tags = createEmpty();
@@ -46,7 +46,7 @@ public class StringSetCsvPropertyTest extends StringCollectionPropertyTest<Strin
    * Test {@link StringSetCsvProperty#remove(String)} of first tag with collision.
    */
   @Test
-  public void testRemoveFirst() {
+  void testRemoveFirst() {
 
     // arrange
     StringSetCsvProperty tags = createEmpty();
@@ -65,7 +65,7 @@ public class StringSetCsvPropertyTest extends StringCollectionPropertyTest<Strin
    * Test {@link StringSetCsvProperty#getCsv(String, boolean)}.
    */
   @Test
-  public void testGetAsCsv() {
+  void testGetAsCsv() {
 
     // arrange
     StringSetCsvProperty tags = createEmpty();
@@ -80,7 +80,7 @@ public class StringSetCsvPropertyTest extends StringCollectionPropertyTest<Strin
    * Test {@link StringSetCsvProperty#setCsv(String, String, boolean, boolean)}.
    */
   @Test
-  public void testSetCsv() {
+  void testSetCsv() {
 
     // arrange
     StringSetCsvProperty tags = createEmpty();
@@ -94,7 +94,7 @@ public class StringSetCsvPropertyTest extends StringCollectionPropertyTest<Strin
    * Test {@link StringSetCsvProperty#setCsv(String, String, boolean, boolean)} with a single element.
    */
   @Test
-  public void testSetCsvSingle() {
+  void testSetCsvSingle() {
 
     // arrange
     StringSetCsvProperty tags = createEmpty();
@@ -107,7 +107,7 @@ public class StringSetCsvPropertyTest extends StringCollectionPropertyTest<Strin
 
   /** Test of {@link StringSetCsvProperty#contains(String)}. */
   @Test
-  public void testContains() {
+  void testContains() {
 
     // arrange
     StringSetCsvProperty property = createEmpty();

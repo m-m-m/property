@@ -7,7 +7,7 @@ import io.github.mmm.property.PropertyTest;
 /**
  * Test of {@link MonthProperty}.
  */
-public class MonthPropertyTest extends PropertyTest<Month, MonthProperty> {
+class MonthPropertyTest extends PropertyTest<Month, MonthProperty> {
 
   MonthPropertyTest() {
 

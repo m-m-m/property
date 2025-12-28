@@ -8,7 +8,7 @@ import io.github.mmm.property.time.zoneddatetime.ZonedDateTimeProperty;
 /**
  * Test of {@link ZonedDateTimeProperty}.
  */
-public class ZonedDateTimePropertyTest extends PropertyTest<ZonedDateTime, ZonedDateTimeProperty> {
+class ZonedDateTimePropertyTest extends PropertyTest<ZonedDateTime, ZonedDateTimeProperty> {
 
   ZonedDateTimePropertyTest() {
 

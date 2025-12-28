@@ -65,7 +65,7 @@ public abstract class PropertyTest<V, P extends Property<V>> extends Assertions 
 
   /** Test via {@link PropertyFactoryManager#create(Class, String)}. */
   @Test
-  public void testPropertyFromFactory() {
+  void testPropertyFromFactory() {
 
     // arrange
     // act
@@ -109,7 +109,7 @@ public abstract class PropertyTest<V, P extends Property<V>> extends Assertions 
 
   /** Test via {@link Property#validate()}. */
   @Test
-  public void testPropertyValidation() {
+  void testPropertyValidation() {
 
     // arrange
     P property = createProperty();

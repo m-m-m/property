@@ -6,7 +6,7 @@ import io.github.mmm.property.time.DurationInSecondsProperty;
 /**
  * Test of {@link DurationInSecondsProperty}.
  */
-public class DurationInSecondsPropertyTest extends PropertyTest<Long, DurationInSecondsProperty> {
+class DurationInSecondsPropertyTest extends PropertyTest<Long, DurationInSecondsProperty> {
 
   DurationInSecondsPropertyTest() {
 

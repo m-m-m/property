@@ -5,7 +5,7 @@ import io.github.mmm.property.PropertyTest;
 /**
  * Test of {@link FloatProperty}.
  */
-public class FloatPropertyTest extends PropertyTest<Float, FloatProperty> {
+class FloatPropertyTest extends PropertyTest<Float, FloatProperty> {
 
   FloatPropertyTest() {
 
