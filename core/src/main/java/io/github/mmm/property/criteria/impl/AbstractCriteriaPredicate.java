@@ -12,7 +12,8 @@ import io.github.mmm.property.criteria.PredicateOperator;
  *
  * @since 1.0.0
  */
-public abstract class AbstractCriteriaPredicate extends AbstractCriteriaExpression<Boolean> implements CriteriaPredicate {
+public abstract class AbstractCriteriaPredicate extends AbstractCriteriaExpression<Boolean>
+    implements CriteriaPredicate {
 
   /** @see #getOperator() */
   protected final PredicateOperator operator;

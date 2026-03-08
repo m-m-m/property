@@ -3,6 +3,7 @@
 package io.github.mmm.property.criteria;
 
 import java.time.temporal.Temporal;
+import java.util.Collection;
 import java.util.function.Supplier;
 
 import io.github.mmm.property.criteria.impl.GenericLiteral;
@@ -10,6 +11,7 @@ import io.github.mmm.property.criteria.impl.NumberLiteral;
 import io.github.mmm.property.criteria.impl.StringLiteral;
 import io.github.mmm.property.criteria.impl.TemporalLiteral;
 import io.github.mmm.value.CriteriaObject;
+import io.github.mmm.value.PropertyPath;
 
 /**
  * {@link Supplier} for a literal {@link #get() value}.
@@ -18,6 +20,12 @@ import io.github.mmm.value.CriteriaObject;
  * @since 1.0.0
  */
 public interface Literal<V> extends CriteriaObject<V>, Supplier<V> {
+
+  @Override
+  default void collectProperties(Collection<PropertyPath<?>> properties) {
+
+    // no properties in literal
+  }
 
   /**
    * @param value the {@link #get() value}.
@@ -35,7 +43,7 @@ public interface Literal<V> extends CriteriaObject<V>, Supplier<V> {
    * @param value the {@link #get() value}.
    * @return the {@link Literal} or {@code null} if {@code value} is {@code null}.
    */
-  public static BooleanLiteral of(Boolean value) {
+  static BooleanLiteral of(Boolean value) {
 
     if (value == null) {
       return null;

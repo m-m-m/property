@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.List;
 
 import io.github.mmm.value.CriteriaObject;
+import io.github.mmm.value.PropertyPath;
 
 /**
  * Interface for a criteria expression. It combines an {@link #getOperator() operator} to invoke on the
@@ -83,5 +84,21 @@ public interface CriteriaExpression<R> extends CriteriaObject<R> {
    * @return a simplified form of this expression or this instance itself if already simplified.
    */
   CriteriaExpression<R> simplify();
+
+  @Override
+  default void collectProperties(Collection<PropertyPath<?>> properties) {
+
+    int argCount = getArgCount();
+    if (argCount == 1) {
+      getFirstArg().collectProperties(properties);
+    } else if (argCount == 2) {
+      getFirstArg().collectProperties(properties);
+      getSecondArg().collectProperties(properties);
+    } else if (argCount > 2) {
+      for (CriteriaObject<?> arg : getArgs()) {
+        arg.collectProperties(properties);
+      }
+    }
+  }
 
 }

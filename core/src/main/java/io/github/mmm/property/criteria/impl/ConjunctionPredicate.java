@@ -3,12 +3,14 @@
 package io.github.mmm.property.criteria.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import io.github.mmm.property.criteria.BooleanSelection;
 import io.github.mmm.property.criteria.CriteriaPredicate;
 import io.github.mmm.property.criteria.PredicateOperator;
+import io.github.mmm.value.PropertyPath;
 
 /**
  * {@link CriteriaPredicate} that aggregates a {@link #getArgs() collection of other predicates} using a
@@ -120,6 +122,14 @@ public class ConjunctionPredicate extends AbstractCriteriaPredicate {
       }
     }
     return newArgs;
+  }
+
+  @Override
+  public void collectProperties(Collection<PropertyPath<?>> properties) {
+
+    for (BooleanSelection selection : this.args) {
+      selection.collectProperties(properties);
+    }
   }
 
 }

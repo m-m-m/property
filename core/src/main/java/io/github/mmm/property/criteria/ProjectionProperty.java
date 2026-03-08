@@ -2,6 +2,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.criteria;
 
+import java.util.Collection;
+
 import io.github.mmm.property.ReadableProperty;
 import io.github.mmm.value.CriteriaObject;
 import io.github.mmm.value.PropertyPath;
@@ -48,6 +50,12 @@ public class ProjectionProperty<V> implements CriteriaObject<V> {
   public PropertyPath<V> getProperty() {
 
     return this.property;
+  }
+
+  @Override
+  public void collectProperties(Collection<PropertyPath<?>> properties) {
+
+    properties.add(this.property);
   }
 
   /**
