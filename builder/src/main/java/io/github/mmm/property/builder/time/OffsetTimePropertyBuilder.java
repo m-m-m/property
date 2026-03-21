@@ -4,7 +4,7 @@ package io.github.mmm.property.builder.time;
 
 import java.time.OffsetTime;
 
-import io.github.mmm.property.AttributeReadOnly;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
@@ -24,7 +24,7 @@ public final class OffsetTimePropertyBuilder extends
    *
    * @param lock the {@link #getLock() lock}.
    */
-  public OffsetTimePropertyBuilder(AttributeReadOnly lock) {
+  public OffsetTimePropertyBuilder(PropertyLock lock) {
 
     super(lock);
   }

@@ -4,8 +4,8 @@ package io.github.mmm.property.builder.container;
 
 import java.util.Map;
 
-import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.container.map.MapProperty;
@@ -32,7 +32,7 @@ public class MapPropertyBuilder<K, V> extends
    *
    * @param lock the {@link #getLock() lock}.
    */
-  public MapPropertyBuilder(AttributeReadOnly lock) {
+  public MapPropertyBuilder(PropertyLock lock) {
 
     this(lock, null, null);
   }
@@ -43,7 +43,7 @@ public class MapPropertyBuilder<K, V> extends
    * @param lock the {@link #getLock() lock}.
    * @param valueProperty the {@link MapProperty#getValueProperty() value property}.
    */
-  public MapPropertyBuilder(AttributeReadOnly lock, Property<V> valueProperty) {
+  public MapPropertyBuilder(PropertyLock lock, Property<V> valueProperty) {
 
     this(lock, null, valueProperty);
   }
@@ -55,7 +55,7 @@ public class MapPropertyBuilder<K, V> extends
    * @param keyProperty the {@link MapProperty#getKeyProperty() key property}.
    * @param valueProperty the {@link MapProperty#getValueProperty() value property}.
    */
-  public MapPropertyBuilder(AttributeReadOnly lock, SimpleProperty<K> keyProperty, Property<V> valueProperty) {
+  public MapPropertyBuilder(PropertyLock lock, SimpleProperty<K> keyProperty, Property<V> valueProperty) {
 
     super(lock);
     this.keyProperty = keyProperty;

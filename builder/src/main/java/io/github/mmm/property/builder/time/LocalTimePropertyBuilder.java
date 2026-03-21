@@ -4,7 +4,7 @@ package io.github.mmm.property.builder.time;
 
 import java.time.LocalTime;
 
-import io.github.mmm.property.AttributeReadOnly;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
@@ -24,7 +24,7 @@ public final class LocalTimePropertyBuilder extends
    *
    * @param lock the {@link #getLock() lock}.
    */
-  public LocalTimePropertyBuilder(AttributeReadOnly lock) {
+  public LocalTimePropertyBuilder(PropertyLock lock) {
 
     super(lock);
   }

@@ -2,7 +2,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.builder.lang;
 
-import io.github.mmm.property.AttributeReadOnly;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.string.StringProperty;
@@ -21,7 +21,7 @@ public final class StringPropertyBuilder extends
    *
    * @param lock the {@link #getLock() lock}.
    */
-  public StringPropertyBuilder(AttributeReadOnly lock) {
+  public StringPropertyBuilder(PropertyLock lock) {
 
     super(lock);
   }

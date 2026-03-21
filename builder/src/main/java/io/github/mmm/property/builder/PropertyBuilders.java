@@ -9,8 +9,8 @@ import static io.github.mmm.property.builder.PropertyBuildersHelper.get;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.booleans.BooleanProperty;
 import io.github.mmm.property.builder.lang.BooleanPropertyBuilder;
@@ -72,7 +72,7 @@ public interface PropertyBuilders {
   /**
    * @return the {@link PropertyMetadata#getLock() lock}.
    */
-  AttributeReadOnly getLock();
+  PropertyLock getLock();
 
   /**
    * @return a new {@link StringPropertyBuilder}.

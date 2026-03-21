@@ -6,10 +6,10 @@ import java.util.function.Supplier;
 
 import io.github.mmm.base.metainfo.MetaInfo;
 import io.github.mmm.property.AbstractPropertyMetadata;
-import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.impl.readonly.AttributeNeverReadOnly;
+import io.github.mmm.property.impl.readonly.LockNeverReadOnly;
 import io.github.mmm.validation.Validator;
 
 /**
@@ -29,9 +29,9 @@ public final class PropertyMetadataNone<V> extends AbstractPropertyMetadata<V> {
   }
 
   @Override
-  public PropertyMetadata<V> withLock(AttributeReadOnly newLock) {
+  public PropertyMetadata<V> withLock(PropertyLock newLock) {
 
-    if ((newLock != null) && (newLock != AttributeNeverReadOnly.INSTANCE)) {
+    if ((newLock != null) && (newLock != LockNeverReadOnly.INSTANCE)) {
       return new PropertyMetadataLock<>(newLock);
     }
     return this;

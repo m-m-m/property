@@ -6,10 +6,10 @@ import java.util.function.Supplier;
 
 import io.github.mmm.base.metainfo.MetaInfo;
 import io.github.mmm.property.AbstractPropertyMetadata;
-import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
-import io.github.mmm.property.impl.readonly.AttributeNeverReadOnly;
+import io.github.mmm.property.impl.readonly.LockNeverReadOnly;
 import io.github.mmm.validation.Validator;
 
 /**
@@ -22,34 +22,41 @@ import io.github.mmm.validation.Validator;
 public class PropertyMetadataLock<V> extends AbstractPropertyMetadata<V> {
 
   /** @see #getLock() */
-  protected final AttributeReadOnly lock;
+  protected /* final */ PropertyLock lock;
 
   /**
    * The constructor.
    *
    * @param lock the {@link #getLock() lock}.
    */
-  public PropertyMetadataLock(AttributeReadOnly lock) {
+  public PropertyMetadataLock(PropertyLock lock) {
 
     super();
     if (lock == null) {
-      this.lock = AttributeNeverReadOnly.INSTANCE;
+      this.lock = LockNeverReadOnly.INSTANCE;
     } else {
       this.lock = lock;
     }
   }
 
   @Override
-  public AttributeReadOnly getLock() {
+  public PropertyLock getLock() {
 
+    if (this.lock instanceof Supplier<?> supplier) {
+      // to understand this magic take a look at AbstractBean.createReadOnlyLock
+      Object deferred = supplier.get();
+      if (deferred instanceof PropertyLock deferredLock) {
+        this.lock = deferredLock;
+      }
+    }
     return this.lock;
   }
 
   @Override
-  public PropertyMetadata<V> withLock(AttributeReadOnly newLock) {
+  public PropertyMetadata<V> withLock(PropertyLock newLock) {
 
     if (newLock != this.lock) {
-      if ((newLock == null) || (newLock == AttributeNeverReadOnly.INSTANCE)) {
+      if ((newLock == null) || (newLock == LockNeverReadOnly.INSTANCE)) {
         return PropertyMetadataNone.get();
       }
       return new PropertyMetadataLock<>(newLock);

@@ -2,7 +2,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.builder.number;
 
-import io.github.mmm.property.AttributeReadOnly;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
@@ -22,7 +22,7 @@ public final class IntegerPropertyBuilder extends
    *
    * @param lock the {@link #getLock() lock}.
    */
-  public IntegerPropertyBuilder(AttributeReadOnly lock) {
+  public IntegerPropertyBuilder(PropertyLock lock) {
 
     super(lock);
   }

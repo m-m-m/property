@@ -4,7 +4,7 @@ package io.github.mmm.property.builder.lang;
 
 import java.util.regex.Pattern;
 
-import io.github.mmm.property.AttributeReadOnly;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.pattern.PatternProperty;
@@ -24,7 +24,7 @@ public final class PatternPropertyBuilder extends
    *
    * @param lock the {@link #getLock() lock}.
    */
-  public PatternPropertyBuilder(AttributeReadOnly lock) {
+  public PatternPropertyBuilder(PropertyLock lock) {
 
     super(lock);
   }

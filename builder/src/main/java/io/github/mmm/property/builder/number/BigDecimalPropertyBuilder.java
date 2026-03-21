@@ -4,7 +4,7 @@ package io.github.mmm.property.builder.number;
 
 import java.math.BigDecimal;
 
-import io.github.mmm.property.AttributeReadOnly;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
@@ -24,7 +24,7 @@ public final class BigDecimalPropertyBuilder extends
    *
    * @param lock the {@link #getLock() lock}.
    */
-  public BigDecimalPropertyBuilder(AttributeReadOnly lock) {
+  public BigDecimalPropertyBuilder(PropertyLock lock) {
 
     super(lock);
   }

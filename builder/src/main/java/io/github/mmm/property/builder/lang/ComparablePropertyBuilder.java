@@ -2,8 +2,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.builder.lang;
 
-import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.number.integers.IntegerProperty;
 import io.github.mmm.property.object.SimpleProperty;
@@ -26,7 +26,7 @@ public abstract class ComparablePropertyBuilder<V extends Comparable<?>, P exten
    *
    * @param lock the {@link #getLock() lock}.
    */
-  public ComparablePropertyBuilder(AttributeReadOnly lock) {
+  public ComparablePropertyBuilder(PropertyLock lock) {
 
     super(lock);
   }

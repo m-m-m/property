@@ -11,7 +11,7 @@ import io.github.mmm.property.impl.metadata.PropertyMetadataInfo;
 import io.github.mmm.property.impl.metadata.PropertyMetadataLock;
 import io.github.mmm.property.impl.metadata.PropertyMetadataNone;
 import io.github.mmm.property.impl.metadata.PropertyMetadataValidator;
-import io.github.mmm.property.impl.readonly.AttributeNeverReadOnly;
+import io.github.mmm.property.impl.readonly.LockNeverReadOnly;
 import io.github.mmm.validation.Validator;
 
 /**
@@ -62,6 +62,15 @@ public interface PropertyMetadata<V> {
   }
 
   /**
+   * @return the lock object that can make the owning {@link Property} {@link AttributeReadOnly#isReadOnly() read-only}.
+   *         Typically this is the owning bean.
+   */
+  default PropertyLock getLock() {
+
+    return LockNeverReadOnly.INSTANCE;
+  }
+
+  /**
    * @return {@code true} if transient (will be excluded from marshalling and persistence e.g. if computed),
    *         {@code false} otherwise.
    * @see ReadableProperty#isTransient()
@@ -73,10 +82,9 @@ public interface PropertyMetadata<V> {
 
   /**
    * @param newLock the new {@link #getLock() lock}.
-   * @return a new instance of {@link PropertyMetadata} with the given {@link AttributeReadOnly} used for
-   *         {@link #getLock()}.
+   * @return a new instance of {@link PropertyMetadata} with the given {@link PropertyLock} used for {@link #getLock()}.
    */
-  PropertyMetadata<V> withLock(AttributeReadOnly newLock);
+  PropertyMetadata<V> withLock(PropertyLock newLock);
 
   /**
    * @param newValidator the new {@link Validator}.
@@ -99,15 +107,6 @@ public interface PropertyMetadata<V> {
   PropertyMetadata<V> withMetaInfo(MetaInfo metaInfo);
 
   /**
-   * @return the lock object that can make the owning {@link Property} {@link AttributeReadOnly#isReadOnly() read-only}.
-   *         Typically this is the owning bean.
-   */
-  default AttributeReadOnly getLock() {
-
-    return AttributeNeverReadOnly.INSTANCE;
-  }
-
-  /**
    * @param <V> type of the {@link Property#get() property value}.
    * @param lock the {@link #getLock() lock} (owning bean).
    * @param validator the {@link #getValidator() validator}.
@@ -115,8 +114,8 @@ public interface PropertyMetadata<V> {
    * @param metaInfo the {@link #getMetaInfo() meta-info}.
    * @return the new {@link PropertyMetadata}.
    */
-  static <V> PropertyMetadata<V> of(AttributeReadOnly lock, Validator<? super V> validator,
-      Supplier<? extends V> expression, MetaInfo metaInfo) {
+  static <V> PropertyMetadata<V> of(PropertyLock lock, Validator<? super V> validator, Supplier<? extends V> expression,
+      MetaInfo metaInfo) {
 
     if (isNotEmpty(metaInfo)) {
       return new PropertyMetadataInfo<>(lock, validator, expression, metaInfo);
@@ -143,7 +142,7 @@ public interface PropertyMetadata<V> {
    * @param lock the {@link PropertyMetadata#getLock() lock} (owning bean).
    * @return the new {@link PropertyMetadata}.
    */
-  static <V> PropertyMetadata<V> of(AttributeReadOnly lock) {
+  static <V> PropertyMetadata<V> of(PropertyLock lock) {
 
     return of(lock, null, null, null);
   }
@@ -154,7 +153,7 @@ public interface PropertyMetadata<V> {
    * @param validator the {@link PropertyMetadata#getValidator() validator}.
    * @return the new {@link PropertyMetadata}.
    */
-  static <V> PropertyMetadata<V> of(AttributeReadOnly lock, Validator<? super V> validator) {
+  static <V> PropertyMetadata<V> of(PropertyLock lock, Validator<? super V> validator) {
 
     return of(lock, validator, null, null);
   }
@@ -166,7 +165,7 @@ public interface PropertyMetadata<V> {
    * @param expression the {@link PropertyMetadata#getExpression() expression}.
    * @return the new {@link PropertyMetadata}.
    */
-  static <V> PropertyMetadata<V> of(AttributeReadOnly lock, Validator<? super V> validator,
+  static <V> PropertyMetadata<V> of(PropertyLock lock, Validator<? super V> validator,
       Supplier<? extends V> expression) {
 
     return of(lock, validator, expression, null);

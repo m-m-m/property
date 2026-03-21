@@ -2,7 +2,7 @@
  * http://www.apache.org/licenses/LICENSE-2.0 */
 package io.github.mmm.property.builder.lang;
 
-import io.github.mmm.property.AttributeReadOnly;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.booleans.BooleanProperty;
 import io.github.mmm.property.builder.PropertyBuilder;
@@ -21,7 +21,7 @@ public final class BooleanPropertyBuilder extends
    *
    * @param lock the {@link #getLock() lock}.
    */
-  public BooleanPropertyBuilder(AttributeReadOnly lock) {
+  public BooleanPropertyBuilder(PropertyLock lock) {
 
     super(lock);
   }

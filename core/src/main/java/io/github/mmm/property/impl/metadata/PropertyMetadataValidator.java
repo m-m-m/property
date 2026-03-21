@@ -5,8 +5,8 @@ package io.github.mmm.property.impl.metadata;
 import java.util.function.Supplier;
 
 import io.github.mmm.base.metainfo.MetaInfo;
-import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.validation.Validator;
 
@@ -28,7 +28,7 @@ public class PropertyMetadataValidator<V> extends PropertyMetadataLock<V> {
    * @param lock the {@link #getLock() lock}.
    * @param validator the {@link #getValidator() validator}.
    */
-  public PropertyMetadataValidator(AttributeReadOnly lock, Validator<? super V> validator) {
+  public PropertyMetadataValidator(PropertyLock lock, Validator<? super V> validator) {
 
     super(lock);
     if (validator == null) {
@@ -45,7 +45,7 @@ public class PropertyMetadataValidator<V> extends PropertyMetadataLock<V> {
   }
 
   @Override
-  public PropertyMetadata<V> withLock(AttributeReadOnly newLock) {
+  public PropertyMetadata<V> withLock(PropertyLock newLock) {
 
     if (newLock != this.lock) {
       return new PropertyMetadataValidator<>(newLock, this.validator);

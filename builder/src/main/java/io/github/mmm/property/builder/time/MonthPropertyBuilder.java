@@ -4,7 +4,7 @@ package io.github.mmm.property.builder.time;
 
 import java.time.Month;
 
-import io.github.mmm.property.AttributeReadOnly;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.builder.lang.ComparablePropertyBuilder;
@@ -24,7 +24,7 @@ public final class MonthPropertyBuilder extends
    *
    * @param lock the {@link #getLock() lock}.
    */
-  public MonthPropertyBuilder(AttributeReadOnly lock) {
+  public MonthPropertyBuilder(PropertyLock lock) {
 
     super(lock);
   }

@@ -105,15 +105,31 @@ public class CriteriaFormatter implements CriteriaVisitor, AttributeReadParamete
   /**
    * @param text the database syntax to append.
    */
-  protected void write(String text) {
+  protected final void write(String text) {
 
     this.out.append(text);
   }
 
   /**
+   * @param c the character to append.
+   */
+  protected final void write(char c) {
+
+    this.out.append(c);
+  }
+
+  /**
+   * @param object the {@link Object} for which to append its {@link Object#toString() string representation}.
+   */
+  protected final void write(Object object) {
+
+    this.out.append(object);
+  }
+
+  /**
    * @return the {@link AppendableWriter} wrapping the {@link Appendable} to write to.
    */
-  public AppendableWriter out() {
+  public final AppendableWriter out() {
 
     return this.out;
   }

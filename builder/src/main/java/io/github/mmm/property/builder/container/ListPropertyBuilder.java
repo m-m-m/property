@@ -4,8 +4,8 @@ package io.github.mmm.property.builder.container;
 
 import java.util.List;
 
-import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.PropertyBuilder;
 import io.github.mmm.property.container.list.ListProperty;
@@ -28,7 +28,7 @@ public class ListPropertyBuilder<E> extends
    *
    * @param lock the {@link #getLock() lock}.
    */
-  public ListPropertyBuilder(AttributeReadOnly lock) {
+  public ListPropertyBuilder(PropertyLock lock) {
 
     this(lock, null);
   }
@@ -39,7 +39,7 @@ public class ListPropertyBuilder<E> extends
    * @param lock the {@link #getLock() lock}.
    * @param valueProperty the {@link ListProperty#getValueProperty() value property}.
    */
-  public ListPropertyBuilder(AttributeReadOnly lock, Property<E> valueProperty) {
+  public ListPropertyBuilder(PropertyLock lock, Property<E> valueProperty) {
 
     super(lock);
     this.valueProperty = valueProperty;

@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 import io.github.mmm.base.metainfo.MetaInfo;
 import io.github.mmm.property.AttributeReadOnly;
 import io.github.mmm.property.Property;
+import io.github.mmm.property.PropertyLock;
 import io.github.mmm.property.PropertyMetadata;
 import io.github.mmm.property.builder.container.ListPropertyBuilder;
 import io.github.mmm.property.builder.container.MapPropertyBuilder;
@@ -40,7 +41,7 @@ import io.github.mmm.validation.main.ObjectValidatorBuilder;
 public abstract class PropertyBuilder<V, P extends Property<V>, B extends ObjectValidatorBuilder<V, ? extends PropertyBuilder<V, P, B, SELF>, ?>, SELF extends PropertyBuilder<V, P, B, SELF>> {
 
   /** @see #getLock() */
-  protected final AttributeReadOnly lock;
+  protected final PropertyLock lock;
 
   private Consumer<? super P> registry;
 
@@ -61,7 +62,7 @@ public abstract class PropertyBuilder<V, P extends Property<V>, B extends Object
    *
    * @param lock the {@link #getLock() lock}.
    */
-  public PropertyBuilder(AttributeReadOnly lock) {
+  public PropertyBuilder(PropertyLock lock) {
 
     super();
     this.lock = lock;
